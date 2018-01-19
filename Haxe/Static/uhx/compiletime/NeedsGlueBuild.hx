@@ -249,7 +249,7 @@ class NeedsGlueBuild
           function map(e:Expr) {
             return switch (e.expr) {
             case ECall(macro super.$sfield, args):
-              superCalls[sfield] = sfield;
+              superCalls[sfield] = { expr: EConst(CString(sfield)), pos:e.pos };
               var args = [ for (arg in args) map(arg) ];
               changed = true;
               var ret = null;
@@ -676,7 +676,7 @@ class NeedsGlueBuild
 
     if (uprops.length > 0)
       type.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], type.pos);
-    type.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], type.pos);
+    type.meta.add(':usupercalls', [ for (call in superCalls) call ], type.pos);
     type.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], type.pos);
     type.meta.add(':umethodptrs', [ for(call in methodPtrs) macro $v{call} ], type.pos);
 

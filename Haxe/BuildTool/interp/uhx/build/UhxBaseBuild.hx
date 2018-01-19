@@ -215,20 +215,32 @@ class UhxBaseBuild {
       }
 
       finishLock.wait();
-      return proc.exitCode();
+      var ret = proc.exitCode();
+      if (ret != 0) {
+        uhx.build.Log.err(' -> returned with exit code $ret');
+      }
+      return ret;
     }
     catch(e:Dynamic) {
       return -1;
     }
 #else
-    return call(cmd, args, showErrors);
+    var ret = call(cmd, args, showErrors);
+    if (ret != 0) {
+      uhx.build.Log.err(' -> returned with exit code $ret');
+    }
+    return ret;
 #end
   }
 
   private function call(program:String, args:Array<String>, showErrors:Bool)
   {
     log('$program ${args.join(' ')}');
-    return Sys.command(program, args);
+    var ret = Sys.command(program, args);
+    if (ret != 0) {
+      err(' -> returned with exit code $ret');
+    }
+    return ret;
   }
 
   private function getConfig():UhxBuildConfig {

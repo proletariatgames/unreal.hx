@@ -555,16 +555,26 @@ class ExprGlueBuild {
     // TODO: clean up those references with a better interface
     var uprops = new Map(),
         superCalls = new Map(),
+        superCallsPos = new Map(),
         nativeCalls = new Map(),
         methodPtrs = new Map();
     for (prop in parent.meta.extractStrings(':uproperties' )) {
       uprops[prop] = null;
     }
-    for (scall in parent.meta.extractStrings(':usupercalls' )) {
-      // if the field was already overriden in a previous Haxe declaration,
-      // we should not build the super call
-      if (!ignoreSupers.exists(scall)) {
-        superCalls[scall] = null;
+    for (escall in parent.meta.extract(':usupercalls' )) {
+      for (escall in escall.params) {
+        var scall = switch(escall.expr) {
+          case EConst(CString(s) | CIdent(s)):
+            s;
+          case _:
+            throw 'assert';
+        };
+        // if the field was already overriden in a previous Haxe declaration,
+        // we should not build the super call
+        if (!ignoreSupers.exists(scall)) {
+          superCalls[scall] = null;
+          superCallsPos[scall] = escall.pos;
+        }
       }
     }
     for (ncall in parent.meta.extractStrings(':unativecalls' )) {
@@ -589,6 +599,7 @@ class ExprGlueBuild {
         methodPtrs[field.name] = field;
       }
     }
+
     for (field in cls.statics.get()) {
       var field = findField(cls, field.name, true, field);
       if (uprops.exists(field.name)) {
@@ -598,7 +609,12 @@ class ExprGlueBuild {
       }
     }
 
-    for (scall in superCalls) {
+    for (key in superCalls.keys()) {
+      var scall = superCalls[key];
+      if (scall == null) {
+        var pos = superCallsPos[key];
+        throw new Error('Unreal Glue Generation: super is called for ' + key + ' but it is not an overridden field', pos);
+      }
       // use a previous declaration to not force build typed expressions just yet
       var superField = allSuperFields[scall.name];
       if (superField == null) throw new Error('Unreal Glue Generation: super is called for ' + scall.name + ' but no superclass definition exists', scall.pos);
