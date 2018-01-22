@@ -197,7 +197,8 @@ class CreateCppia {
       }
 
       var regModules = new Map(),
-          compiledPath = '$target/Data/compiled.txt';
+          compiledPath = '$target/Data/compiled.txt',
+          allTypes = new Map();
       inline function hasExclude(module:String) {
         if (allStatics[module]) {
           return true;
@@ -220,6 +221,7 @@ class CreateCppia {
         switch(type) {
           case TInst(c,_):
             var name = c.toString();
+            allTypes[name] = type;
             var c = c.get();
             curPos = c.pos;
             var isExtern = c.meta.has(':uextern');
@@ -268,6 +270,7 @@ class CreateCppia {
             }
 
           case TEnum(eRef,_):
+            allTypes[eRef.toString()] = type;
             var e = eRef.get();
             curPos = e.pos;
             addFileDep(Context.getPosInfos(e.pos).file);
@@ -283,6 +286,7 @@ class CreateCppia {
               e.exclude();
             }
           case TAbstract(at,_):
+            allTypes[at.toString()] = type;
             var a = at.get();
             curPos = a.pos;
             var isExtern = a.meta.has(':uextern');
@@ -311,6 +315,7 @@ class CreateCppia {
               }
             }
           case TType(tt,_):
+            allTypes[tt.toString()] = type;
             var t = tt.get();
             curPos = t.pos;
             if (!Globals.cur.staticModules.exists(t.module)) {
@@ -320,25 +325,39 @@ class CreateCppia {
         }
 
         if (typeToCheck != null) {
-          var scripts = Globals.cur.getScriptGluesByName(typeToCheck);
-          if (scripts != null) {
-            for (script in scripts) {
-              if (script.startsWith('StaticClass()') || script.startsWith('CPPSize()') || script.startsWith('setupFunction(')) {
-                continue;
+          // if the main type was not touched, it means it was previously compiled and the compilation server didn't detect any changes
+          if (Globals.cur.compiledScriptGlueWasTouched(typeToCheck + ':')) {
+            var scripts = Globals.cur.getScriptGluesByName(typeToCheck);
+            if (scripts != null) {
+              for (script in scripts) {
+                if (script.startsWith('StaticClass()') || script.startsWith('CPPSize()') || script.startsWith('setupFunction(')) {
+                  continue;
+                }
+                if (!Globals.cur.compiledScriptGlueWasTouched(typeToCheck + ':' + script)) {
+                  Context.warning('UHXERR: $typeToCheck: The script function $script was changed or deleted since the last C++ compilation. A full C++ compilation is recommended', curPos);
+                }
               }
-              if (!Globals.cur.compiledScriptGlueWasTouched(typeToCheck + ':' + script)) {
-                Context.warning('UHXERR: $typeToCheck: The script function $script was changed or deleted since the last C++ compilation. A full C++ compilation is required', curPos);
-              }
+            } else {
+              Context.warning('UHXERR: The type $typeToCheck was not compiled since the last C++ compilation. A full C++ compilation is recommended', curPos);
             }
-          } else {
-            Context.warning('UHXERR: The type $typeToCheck was not compiled since the last C++ compilation. A full C++ compilation is required', curPos);
           }
         }
       }
 
       for (glueType in Globals.cur.compiledScriptGlueTypes) {
-        if (!Globals.cur.compiledScriptGlueWasTouched(glueType)) {
-          Context.warning('UHXERR: The type $glueType was previously compiled in C++ but it was removed. A full C++ compilation is recommended', Context.currentPos());
+        if (!Globals.cur.compiledScriptGlueWasTouched(glueType + ':')) {
+          var nameToCheck = glueType;
+          if (glueType.endsWith('_Impl_')) {
+            var partialNameIdx = glueType.lastIndexOf('.'),
+                name = glueType.substring(partialNameIdx + 1, glueType.length - '_Impl_'.length);
+            var typeName = new EReg('_$name\\.${name}_Impl_', '');
+            if (typeName.match(glueType)) {
+              nameToCheck = typeName.matchedLeft() + name;
+            }
+          }
+          if (!allTypes.exists(nameToCheck)) {
+            Context.warning('UHXERR: The type $glueType was previously compiled in C++ but it was removed. A full C++ compilation is recommended', Context.currentPos());
+          }
         }
       }
     });
@@ -419,7 +438,7 @@ class CreateCppia {
           curArr.push(cur);
         case '='.code:
           if (ln == '=script') {
-            scriptGlueTypes.push(curBase);
+            scriptGlueTypes.push(curBase.substr(0,curBase.length-1));
           }
         case _:
           throw '$path: Unknown script glue part $ln';

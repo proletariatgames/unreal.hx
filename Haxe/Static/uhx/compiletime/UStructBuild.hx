@@ -33,9 +33,14 @@ class UStructBuild {
     }
 
     var delayedglue = macro uhx.internal.DelayedGlue;
-    if (Context.defined('display') || (Context.defined('cppia') && Globals.cur.staticModules.exists(tdef.module))) {
+    if (Context.defined('UHX_DISPLAY') || (Context.defined('cppia') && Globals.cur.staticModules.exists(tdef.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
+    }
+
+    var abstractName = 'uhx.structs._${tdef.name}.${tdef.name}_Impl_';
+    if (Context.defined('cppia') && !Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGluesExists(abstractName + ':')) {
+      Context.warning('UHXERR: The @:ustruct ${abstractName} was never compiled into C++. It is recommended to run a full C++ compilation', tdef.pos);
     }
 
     var tref = TypeRef.fromBaseType(tdef,pos);
@@ -98,6 +103,7 @@ class UStructBuild {
     tdef.meta.add(':keep', [], tdef.pos);
     var def = macro class {
     };
+    def.pos = tdef.pos;
     tdef.meta.add(':uownerModule',[macro $v{tdef.module}],pos);
     // TDAbstract( tthis : Null<ComplexType>, ?from : Array<ComplexType>, ?to: Array<ComplexType> );
     var structType = macro : unreal.Struct,

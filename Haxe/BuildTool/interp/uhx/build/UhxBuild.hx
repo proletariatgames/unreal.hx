@@ -574,7 +574,7 @@ class UhxBuild extends UhxBaseBuild {
       'EXTERN_FULL_OUT_PATH' => this.rootDir + '/Haxe/GeneratedExterns'
     ]);
     var args = [uhtDir + '/proj.uproject','$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended'];
-    if (config.verbose) {
+    if (config.uhtVerbose) {
       args.push('-AllowStdOutLogVerbosity');
       args.push('-stdout'); // the error logs will not show the position unfortunately
     }

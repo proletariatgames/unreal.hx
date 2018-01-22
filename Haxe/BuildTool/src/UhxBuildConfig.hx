@@ -12,6 +12,8 @@ typedef UhxBuildConfig = {
 
   ?verbose: Bool,
 
+  ?uhtVerbose: Bool,
+
   /**
     Force bake all externs
    **/
