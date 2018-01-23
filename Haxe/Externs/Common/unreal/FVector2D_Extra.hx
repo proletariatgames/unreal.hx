@@ -7,4 +7,16 @@ extern class FVector2D_Extra {
 
   public var X:Float32;
   public var Y:Float32;
+
+  @:expr public static var ZeroVector (get,never) : Const<FVector2D>;
+
+  @:expr public static var UnitVector (get,never) : Const<FVector2D>;
+
+  @:expr({
+    return createWithValues(0,0);
+  }) private static function get_ZeroVector() : Const<FVector2D>;
+
+  @:expr({
+    return createWithValues(1,1);
+  }) private static function get_UnitVector() : Const<FVector2D>;
 }

@@ -104,7 +104,7 @@ extern class FRotator_Extra {
 	 * @return The rotated vector.
 	 */
   @:thisConst
-  public function RotateVector(V:Const<PRef<FVector>>) : FVector;  
+  public function RotateVector(V:Const<PRef<FVector>>) : FVector;
 
 	/**
 	 * Returns the vector rotated by the inverse of this rotator.
@@ -121,18 +121,18 @@ extern class FRotator_Extra {
 	 * @return Clamped version of rotator.
 	 */
   @:thisConst
-  public function Clamp() : FRotator;  
+  public function Clamp() : FRotator;
 
-	/** 
-	 * Create a copy of this rotator and normalize, removes all winding and creates the "shortest route" rotation. 
+	/**
+	 * Create a copy of this rotator and normalize, removes all winding and creates the "shortest route" rotation.
 	 *
 	 * @return Normalized copy of this rotator
 	 */
   @:thisConst
   public function GetNormalized() : FRotator;
 
-	/** 
-	 * Create a copy of this rotator and denormalize, clamping each axis to 0 - 360. 
+	/**
+	 * Create a copy of this rotator and denormalize, clamping each axis to 0 - 360.
 	 *
 	 * @return Denormalized copy of this rotator
 	 */
@@ -151,8 +151,8 @@ extern class FRotator_Extra {
 	 */
   public function Normalize() : Void;
 
-	/** 
-	 * Decompose this Rotator into a Winding part (multiples of 360) and a Remainder part. 
+	/**
+	 * Decompose this Rotator into a Winding part (multiples of 360) and a Remainder part.
 	 * Remainder will always be in [-180, 180] range.
 	 *
 	 * @param Winding[Out] the Winding part of this Rotator
@@ -198,7 +198,11 @@ extern class FRotator_Extra {
 	 */
   public static function MakeFromEuler(Euler:Const<PRef<FVector>>) : FRotator;
 
-  static var ZeroRotator(default, never):FRotator;
+  @:expr static var ZeroRotator(default, never):FRotator;
+
+  @:expr({
+    return createWithValues(0,0,0);
+  }) private static function get_ZeroRotator() : FRotator;
 
   @:op(A+B)
   @:expr(return createWithValues(Pitch + b.Pitch, Yaw + b.Yaw, Roll + b.Roll))

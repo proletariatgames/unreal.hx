@@ -1071,7 +1071,7 @@ class ExternBaker {
       switch(read) {
       case AccNormal | AccCall:
         if (field.meta.has(':expr')) {
-          this.add('default,');
+          this.add(read == AccCall ? 'get,' : 'default,');
         } else {
           methods.push({
             name: 'get_' + field.name,
@@ -1090,7 +1090,7 @@ class ExternBaker {
       switch(write) {
       case AccNormal | AccCall:
         if (field.meta.has(':expr')) {
-          this.add('default):');
+          this.add(read == AccCall ? 'set):' : 'default):');
         } else {
           methods.push({
             name: 'set_' + field.name,
@@ -1103,6 +1103,8 @@ class ExternBaker {
           });
           this.add('set):');
         }
+      case AccNever:
+        this.add('never):');
       case _:
         if (field.meta.has(':expr')) {
           this.add('null):');
@@ -1111,7 +1113,7 @@ class ExternBaker {
         }
       }
       this.add(realTConv.haxeType);
-      if (field.meta.has(':expr')) {
+      if (field.meta.has(':expr') && write != AccNever) {
         var expr = field.meta.extract(':expr')[0].params[0];
         this.add(' = ');
         this.add(expr.toString());

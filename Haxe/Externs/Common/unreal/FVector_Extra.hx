@@ -49,13 +49,35 @@ extern class FVector_Extra {
   public var Y:Float32;
   public var Z:Float32;
 
-  public static var ZeroVector (get,never) : Const<FVector>;
+  @:expr public static var ZeroVector (get,never) : Const<FVector>;
 
-  public static var UpVector (get,never) : Const<FVector>;
+  @:expr public static var OneVector (get,never) : Const<FVector>;
 
-  public static var ForwardVector (get,never) : Const<FVector>;
+  @:expr public static var UpVector (get,never) : Const<FVector>;
 
-  public static var RightVector (get,never) : Const<FVector>;
+  @:expr public static var ForwardVector (get,never) : Const<FVector>;
+
+  @:expr public static var RightVector (get,never) : Const<FVector>;
+
+  @:expr({
+    return createWithValues(0,0,0);
+  }) private static function get_ZeroVector() : Const<FVector>;
+
+  @:expr({
+    return createWithValues(1,1,1);
+  }) private static function get_OneVector() : Const<FVector>;
+
+  @:expr({
+    return createWithValues(0,0,1);
+  }) private static function get_UpVector() : Const<FVector>;
+
+  @:expr({
+    return createWithValues(1,0,0);
+  }) private static function get_ForwardVector() : Const<FVector>;
+
+  @:expr({
+    return createWithValues(0,1,0);
+  }) private static function get_RightVector() : Const<FVector>;
 
   public function HeadingAngle() : Float32;
 
