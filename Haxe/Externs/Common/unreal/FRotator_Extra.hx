@@ -198,7 +198,7 @@ extern class FRotator_Extra {
 	 */
   public static function MakeFromEuler(Euler:Const<PRef<FVector>>) : FRotator;
 
-  @:expr static var ZeroRotator(default, never):FRotator;
+  @:expr static var ZeroRotator(get, never):FRotator;
 
   @:expr({
     return createWithValues(0,0,0);
