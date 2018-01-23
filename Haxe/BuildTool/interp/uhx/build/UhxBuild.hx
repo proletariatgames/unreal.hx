@@ -532,6 +532,27 @@ class UhxBuild extends UhxBaseBuild {
       shouldRun = collectUhtHeaders(target.path, concat, lastRun) || shouldRun;
     }
 
+    var genExternsDir = this.rootDir + '/Haxe/GeneratedExterns';
+    var lastGeneratedFiles = '$outputDir/Data/generatedExterns.txt';
+    if (!shouldRun) {
+      if (!FileSystem.exists(lastGeneratedFiles)) {
+        if (config.verbose) {
+          log('generating externs because the generated externs list is missing');
+        }
+        shouldRun = true;
+      } else {
+        for (file in File.getContent(lastGeneratedFiles).split('\n')) {
+          if (!FileSystem.exists(genExternsDir + '/' + file)) {
+            if (config.verbose) {
+              log('generating externs because the file ${genExternsDir}/$file is missing');
+            }
+            shouldRun = true;
+            break;
+          }
+        }
+      }
+    }
+
     var externModules = [for (target in targets) target.name];
     for (plugin in plugins) {
       externModules.push(plugin);
@@ -564,8 +585,8 @@ class UhxBuild extends UhxBaseBuild {
     sys.io.File.saveContent(uhtDir + '/proj.uproject', haxe.Json.stringify(proj));
     tsave();
     // Call UHT
-    if (!sys.FileSystem.exists(this.rootDir + '/Haxe/GeneratedExterns')) {
-      sys.FileSystem.createDirectory(this.rootDir + '/Haxe/GeneratedExterns');
+    if (!sys.FileSystem.exists(genExternsDir)) {
+      sys.FileSystem.createDirectory(genExternsDir);
     }
     var oldEnvs = setEnvs([
       'GENERATE_EXTERNS' => '1',
@@ -587,6 +608,19 @@ class UhxBuild extends UhxBaseBuild {
     } else {
       sys.io.File.saveContent('$uhtDir/generated.stamp', '');
     }
+
+    var files = [];
+    function recurse(path:String) {
+      for (file in FileSystem.readDirectory(genExternsDir + '/' + path)) {
+        if (file.endsWith('.hx')) {
+          files.push('$path/$file');
+        } else if (FileSystem.isDirectory(genExternsDir + '/' + path + '/' + file)) {
+          recurse(path+'/'+file);
+        }
+      }
+    }
+    recurse('');
+    sys.io.File.saveContent(lastGeneratedFiles, files.join('\n'));
     if (oldEnvs != null) {
       setEnvs(oldEnvs);
     }
