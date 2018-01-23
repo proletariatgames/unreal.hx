@@ -276,6 +276,7 @@ class UExtensionBuild {
           headerDef << 'protected:\n\t\t';
         }
 
+        var isBlueprintOverridable = false;
         var ufunc = field.cf.meta.extract(UhxMeta.UFunction);
         if (ufunc != null && ufunc[0] != null) {
           if (field.cf.doc != null) {
@@ -291,6 +292,9 @@ class UExtensionBuild {
                 if (ufuncMetaNoImpl(param)) {
                   implementCpp = false;
                 }
+                if (ufuncBlueprintOverridable(param)) {
+                  isBlueprintOverridable = true;
+                }
               }
             }
           }
@@ -300,7 +304,7 @@ class UExtensionBuild {
         cppDef << ret << ' ' << nativeUe.getCppClass() << '::' << cppName << '(';
         var modifier = if (field.type.isStatic())
           'static ';
-        else if (!field.cf.meta.has(UhxMeta.Final))
+        else if (!isBlueprintOverridable && !field.cf.meta.has(UhxMeta.Final))
           'virtual ';
         else
           '';
@@ -701,7 +705,11 @@ class UExtensionBuild {
         meta: metas,
         kind: TDClass(),
         fields: buildFields
-      });
+      }
+#if (haxe_ver >= 4)
+      , clt.module // make sure that the class module is added as a dependency
+#end
+      );
       return Context.getType(expose.getClassPath());
     case _:
       throw new Error('Unreal Haxe Glue: Type $t not supported', Context.currentPos());

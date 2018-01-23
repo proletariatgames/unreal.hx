@@ -306,6 +306,7 @@ class Globals {
         }
         if (curNum == null || curNum != num) {
           trace('Disposing macro context - conflict found');
+          Sys.exit(1);
           return false;
         }
         return onMacroReused();
