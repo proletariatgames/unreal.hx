@@ -344,4 +344,12 @@ import uhx.internal.Helpers;
 #end
     return true;
   }
+
+  public static function printCallStack():Void {
+    unreal.Log.trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
+  }
+
+  public static function printExceptionStack():Void {
+    unreal.Log.trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+  }
 }
