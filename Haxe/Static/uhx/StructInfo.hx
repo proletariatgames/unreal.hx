@@ -65,5 +65,5 @@ import unreal.*;
   /**
    * If this StructInfo was created by a UProperty, the original UProperty pointer can be found here
    **/
-  public var upropertyObject:VoidPtr;
+  public var contextObject:VoidPtr;
 }

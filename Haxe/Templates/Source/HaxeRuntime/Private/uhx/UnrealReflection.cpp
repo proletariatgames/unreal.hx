@@ -29,13 +29,34 @@ void uhx::TArrayReflect_obj::init() {
   check(prop->IsA<UProperty>());
 }
 
-static bool valEquals(const uhx::StructInfo *info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
+static bool valPropEquals(const uhx::StructInfo *info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
   if (t1 == t2) {
     return true;
   }
-  UProperty *prop = Cast<UProperty>((UObject *) info->upropertyObject);
+  UProperty *prop = Cast<UProperty>((UObject *) info->contextObject);
   check(prop);
   return prop->Identical((void*)t1, (void*)t2);
+}
+
+static void valPropDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
+  UProperty *prop = Cast<UProperty>((UObject *) info->contextObject);
+  check(prop);
+  prop->DestroyValue((void *) t1);
+}
+
+static bool valStructEquals(const uhx::StructInfo *info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
+  if (t1 == t2) {
+    return true;
+  }
+  UScriptStruct *prop = Cast<UScriptStruct>((UObject *) info->contextObject);
+  check(prop);
+  return prop->Identical((void*)t1, (void*)t2);
+}
+
+static void valStructDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
+  UScriptStruct *prop = Cast<UScriptStruct>((UObject *) info->contextObject);
+  check(prop);
+  prop->DestroyValue((void *) t1);
 }
 
 uhx::StructInfo uhx::infoFromUProperty(void *inUPropertyObject) {
@@ -46,12 +67,88 @@ uhx::StructInfo uhx::infoFromUProperty(void *inUPropertyObject) {
   if (prop->PropertyFlags & CPF_IsPlainOldData) {
     ret.flags = uhx::UHX_POD;
   } else {
-    ret.flags = uhx::UHX_UPROP;
+    ret.flags = uhx::UHX_CUSTOM;
   }
   ret.size = (unreal::UIntPtr) prop->ElementSize;
   ret.alignment = (unreal::UIntPtr) prop->GetMinAlignment();
-  ret.upropertyObject = inUPropertyObject;
-  ret.equals = &valEquals;
+  ret.contextObject = inUPropertyObject;
+  ret.equals = &valPropEquals;
+  ret.destruct = (prop->PropertyFlags & CPF_NoDestructor) != 0 ? nullptr : &valPropDestruct;
+  return ret;
+}
+
+uhx::StructInfo uhx::infoFromUScriptStruct(void *inUScriptStructObject) {
+  UScriptStruct *s = Cast<UScriptStruct>((UObject *) inUScriptStructObject);
+  check(s->IsA<UScriptStruct>());
+  uhx::StructInfo ret;
+  FMemory::Memzero(&ret, sizeof(ret));
+  if (s->GetCppStructOps() == nullptr) {
+    FString msg = TEXT("Struct ");
+    msg += s->GetName() + TEXT(" does not have a CPP Struct ops object!");
+    uhx::expose::HxcppRuntime::throwString(TCHAR_TO_UTF8(*msg));
+  }
+
+  auto structOps = s->GetCppStructOps();
+  if (structOps->IsPlainOldData()) {
+    ret.flags = uhx::UHX_POD;
+  } else {
+    ret.flags = uhx::UHX_CUSTOM;
+  }
+  ret.size = (unreal::UIntPtr) structOps->GetSize();
+  ret.alignment = (unreal::UIntPtr) structOps->GetAlignment();
+  ret.contextObject = inUScriptStructObject;
+  ret.equals = &valPropEquals;
+  ret.destruct = (structOps->HasDestructor()) ? &valPropDestruct : nullptr;
+  return ret;
+}
+
+unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::createDynamicWrapperFromStruct(unreal::UIntPtr inStruct) {
+  check(inStruct);
+  UScriptStruct scriptStruct = Cast<UScriptStruct>((UObject*) inStruct);
+
+  uhx::StructInfo info = uhx::infoFromUScriptStruct(scriptStruct);
+  size_t extraSize = sizeof(info);
+  extraSize += sizeof(void*); // alignment
+
+  int startOffset = 0;
+  unreal::UIntPtr ret = 0;
+
+  if (info.alignment > sizeof(void*)) {
+    extraSize += sizeof(void*); // alignment
+    extraSize += sizeof(uhx::StructInfo); // genericParams info
+    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+  } else if (info.flags == uhx::UHX_POD) {
+    extraSize += sizeof(void*); // alignment
+    extraSize += sizeof(uhx::StructInfo); // genericParams info
+    ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    startOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
+  } else {
+    extraSize += sizeof(void*); // alignment
+    extraSize += sizeof(uhx::StructInfo); // genericParams info
+    // ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    // startOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
+    // Dynamically created wrappers have more strict alignment needs than statically created (because we are using Unreal's reflection API)
+    // so we always create an aligned inline wrapper
+    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+  }
+
+  int align = info.alignment;
+  if (align < sizeof(void*)) {
+    align = sizeof(void*);
+  }
+  align--;
+  unreal::UIntPtr objOffset = ret + startOffset;
+  // re-align
+  objOffset = (objOffset + align) & ~align;
+  unreal::UIntPtr infoOffset = objOffset + info.size;
+  // re-align
+  infoOffset = (unreal::UIntPtr) ((infoOffset + sizeof(void*) - 1) & ~(sizeof(void*) -1));
+  // set the info inside the allocated space, so it can be reclaimed once the object is garbage collected
+  *((uhx::StructInfo *) infoOffset) = info;
+  // re-set the info on the wrapper
+  uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, infoOffset);
   return ret;
 }
 

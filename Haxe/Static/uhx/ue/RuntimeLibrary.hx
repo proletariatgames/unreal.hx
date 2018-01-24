@@ -10,6 +10,7 @@ extern class RuntimeLibrary {
   public static function setSuperClassConstructor(cls:UIntPtr):Void;
   public static function setupClassConstructor(dynamicClass:UIntPtr):Void;
   public static function dummyCall():Void;
+  public static function createDynamicWrapperFromStruct(inStruct:UIntPtr):VariantPtr;
 
   @:extern inline public static function alloca(size:Int):UIntPtr {
     dummyCall();

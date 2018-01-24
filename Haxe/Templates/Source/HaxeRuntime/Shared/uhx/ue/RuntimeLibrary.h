@@ -44,6 +44,11 @@ public:
   static void setupClassConstructor(unreal::UIntPtr inDynamicClass);
 
   /**
+   * Creates an empty VariantPtr object from a ScriptStruct object
+   **/
+  static unreal::VariantPtr createDynamicWrapperFromStruct(unreal::UIntPtr inStruct);
+
+  /**
    * Sets up the class constructor as the super class' constructor
    **/
   static void setSuperClassConstructor(unreal::UIntPtr inDynamicClass);

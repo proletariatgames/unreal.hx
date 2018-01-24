@@ -549,7 +549,7 @@ class ExternBaker {
           << (noUObject ? '' : 'typedef TStructOpsTypeTraits<$cppType> TTraits;') << new Newline()
           << 'FORCEINLINE static const StructInfo *getInfo();' << new Newline()
           << 'private:' << new Newline()
-          << 'static void destruct(unreal::UIntPtr ptr)' << new Begin('{')
+          << 'static void destruct(const uhx::StructInfo *info, unreal::UIntPtr ptr)' << new Begin('{')
             << 'uhx::TDestruct<' << cppType << '>::doDestruct(ptr);'
           << new End('}')
         << new End('};')
@@ -571,7 +571,8 @@ class ExternBaker {
             << '/* .destruct = */ (${noUObject ? "" : "TTraits::WithNoDestructor || "}std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
             << '/* .equals = */ nullptr,' << new Newline()
             << '/* .genericParams = */ genericParams,' << new Newline()
-            << '/* .genericImplementation = */ &genericImplementation'
+            << '/* .genericImplementation = */ &genericImplementation,' << new Newline()
+            << '/* .contextObject  = */ nullptr'
           << new End('};')
           << 'return &info;'
       << new End('}');
@@ -966,12 +967,21 @@ class ExternBaker {
             flags: MNone,
             pos: c.pos
           });
+        } else if (meta.hasMeta(':ustruct')) {
+          this.add('public function copy():${this.thisConv.haxeType.toString()}');
+          this.begin(' {');
+            this.add('');
+          this.end('}');
+          this.add('@:deprecated("This type does not support copyNew constructors") private function copyNew():unreal.POwnedPtr<${this.thisConv.haxeType.toString()}>');
+          this.begin(' {');
+            this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
+          this.end('}');
         } else {
           this.add('@:deprecated("This type does not support copy constructors") private function copy():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
             this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
-          this.add('@:deprecated("This type does not support copy constructors") private function copyStruct():${this.thisConv.haxeType.toString()}');
+          this.add('@:deprecated("This type does not support copy constructors") private function copyNew():unreal.POwnedPtr<${this.thisConv.haxeType.toString()}>');
           this.begin(' {');
             this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
