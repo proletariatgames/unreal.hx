@@ -7,7 +7,7 @@ import sys.FileSystem;
 using uhx.compiletime.tools.MacroHelpers;
 
 class GlueInfo {
-  public static inline var UNITY_CPP_EXT = '.uhxglue.gen.cpp';
+  public static inline var UNITY_CPP_EXT = '.uhxglue.cpp';
   public static inline var UNITY_CPP_PREFIX = '';
 
   public static function getHeaderPath(tref:TypeRef, ?ensureExists=false):String {
