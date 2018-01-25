@@ -308,7 +308,7 @@ import uhx.StructInfo;
   var m_flags:WrapperFlags;
 
   @:final @:nonVirtual private function init() {
-    if (untyped __cpp__("{0}->ptr->destruct != 0", info) || info.ptr.flags == UHXS_UPROP) {
+    if (untyped __cpp__("{0}->ptr->destruct != 0", info) || info.ptr.flags == UHXS_CUSTOM) {
       m_flags = NeedsDestructor;
 #if !cppia
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));

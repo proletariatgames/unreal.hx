@@ -9,7 +9,7 @@ class Helpers {
       var wrapper:Wrapper = vptr.getDynamic();
       return wrapper.getPointer();
     } else {
-      return vptr.getUIntPtr();
+      return vptr.getUIntPtr() - 1;
     }
   }
 

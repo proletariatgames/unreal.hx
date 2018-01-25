@@ -851,7 +851,7 @@ class TypeConv {
     }
   }
 
-  public function ueToGlueCtor(ctorArgs:String, argsTypes:Array<TypeConv>, ctx:ConvCtx) {
+  public function ueToGlueCtor(ctorArgs:String, argsTypes:Array<TypeConv>, ctx:ConvCtx, justWrapper=false) {
     if (hasModifier(Ref) || hasModifier(Ptr) || hasAnyConst()) {
       throw new Error('Invalid constructor return type: $haxeType', ctx.pos);
     }
@@ -863,7 +863,8 @@ class TypeConv {
           '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
         };
         var templ = '<' + [ for (arg in argsTypes) arg.ueType.getCppType() ].join(',') + '>';
-        return '$helper::create$templ($ctorArgs)';
+        var name = justWrapper ? 'emptyWrapper' : 'create$templ';
+        return '$helper::$name($ctorArgs)';
       case _:
         throw new Error('Invalid constructor return type: $haxeType. Expected struct', ctx.pos);
     }

@@ -863,24 +863,39 @@ class ExternBaker {
           this.add('return cast ptr;');
         this.end('}');
 
-        if (c.meta.has(':ustruct')) {
-          var uname = switch(MacroHelpers.extractStrings(c.meta, ':uname')[0]) {
-          case null:
-            c.name;
-          case name:
-            name;
-          };
-          uname = uname.substr(1);
-          this.add('#if cppia');
+        if (c.meta.has(':ustruct') && c.params.length == 0) {
+          var uname = MacroHelpers.getUName(c).substr(1);
+          if (!methods.exists(function(m) return m.uname == 'StaticStruct')) {
+            this.add('public static function StaticStruct():unreal.UScriptStruct');
+            this.begin(' {');
+              this.add('return (uhx_structData != null ? uhx_structData : (uhx_structData = uhx.runtime.UReflectionGenerator.getUStruct("$uname")));');
+            this.end('}');
+            this.newline();
+          }
+
+          this.add('private static function mkWrapper():${this.thisConv.haxeType}');
+          this.begin(' {');
+            this.add('return cast uhx.ue.RuntimeLibraryDynamic.createDynamicWrapperFromStruct(@:privateAccess StaticStruct().wrapped);');
+          this.end('}');
+
+          if (ctor == null) {
+            this.add('public function new()');
+            this.begin(' {');
+              this.add('this = mkWrapper();');
+              this.newline();
+              this.add('var ops = StaticStruct().GetCppStructOps();');
+              this.newline();
+              this.add('if (!ops.HasZeroConstructor()) ops.Construct(( ( cast this : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer());');
+            this.end('}');
+          }
+
           this.newline();
           this.add('@:noCompletion private static var uhx_structData:unreal.UScriptStruct;');
           this.newline();
           this.add('@:noCompletion private inline function get_structData():unreal.UScriptStruct');
           this.begin(' {');
-            this.add('return (uhx_structData != null ? uhx_structData : (uhx_structData = uhx.runtime.UReflectionGenerator.getUStruct("$uname")));');
+            this.add('return StaticStruct();');
           this.end('}');
-          this.add('#end');
-          this.newline();
         }
       }
 
@@ -970,7 +985,17 @@ class ExternBaker {
         } else if (meta.hasMeta(':ustruct')) {
           this.add('public function copy():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
-            this.add('');
+              this.add('var ret = mkWrapper();');
+              this.newline();
+              this.add('var ops = StaticStruct().GetCppStructOps();');
+              this.newline();
+              this.add('if (!ops.HasCopy()) throw "Cannot copy ${this.thisConv.haxeType}";');
+              this.newline();
+              this.add('if (!ops.HasZeroConstructor()) ops.Construct(( ( cast ret : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer());');
+              this.newline();
+              this.add('ops.Copy(( ( cast ret : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer(), uhx.internal.Helpers.getWrapperPointer(cast this), 1);');
+              this.newline();
+              this.add('return ret;');
           this.end('}');
           this.add('@:deprecated("This type does not support copyNew constructors") private function copyNew():unreal.POwnedPtr<${this.thisConv.haxeType.toString()}>');
           this.begin(' {');

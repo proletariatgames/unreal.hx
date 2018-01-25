@@ -61,6 +61,11 @@ struct StructHelper {
    * Creates a pointer wrapper from the original pointer
    **/
   static unreal::VariantPtr fromPointer(T *inOrigin);
+
+  /**
+   * Creates an empty wrapper
+   **/
+  static unreal::VariantPtr emptyWrapper();
 };
 
 template<typename T>
@@ -107,6 +112,10 @@ struct TemplateHelper {
 
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
     return uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) inOrigin, (unreal::UIntPtr) TTemplatedData<T>::getInfo(), 0);
+  }
+
+  inline static unreal::VariantPtr emptyWrapper() {
+    return uhx::expose::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TTemplatedData<T>::getInfo());
   }
 };
 
@@ -164,6 +173,10 @@ struct StructHelper<T, uhx::SKNormal> {
     return unreal::VariantPtr(inOrigin);
   }
 
+  inline static unreal::VariantPtr emptyWrapper() {
+    return uhx::expose::HxcppRuntime::createInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+  }
+
 private:
   inline static unreal::UIntPtr align(unreal::UIntPtr ptr) {
     return (ptr + (sizeof(void*) - 1)) & (~(sizeof(void*) - 1));
@@ -203,6 +216,10 @@ struct StructHelper<T, uhx::SKPOD> {
     return unreal::VariantPtr(inOrigin);
   }
 
+  inline static unreal::VariantPtr emptyWrapper() {
+    return uhx::expose::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+  }
+
 private:
   inline static unreal::UIntPtr align(unreal::UIntPtr ptr) {
     return (ptr + (sizeof(void*) - 1)) & (~(sizeof(void*) - 1));
@@ -240,6 +257,10 @@ struct StructHelper<T, uhx::SKAligned> {
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
     // TODO - check inOrigin & 1 == 0
     return unreal::VariantPtr(inOrigin);
+  }
+
+  inline static unreal::VariantPtr emptyWrapper() {
+    return uhx::expose::HxcppRuntime::createAlignedInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
   }
 private:
 

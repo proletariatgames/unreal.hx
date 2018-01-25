@@ -22,7 +22,7 @@ extern class UStruct_Extra {
   /**
     Initialize a struct over uninitialized memory.
    **/
-  function InitializeStruct(dest:AnyPtr, arrayDim:Int32):Void;
+  function InitializeStruct(dest:AnyPtr, arrayDim:Int32=1):Void;
 
   function IsChildOf(someBase:Const<UStruct>):Bool;
 

@@ -50,13 +50,14 @@ static bool valStructEquals(const uhx::StructInfo *info, unreal::UIntPtr t1, unr
   }
   UScriptStruct *prop = Cast<UScriptStruct>((UObject *) info->contextObject);
   check(prop);
-  return prop->Identical((void*)t1, (void*)t2);
+  bool result;
+  return prop->GetCppStructOps()->Identical((void*)t1, (void*)t2, 0, result);
 }
 
 static void valStructDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
   UScriptStruct *prop = Cast<UScriptStruct>((UObject *) info->contextObject);
   check(prop);
-  prop->DestroyValue((void *) t1);
+  prop->DestroyStruct((void *) t1);
 }
 
 uhx::StructInfo uhx::infoFromUProperty(void *inUPropertyObject) {
@@ -97,14 +98,14 @@ uhx::StructInfo uhx::infoFromUScriptStruct(void *inUScriptStructObject) {
   ret.size = (unreal::UIntPtr) structOps->GetSize();
   ret.alignment = (unreal::UIntPtr) structOps->GetAlignment();
   ret.contextObject = inUScriptStructObject;
-  ret.equals = &valPropEquals;
-  ret.destruct = (structOps->HasDestructor()) ? &valPropDestruct : nullptr;
+  ret.equals = &valStructEquals;
+  ret.destruct = (structOps->HasDestructor()) ? &valStructDestruct : nullptr;
   return ret;
 }
 
 unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::createDynamicWrapperFromStruct(unreal::UIntPtr inStruct) {
   check(inStruct);
-  UScriptStruct scriptStruct = Cast<UScriptStruct>((UObject*) inStruct);
+  UScriptStruct* scriptStruct = Cast<UScriptStruct>((UObject*) inStruct);
 
   uhx::StructInfo info = uhx::infoFromUScriptStruct(scriptStruct);
   size_t extraSize = sizeof(info);

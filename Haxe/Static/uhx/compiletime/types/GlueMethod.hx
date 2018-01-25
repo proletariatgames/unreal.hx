@@ -141,6 +141,11 @@ class GlueMethod {
       return [
         'return uhx.runtime.UReflectionGenerator.getUClass("${uname.substr(1)}");'
       ];
+    } else if (isStatic && meth.name == 'StaticStruct') {
+      var uname = thisConv.ueType.withoutPointer(true).getCppType().toString();
+      return [
+        'return uhx.runtime.UReflectionGenerator.getUStruct("${uname.substr(1)}");'
+      ];
     }
     return null;
   }
@@ -502,6 +507,8 @@ class GlueMethod {
 
     if (this.meth.uname == '.ctor' && this.meth.flags.hasAny(Static)) {
       return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [ for (arg in cppArgs) arg.t ], this.ctx );
+    } else if (this.meth.uname == '.mkWrapper') {
+      return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [], this.ctx, true );
     } else if (this.meth.flags.hasAny(Property)) {
       if (!isGetter) {
         body += ' = ' + cppArgTypes[cppArgTypes.length-1];
