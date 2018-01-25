@@ -592,6 +592,30 @@ class ExternBaker {
     return ret;
   }
 
+  private static function getAllDefinedSuperFields(c:ClassType, fields:Map<String, Bool>):Void {
+    var sup = c.superClass;
+    if (sup == null) {
+      return;
+    }
+    var supCl = sup.t.get();
+    for (field in supCl.fields.get()) {
+      fields[field.name] = true;
+    }
+    try {
+      switch(Context.getType(sup.t.toString() + '_Extra')) {
+      case TInst(c,_):
+        for (field in c.get().fields.get()) {
+          fields[field.name] = true;
+        }
+      case _:
+      }
+    }
+    catch(e:Dynamic) {
+    }
+
+    getAllDefinedSuperFields(supCl, fields);
+  }
+
   private function processClass(type:Type, c:ClassType) {
     this.cls = c;
     this.module = c.module;
@@ -719,16 +743,29 @@ class ExternBaker {
       } else {
         this.add('implements unreal.IInterface ');
       }
+      var superFields = new Map();
+      getAllDefinedSuperFields(c, superFields);
+
+      function superFilter(fields:Array<ClassField>, field:ClassField) {
+        if (superFields.exists(field.name)) {
+          if (!fields.exists(function(cf) return cf != field && cf.getUName() == field.name)) {
+            Context.warning('Unreal Extern Baker: The field ${field.name} already exists in a superclass. Create a new field with another name and with the metadata @:uname("${field.name}")', field.pos);
+          }
+          return false;
+        }
+        return true;
+      }
+
+      fields = fields.filter(superFilter.bind(fields));
+      statics = statics.filter(superFilter.bind(statics));
     } else {
       isAbstract = true;
-      if (!this.thisConv.data.match(CUObject(_))) {
-        if (c.superClass == null) {
-          this.add('@:forward(dispose,isDisposed) ');
-        } else if (!isTemplateStruct && c.params.length > 0 && !isNoTemplate) {
-          this.add('@:forward(getTemplateStruct) ');
-        } else {
-          this.add('@:forward ');
-        }
+      if (c.superClass == null) {
+        this.add('@:forward(dispose,isDisposed) ');
+      } else if (!isTemplateStruct && c.params.length > 0 && !isNoTemplate) {
+        this.add('@:forward(getTemplateStruct) ');
+      } else {
+        this.add('@:forward ');
       }
       this.add('abstract ${c.name}$params(');
       if (c.superClass == null) {
