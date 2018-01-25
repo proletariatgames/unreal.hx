@@ -123,6 +123,8 @@ extern class FRotator_Extra {
   @:thisConst
   public function Clamp() : FRotator;
 
+	public static function ClampAxis(Angle:Float32) : Float32;
+
 	/**
 	 * Create a copy of this rotator and normalize, removes all winding and creates the "shortest route" rotation.
 	 *

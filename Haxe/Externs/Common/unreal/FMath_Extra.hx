@@ -1,6 +1,13 @@
 package unreal;
 
 extern class FMath_Extra {
+
+	@:expr(1.e-4)
+	public static var KINDA_SMALL_NUMBER(default, null):Float;
+
+	@:expr(1.e-8)
+	public static var SMALL_NUMBER(default, null):Float;
+
   public static function VInterpTo(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;
 
   public static function VInterpConstantTo(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;
@@ -131,4 +138,21 @@ extern class FMath_Extra {
 
   /** Interpolation between A and B, applying a step function. */
   public static function InterpStep(A:Float32, B:Float32, Alpha:Float32, Steps:Int32) : Float32;  
+
+		/** 
+	* Returns the floating-point remainder of X / Y
+	* Warning: Always returns remainder toward 0, not toward the smaller multiple of Y.
+	*			So for example Fmod(2.8f, 2) gives .8f as you would expect, however, Fmod(-2.8f, 2) gives -.8f, NOT 1.2f 
+	* Use Floor instead when snapping positions that can be negative to a grid
+	*/
+	public static function Fmod(X:Float32, Y:Float32) : Float32;
+
+		/**
+	 *	Checks if two floating point numbers are nearly equal.
+	 *	@param A				First number to compare
+	 *	@param B				Second number to compare
+	 *	@param ErrorTolerance	Maximum allowed difference for considering them as 'nearly equal'
+	 *	@return					true if A and B are nearly equal
+	 */
+	public static function IsNearlyEqual(A:Float32, B:Float32, ErrorTolerance:Float32 = SMALL_NUMBER) : Bool;
 }
