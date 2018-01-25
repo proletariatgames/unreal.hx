@@ -863,7 +863,7 @@ class ExternBaker {
           this.add('return cast ptr;');
         this.end('}');
 
-        if (c.meta.has(':ustruct') && c.params.length == 0) {
+        if (c.meta.has(':ustruct') && c.params.length == 0 && !Context.defined('UHX_NO_UOBJECT')) {
           var uname = MacroHelpers.getUName(c).substr(1);
           if (!methods.exists(function(m) return m.uname == 'StaticStruct')) {
             this.add('public static function StaticStruct():unreal.UScriptStruct');
@@ -982,7 +982,7 @@ class ExternBaker {
             flags: MNone,
             pos: c.pos
           });
-        } else if (meta.hasMeta(':ustruct')) {
+        } else if (meta.hasMeta(':ustruct') && !Context.defined('UHX_NO_UOBJECT')) {
           this.add('public function copy():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
               this.add('var ret = mkWrapper();');
