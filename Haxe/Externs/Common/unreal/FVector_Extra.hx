@@ -113,9 +113,15 @@ extern class FVector_Extra {
   @:expr(return FVectorUtils.subeq(cast this, b))
   public function _subeq(b:FVector):FVector;
 
+  @:op(A==B)
+  @:expr(return X == b.X && Y == b.Y && Z == b.Z)
+  public function _eq(b:FVector):Bool;
+
   public function IsNearlyZero():Bool;
 
   public function IsZero():Bool;
+
+  public function Equals(b:FVector, Tolerance:Float32):Bool;
 
   @:expr(return 'FVector($X,$Y,$Z)')
   public function toString():String;
