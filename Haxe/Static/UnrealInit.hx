@@ -8,10 +8,14 @@ import unreal.editor.*;
 import unreal.editor.UEditorEngine;
 import unreal.FTimerManager;
 import sys.FileSystem;
+
+using Lambda;
+using StringTools;
 #end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
 @:cppFileCode("#ifndef environ\n#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n#endif\n")
+@:buildXml("<compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <files id=\"cppia\"><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> </files>")
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
@@ -86,10 +90,24 @@ class UnrealInit
 #end // DEBUG_HOTRELOAD
       var success = false,
           contents = null,
-          loadPrevious = false;
+          loadPrevious = false,
+          errorContents = null;
       try {
+        var oldData = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
+        if (oldData.length > 0) {
+          oldData = oldData.split('\n').filter(function(v) return v.indexOf('Get static field not found') < 0 && v.trim() != '').join('\n');
+        }
+        if (oldData.length > 0) {
+          trace('printf buffer: $oldData');
+        }
+
         contents = sys.io.File.getContent(target);
         untyped __global__.__scriptable_load_cppia(contents);
+        errorContents = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
+        if (errorContents.length > 0) {
+          trace('Warning', 'Warnings while loading cppia:\n$errorContents');
+        }
+
         var cls:Dynamic = Type.resolveClass('uhx.LiveReloadScript');
         if (cls != null) {
           trace('Setting cppia live reload types');
@@ -177,9 +195,13 @@ class UnrealInit
           }
         }
       } catch(e:Dynamic) {
-        FMessageDialog.Open(Ok, 'Error while loading cppia: $e', 'Unreal.hx cppia error');
-        trace('Error', 'Error while loading cppia: $e');
+        if (errorContents == null) {
+          errorContents = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
+        }
+
+        trace('Error', 'Error while loading cppia: $e\n$errorContents');
         trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+        FMessageDialog.Open(Ok, 'Error while loading cppia: $e\n$errorContents', 'Unreal.hx cppia error');
         loadPrevious = true;
         success = false;
       }

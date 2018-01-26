@@ -1193,6 +1193,19 @@ class UhxBuild extends UhxBaseBuild {
       ];
     }
 
+    var extraCompilerFlags = [];
+    if (shouldBuildEditor()) {
+      switch (data.targetPlatform) {
+      case Linux | Mac:
+        // TODO
+        // extraCompilerFlags.push("-includeForcePrintfCapture.h");
+      case Win64:
+        extraCompilerFlags.push('/FIForcePrintfCapture.h');
+      case _:
+      }
+    }
+    envs.push('UHX_EXTRA_COMPILERFLAGS=${extraCompilerFlags.join(" ")}');
+
     if (envs.length > 0) {
       args = ['--macro', 'uhx.compiletime.main.Env.set(' + toMacroDef(envs) + ')'].concat(args);
     }

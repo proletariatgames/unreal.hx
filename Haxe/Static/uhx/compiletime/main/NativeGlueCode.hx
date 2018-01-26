@@ -470,9 +470,14 @@ class NativeGlueCode
         if (typeName == 'uhx.expose.HxcppRuntime' && !cl.meta.has(':buildXml')) {
           var dir = Globals.cur.unrealSourceDir;
           cl.meta.add(':buildXml', [macro $v{
-          '<files id="haxe">
+          '
+          <files id="haxe">
             <compilerflag value="-I$targetTemplate/Shared" />
-          </files>'
+          </files>
+          <files id="cppia">
+            <compilerflag value="-I$targetTemplate/Shared" />
+          </files>
+          '
           }], cl.pos);
         }
       case TEnum(e, _):
