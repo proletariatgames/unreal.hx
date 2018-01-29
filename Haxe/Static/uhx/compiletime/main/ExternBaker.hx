@@ -247,7 +247,7 @@ class ExternBaker {
         file.close();
       }
       catch(e:Dynamic) {
-        throw new Error('Error while reading generated file $generatedFile: $e', Context.makePosition({ file:generatedFile, max:0, min:0 }));
+        Context.warning('Error while reading generated file $generatedFile: $e', Context.makePosition({ file:generatedFile, max:0, min:0 }));
         return null;
       }
 
