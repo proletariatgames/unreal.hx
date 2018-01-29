@@ -1,8 +1,8 @@
 package unreal;
 
+#if macro
 import haxe.macro.Expr;
 
-#if macro
 // avoid recursive build macros
 typedef TActorIteratorImpl<T> = Dynamic;
 #end

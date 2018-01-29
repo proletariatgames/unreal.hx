@@ -1647,11 +1647,12 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   private function checkDependencies(deps:String, targetFile:String, compFile:String, traceFiles:Bool, phase:String, onlyExists=false) {
+    var ret = false;
     if (FileSystem.exists(compFile)) {
       if (traceFiles) {
         log('compiling $phase because last compilation failed');
       }
-      return true;
+      ret = true;
     }
     if (!FileSystem.exists(targetFile)) {
       if (traceFiles) {
@@ -1676,7 +1677,6 @@ class UhxBuild extends UhxBaseBuild {
       }
       return true;
     }
-    var ret = false;
     var file = File.read(deps);
     try {
       while(true) {
