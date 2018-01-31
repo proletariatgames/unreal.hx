@@ -81,6 +81,8 @@ extern class FVector_Extra {
 
   public function HeadingAngle() : Float32;
 
+  public static function Dist(V1:Const<PRef<FVector>>, V2:Const<PRef<FVector>>):Float32;
+
   public static function DotProduct(A:Const<PRef<FVector>>, B:Const<PRef<FVector>>):Float32;
 
   @:op(A+B)
@@ -125,4 +127,6 @@ extern class FVector_Extra {
 
   @:expr(return 'FVector($X,$Y,$Z)')
   public function toString():String;
+
+  public function ToOrientationRotator():Const<FRotator>;
 }
