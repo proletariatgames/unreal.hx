@@ -234,34 +234,48 @@ class TypeConv {
           typeFlags |= FScriptCreated;
         case _:
         }
-        if (flags.hasAny(SUStruct)) {
-          switch(info.ueType.name) {
-            case 'TArray':
-              var param = params[0].toUPropertyDef();
-              if (param == null) {
-                null;
-              } else {
-                defParams = [param];
-                TArray;
+
+        switch(info.ueType.name) {
+          case 'TArray' | 'TSet':
+            var param = params[0].toUPropertyDef();
+            if (param == null) {
+              null;
+            } else {
+              defParams = [param];
+              info.ueType.name == 'TArray' ? TArray : TSet;
+            }
+          case 'TMap':
+            var kparam = params[0].toUPropertyDef(),
+                vparam = params[1].toUPropertyDef();
+
+            if (kparam == null || vparam == null) {
+              null;
+            } else {
+              defParams = [kparam,vparam];
+              TMap;
+            }
+          case _:
+            if (flags.hasAny(SUStruct)) {
+              switch(info.ueType.name) {
+                case 'FString':
+                  TString;
+                case 'FText':
+                  TText;
+                case 'FName':
+                  TName;
+                case uname:
+                  name = uname;
+                  TStruct;
               }
-            case 'FString':
-              TString;
-            case 'FText':
-              TText;
-            case 'FName':
-              TName;
-            case uname:
-              name = uname;
-              TStruct;
-          }
-        } else if (flags.hasAny(SDynamicDelegate)) {
-          name = info.ueType.name;
-          TDynamicDelegate;
-        } else if (flags.hasAny(SDynamicMulticastDelegate)) {
-          name = info.ueType.name;
-          TDynamicMulticastDelegate;
-        } else {
-          null;
+            } else if (flags.hasAny(SDynamicDelegate)) {
+              name = info.ueType.name;
+              TDynamicDelegate;
+            } else if (flags.hasAny(SDynamicMulticastDelegate)) {
+              name = info.ueType.name;
+              TDynamicMulticastDelegate;
+            } else {
+              null;
+            }
         }
       case CLambda(_) | CMethodPointer(_) | CTypeParam(_):
         null;

@@ -58,7 +58,7 @@ class UEnumBuild
         public static var arr(get, null):Array<Dynamic>;
         private static function get_arr() {
           if (arr == null) {
-            return cast std.Type.allEnums(std.Type.resolveEnum($v{typeRef.withoutModule().toString()}));
+            return arr = cast std.Type.allEnums(std.Type.resolveEnum($v{typeRef.withoutModule().toString()}));
           }
           return arr;
         }

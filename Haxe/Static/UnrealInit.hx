@@ -8,6 +8,8 @@ import unreal.editor.*;
 import unreal.editor.UEditorEngine;
 import unreal.FTimerManager;
 import sys.FileSystem;
+import unreal.TMap;
+import unreal.TSet;
 
 using Lambda;
 using StringTools;
@@ -199,7 +201,7 @@ class UnrealInit
           errorContents = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
         }
 
-        trace('Error', 'Error while loading cppia: $e\n$errorContents');
+        trace('Error', 'Error while loading cppia: $e\nError details: $errorContents');
         trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
         FMessageDialog.Open(Ok, 'Error while loading cppia: $e\n$errorContents', 'Unreal.hx cppia error');
         loadPrevious = true;

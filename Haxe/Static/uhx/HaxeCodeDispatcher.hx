@@ -1,5 +1,6 @@
 package uhx;
 import haxe.CallStack;
+import unreal.FPlatformMisc;
 
 /**
   This allows us to make all haxe code run inside a try handler so we can have better error messages
@@ -55,6 +56,10 @@ import haxe.CallStack;
       trace('Error', exc);
     }
     trace('Error', 'Stack trace:\n' + CallStack.toString(stack));
+
+    if (FPlatformMisc.IsDebuggerPresent()) {
+      FPlatformMisc.DebugBreak();
+    }
     endWrap();
 #if WITH_EDITOR
     var world = unreal.UEngine.GWorld.GetReference();

@@ -1,4 +1,8 @@
 #include "HaxeRuntime.h"
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include "PrintfCaptureTypes.h"
 #include "CoreMinimal.h"
 #include "uhx/expose/HxcppRuntime.h"
@@ -6,10 +10,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#endif
 
 #if PLATFORM_WINDOWS && !defined(vsnprintf)
 	#define vsnprintf _vsnprintf

@@ -142,6 +142,9 @@ typedef UEnumDef = {
   var TDynamicDelegate = 20;
   var TDynamicMulticastDelegate = 21;
 
+  var TMap = 22;
+  var TSet = 23;
+
   inline public function t():Int {
     return this;
   }

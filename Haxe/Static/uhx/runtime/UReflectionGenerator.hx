@@ -975,11 +975,6 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
 #if DEBUG_HOTRELOAD
     trace('$id: end loading dynamic');
 #end
-    var curDelays = delays;
-    delays = [];
-    for (delay in curDelays) {
-      delay();
-    }
     uhx.UHaxeGeneratedClass.cdoInit();
     var registry = registry;
     var haxePackage = UObject.CreatePackage(null, '/Script/HaxeCppia');
@@ -1041,6 +1036,12 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
           createDelegate(del);
         }
       }
+    }
+
+    var curDelays = delays;
+    delays = [];
+    for (delay in curDelays) {
+      delay();
     }
   }
 
@@ -1474,6 +1475,33 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         }
         var ret:UMulticastDelegateProperty = cast newProperty(outer, UMulticastDelegateProperty.StaticClass(), name, objFlags);
         ret.SignatureFunction = sigFn;
+        prop = ret;
+
+      case TSet:
+        var ret:USetProperty = cast newProperty(outer, USetProperty.StaticClass(), name, objFlags);
+        var inner = generateUProperty(@:privateAccess ret, ownerStruct, def.params[0], false);
+        if (inner == null) {
+          ret.MarkPendingKill();
+          return null;
+        }
+        ret.ElementProp = inner;
+        prop = ret;
+
+      case TMap:
+        var ret:UMapProperty = cast newProperty(outer, UMapProperty.StaticClass(), name, objFlags);
+        var key = generateUProperty(@:privateAccess ret, ownerStruct, def.params[0], false);
+        var value = generateUProperty(@:privateAccess ret, ownerStruct, def.params[1], false);
+        if (key == null || value == null) {
+          if (key != null) {
+            key.MarkPendingKill();
+          } else if (value != null) {
+            value.MarkPendingKill();
+          }
+          ret.MarkPendingKill();
+          return null;
+        }
+        ret.KeyProp = key;
+        ret.ValueProp = value;
         prop = ret;
 
       case _:

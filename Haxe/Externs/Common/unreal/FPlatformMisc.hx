@@ -33,6 +33,8 @@ package unreal;
   /** Return true if a debugger is present */
   static function IsDebuggerPresent():Bool;
 
+  static function DebugBreak():Void;
+
   /**
    * Requests application exit.
    *

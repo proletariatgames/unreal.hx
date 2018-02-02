@@ -2,7 +2,7 @@
 #ifndef UHX_NO_UOBJECT
 
 #include "uhx/ue/ClassMap.h"
-#include "uhx/TArrayReflect.h"
+#include "uhx/ReflectTypes.h"
 #include "uhx/StructInfo.h"
 #include "uhx/ue/RuntimeLibrary.h"
 #include "uhx/expose/HxcppRuntime.h"
@@ -15,15 +15,101 @@
 #include <unordered_map>
 // #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
+#if WITH_EDITOR // debug mode
 #define GET_UPROP() (Cast<UProperty>((UObject *) this->m_propertyType))
-#define GET_ARRAY_HELPER(self) (getArrayHelper((UProperty *) m_propertyType, self))
+#define GET_MAP_UPROP() (Cast<UMapProperty>((UObject *) this->m_propertyType))
 
+#else
+#define GET_UPROP() ((UProperty *) this->m_propertyType)
+#define GET_MAP_UPROP() ((UMapProperty *) this->m_propertyType)
+
+#endif
+
+#define GET_ARRAY_HELPER(self) (getArrayHelper(GET_UPROP(), self))
+#define GET_MAP_HELPER(self) (getMapHelper(GET_MAP_UPROP(), self))
+#define GET_SET_HELPER(self) (getSetHelper(GET_UPROP(), self))
+
+namespace uhx {
+
+enum WrapperKind {
+  UHX_WRAPPER_NORMAL = 0,
+  UHX_WRAPPER_ARRAY,
+  UHX_WRAPPER_SET
+};
+
+struct InitialWrapperLayout {
+  uhx::StructInfo mainInfo;
+};
+
+struct ArrayWrapperLayout : public InitialWrapperLayout {
+  uhx::StructInfo paramInfo;
+  uhx::StructInfo* paramArray[2];
+  uhx::TArrayReflect_obj arrayReflect;
+
+  ArrayWrapperLayout(unreal::UIntPtr innerProperty) :
+    arrayReflect(uhx::TArrayReflect_obj(innerProperty))
+  {
+  }
+};
+
+struct SetWrapperLayout : public InitialWrapperLayout {
+  uhx::StructInfo paramInfo;
+  uhx::StructInfo* paramArray[2];
+  uhx::TSetReflect_obj setReflect;
+
+  SetWrapperLayout(unreal::UIntPtr innerProperty) :
+    setReflect(uhx::TSetReflect_obj(innerProperty))
+  {
+  }
+};
+
+struct MapWrapperLayout : public InitialWrapperLayout {
+  uhx::StructInfo paramInfos[2];
+  uhx::StructInfo* paramArray[3];
+  uhx::TMapReflect_obj mapReflect;
+
+  MapWrapperLayout(unreal::UIntPtr innerProperty) :
+    mapReflect(uhx::TMapReflect_obj(innerProperty))
+  {
+  }
+};
+
+}
+
+static inline unreal::UIntPtr doAlign(unreal::UIntPtr offset, unreal::UIntPtr align) {
+  if (align < sizeof(void*)) {
+    align = sizeof(void*);
+  }
+  checkSlow(align & (sizeof(void*) - 1) == 0);
+  int alignMinusOne = align - 1;
+  return (offset + alignMinusOne) & ~alignMinusOne;
+}
 
 static inline FScriptArrayHelper getArrayHelper(UProperty *inProp, unreal::VariantPtr inSelf) {
   return FScriptArrayHelper::CreateHelperFormInnerProperty(inProp, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(inSelf));
 }
 
+static inline FScriptMapHelper getMapHelper(UMapProperty *inProp, unreal::VariantPtr inSelf) {
+  return FScriptMapHelper(inProp, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(inSelf));
+}
+
+static inline FScriptSetHelper getSetHelper(UProperty *inProp, unreal::VariantPtr inSelf) {
+  return FScriptSetHelper::CreateHelperFormElementProperty(inProp, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(inSelf));
+}
+
 void uhx::TArrayReflect_obj::init() {
+  check(m_propertyType);
+  UProperty *prop = Cast<UProperty>((UObject *) m_propertyType);
+  check(prop->IsA<UProperty>());
+}
+
+void uhx::TMapReflect_obj::init() {
+  check(m_propertyType);
+  UMapProperty *prop = Cast<UMapProperty>((UObject *) m_propertyType);
+  check(prop->IsA<UMapProperty>());
+}
+
+void uhx::TSetReflect_obj::init() {
   check(m_propertyType);
   UProperty *prop = Cast<UProperty>((UObject *) m_propertyType);
   check(prop->IsA<UProperty>());
@@ -60,21 +146,62 @@ static void valStructDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
   prop->DestroyStruct((void *) t1);
 }
 
-uhx::StructInfo uhx::infoFromUProperty(void *inUPropertyObject) {
+static void valArrayDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
+  FScriptArrayHelper helper = FScriptArrayHelper::CreateHelperFormInnerProperty(Cast<UProperty>((UObject*)info->contextObject), (void *) t1);
+  helper.EmptyValues();
+
+  ((FScriptArray*)t1)->~FScriptArray();
+}
+
+static void valSetDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
+  FScriptSetHelper helper = FScriptSetHelper::CreateHelperFormElementProperty(Cast<UProperty>((UObject*)info->contextObject), (void *) t1);
+  helper.EmptyElements();
+
+  ((FScriptSet*)t1)->~FScriptSet();
+}
+
+static uhx::StructInfo infoFromUProperty(void *inUPropertyObject, uhx::WrapperKind kind) {
   UProperty *prop = Cast<UProperty>((UObject *) inUPropertyObject);
   check(prop->IsA<UProperty>());
   uhx::StructInfo ret;
   FMemory::Memzero(&ret, sizeof(ret));
-  if (prop->PropertyFlags & CPF_IsPlainOldData) {
+  if (kind == uhx::UHX_WRAPPER_NORMAL && prop->PropertyFlags & CPF_IsPlainOldData) {
     ret.flags = uhx::UHX_POD;
   } else {
     ret.flags = uhx::UHX_CUSTOM;
   }
-  ret.size = (unreal::UIntPtr) prop->ElementSize;
-  ret.alignment = (unreal::UIntPtr) prop->GetMinAlignment();
   ret.contextObject = inUPropertyObject;
-  ret.equals = &valPropEquals;
-  ret.destruct = (prop->PropertyFlags & CPF_NoDestructor) != 0 ? nullptr : &valPropDestruct;
+
+  if (kind == uhx::UHX_WRAPPER_ARRAY) {
+    ret.name = "TArray";
+    ret.size = (unreal::UIntPtr) sizeof(FScriptArray);
+    ret.alignment = (unreal::UIntPtr) alignof(FScriptArray);
+    ret.destruct = &valArrayDestruct;
+  } else if (kind == uhx::UHX_WRAPPER_SET) {
+    ret.name = "TSet";
+    ret.size = (unreal::UIntPtr) sizeof(FScriptSet);
+    ret.alignment = (unreal::UIntPtr) alignof(FScriptSet);
+    ret.destruct = &valSetDestruct;
+  } else {
+    ret.size = (unreal::UIntPtr) prop->ElementSize;
+    ret.alignment = (unreal::UIntPtr) prop->GetMinAlignment();
+    if (ret.alignment < sizeof(void*)) {
+      ret.alignment = sizeof(void*);
+    }
+    ret.equals = &valPropEquals;
+    ret.destruct = (prop->PropertyFlags & CPF_NoDestructor) != 0 ? nullptr : &valPropDestruct;
+
+    if (prop->IsA<UArrayProperty>()) {
+      ret.name = "TArray";
+      check(sizeof(FScriptArray) == ret.size);
+    } else if (prop->IsA<USetProperty>()) {
+      ret.name = "TSet";
+      check(sizeof(FScriptSet) == ret.size);
+    } else if (prop->IsA<UMapProperty>()) {
+      ret.name = "TMap";
+      check(sizeof(FScriptMap) == ret.size);
+    }
+  }
   return ret;
 }
 
@@ -97,6 +224,9 @@ uhx::StructInfo uhx::infoFromUScriptStruct(void *inUScriptStructObject) {
   }
   ret.size = (unreal::UIntPtr) structOps->GetSize();
   ret.alignment = (unreal::UIntPtr) structOps->GetAlignment();
+  if (ret.alignment < sizeof(void*)) {
+    ret.alignment = sizeof(void*);
+  }
   ret.contextObject = inUScriptStructObject;
   ret.equals = &valStructEquals;
   ret.destruct = (structOps->HasDestructor()) ? &valStructDestruct : nullptr;
@@ -108,145 +238,243 @@ unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::createDynamicWrapperFromStruct(u
   UScriptStruct* scriptStruct = Cast<UScriptStruct>((UObject*) inStruct);
 
   uhx::StructInfo info = uhx::infoFromUScriptStruct(scriptStruct);
-  size_t extraSize = sizeof(info);
-  extraSize += sizeof(void*); // alignment
+  size_t extraSize = 0;
+  extraSize += info.size +
+                info.alignment +
+                sizeof(void*) +
+                sizeof(info);
 
   int startOffset = 0;
   unreal::UIntPtr ret = 0;
+  uhx::InitialWrapperLayout *infoLayout = nullptr;
 
   if (info.alignment > sizeof(void*)) {
-    extraSize += sizeof(void*); // alignment
-    extraSize += sizeof(uhx::StructInfo); // genericParams info
     ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+    static int staticOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+    startOffset = staticOffset;
   } else if (info.flags == uhx::UHX_POD) {
-    extraSize += sizeof(void*); // alignment
-    extraSize += sizeof(uhx::StructInfo); // genericParams info
     ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    startOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
+    static int staticOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
+    startOffset = staticOffset;
   } else {
-    extraSize += sizeof(void*); // alignment
-    extraSize += sizeof(uhx::StructInfo); // genericParams info
-    // ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    // startOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
     // Dynamically created wrappers have more strict alignment needs than statically created (because we are using Unreal's reflection API)
     // so we always create an aligned inline wrapper
-    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+    ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    static int staticOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
+    startOffset = staticOffset;
   }
-
-  int align = info.alignment;
-  if (align < sizeof(void*)) {
-    align = sizeof(void*);
-  }
-  align--;
   unreal::UIntPtr objOffset = ret + startOffset;
-  // re-align
-  objOffset = (objOffset + align) & ~align;
+  // align
+  objOffset = doAlign(objOffset, info.alignment);
   unreal::UIntPtr infoOffset = objOffset + info.size;
-  // re-align
-  infoOffset = (unreal::UIntPtr) ((infoOffset + sizeof(void*) - 1) & ~(sizeof(void*) -1));
-  // set the info inside the allocated space, so it can be reclaimed once the object is garbage collected
-  *((uhx::StructInfo *) infoOffset) = info;
+  infoOffset = doAlign(infoOffset, sizeof(void*));
+  infoLayout = (uhx::InitialWrapperLayout*) infoOffset;
+
+  infoLayout->mainInfo = info;
   // re-set the info on the wrapper
-  uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, infoOffset);
+  uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, (unreal::UIntPtr) &infoLayout->mainInfo);
+  check( ((unreal::UIntPtr)infoLayout) + sizeof(info) <= ret + startOffset + extraSize);
   return ret;
 }
 
-static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny) {
+static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, uhx::WrapperKind wrapperKind = uhx::UHX_WRAPPER_NORMAL) {
   check(inProp);
-  uhx::StructInfo info = uhx::infoFromUProperty(inProp);
-  size_t extraSize = sizeof(info);
-  extraSize += sizeof(void*); // alignment
-
+  uhx::StructInfo info = infoFromUProperty(inProp, wrapperKind);
+  size_t extraSize = 0;
   int startOffset = 0;
   unreal::UIntPtr ret = 0;
-  if (inProp->IsA<UArrayProperty>()) {
-    auto prop = Cast<UArrayProperty>(inProp);
-    extraSize += sizeof(uhx::TArrayReflect_obj);
-    extraSize += sizeof(void*); // alignment
-    extraSize += sizeof(void*) * 2; // genericParams array
-    extraSize += sizeof(uhx::StructInfo); // genericParams info
+  uhx::InitialWrapperLayout *infoLayout = nullptr;
+
+  if (wrapperKind == uhx::UHX_WRAPPER_ARRAY || inProp->IsA<UArrayProperty>()) {
+    UProperty *innerProperty = nullptr;
+    if (wrapperKind == uhx::UHX_WRAPPER_ARRAY) {
+      innerProperty = inProp;
+    } else {
+      innerProperty = Cast<UArrayProperty>(inProp)->Inner;
+    }
+    extraSize += sizeof(void*) + sizeof(uhx::ArrayWrapperLayout);
     if (pointerIfAny) {
       ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).raw;
       static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
       startOffset = offset;
     } else {
-      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info).raw;
+      extraSize += sizeof(FScriptArray) + sizeof(void*);
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).raw;
       static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
       startOffset = offset;
     }
 
-    int align = info.alignment;
-    if (align < sizeof(void*)) {
-      align = sizeof(void*);
-    }
-    align--;
     unreal::UIntPtr objOffset = ret + startOffset;
     // re-align
-    objOffset = (objOffset + align) & ~align;
+    objOffset = doAlign(objOffset, info.alignment);
+    if (!pointerIfAny) {
+      objOffset += sizeof(FScriptArray);
+      // re-align
+      objOffset = doAlign(objOffset, sizeof(void*));
+    }
 
-    unreal::UIntPtr reflectPtr = objOffset + info.size;
+    unreal::UIntPtr reflectPtr = objOffset;
+
+    uhx::ArrayWrapperLayout *layout = new ( (void*) reflectPtr) uhx::ArrayWrapperLayout((unreal::UIntPtr) innerProperty);
+    infoLayout = layout;
+    info.genericImplementation = &layout->arrayReflect;
+    layout->paramInfo = infoFromUProperty(innerProperty, uhx::UHX_WRAPPER_NORMAL);
+    layout->paramArray[0] = &layout->paramInfo;
+    layout->paramArray[1] = nullptr;
+    info.genericParams = (const uhx::StructInfo**) layout->paramArray;
+
+    check(reflectPtr + (sizeof(uhx::ArrayWrapperLayout)) <= (ret + startOffset + extraSize));
+  } else if (wrapperKind == uhx::UHX_WRAPPER_SET || inProp->IsA<USetProperty>()) {
+    UProperty *innerProperty = nullptr;
+    if (wrapperKind == uhx::UHX_WRAPPER_SET) {
+      innerProperty = inProp;
+    } else {
+      innerProperty = Cast<USetProperty>(inProp)->ElementProp;
+    }
+    extraSize += sizeof(void*) + sizeof(uhx::SetWrapperLayout);
+    if (pointerIfAny) {
+      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).raw;
+      static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
+      startOffset = offset;
+    } else {
+      extraSize += sizeof(FScriptSet) + sizeof(void*);
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
+      startOffset = offset;
+    }
+
+    unreal::UIntPtr objOffset = ret + startOffset;
     // re-align
-    reflectPtr = (unreal::UIntPtr) ((reflectPtr + sizeof(void*) - 1) & ~(sizeof(void*) -1));
-    reflectPtr += sizeof(uhx::StructInfo); // this is where the main info will be at
+    objOffset = doAlign(objOffset, info.alignment);
+    if (!pointerIfAny) {
+      objOffset += sizeof(FScriptSet);
+      // re-align
+      objOffset = doAlign(objOffset, sizeof(void*));
+    }
 
-    uhx::StructInfo * genericParamPtr = ((uhx::StructInfo*) reflectPtr);
-    *genericParamPtr = uhx::infoFromUProperty(prop->Inner);
-    reflectPtr += sizeof(uhx::StructInfo);
+    unreal::UIntPtr reflectPtr = objOffset;
 
-    info.genericParams = (const uhx::StructInfo **) reflectPtr;
-    info.genericParams[0] = genericParamPtr;
-    reflectPtr += sizeof(void*);
-    info.genericParams[1] = nullptr;
-    reflectPtr += sizeof(void*);
+    uhx::SetWrapperLayout *layout = new ( (void*) reflectPtr) uhx::SetWrapperLayout((unreal::UIntPtr) innerProperty);
+    infoLayout = layout;
+    info.genericImplementation = &layout->setReflect;
+    layout->paramInfo = infoFromUProperty(innerProperty, uhx::UHX_WRAPPER_NORMAL);
+    layout->paramArray[0] = &layout->paramInfo;
+    layout->paramArray[1] = nullptr;
+    info.genericParams = (const uhx::StructInfo**) layout->paramArray;
 
+    check(reflectPtr + (sizeof(uhx::SetWrapperLayout)) <= (ret + startOffset + extraSize));
+  } else if (inProp->IsA<UMapProperty>()) {
+    auto prop = Cast<UMapProperty>(inProp);
+    extraSize += sizeof(void*) + sizeof(uhx::MapWrapperLayout);
+    if (pointerIfAny) {
+      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).raw;
+      static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
+      startOffset = offset;
+    } else {
+      extraSize += sizeof(FScriptMap) + sizeof(void*);
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
+      startOffset = offset;
+    }
+
+    unreal::UIntPtr objOffset = ret + startOffset;
     // re-align
-    reflectPtr = (unreal::UIntPtr) ((reflectPtr + sizeof(void*) - 1) & ~(sizeof(void*) -1));
-    char *reflectBuf = (char *) reflectPtr;
+    objOffset = doAlign(objOffset, info.alignment);
+    if (!pointerIfAny) {
+      objOffset += sizeof(FScriptMap);
+      // re-align
+      objOffset = doAlign(objOffset, sizeof(void*));
+    }
 
-    uhx::TArrayReflect_obj *reflectHelper = new (reflectBuf) uhx::TArrayReflect_obj((unreal::UIntPtr) prop->Inner);
-    info.genericImplementation = reflectHelper;
+    unreal::UIntPtr reflectPtr = objOffset;
+
+    uhx::MapWrapperLayout *layout = new ( (void*) reflectPtr) uhx::MapWrapperLayout((unreal::UIntPtr) inProp);
+    infoLayout = layout;
+    info.genericImplementation = &layout->mapReflect;
+    layout->paramInfos[0] = infoFromUProperty(prop->KeyProp, uhx::UHX_WRAPPER_NORMAL);
+    layout->paramInfos[1] = infoFromUProperty(prop->ValueProp, uhx::UHX_WRAPPER_NORMAL);
+    layout->paramArray[0] = &layout->paramInfos[0];
+    layout->paramArray[1] = &layout->paramInfos[1];
+    layout->paramArray[2] = nullptr;
+    info.genericParams = (const uhx::StructInfo**) layout->paramArray;
+
+    check(reflectPtr + (sizeof(uhx::MapWrapperLayout)) <= (ret + startOffset + extraSize));
   } else if (pointerIfAny) {
     return unreal::VariantPtr(pointerIfAny); // we don't need wrappers
-  } else if (info.alignment > sizeof(void*)) {
-    extraSize += sizeof(void*); // alignment
-    extraSize += sizeof(uhx::StructInfo); // genericParams info
-    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
-  } else if (info.flags == uhx::UHX_POD) {
-    extraSize += sizeof(void*); // alignment
-    extraSize += sizeof(uhx::StructInfo); // genericParams info
-    ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    startOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
   } else {
-    extraSize += sizeof(void*); // alignment
-    extraSize += sizeof(uhx::StructInfo); // genericParams info
-    // ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    // startOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
-    // Dynamically created wrappers have more strict alignment needs than statically created (because we are using Unreal's reflection API)
-    // so we always create an aligned inline wrapper
-    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+    extraSize += info.size +
+                 info.alignment +
+                 sizeof(void*) +
+                 sizeof(info);
+    if (info.alignment > sizeof(void*)) {
+      ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      static int staticOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+      startOffset = staticOffset;
+    } else if (info.flags == uhx::UHX_POD) {
+      ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      static int staticOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
+      startOffset = staticOffset;
+    } else {
+      // Dynamically created wrappers have more strict alignment needs than statically created (because we are using Unreal's reflection API)
+      // so we always create an aligned inline wrapper
+      // ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      static int staticOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
+      startOffset = staticOffset;
+      // static int staticOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
+      // startOffset = staticOffset;
+    }
+    unreal::UIntPtr objOffset = ret + startOffset;
+    // align
+    objOffset = doAlign(objOffset, info.alignment);
+    unreal::UIntPtr infoOffset = objOffset + info.size;
+    infoOffset = doAlign(infoOffset, sizeof(void*));
+    infoLayout = (uhx::InitialWrapperLayout*) infoOffset;
   }
 
-  int align = info.alignment;
-  if (align < sizeof(void*)) {
-    align = sizeof(void*);
-  }
-  align--;
-  unreal::UIntPtr objOffset = ret + startOffset;
-  // re-align
-  objOffset = (objOffset + align) & ~align;
-  unreal::UIntPtr infoOffset = objOffset + info.size;
-  // re-align
-  infoOffset = (unreal::UIntPtr) ((infoOffset + sizeof(void*) - 1) & ~(sizeof(void*) -1));
-  // set the info inside the allocated space, so it can be reclaimed once the object is garbage collected
-  *((uhx::StructInfo *) infoOffset) = info;
+  infoLayout->mainInfo = info;
   // re-set the info on the wrapper
-  uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, infoOffset);
+  uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, (unreal::UIntPtr) &infoLayout->mainInfo);
+  check( ((unreal::UIntPtr)infoLayout) + sizeof(info) <= ret + startOffset + extraSize);
   return ret;
 }
+
+static void *hxcppPointerToCppPointer(UProperty *inProp, unreal::UIntPtr hxcppPointer, uint64& stackSpace) {
+  if (inProp->IsA<UNumericProperty>()) {
+    auto numeric = Cast<UNumericProperty>(inProp);
+    UEnum *uenum = numeric->GetIntPropertyEnum();
+    if (uenum != nullptr) {
+      stackSpace = (int64) uhx::expose::HxcppRuntime::hxEnumToCppInt(hxcppPointer);
+    } else if (numeric->IsFloatingPoint()) {
+      double *stack = (double *) &stackSpace;
+      *stack = uhx::expose::HxcppRuntime::unboxFloat(hxcppPointer);
+    } else if (numeric->IsA<UInt64Property>() || numeric->IsA<UUInt64Property>()) {
+      stackSpace = (int64) uhx::expose::HxcppRuntime::unboxInt64(hxcppPointer);
+    } else {
+      stackSpace = (int64) uhx::expose::HxcppRuntime::unboxInt((int64) hxcppPointer);
+    }
+    return &stackSpace;
+  } else if (inProp->IsA<UObjectProperty>()) {
+    UObject **ptr = (UObject**) &stackSpace;
+    *ptr = (UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(hxcppPointer);
+    return ptr;
+  } else {
+    #if (UE_VER >= 417)
+    if (inProp->IsA<UEnumProperty>()) {
+      auto prop = Cast<UEnumProperty>(inProp);
+      UEnum *uenum = prop->GetEnum();
+      stackSpace = (int64) uhx::expose::HxcppRuntime::hxEnumToCppInt(hxcppPointer);
+      return &stackSpace;
+    }
+    #endif
+
+    return (void *) uhx::expose::HxcppRuntime::getWrapperPointer(hxcppPointer);
+  }
+
+  check(false);
+  return nullptr;
+}
+
 
 static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) {
   if (inProp->IsA<UNumericProperty>()) {
@@ -271,7 +499,7 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
     return uhx::expose::HxcppRuntime::boxBool(prop->GetPropertyValue(inPointer));
   } else if (inProp->IsA<UNameProperty>() || inProp->IsA<UStrProperty>() || inProp->IsA<UTextProperty>()) {
     return uhx::expose::HxcppRuntime::boxVariantPtr(inPointer);
-  } else if (inProp->IsA<UArrayProperty>()) {
+  } else if (inProp->IsA<UArrayProperty>() || inProp->IsA<UMapProperty>() || inProp->IsA<USetProperty>()) {
     return uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(inProp, inPointer));
   }
 
@@ -311,13 +539,18 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
   } else if (inProp->IsA<UNameProperty>() ||
       inProp->IsA<UStrProperty>() ||
       inProp->IsA<UTextProperty>() ||
-      inProp->IsA<UArrayProperty>()) {
+      inProp->IsA<UArrayProperty>() ||
+      inProp->IsA<UMapProperty>() ||
+      inProp->IsA<USetProperty>()) {
     inProp->CopyCompleteValue(dest, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(value));
   } else {
     // TODO: delegates, map, and set
     check(false);
   }
 }
+
+
+// TArrayReflect implementation
 
 unreal::UIntPtr uhx::TArrayReflect_obj::get_Item(unreal::VariantPtr self, int index) {
   return getValueWithProperty((UProperty *) m_propertyType, (void *) GET_ARRAY_HELPER(self).GetRawPtr(index));
@@ -401,23 +634,337 @@ unreal::UIntPtr uhx::TArrayReflect_obj::GetData(unreal::VariantPtr self) {
 
 unreal::VariantPtr uhx::TArrayReflect_obj::copyNew(unreal::VariantPtr self) {
   // TODO
-  uhx::expose::HxcppRuntime::throwString("TArray copy is not implemented");
+  uhx::expose::HxcppRuntime::throwString("TArray copyNew is not implemented");
   return 0;
 }
 
 unreal::VariantPtr uhx::TArrayReflect_obj::copy(unreal::VariantPtr self) {
-  // TODO
-  uhx::expose::HxcppRuntime::throwString("TArray copy is not implemented");
-  return 0;
+  auto helper = GET_ARRAY_HELPER(self);
+  auto prop = GET_UPROP();
+
+  unreal::VariantPtr ret = createWrapper(prop, nullptr, uhx::UHX_WRAPPER_ARRAY);
+  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  new (pointer) FScriptArray();
+
+  auto targetHelper = getArrayHelper(prop, ret);
+  int num = helper.Num();
+
+  if ( !(prop->PropertyFlags & CPF_IsPlainOldData) ) {
+    targetHelper.EmptyAndAddValues(num);
+  } else {
+    targetHelper.EmptyAndAddUninitializedValues(num);
+  }
+
+  if (num > 0) {
+    int size = prop->ElementSize;
+    uint8* srcData = (uint8*) helper.GetRawPtr();
+    uint8* destData = (uint8*) targetHelper.GetRawPtr();
+    if ( !(prop->PropertyFlags & CPF_IsPlainOldData) ) {
+      for ( int i = 0; i < num; i++ ) {
+        prop->CopyCompleteValue(destData + i * size, srcData + i * size);
+      }
+    } else {
+      FMemory::Memcpy(destData, srcData, num * size);
+    }
+  }
+
+  return ret;
 }
 
 void uhx::TArrayReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr val) {
-  // TODO
-  uhx::expose::HxcppRuntime::throwString("Dynamic TArray assignment is not implemented");
+  auto targetHelper = GET_ARRAY_HELPER(self);
+  auto prop = GET_UPROP();
+  auto srcHelper = getArrayHelper(prop, val);
+
+  int num = srcHelper.Num();
+
+  targetHelper.Resize(0);
+  if ( !(prop->PropertyFlags & CPF_IsPlainOldData) ) {
+    targetHelper.EmptyAndAddValues(num);
+  } else {
+    targetHelper.EmptyAndAddUninitializedValues(num);
+  }
+
+  if (num > 0) {
+    int size = prop->ElementSize;
+    uint8* srcData = (uint8*) srcHelper.GetRawPtr();
+    uint8* destData = (uint8*) targetHelper.GetRawPtr();
+    if ( !(prop->PropertyFlags & CPF_IsPlainOldData) ) {
+      for ( int i = 0; i < num; i++ ) {
+        prop->CopyCompleteValue(destData + i * size, srcData + i * size);
+      }
+    } else {
+      FMemory::Memcpy(destData, srcData, num * size);
+    }
+  }
+}
+
+
+// TMapReflect implementation
+
+void uhx::TMapReflect_obj::Add(unreal::VariantPtr self, unreal::UIntPtr InKey, unreal::UIntPtr InValue) {
+  uint64 stackSpace1, stackSpace2;
+  GET_MAP_HELPER(self).AddPair(
+    hxcppPointerToCppPointer(GET_MAP_UPROP()->KeyProp, InKey, stackSpace1),
+    hxcppPointerToCppPointer(GET_MAP_UPROP()->ValueProp, InValue, stackSpace2)
+  );
+}
+
+unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal::UIntPtr Key) {
+  uint64 stackSpace1;
+  auto helper = GET_MAP_HELPER(self);
+  UProperty* localKeyProp = GET_MAP_UPROP()->KeyProp;
+  UProperty* localValueProp = GET_MAP_UPROP()->ValueProp;
+  void *keyPtr = hxcppPointerToCppPointer(GET_MAP_UPROP()->KeyProp, Key, stackSpace1);
+  void *result = (void *) helper.FindValueFromHash(keyPtr);
+  if (!result) {
+    helper.Map->Add(
+      keyPtr,
+      nullptr,
+      helper.MapLayout,
+      [localKeyProp](const void* ElementKey) { return localKeyProp->GetValueTypeHash(ElementKey); },
+      [localKeyProp](const void* A, const void* B) { return localKeyProp->Identical(A, B); },
+      [localKeyProp, keyPtr](void* NewElementKey)
+      {
+        if (localKeyProp->PropertyFlags & CPF_ZeroConstructor)
+        {
+          FMemory::Memzero(NewElementKey, localKeyProp->GetSize());
+        }
+        else
+        {
+          localKeyProp->InitializeValue(NewElementKey);
+        }
+
+        localKeyProp->CopySingleValueToScriptVM(NewElementKey, keyPtr);
+      },
+      [&](void* NewElementValue)
+      {
+        if (localValueProp->PropertyFlags & CPF_ZeroConstructor)
+        {
+          FMemory::Memzero(NewElementValue, localValueProp->GetSize());
+        }
+        else
+        {
+          localValueProp->InitializeValue(NewElementValue);
+        }
+
+        result = NewElementValue;
+      },
+      [&](void* ExistingElementValue)
+      {
+        result = ExistingElementValue;
+      }
+    );
+  }
+
+  return getValueWithProperty(localValueProp, result);
+}
+
+void uhx::TMapReflect_obj::set_Item(unreal::VariantPtr self, unreal::UIntPtr key, unreal::UIntPtr val) {
+  Add(self, key, val);
+}
+
+bool uhx::TMapReflect_obj::Contains(unreal::VariantPtr self, unreal::UIntPtr InKey) {
+  uint64 stackSpace1;
+  void *keyPtr = hxcppPointerToCppPointer(GET_MAP_UPROP()->KeyProp, InKey, stackSpace1);
+  return GET_MAP_HELPER(self).FindValueFromHash(keyPtr) != nullptr;
+}
+
+unreal::UIntPtr uhx::TMapReflect_obj::FindChecked(unreal::VariantPtr self, unreal::UIntPtr InKey) {
+  uint64 stackSpace1;
+  void *keyPtr = hxcppPointerToCppPointer(GET_MAP_UPROP()->KeyProp, InKey, stackSpace1);
+  void *result = (void *) GET_MAP_HELPER(self).FindValueFromHash(keyPtr);
+  check(result != nullptr);
+  return getValueWithProperty(GET_MAP_UPROP()->ValueProp, result);
+}
+
+int uhx::TMapReflect_obj::Remove(unreal::VariantPtr self, unreal::UIntPtr InKey) {
+  uint64 stackSpace1;
+  void *keyPtr = hxcppPointerToCppPointer(GET_MAP_UPROP()->KeyProp, InKey, stackSpace1);
+  return GET_MAP_HELPER(self).RemovePair(keyPtr) ? 1 : 0;
+}
+
+unreal::VariantPtr uhx::TMapReflect_obj::GenerateKeyArray(unreal::VariantPtr self) {
+  auto keyProp = GET_MAP_UPROP()->KeyProp;
+
+  unreal::VariantPtr ret = createWrapper(keyProp, nullptr, uhx::UHX_WRAPPER_ARRAY);
+  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  // initialize
+  new (pointer) FScriptArray();
+
+  FScriptArrayHelper array = FScriptArrayHelper::CreateHelperFormInnerProperty(keyProp, pointer);
+  FScriptMapHelper map = GET_MAP_HELPER(self);
+
+  int32 size = map.Num();
+  for (int32 i = 0; size; i++) {
+    if (map.IsValidIndex(i)) {
+      int32 lastIndex = array.AddValue();
+      keyProp->CopySingleValueToScriptVM(array.GetRawPtr(lastIndex), map.GetKeyPtr(i));
+      size--;
+    }
+  }
+
+  return ret;
+}
+
+unreal::VariantPtr uhx::TMapReflect_obj::GenerateValueArray(unreal::VariantPtr self) {
+  auto keyProp = GET_MAP_UPROP()->ValueProp;
+
+  unreal::VariantPtr ret = createWrapper(keyProp, nullptr, uhx::UHX_WRAPPER_ARRAY);
+  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  // initialize
+  new (pointer) FScriptArray();
+
+  FScriptArrayHelper array = FScriptArrayHelper::CreateHelperFormInnerProperty(keyProp, pointer);
+  FScriptMapHelper map = GET_MAP_HELPER(self);
+
+  int32 size = map.Num();
+  for (int32 i = 0; size; i++) {
+    if (map.IsValidIndex(i)) {
+      int32 lastIndex = array.AddValue();
+      keyProp->CopySingleValueToScriptVM(array.GetRawPtr(lastIndex), map.GetValuePtr(i));
+      size--;
+    }
+  }
+
+  return ret;
+}
+
+unreal::VariantPtr uhx::TMapReflect_obj::copyNew(unreal::VariantPtr self) {
+  uhx::expose::HxcppRuntime::throwString("TMap copyNew is not implemented");
+  return 0;
+}
+
+unreal::VariantPtr uhx::TMapReflect_obj::copy(unreal::VariantPtr self) {
+  auto uprop = GET_MAP_UPROP();
+  auto ret = createWrapper(uprop, nullptr, uhx::UHX_WRAPPER_NORMAL);
+  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  // initialize
+  uprop->InitializeValue(pointer);
+  uprop->CopyCompleteValue(pointer, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(self));
+
+  return ret;
+}
+
+void uhx::TMapReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr val) {
+  auto uprop = GET_MAP_UPROP();
+  uprop->CopyCompleteValue((void *) uhx::expose::HxcppRuntime::getWrapperPointer(self), (void *) uhx::expose::HxcppRuntime::getWrapperPointer(val));
 }
 
 unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::wrapProperty(unreal::UIntPtr inProp, unreal::UIntPtr pointerIfAny) {
   return createWrapper(Cast<UProperty>( (UObject *) inProp ), (void*) pointerIfAny);
+}
+
+
+// TSetReflect implementation
+
+void uhx::TSetReflect_obj::Empty(unreal::VariantPtr self, int ExpectedNumElements) {
+  GET_SET_HELPER(self).EmptyElements(ExpectedNumElements);
+}
+
+void uhx::TSetReflect_obj::Shrink(unreal::VariantPtr self) {
+  // let's just ignore this for now - it should be fine
+}
+
+void uhx::TSetReflect_obj::Reset(unreal::VariantPtr self) {
+  GET_SET_HELPER(self).EmptyElements(0);
+}
+
+void uhx::TSetReflect_obj::Compact(unreal::VariantPtr self) {
+  // ignore
+}
+
+void uhx::TSetReflect_obj::Reserve(unreal::VariantPtr self, int Number) {
+  // ignore
+}
+
+cpp::UInt32 uhx::TSetReflect_obj::GetAllocatedSize(unreal::VariantPtr self) {
+  return GET_SET_HELPER(self).Num();
+}
+
+int uhx::TSetReflect_obj::Num(unreal::VariantPtr self) {
+  return GET_SET_HELPER(self).Num();
+}
+
+unreal::VariantPtr uhx::TSetReflect_obj::Add(unreal::VariantPtr self, unreal::UIntPtr InElement) {
+  uint64 stackSpace;
+
+  auto helper = GET_SET_HELPER(self);
+  helper.AddElement(hxcppPointerToCppPointer(GET_UPROP(), InElement, stackSpace));
+
+  return FindId(self, InElement);
+}
+
+void uhx::TSetReflect_obj::Remove(unreal::VariantPtr self, unreal::VariantPtr ElementId) {
+  FSetElementId *pointer = (FSetElementId *) uhx::expose::HxcppRuntime::getWrapperPointer(ElementId);
+  GET_SET_HELPER(self).RemoveAt(pointer->AsInteger());
+}
+
+unreal::VariantPtr uhx::TSetReflect_obj::FindId(unreal::VariantPtr self, unreal::UIntPtr Element) {
+  uint64 stackSpace;
+  auto prop = GET_UPROP();
+
+  int index = GET_SET_HELPER(self).FindElementIndex(hxcppPointerToCppPointer(GET_UPROP(), Element, stackSpace));
+  if (index < 0) {
+    return ::uhx::StructHelper<FSetElementId>::fromStruct(FSetElementId());
+  } else {
+    return ::uhx::StructHelper<FSetElementId>::fromStruct(FSetElementId::FromInteger(index));
+  }
+}
+
+unreal::VariantPtr uhx::TSetReflect_obj::copyNew(unreal::VariantPtr self) {
+  uhx::expose::HxcppRuntime::throwString("TSet copyNew is not implemented");
+  return 0;
+}
+
+unreal::VariantPtr uhx::TSetReflect_obj::copy(unreal::VariantPtr self) {
+  auto srcHelper = GET_SET_HELPER(self);
+  auto prop = GET_UPROP();
+
+  unreal::VariantPtr ret = createWrapper(prop, nullptr, uhx::UHX_WRAPPER_SET);
+  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  new (pointer) FScriptSet();
+
+  auto targetHelper = getSetHelper(prop, ret);
+  int num = srcHelper.Num();
+
+  for (int srcIndex = 0; num; srcIndex++) {
+    if (srcHelper.IsValidIndex(srcIndex)) {
+      int destIndex = targetHelper.AddDefaultValue_Invalid_NeedsRehash();
+
+      uint8* srcData = (uint8*) srcHelper.Set->GetData(srcIndex, srcHelper.SetLayout);
+      uint8* destData = (uint8*) targetHelper.Set->GetData(destIndex, targetHelper.SetLayout);
+
+      prop->CopyCompleteValue_InContainer(destData, srcData);
+      num--;
+    }
+  }
+
+  targetHelper.Rehash();
+
+  return ret;
+}
+
+void uhx::TSetReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr val) {
+  auto targetHelper = GET_SET_HELPER(self);
+  auto prop = GET_UPROP();
+
+  auto srcHelper = getSetHelper(prop, val);
+  int num = srcHelper.Num();
+
+  for (int srcIndex = 0; num; srcIndex++) {
+    if (srcHelper.IsValidIndex(srcIndex)) {
+      int destIndex = targetHelper.AddDefaultValue_Invalid_NeedsRehash();
+
+      uint8* srcData = (uint8*) srcHelper.Set->GetData(srcIndex, srcHelper.SetLayout);
+      uint8* destData = (uint8*) targetHelper.Set->GetData(destIndex, targetHelper.SetLayout);
+
+      prop->CopyCompleteValue_InContainer(destData, srcData);
+      num--;
+    }
+  }
+
+  targetHelper.Rehash();
 }
 
 int uhx::ue::RuntimeLibrary_obj::getHaxeGcRefOffset() {
@@ -523,6 +1070,7 @@ int uhx::ue::RuntimeLibrary_obj::getGcRefSize() {
 }
 
 #undef GET_UPROP
+#undef GET_MAP_UPROP
 #undef GET_ARRAY_HELPER
 
 #endif

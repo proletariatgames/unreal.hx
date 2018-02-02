@@ -70,11 +70,6 @@ struct StructInfo {
 
 #ifndef UHX_NO_UOBJECT
 /**
- * Creates a StructInfo given a UProperty
- **/
-StructInfo infoFromUProperty(void *inUPropertyObject);
-
-/**
  * Creates a StructInfo given a UScriptStruct
  **/
 StructInfo infoFromUScriptStruct(void *inUScriptStruct);

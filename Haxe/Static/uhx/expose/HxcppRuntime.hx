@@ -52,7 +52,7 @@ import uhx.internal.Helpers;
   }
 
   public static function arrayIndex(array:UIntPtr, index:Int) : UIntPtr {
-    var arr:Array<Dynamic> = HaxeHelpers.pointerToDynamic(array);
+    var arr:Dynamic = HaxeHelpers.pointerToDynamic(array);
     return HaxeHelpers.dynamicToPointer(arr[index]);
   }
 

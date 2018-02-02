@@ -395,6 +395,8 @@ class ReflectAPI {
       } else {
         prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
       }
+    } else if (Std.is(prop, UMapProperty) || Std.is(prop, USetProperty)) {
+      prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
     } else if (Std.is(prop, UDelegateProperty) || Std.is(prop, UMulticastDelegateProperty)) {
       if (Std.is(value, unreal.Wrapper)) {
         var wrapperValue:unreal.Wrapper = value;
@@ -573,7 +575,7 @@ class ReflectAPI {
     } else if (Std.is(prop, UStructProperty) || Std.is(prop, UDelegateProperty) || Std.is(prop, UMulticastDelegateProperty)) {
       // structs are always just pointers, so we can just return them
       return objPtr.getStruct(0);
-    } else if (Std.is(prop, UArrayProperty)) {
+    } else if (Std.is(prop, UArrayProperty) || Std.is(prop, USetProperty) || Std.is(prop, UMapProperty)) {
       return uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess prop.wrapped, objPtr);
 #if (UE_VER >= 4.16)
     } else if (Std.is(prop, UEnumProperty)) {
