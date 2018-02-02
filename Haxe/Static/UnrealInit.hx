@@ -1,3 +1,9 @@
+#if !UHX_NO_UOBJECT
+import unreal.TMap;
+import unreal.TArray;
+import unreal.TSet;
+#end
+
 #if WITH_EDITOR
 import uhx.expose.HxcppRuntime;
 import uhx.HaxeCodeDispatcher;
@@ -8,8 +14,6 @@ import unreal.editor.*;
 import unreal.editor.UEditorEngine;
 import unreal.FTimerManager;
 import sys.FileSystem;
-import unreal.TMap;
-import unreal.TSet;
 
 using Lambda;
 using StringTools;

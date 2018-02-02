@@ -3,6 +3,7 @@ package unreal;
 @:glueCppIncludes("Containers/Map.h")
 @:uname("TMap")
 @:noEquals
+@:keep
 @:uextern extern class TMap<K, V>
 {
   @:uname('.ctor') static function create<K, V>():TMap<K, V>;

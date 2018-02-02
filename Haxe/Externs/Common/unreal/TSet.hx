@@ -2,6 +2,7 @@ package unreal;
 
 @:glueCppIncludes('Containers/Set.h')
 @:noEquals
+@:keep
 @:uextern extern class TSet<T> {
   /**
    * Removes all elements from the set, potentially leaving space allocated for an expected number of elements about to be added.
