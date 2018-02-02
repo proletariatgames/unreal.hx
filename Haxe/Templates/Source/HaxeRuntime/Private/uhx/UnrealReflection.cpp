@@ -784,6 +784,10 @@ int uhx::TMapReflect_obj::Remove(unreal::VariantPtr self, unreal::UIntPtr InKey)
   return GET_MAP_HELPER(self).RemovePair(keyPtr) ? 1 : 0;
 }
 
+void uhx::TMapReflect_obj::Empty(unreal::VariantPtr self, int ExpectedNumElements) {
+  return GET_MAP_HELPER(self).EmptyValues(ExpectedNumElements);
+}
+
 unreal::VariantPtr uhx::TMapReflect_obj::GenerateKeyArray(unreal::VariantPtr self) {
   auto keyProp = GET_MAP_UPROP()->KeyProp;
 

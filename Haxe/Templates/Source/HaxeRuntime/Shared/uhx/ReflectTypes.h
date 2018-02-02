@@ -56,6 +56,7 @@ public:
   virtual bool Contains(unreal::VariantPtr self, unreal::UIntPtr InKey) override;
   virtual unreal::UIntPtr FindChecked(unreal::VariantPtr self, unreal::UIntPtr InKey) override;
   virtual int Remove(unreal::VariantPtr self, unreal::UIntPtr InKey) override;
+  virtual void Empty(unreal::VariantPtr self, int ExpectedElements) override;
   virtual unreal::VariantPtr GenerateKeyArray(unreal::VariantPtr self) override;
   virtual unreal::VariantPtr GenerateValueArray(unreal::VariantPtr self) override;
   virtual unreal::VariantPtr copyNew(unreal::VariantPtr self) override;
