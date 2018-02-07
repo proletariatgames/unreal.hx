@@ -36,11 +36,11 @@ extern class FMath_Extra {
 
 	/**
 	 * Returns a random unit vector, uniformly distributed, within the specified cone
-	 * ConeHalfAngleRad is the half-angle of cone, in radians.  Returns a normalized vector. 
+	 * ConeHalfAngleRad is the half-angle of cone, in radians.  Returns a normalized vector.
 	 */
   public static function VRandCone(Dir:Const<PRef<unreal.FVector>>, ConeHalfAngleRad:Float32) : FVector;
 
-	/** 
+	/**
 	 * This is a version of VRandCone that handles "squished" cones, i.e. with different angle limits in the Y and Z axes.
 	 * Assumes world Y and Z, although this could be extended to handle arbitrary rotations.
 	 */
@@ -65,23 +65,23 @@ extern class FMath_Extra {
 	/** Returns a seeded random float in the range [0,1), using the seed from SRandInit(). */
   public static function SRand() : Float32;
 
-/** 
+/**
 	 * Converts radians to degrees.
 	 * @param	RadVal			Value in radians.
 	 * @return					Value in degrees.
 	 */
 	public static function RadiansToDegrees(RadVal:Float32) : Float32;
 
-	/** 
+	/**
 	 * Converts degrees to radians.
 	 * @param	DegVal			Value in degrees.
 	 * @return					Value in radians.
 	 */
   public static function DegreesToRadians(DegVal:Float32) : Float32;
 
-	/** 
+	/**
 	 * Clamps an arbitrary angle to be between the given angles.  Will clamp to nearest boundary.
-	 * 
+	 *
 	 * @param MinAngleDegrees	"from" angle that defines the beginning of the range of valid angles (sweeping clockwise)
 	 * @param MaxAngleDegrees	"to" angle that defines the end of the range of valid angles
 	 * @return Returns clamped angle in the range -180..180.
@@ -100,7 +100,7 @@ extern class FMath_Extra {
   	/** Utility to ensure angle is between +/- 180 degrees by unwinding. */
 	public static function UnwindDegrees(A:Float32) : Float32;
 
-  	/** 
+  	/**
 	 * Given two angles in degrees, 'wind' the rotation in Angle1 so that it avoids >180 degree flips.
 	 * Good for winding rotations previously expressed as quaternions into a euler-angle representation.
 	 * @param	Angle0	The first angle that we wind relative to.
@@ -134,15 +134,15 @@ extern class FMath_Extra {
   public static function InterpEaseOut(A:Float32, B:Float32, Alpha:Float32, Exp:Float32) : Float32;
 
   /** Interpolate between A and B, applying an ease in/out function.  Exp controls the degree of the curve. */
-  public static function InterpEaseInOut(A:Float32, B:Float32, Alpha:Float32, Exp:Float32) : Float32;  
+  public static function InterpEaseInOut(A:Float32, B:Float32, Alpha:Float32, Exp:Float32) : Float32;
 
   /** Interpolation between A and B, applying a step function. */
-  public static function InterpStep(A:Float32, B:Float32, Alpha:Float32, Steps:Int32) : Float32;  
+  public static function InterpStep(A:Float32, B:Float32, Alpha:Float32, Steps:Int32) : Float32;
 
-		/** 
+		/**
 	* Returns the floating-point remainder of X / Y
 	* Warning: Always returns remainder toward 0, not toward the smaller multiple of Y.
-	*			So for example Fmod(2.8f, 2) gives .8f as you would expect, however, Fmod(-2.8f, 2) gives -.8f, NOT 1.2f 
+	*			So for example Fmod(2.8f, 2) gives .8f as you would expect, however, Fmod(-2.8f, 2) gives -.8f, NOT 1.2f
 	* Use Floor instead when snapping positions that can be negative to a grid
 	*/
 	public static function Fmod(X:Float32, Y:Float32) : Float32;
@@ -155,4 +155,15 @@ extern class FMath_Extra {
 	 *	@return					true if A and B are nearly equal
 	 */
 	public static function IsNearlyEqual(A:Float32, B:Float32, ErrorTolerance:Float32 = SMALL_NUMBER) : Bool;
+
+	/**
+	 * Given a direction vector and a surface normal, returns the vector reflected across the surface normal.
+	 * Produces a result like shining a laser at a mirror!
+	 *
+	 * @param Direction Direction vector the ray is coming from.
+	 * @param SurfaceNormal A normal of the surface the ray should be reflected on.
+	 *
+	 * @returns Reflected vector.
+	 */
+	public static function GetReflectionVector(Direction:Const<PRef<FVector>>, SurfaceNormal:Const<PRef<FVector>>) : FVector;
 }
