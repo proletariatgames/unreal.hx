@@ -129,4 +129,6 @@ extern class FVector_Extra {
   public function toString():String;
 
   public function ToOrientationRotator():Const<FRotator>;
+
+  public function ToDirectionAndLength(OutDir:PRef<FVector>, OutLength:Ref<Float32>):Void;
 }
