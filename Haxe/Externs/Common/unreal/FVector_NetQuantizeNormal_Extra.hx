@@ -1,5 +1,6 @@
 package unreal;
 
+@:hasCopy
 extern class FVector_NetQuantizeNormal_Extra {
   @:uname(".ctor")
   public static function fromVector(vec:Const<PRef<FVector>>) : FVector_NetQuantizeNormal;
@@ -10,7 +11,7 @@ extern class FVector_NetQuantizeNormal_Extra {
   public function toVector() : FVector;
 
   @:op(A+B)
-  @:expr(return FVector.createWithValues(this.X + b.X, this.Y + b.Y, this.Z + b.Y))
+  @:expr(return FVector.createWithValues(this.X + b.X, this.Y + b.Y, this.Z + b.Z))
   public function _add(b:FVector):FVector;
 
   @:op(A+=B)
@@ -26,7 +27,7 @@ extern class FVector_NetQuantizeNormal_Extra {
   public function _muleq(b:Float):FVector;
 
   @:op(A-B)
-  @:expr(return FVector.createWithValues(this.X - b.X, this.Y - b.Y, this.Z - b.Y))
+  @:expr(return FVector.createWithValues(this.X - b.X, this.Y - b.Y, this.Z - b.Z))
   public function _sub(b:FVector):FVector;
 
   @:op(A-=B)
