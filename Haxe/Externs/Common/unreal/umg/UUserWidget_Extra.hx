@@ -21,4 +21,7 @@ extern class UUserWidget_Extra {
   public function OnAnimationStarted_Implementation (Animation:Const<UWidgetAnimation>):Void;
 
   private function OnLevelRemovedFromWorld(InLevel:ULevel, InWorld:UWorld) : Void;
+
+  @:ureplace @:ufunction(BlueprintCallable) @:final private function ListenForInputAction(ActionName : unreal.FName, EventType : unreal.TEnumAsByte<unreal.EInputEvent>, bConsume : Bool, Callback : unreal.umg.FOnInputAction) : Void;
+  @:ureplace @:ufunction(BlueprintCallable) @:final private function StopListeningForInputAction(ActionName : unreal.FName, EventType : unreal.TEnumAsByte<unreal.EInputEvent>) : Void;
 }

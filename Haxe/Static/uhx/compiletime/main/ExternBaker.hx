@@ -663,18 +663,38 @@ class ExternBaker {
           ctor = ector;
         }
         for (field in efields) {
-          var oldField = fields.find(function(f) return f.name == field.name);
-          if (oldField != null) {
-            Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}', field.pos);
+          var oldFieldIdx = -1;
+          for (i in 0...fields.length) {
+            if (fields[i].name == field.name) {
+              oldFieldIdx = i;
+              break;
+            }
+          }
+          if (oldFieldIdx >= 0) {
+            if (field.meta.has(':ureplace')) {
+              fields[oldFieldIdx] = field;
+            } else {
+              Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
+            }
           } else {
             fields.push(field);
           }
         }
 
         for (field in estatics) {
-          var oldField = statics.find(function(f) return f.name == field.name);
-          if (oldField != null) {
-            Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}', field.pos);
+          var oldFieldIdx = -1;
+          for (i in 0...statics.length) {
+            if (statics[i].name == field.name) {
+              oldFieldIdx = i;
+              break;
+            }
+          }
+          if (oldFieldIdx >= 0) {
+            if (field.meta.has(":ureplace")) {
+              statics[oldFieldIdx] = field;
+            } else {
+              Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
+            }
           } else {
             statics.push(field);
           }

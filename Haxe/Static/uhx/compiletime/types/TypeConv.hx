@@ -76,7 +76,7 @@ class TypeConv {
         return false;
       }
       return i1.haxeType.toString() == i2.haxeType.toString();
-    case [CEnum(_, i1, _), CEnum(_, i2, _)]:
+    case [CEnum(_, _, i1), CEnum(_, _, i2)]:
       return i1.haxeType.toString() == i2.haxeType.toString();
     case [CStruct(_, f1, i1, p1), CStruct(_, f2, i2, p2)]:
       if (f1 != f2) {
@@ -207,7 +207,7 @@ class TypeConv {
         case _:
           TUObject;
         }
-      case CEnum(type, info, true):
+      case CEnum(type, flags, info) if (flags.hasAll(EUEnum)):
         if ((type == EExternal || type == EAbstract) && info.ueType.pack.length > 0) {
           name = info.ueType.pack[info.ueType.pack.length-1];
         } else {
@@ -448,7 +448,7 @@ class TypeConv {
         // and it's a type that both Unreal and Haxe can see (different from cpp.Pointer)
         this.glueType = uintPtr;
         this.haxeGlueType = uintPtr;
-      case CEnum(type, info, _):
+      case CEnum(type, flags, info):
         // EExternal, EAbstract, EHaxe, EScriptHaxe
         if (this.haxeType == null) {
           this.haxeType = info.haxeType;
@@ -456,6 +456,10 @@ class TypeConv {
         this.ueType = info.ueType;
         this.haxeGlueType = int32Haxe;
         this.glueType = int32Glue;
+        if (flags.hasAll(EEnumAsByte)) {
+          this.haxeType = new TypeRef(['unreal'], 'TEnumAsByte', [this.haxeType]);
+          this.ueType = new TypeRef('TEnumAsByte', [this.ueType]);
+        }
       case CPtr(type, isRef):
         this.haxeType = type.haxeType;
         this.ueType = type.ueType;
@@ -593,7 +597,7 @@ class TypeConv {
     case CUObject(type, flags, info):
       // we only use unreal::UIntPtr on the glue code
       set.add('IntPtr.h');
-    case CEnum(type, info, _):
+    case CEnum(type, _, info):
       set.add('<hxcpp.h>');
     case CStruct(type,_,info,params):
       set.add('VariantPtr.h');
@@ -641,7 +645,7 @@ class TypeConv {
           set.add('${info.ueType.withoutPrefix().name}.h');
         }
       }
-    case CEnum(type, info, _):
+    case CEnum(type, _, info):
       if (type == EHaxe || type == EScriptHaxe) {
         set.add('${ueType.withoutPrefix().name}.h');
       }
@@ -711,13 +715,13 @@ class TypeConv {
         'uhx.internal.HaxeHelpers.getUObjectWrapped($expr)';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(EAbstract, info, _):
+      case CEnum(EAbstract, _, info):
         expr;
-      case CEnum( type = (EScriptHaxe | EHaxe), info, _):
+      case CEnum( type = (EScriptHaxe | EHaxe), _, info):
         var setType = type == EScriptHaxe ? ' : Dynamic' : '';
         var haxeType = this.haxeType;
         '{ var temp $setType = $expr; if (temp == null) { throw "null $haxeType passed to UE"; } Type.enumIndex(temp); }';
-      case CEnum(type, info, _):
+      case CEnum(type, _, info):
         var typeRef = info.haxeType,
             conv = typeRef.with(typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name);
         '${conv.getClassPath()}.unwrap($expr)';
@@ -764,14 +768,14 @@ class TypeConv {
         }
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(EAbstract, info, _):
+      case CEnum(EAbstract, _, info):
         '( ($expr) : ${haxeType} )';
-      case CEnum( type = (EScriptHaxe | EHaxe), info, _):
+      case CEnum( type = (EScriptHaxe | EHaxe), _, info):
         if (type == EScriptHaxe)
           'Type.createEnumIndex(Type.resolveEnum("${this.haxeType.getClassPath(true)}"), $expr)';
         else
           'uhx.internal.UEnumHelper.createEnumIndex(${this.haxeType.getClassPath(false)}, $expr)';
-      case CEnum(type, info, _):
+      case CEnum(type, _, info):
         var typeRef = info.haxeType,
             conv = typeRef.with(typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name);
         '${conv.getClassPath()}.wrap($expr)';
@@ -824,7 +828,7 @@ class TypeConv {
         ret;
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(type, info, _):
+      case CEnum(type, _, info):
         '( (${ueType.getCppType()}) $expr )';
 
       case CStruct(type, flags, info, params):
@@ -929,7 +933,7 @@ class TypeConv {
         '( (unreal::UIntPtr) ($ret) )';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(type, info, _):
+      case CEnum(type, _, info):
         '( (int) (${ueType.getCppType()}) $expr )';
 
       case CStruct(type, flags, info, params):
@@ -1095,7 +1099,7 @@ class TypeConv {
 
       var ret = cache[t];
       if (ret == null) {
-        var ctx:InfoCtx = { accFlags:ONone };
+        var ctx:InfoCtx = { accFlags:ONone, accEnumFlags: ENone };
         ret = getInfo(type, pos, ctx, inTypeParam, isNoTemplate);
         if (!ctx.disableCache) {
           cache[t] = ret;
@@ -1107,7 +1111,7 @@ class TypeConv {
     else
 #end
     {
-      return getInfo(type, pos, { accFlags:ONone }, inTypeParam, isNoTemplate);
+      return getInfo(type, pos, { accFlags:ONone, accEnumFlags: ENone }, inTypeParam, isNoTemplate);
     }
   }
 
@@ -1245,13 +1249,16 @@ class TypeConv {
         var e = eref.get(),
             ret = null,
             info = getTypeInfo(e, pos);
+        var flag = ctx.accEnumFlags;
+        if (flag == null) flag = ENone;
+        if (e.meta.has(':uenum')) flag = flag | EUEnum;
         if (e.meta.has(':uextern') && !e.meta.has(':haxeGenerated')) {
-          ret = CEnum(e.meta.has(':class') ? EExternalClass : EExternal, info, e.meta.has(':uenum'));
+          ret = CEnum(e.meta.has(':class') ? EExternalClass : EExternal, flag, info);
         } else if (e.meta.has(':uenum')) {
           if (e.meta.has(':uscript') || (Context.defined('cppia') && !Globals.cur.staticModules.exists(e.module))) {
-            ret = CEnum(EScriptHaxe, info, true);
+            ret = CEnum(EScriptHaxe, flag | EUEnum, info);
           } else {
-            ret = CEnum(EHaxe, info, true);
+            ret = CEnum(EHaxe, flag | EUEnum, info);
           }
         } else {
           Context.warning('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
@@ -1330,7 +1337,7 @@ class TypeConv {
           if (ctx.modf != null) {
             Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
           }
-          ret = CEnum(EAbstract, info, true);
+          ret = CEnum(EAbstract, ctx.accEnumFlags | EUEnum, info);
         } else if (hasUextern) {
           ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
         } else if (a.meta.has(':haxeCreated')) {
@@ -1444,6 +1451,8 @@ class TypeConv {
             if (ctx.modf == null) ctx.modf = [];
             ctx.modf.push(Marker);
             continue;
+          case 'unreal.TEnumAsByte':
+            ctx.accEnumFlags |= EEnumAsByte;
           case _:
             throw new Error('Unreal Type: Invalid typedef: $name', pos);
           }
@@ -1796,7 +1805,7 @@ enum TypeConvData {
    **/
   CSpecial(info:ExtTypeInfo);
   CUObject(type:UObjectType, flags:UObjectFlags, info:TypeInfo);
-  CEnum(type:EEnumType, info:TypeInfo, isUEnum:Bool);
+  CEnum(type:EEnumType, flags:EnumFlags, info:TypeInfo);
   CStruct(type:StructType, flags:StructFlags, info:TypeInfo, ?params:Array<TypeConv>);
 
   CPtr(of:TypeConv, isRef:Bool);
@@ -1853,6 +1862,28 @@ enum TypeConvData {
   var EScriptHaxe = 5;
 }
 
+@:enum abstract EnumFlags(Int) from Int {
+  var ENone = 0;
+  var EUEnum = 0x1; // is UEnum
+  var EEnumAsByte = 0x2; // TEnumAsByte<>
+
+  inline private function t() {
+    return this;
+  }
+
+  @:op(A|B) inline public function add(f:EnumFlags):EnumFlags {
+    return this | f.t();
+  }
+
+  inline public function hasAll(flag:EnumFlags):Bool {
+    return this & flag.t() == flag.t();
+  }
+
+  inline public function hasAny(flag:EnumFlags):Bool {
+    return this & flag.t() != 0;
+  }
+}
+
 @:enum abstract StructType(Int) from Int {
   var SExternal = 1;
   var SHaxe = 2;
@@ -1890,7 +1921,8 @@ private typedef InfoCtx = {
   accFlags:UObjectFlags,
   ?accStructFlags:StructFlags,
   ?modf:Array<Modifier>,
-  ?disableCache:Bool
+  ?disableCache:Bool,
+  accEnumFlags:EnumFlags
 }
 
 @:enum abstract Modifier(Int) from Int {
