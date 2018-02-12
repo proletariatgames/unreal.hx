@@ -61,10 +61,23 @@ import unreal.FPlatformMisc;
       FPlatformMisc.DebugBreak();
     }
     endWrap();
+    var inPIE = false;
 #if WITH_EDITOR
     var world = unreal.UEngine.GWorld.GetReference();
-    if (world == null || !world.IsPlayInEditor())
+    if (world != null && world.IsPlayInEditor()) {
+      inPIE = true;
+    } else {
+      var ctxs = unreal.UEngine.GEngine.GetWorldContexts();
+      for (i in 0...ctxs.Num()) {
+        var ctx = ctxs.get_Item(i);
+        if (ctx.WorldType.match(PIE) && ctx.World() != null) {
+          inPIE = true;
+          break;
+        }
+      }
+    }
 #end
+    if (!inPIE)
     {
       unreal.Log.fatal('Haxe run failed');
       throw 'Error';
