@@ -1,4 +1,5 @@
 package uhx;
+#if !macro
 import haxe.CallStack;
 import unreal.FPlatformMisc;
 
@@ -84,3 +85,4 @@ import unreal.FPlatformMisc;
     }
   }
 }
+#end
