@@ -320,9 +320,9 @@ private typedef TArrayImpl<T> = Dynamic;
   macro public function filter(eThis:Expr, funct:Expr) : Expr {
     var type = Context.typeof(funct).follow();
     var returnType =  switch(type) {
-      case TFun(_, ret):
-        if (isKnownType(ret)) {
-          ret.toComplexType();
+      case TFun([arg],_):
+        if (isKnownType(arg.t)) {
+          arg.t.toComplexType();
         } else {
           throw new Error('The return type of the function must be known. Make sure it\'s fully typed', funct.pos);
         }
