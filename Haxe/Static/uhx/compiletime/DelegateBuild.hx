@@ -334,7 +334,7 @@ class DelegateBuild {
                 macro return cast unreal.FScriptDelegate.createNew();
             case 'ExecuteIfBound':
               var arr = [ for (arg in fn.args) macro $i{arg.name} ];
-              var executeCall = { expr:ECall(macro this.Execute, arr), pos:pos };
+              var executeCall = { expr:ECall(macro Execute, arr), pos:pos };
               fn.expr = macro if (this.IsBound()) $executeCall;
             case 'Execute' | 'Broadcast':
               var arr = [ for (arg in fn.args) macro $i{arg.name} ];
