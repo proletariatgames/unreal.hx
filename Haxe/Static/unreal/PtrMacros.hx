@@ -5,6 +5,7 @@ import haxe.macro.Expr;
 import haxe.macro.Type;
 import uhx.compiletime.types.TypeConv;
 
+using haxe.macro.Tools;
 using Lambda;
 #end
 
@@ -28,6 +29,9 @@ abstract PtrMacros<T>(PtrBase<T>) {
       case CStruct(_):
         var type = t.haxeType.toComplexType();
         return macro (cast (cast $ethis : unreal.AnyPtr).getStruct(0) : $type);
+      case CEnum(_):
+        var strthis = ethis.toString();
+        return Context.parse(t.glueToHaxe('(cast $strthis : unreal.AnyPtr).getInt(0)', null), Context.currentPos());
       case _:
         throw new Error('PtrMacros: Type ${t.haxeType} is not supported', ethis.pos);
     }
@@ -55,6 +59,11 @@ abstract PtrMacros<T>(PtrBase<T>) {
           throw new Error('PtrMacros: Type ${t.haxeType} was not compiled with `assign` support.', ethis.pos);
         }
         return macro (cast (cast $ethis : unreal.AnyPtr).getStruct(0) : $type).assign($val);
+      case CEnum(_):
+        // return macro (cast $ethis : unreal.AnyPtr).setInt(0, );
+        var strthis = ethis.toString();
+        var strval = val.toString();
+        return Context.parse('(cast $strthis : unreal.AnyPtr).setInt(0, ${t.haxeToGlue(strval, null)})', Context.currentPos());
       case _:
         throw new Error('PtrMacros: Type ${t.haxeType} is not supported', ethis.pos);
     }
