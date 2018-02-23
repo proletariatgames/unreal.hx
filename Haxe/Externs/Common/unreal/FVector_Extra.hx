@@ -41,9 +41,19 @@ extern class FVector_Extra {
 
   @:thisConst
   public function SizeSquared2D() : Float32;
-
+  
   @:thisConst
   public function Rotation() : FRotator;
+
+  /**
+	 * Rotates around Axis (assumes Axis.Size() == 1).
+	 *
+	 * @param Angle Angle to rotate (in degrees).
+	 * @param Axis Axis to rotate around.
+	 * @return Rotated Vector.
+	 */
+  @:thisConst
+  public function RotateAngleAxis(AngleDeg:Float32, Axis:Const<PRef<FVector>>) : FVector;
 
   public var X:Float32;
   public var Y:Float32;
@@ -84,6 +94,8 @@ extern class FVector_Extra {
   public static function Dist(V1:Const<PRef<FVector>>, V2:Const<PRef<FVector>>):Float32;
 
   public static function DotProduct(A:Const<PRef<FVector>>, B:Const<PRef<FVector>>):Float32;
+
+  public static function CrossProduct(A:Const<PRef<FVector>>, B:Const<PRef<FVector>>):Const<FVector>;
 
   @:op(A+B)
   @:expr(return createWithValues(X + b.X, Y + b.Y, Z + b.Z))
