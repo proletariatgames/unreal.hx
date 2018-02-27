@@ -3,11 +3,11 @@ import unreal.TMap;
 import unreal.TArray;
 import unreal.TSet;
 #end
+import unreal.*;
 
 #if WITH_EDITOR
 import uhx.expose.HxcppRuntime;
 import uhx.HaxeCodeDispatcher;
-import unreal.*;
 import unreal.developer.directorywatcher.*;
 import unreal.developer.hotreload.IHotReloadModule;
 import unreal.editor.*;
@@ -25,15 +25,36 @@ using StringTools;
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
+
+#if (debug && HXCPP_DEBUGGER)
+  static var debugTick:Dynamic;
+#end
+
   static function main()
   {
     haxe.Log.trace = customTrace;
     trace("initializing unreal haxe");
 
 #if (debug && HXCPP_DEBUGGER)
+#if hxcpp_debugger_ext
+    var ping = debugger.VSCodeRemote.start('localhost');
+    if (!ping.isConnected) {
+      debugTick = FTickerDelegate.create();
+      var lastCheckTime = 3.0;
+      (debugTick : FTickerDelegate).BindLambda(function(deltaTime) {
+        if (!ping.isConnected && (lastCheckTime += deltaTime) >= 3 ) {
+          lastCheckTime = .0;
+          ping.attemptToConnect();
+        }
+        return true;
+      });
+      FTicker.GetCoreTicker().AddTicker((debugTick : FTickerDelegate), 3);
+    }
+#else
     if (Sys.getEnv("HXCPP_DEBUG") != null) {
       new debugger.HaxeRemote(true, "localhost");
     }
+#end
 #end // (debug && HXCPP_DEBUGGER)
 
 #if WITH_EDITOR
@@ -109,6 +130,9 @@ class UnrealInit
 
         contents = sys.io.File.getContent(target);
         untyped __global__.__scriptable_load_cppia(contents);
+#if (debug && HXCPP_DEBUGGER && hxcpp_debugger_ext)
+        debugger.Api.refreshCppiaDefinitions();
+#end
         errorContents = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
         if (errorContents.length > 0) {
           trace('Warning', 'Warnings while loading cppia:\n$errorContents');
@@ -286,6 +310,15 @@ class UnrealInit
           dirWatchHandle = null;
         }
 #end // WITH_CPPIA
+
+#if (debug && HXCPP_DEBUGGER)
+        if (debugTick != null) {
+          (debugTick : FTickerDelegate).Unbind();
+          (debugTick : FTickerDelegate).dispose();
+          debugTick = null;
+        }
+#end // debug && HXCPP_DEBUGGER
+
         if (hotReloadHandle != null) {
           IHotReloadModule.Get().OnHotReload().Remove(hotReloadHandle);
           hotReloadHandle = null;

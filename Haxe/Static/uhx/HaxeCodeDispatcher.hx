@@ -61,6 +61,9 @@ import unreal.FPlatformMisc;
     if (FPlatformMisc.IsDebuggerPresent()) {
       FPlatformMisc.DebugBreak();
     }
+#if (debug && HXCPP_DEBUGGER && hxcpp_debugger_ext)
+    debugger.Api.debugBreak();
+#end
     endWrap();
     var inPIE = false;
 #if WITH_EDITOR

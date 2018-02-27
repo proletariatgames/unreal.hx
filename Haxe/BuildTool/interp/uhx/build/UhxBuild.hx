@@ -968,6 +968,10 @@ class UhxBuild extends UhxBaseBuild {
     if (debugSymbols) {
       args.push('-debug');
     }
+    if (this.config.debugger) {
+      args.push('-lib hxcpp-debugger');
+      args.push('-D HXCPP_DEBUGGER');
+    }
     if (this.config.noGlueUnityBuild) {
       args.push('-D no_unity_build');
     }
@@ -1106,6 +1110,7 @@ class UhxBuild extends UhxBaseBuild {
       if (this.config.debugger) {
         args.push('-lib hxcpp-debugger');
         args.push('-D HXCPP_DEBUGGER');
+        args.push('-D HXCPP_STACK_TRACE');
       }
     }
 
