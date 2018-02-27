@@ -25,7 +25,6 @@ using StringTools;
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
-
 #if (debug && HXCPP_DEBUGGER)
   static var debugTick:Dynamic;
 #end
@@ -37,6 +36,7 @@ class UnrealInit
 
 #if (debug && HXCPP_DEBUGGER)
 #if hxcpp_debugger_ext
+    debugger.Api.addRuntimeClassData();
     var ping = debugger.VSCodeRemote.start('localhost');
     if (!ping.isConnected) {
       debugTick = FTickerDelegate.create();
