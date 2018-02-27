@@ -69,4 +69,10 @@ extern class FTransform_Extra {
 	 * @param NewScale3D The new value for the Scale3D component
 	 */
 	function SetScale3D(NewScale3D:Const<PRef<FVector>>) : Void;
+  /**
+	 * Returns the Scale3D component
+	 *
+	 * @return The Scale3D component
+	 */
+	function GetScale3D() : FVector;
 }
