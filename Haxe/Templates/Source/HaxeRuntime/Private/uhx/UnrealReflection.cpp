@@ -616,12 +616,12 @@ int uhx::TArrayReflect_obj::Num(unreal::VariantPtr self) {
   return GET_ARRAY_HELPER(self).Num();
 }
 
-void uhx::TArrayReflect_obj::Empty(unreal::VariantPtr self) {
-  GET_ARRAY_HELPER(self).Resize(0);
+void uhx::TArrayReflect_obj::Empty(unreal::VariantPtr self, cpp::Int32 NewSize) {
+  GET_ARRAY_HELPER(self).EmptyValues(NewSize);
 }
 
-void uhx::TArrayReflect_obj::Reset(unreal::VariantPtr self) {
-  GET_ARRAY_HELPER(self).Resize(0);
+void uhx::TArrayReflect_obj::Reset(unreal::VariantPtr self, cpp::Int32 NewSize) {
+  GET_ARRAY_HELPER(self).EmptyValues(NewSize);
 }
 
 void uhx::TArrayReflect_obj::Swap(unreal::VariantPtr self, int first, int second) {

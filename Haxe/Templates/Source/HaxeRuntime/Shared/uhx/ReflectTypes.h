@@ -26,8 +26,8 @@ public:
   int Insert(unreal::VariantPtr self, unreal::UIntPtr item, int index) override;
   void RemoveAt(unreal::VariantPtr self, cpp::Int32 Index, cpp::Int32 Count, bool bAllowShrinking) override;
   int Num(unreal::VariantPtr self) override;
-  void Empty(unreal::VariantPtr self) override;
-  void Reset(unreal::VariantPtr self) override;
+  void Empty(unreal::VariantPtr self, cpp::Int32 NewSize = 0) override;
+  void Reset(unreal::VariantPtr self, cpp::Int32 NewSize = 0) override;
   void Swap(unreal::VariantPtr self, int first, int second) override;
   unreal::UIntPtr GetData(unreal::VariantPtr self) override;
   unreal::VariantPtr copyNew(unreal::VariantPtr self) override;

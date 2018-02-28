@@ -18,8 +18,8 @@ package unreal;
   public function Insert(item:PRef<T>, index:Int):Int;
   public function RemoveAt(Index:Int32, Count:Int32=1, bAllowShrinking:Bool=true):Void;
   public function Num():Int;
-  public function Empty():Void;
-  public function Reset():Void;
+  public function Empty(?NewSize:Int = 0):Void;
+  public function Reset(?NewSize:Int = 0):Void;
   public function Swap(first:Int, second:Int):Void;
 
   public function GetData():ConstAnyPtr;
