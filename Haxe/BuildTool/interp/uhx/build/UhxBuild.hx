@@ -75,6 +75,9 @@ class UhxBuild extends UhxBaseBuild {
       }
     }
     addStamp(this.haxeDir + '/arguments.hxml');
+    if (FileSystem.exists(this.haxeDir + '/baker-arguments.hxml')) {
+      addStamp(this.haxeDir + '/baker-arguments.hxml');
+    }
     addStamp(this.outputDir+'/Data/needed-configs.txt');
 
     return stamp;
