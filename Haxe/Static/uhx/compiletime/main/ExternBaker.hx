@@ -112,123 +112,132 @@ class ExternBaker {
       return true;
     }
 
+    var modules = [];
     var unames = new Map();
     for (ref in filesToCompile) {
-      var generatedHeader = getGeneratedHeader({ srcFile: ref.file.toLowerCase(), ver:1 });
       var module = Context.getModule(ref.module);
-      var pack = ref.module.split('.'),
-          name = pack.pop();
+      modules.push({ module:module, ref: ref });
+    }
 
-      var buf = new StringBuf();
-      buf.add(generatedHeader);
-      if (pack.length != 0) {
-        buf.add('package ${pack.join('.')};\n');
-      }
-      var processor = new ExternBaker(buf);
-      for (type in module) {
-        var pos = null;
-        var uname = switch(type) {
-          case TInst(c,_):
-            var c = c.get();
-            if (c.meta.has(':haxeGenerated')) {
-              continue;
-            }
-            pos = c.pos;
-            MacroHelpers.getUName(c);
-          case TEnum(e,_):
-            var e = e.get();
-            if (e.meta.has(':haxeGenerated')) {
-              continue;
-            }
-            pos = e.pos;
-            MacroHelpers.getUName(e);
-          case TAbstract(a,_):
-            var a = a.get();
-            if (a.meta.has(':haxeGenerated')) {
-              continue;
-            }
-            pos = a.pos;
-            MacroHelpers.getUName(a);
-          case TType(t,_):
-            // force the type to be built
-            Context.follow(type);
-            // reload it - to referesh its metadata
-            var t = t.get();
-            if (!t.meta.has(':uPrimeTypedef')) {
-              continue;
-            }
-            pos = t.pos;
-            MacroHelpers.getUName(t);
-          case _:
-            null;
-        }
-        var lastPos = uname == null ? null : unames[uname];
-        if (lastPos != null) {
-          Context.warning('A class or struct with the name $uname was already defined. Please delete the one of the definitions, or change their name', pos);
-          Context.warning('$uname was defined here', lastPos);
-          hadErrors = true;
-          continue;
-        }
-        if (uname != null) {
-          unames[uname] = pos;
-        }
+    Context.onGenerate(function(_) {
+      for (m in modules) {
+        var module = m.module,
+            ref = m.ref;
+        var generatedHeader = getGeneratedHeader({ srcFile: ref.file.toLowerCase(), ver:1 });
+        var pack = ref.module.split('.'),
+            name = pack.pop();
 
-        var glueBuf = processor.processType(type, ref.localExtern ? null : 'Unreal'),
-            glue = Std.string(glueBuf);
-        hadErrors = hadErrors || processor.hadErrors;
-        if (glueBuf != null && glue != '') {
-          var glueType = processor.glueType;
-          var dir = target + '/' + glueType.pack.join('/');
-
-          if (!FileSystem.exists(dir)) {
-            try {
-              FileSystem.createDirectory(dir);
-            }
-            catch (e:Dynamic) {
-              trace('failed when creating $dir: there might be a race condition');
-            }
+        var buf = new StringBuf();
+        buf.add(generatedHeader);
+        if (pack.length != 0) {
+          buf.add('package ${pack.join('.')};\n');
+        }
+        var processor = new ExternBaker(buf);
+        for (type in module) {
+          var pos = null;
+          var uname = switch(type) {
+            case TInst(c,_):
+              var c = c.get();
+              if (c.meta.has(':haxeGenerated')) {
+                continue;
+              }
+              pos = c.pos;
+              MacroHelpers.getUName(c);
+            case TEnum(e,_):
+              var e = e.get();
+              if (e.meta.has(':haxeGenerated')) {
+                continue;
+              }
+              pos = e.pos;
+              MacroHelpers.getUName(e);
+            case TAbstract(a,_):
+              var a = a.get();
+              if (a.meta.has(':haxeGenerated')) {
+                continue;
+              }
+              pos = a.pos;
+              MacroHelpers.getUName(a);
+            case TType(t,_):
+              // force the type to be built
+              Context.follow(type);
+              // reload it - to referesh its metadata
+              var t = t.get();
+              if (!t.meta.has(':uPrimeTypedef')) {
+                continue;
+              }
+              pos = t.pos;
+              MacroHelpers.getUName(t);
+            case _:
+              null;
           }
-
-          var targetFile = '$dir/${glueType.name}.hx';
-          var info = getGeneratedInfo(targetFile);
-          if (generatedSourceIsValid(ref.file, targetFile, info)) {
-            var file = File.write(targetFile, false);
-            file.writeString(generatedHeader);
-            file.writeString(uhx.compiletime.tools.BaseWriter.prelude);
-            file.writeString('package ${glueType.pack.join('.')};\n' +
-              '@:unrealGlue extern class ${glueType.name} {\n');
-            file.writeString(glue);
-            file.writeString('}');
-            file.close();
-          } else {
+          var lastPos = uname == null ? null : unames[uname];
+          if (lastPos != null) {
+            Context.warning('A class or struct with the name $uname was already defined. Please delete the one of the definitions, or change their name', pos);
+            Context.warning('$uname was defined here', lastPos);
             hadErrors = true;
+            continue;
+          }
+          if (uname != null) {
+            unames[uname] = pos;
+          }
+
+          var glueBuf = processor.processType(type, ref.localExtern ? null : 'Unreal'),
+              glue = Std.string(glueBuf);
+          hadErrors = hadErrors || processor.hadErrors;
+          if (glueBuf != null && glue != '') {
+            var glueType = processor.glueType;
+            var dir = target + '/' + glueType.pack.join('/');
+
+            if (!FileSystem.exists(dir)) {
+              try {
+                FileSystem.createDirectory(dir);
+              }
+              catch (e:Dynamic) {
+                trace('failed when creating $dir: there might be a race condition');
+              }
+            }
+
+            var targetFile = '$dir/${glueType.name}.hx';
+            var info = getGeneratedInfo(targetFile);
+            if (generatedSourceIsValid(ref.file, targetFile, info)) {
+              var file = File.write(targetFile, false);
+              file.writeString(generatedHeader);
+              file.writeString(uhx.compiletime.tools.BaseWriter.prelude);
+              file.writeString('package ${glueType.pack.join('.')};\n' +
+                '@:unrealGlue extern class ${glueType.name} {\n');
+              file.writeString(glue);
+              file.writeString('}');
+              file.close();
+            } else {
+              hadErrors = true;
+            }
           }
         }
-      }
-      var dir = target + '/' + pack.join('/');
-      if (!FileSystem.exists(dir)) {
-        try {
-          FileSystem.createDirectory(dir);
-        } catch(e:Dynamic) {
-          trace('failed when creating $dir: there might be a race condition');
+        var dir = target + '/' + pack.join('/');
+        if (!FileSystem.exists(dir)) {
+          try {
+            FileSystem.createDirectory(dir);
+          } catch(e:Dynamic) {
+            trace('failed when creating $dir: there might be a race condition');
+          }
+        }
+
+        var targetFile = '$dir/$name.hx';
+        var info = getGeneratedInfo(targetFile);
+        if (generatedSourceIsValid(ref.file, targetFile, info)) {
+          File.saveContent(targetFile, buf.toString());
+        } else {
+          hadErrors = true;
         }
       }
-
-      var targetFile = '$dir/$name.hx';
-      var info = getGeneratedInfo(targetFile);
-      if (generatedSourceIsValid(ref.file, targetFile, info)) {
-        File.saveContent(targetFile, buf.toString());
-      } else {
-        hadErrors = true;
+      if (hadErrors) {
+        throw new Error('Extern bake finished with errors',Context.currentPos());
       }
-    }
-    if (hadErrors) {
-      throw new Error('Extern bake finished with errors',Context.currentPos());
-    }
 #if bake_externs
-    var target = Context.definedValue("UHX_STATIC_BASE_DIR");
-    deps.save(targetStamp);
+      var target = Context.definedValue("UHX_STATIC_BASE_DIR");
+      deps.save(targetStamp);
 #end
+    });
   }
 
   private static var deps:DepList = new DepList();
