@@ -80,7 +80,7 @@ static inline unreal::UIntPtr doAlign(unreal::UIntPtr offset, unreal::UIntPtr al
   if (align < sizeof(void*)) {
     align = sizeof(void*);
   }
-  checkSlow(align & (sizeof(void*) - 1) == 0);
+  checkSlow((align & (sizeof(void*) - 1)) == 0);
   int alignMinusOne = align - 1;
   return (offset + alignMinusOne) & ~alignMinusOne;
 }

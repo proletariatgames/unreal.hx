@@ -1,6 +1,6 @@
 package unreal.inputcore;
 
-@glueCppIncludes("InputCoreTypes.h")
+@:glueCppIncludes("InputCoreTypes.h")
 @:uextern extern class EKeys {
 	public static var AnyKey(default,never):Const<FKey>;
 
