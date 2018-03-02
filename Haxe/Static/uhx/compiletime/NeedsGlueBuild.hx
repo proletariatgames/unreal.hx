@@ -700,7 +700,7 @@ class NeedsGlueBuild
           case FFun(fn) if (fn.params == null || fn.params.length == 0):
             if (!created) {
               created = true;
-              Globals.liveReloadFuncs[thisType.getClassPath()] = new Map();
+              Globals.cur.liveReloadFuncs[thisType.getClassPath()] = new Map();
             }
             var name = thisType.getClassPath() + '::' + field.name;
             var isStatic = field.access != null ? field.access.has(AStatic) : false;

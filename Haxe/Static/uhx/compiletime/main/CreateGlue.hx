@@ -222,7 +222,7 @@ class CreateGlue {
           // create hot reload helper
           if (Context.defined('WITH_CPPIA')) {
             LiveReloadBuild.bindFunctions('LiveReloadStatic');
-            var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
+            var lives = [ for (cls in Globals.cur.liveReloadFuncs.keys()) cls ];
             if (lives.length > 0) {
               sys.io.File.saveContent( Globals.cur.staticBaseDir + '/Data/livereload.txt', lives.join('\n') );
             }

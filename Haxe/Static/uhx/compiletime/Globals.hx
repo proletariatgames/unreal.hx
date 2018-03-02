@@ -41,6 +41,7 @@ class Globals {
   public var targetType(default, null):String = Context.definedValue('UHX_UE_TARGET_TYPE');
   public var targetPlatform(default, null):String = Context.definedValue('UHX_UE_TARGET_PLATFORM');
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
+  public var allCompiledModules(default, null):Map<String, Bool> = new Map();
   public var glueManager:Null<uhx.compiletime.types.GlueManager>;
 
   var compiledScriptGlues:Map<String, Bool> = new Map();
@@ -165,9 +166,8 @@ class Globals {
 
   /**
     All live reload functions that were gathered during the build
-    This is static so they can survive through compilations
    **/
-  public static var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
+  public var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
 
   /**
     A cache of TypeConv objects
@@ -306,7 +306,6 @@ class Globals {
         }
         if (curNum == null || curNum != num) {
           trace('Disposing macro context - conflict found');
-          Sys.exit(1);
           return false;
         }
         return onMacroReused();

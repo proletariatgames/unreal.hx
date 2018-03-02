@@ -750,6 +750,15 @@ class ExternBaker {
     if (c.params.length > 0 && !isNoTemplate) {
       this.add('@:ueTemplate\n');
     }
+    var name = null;
+    if (meta.hasMeta(':bake_externs_name_hack')) {
+      name = meta.extractStringsFromMetadata(':bake_externs_name_hack')[0];
+    }
+    if (name == null) {
+      name = typeRef.getClassPath();
+    }
+    this.add('#if cppia @:build(uhx.compiletime.types.CompiledMetaCheck.build("${name}")) #end');
+    this.newline();
     if (c.isPrivate) {
       this.add('private ');
     }

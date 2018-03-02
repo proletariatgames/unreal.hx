@@ -13,6 +13,12 @@ using Lambda;
  **/
 class LiveReloadBuild {
   public static function build(expr:Expr, cls:String, fn:String, isStatic:Bool):Expr {
+    trace('Registering module dependency ${Context.getLocalModule()}');
+    Context.registerModuleDependency(Context.getLocalModule(), 
+      "this file is not expected to exist, and is only in here to 
+      guarantee that this is rebuilt every compilation because of 
+      live reload");
+
     var path = '$cls::$fn';
     // get typed expr
     if (!isStatic) {
@@ -62,7 +68,7 @@ class LiveReloadBuild {
     }
     if (!(base.meta.has(':uscript') && base.meta.has(':ustruct') && !Context.defined('cppia') && Context.defined('WITH_CPPIA'))) {
       // if this is a ustruct, we don't want to set its contents on non-cppia context
-      Globals.liveReloadFuncs[cls][fn] = texpr;
+      Globals.cur.liveReloadFuncs[cls][fn] = texpr;
     }
     // change all expression to call LiveReload with the correct types
     switch(Context.follow(texpr.t)) {
@@ -92,7 +98,7 @@ class LiveReloadBuild {
 
   public static function bindFunctions(clname:String) {
     var expr = [];
-    var map = Globals.liveReloadFuncs;
+    var map = Globals.cur.liveReloadFuncs;
     var toDelete = [];
     for (cls in map.keys()) {
       var exists = false;
@@ -174,10 +180,10 @@ class LiveReloadBuild {
         fn.expr = mapExpr(fn.expr);
       }
 
-      var map = Globals.liveReloadFuncs[thisType.getClassPath()];
+      var map = Globals.cur.liveReloadFuncs[thisType.getClassPath()];
       if (map == null) {
         map = new Map();
-        Globals.liveReloadFuncs[thisType.getClassPath()] = map;
+        Globals.cur.liveReloadFuncs[thisType.getClassPath()] = map;
       }
       var name = thisType.getClassPath() + '::' + field.name;
       var isStatic = field.access != null ? field.access.has(AStatic) : false;

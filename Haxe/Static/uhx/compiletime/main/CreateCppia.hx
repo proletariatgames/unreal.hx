@@ -22,6 +22,9 @@ class CreateCppia {
     var target = Globals.cur.staticBaseDir;
     compiledModules = getCompiled(target);
     var compiled = compiledModules.modules;
+    for (c in compiled.keys()) {
+      Globals.cur.allCompiledModules[c] = true;
+    }
 
     registerMacroCalls(target);
     readScriptGlues('$target/Data/scriptGlues.txt');
@@ -529,7 +532,6 @@ class CreateCppia {
       while(true) {
         var cur = file.readLine();
         ret[cur] = true;
-        Compiler.define('UHX_COMPILED_${cur.replace('.','_')}');
       }
     }
     catch(e:haxe.io.Eof) {
@@ -540,7 +542,7 @@ class CreateCppia {
       var old = compiledModules.modules;
       for (key in old.keys()) {
         if (!ret.exists(key)) {
-          Compiler.define('UHX_COMPILED_${key.replace('.','_')}', '0');
+          // Compiler.define('UHX_COMPILED_${key.replace('.','_')}', '0');
         }
       }
     }
