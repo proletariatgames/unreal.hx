@@ -8,7 +8,6 @@ import unreal.FPlatformMisc;
  **/
 @:keep class HaxeCodeDispatcher {
   private static var inHaxeCode = false;
-  private static var inDebugger = #if (debug && HXCPP_DEBUGGER) true; #else false; #end
 
   @:extern inline public static function runWithValue<T>(fn:Void->T, ?name:String):T {
     if (shouldWrap()) {
@@ -39,7 +38,7 @@ import unreal.FPlatformMisc;
   }
 
   public static function shouldWrap():Bool {
-    var ret = !inHaxeCode && !inDebugger;
+    var ret = !inHaxeCode;
     if (ret) {
       inHaxeCode = true;
     }
