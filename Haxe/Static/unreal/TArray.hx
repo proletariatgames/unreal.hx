@@ -73,6 +73,14 @@ private typedef TArrayImpl<T> = Dynamic;
     this.Push(obj);
   }
 
+  public inline function Append(other:TArray<T>) : Void
+  {
+    for (element in other)
+    {
+      this.Push(element);
+    }
+  }
+
   public inline function addZeroed(count:Int) : Int {
     return this.AddZeroed(count);
   }
