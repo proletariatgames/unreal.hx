@@ -196,4 +196,14 @@ extern class AActor_Extra {
 
 	private function InternalTakeRadialDamage(Damage:Float32, RadialDamageEvent:Const<PRef<FRadialDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
 	private function InternalTakePointDamage(Damage:Float32,  PointDamageEvent:Const<PRef<FPointDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
+
+	/**
+	  * @param RealViewer - is the "controlling net object" associated with the client for which network relevancy is being checked (typically player controller)
+	  * @param ViewTarget - is the Actor being used as the point of view for the RealViewer
+	  * @param SrcLocation - is the viewing location
+	  *
+	  * @return bool - true if this actor is network relevant to the client associated with RealViewer
+	  */
+  @:thisConst
+	public function IsNetRelevantFor(RealViewer:Const<AActor>, ViewTarget:Const<AActor>, SrcLocation:Const<PRef<FVector>>) : Bool;
 }
