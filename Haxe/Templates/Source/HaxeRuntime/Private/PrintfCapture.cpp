@@ -1,7 +1,5 @@
 #include "HaxeRuntime.h"
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#endif
+#include "uhx/NoDeprecateHeader.h"
 
 #include "PrintfCaptureTypes.h"
 #include "CoreMinimal.h"
@@ -46,3 +44,5 @@ unreal::UIntPtr PrintfHelper_obj::getAndFlush() {
 	getPrintfString() = TEXT("");
 	return uhx::expose::HxcppRuntime::constCharToString(TCHAR_TO_UTF8(*ret));
 }
+
+#include "uhx/NoDeprecateFooter.h"
