@@ -5,7 +5,7 @@ package unreal.movieplayer;
 @:noCopy @:noEquals @:noClass @:uextern extern class IGameMoviePlayer {
 
   @:global
-  public static function GetMoviePlayer() : TSharedPtr<IGameMoviePlayer>;
+  public static function GetMoviePlayer() : PPtr<IGameMoviePlayer>;
 
   @:global
   public static function IsMoviePlayerEnabled() : Bool;

@@ -245,4 +245,7 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function ConstructDynamicType(TypePathName:FName, ConstructionSpecifier:EConstructDynamicType):UObject;
 #end
+
+  @:glueCppIncludes("Misc/CoreMisc.h")
+  @:global public static function IsRunningDedicatedServer():Bool;
 }

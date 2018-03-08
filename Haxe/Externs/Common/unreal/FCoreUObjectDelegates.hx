@@ -6,6 +6,10 @@ import unreal.*;
 typedef FPreLoadMapDelegate = MulticastDelegate<FPreLoadMapDelegate, Const<PRef<FString>>->Void>;
 
 @:glueCppIncludes('UObject/UObjectGlobals.h')
+@:uname('FCoreUObjectDelegates.FPostLoadMapDelegate')
+typedef FPostLoadMapDelegate = MulticastDelegate<FPostLoadMapDelegate, UWorld->Void>;
+
+@:glueCppIncludes('UObject/UObjectGlobals.h')
 @:uextern extern class FCoreUObjectDelegates {
 #if WITH_EDITOR
 
@@ -22,6 +26,8 @@ typedef FPreLoadMapDelegate = MulticastDelegate<FPreLoadMapDelegate, Const<PRef<
   public static var PreLoadMap:FPreLoadMapDelegate;
 
   public static var PostLoadMap:FSimpleMulticastDelegate;
+
+  public static var PostLoadMapWithWorld:FPostLoadMapDelegate;
 }
 
 #if WITH_EDITOR
