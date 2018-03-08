@@ -662,6 +662,7 @@ class ExternBaker {
     if (extra != null && extra.length > 0) {
       switch(extra[0]) {
       case TInst(_.get() => ecl,_):
+        getOptionals(ecl.meta.get(), this.optionals);
         var efields = ecl.fields.get();
         var estatics = ecl.statics.get();
         var ector = ecl.constructor == null ? null : ecl.constructor.get();
