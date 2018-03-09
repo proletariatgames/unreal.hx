@@ -95,9 +95,7 @@ class DelegateBuild {
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
             $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
-          @:uname("BindUFunction") public function Internal_BindUFunction(obj:unreal.UObject, name:unreal.Const<unreal.PRef<unreal.FName>>) : Void {
-            $delayedglue.getNativeCall("Internal_BindUFunction", false, obj, name);
-          }
+
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
@@ -183,9 +181,6 @@ class DelegateBuild {
           }
           public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
             return $delayedglue.getNativeCall("AddUObject", false, obj, fn);
-          }
-          @:uname("AddUFunction") public function Internal_AddUFunction(obj:unreal.UObject, name:unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FDelegateHandle {
-            return $delayedglue.getNativeCall("Internal_AddUFunction", false, obj, name);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);

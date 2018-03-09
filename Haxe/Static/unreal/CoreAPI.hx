@@ -3,6 +3,7 @@ package unreal;
 #if macro
 import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.macro.Type;
 using haxe.macro.Tools;
 
 class UObject {} // trick to avoid triggering build macros
@@ -67,7 +68,7 @@ class CoreAPI {
 
   public static macro function AddDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, args:Array<Expr>) : Expr {
     var pos = Context.currentPos();
-    var data = getUFunctionFromObj(args),
+    var data = getFunctionFromObj(args),
         obj = data.obj,
         fnName = data.fnName;
     return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Add(unreal.FScriptDelegate.createBound($obj, $v{fnName}));
@@ -75,7 +76,7 @@ class CoreAPI {
 
   public static macro function AddUniqueDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, args:Array<Expr>) : Expr {
     var pos = Context.currentPos();
-    var data = getUFunctionFromObj(args),
+    var data = getFunctionFromObj(args),
         obj = data.obj,
         fnName = data.fnName;
     return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).AddUnique(unreal.FScriptDelegate.createBound($obj, $v{fnName}));
@@ -83,7 +84,7 @@ class CoreAPI {
 
   public static macro function RemoveDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, args:Array<Expr>) : Expr {
     var pos = Context.currentPos();
-    var data = getUFunctionFromObj(args),
+    var data = getFunctionFromObj(args),
         obj = data.obj,
         fnName = data.fnName;
     return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Remove($obj, $v{fnName});
@@ -91,7 +92,7 @@ class CoreAPI {
 
   public static macro function IsAlreadyBound<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, args:Array<Expr>) : Expr {
     var pos = Context.currentPos();
-    var data = getUFunctionFromObj(args),
+    var data = getFunctionFromObj(args),
         obj = data.obj,
         fnName = data.fnName;
     return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Contains($obj, $v{fnName});
@@ -99,26 +100,44 @@ class CoreAPI {
 
   public static macro function BindDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicDelegate<T>>, args:Array<Expr>) : Expr {
     var pos = Context.currentPos();
-    var data = getUFunctionFromObj(args),
+    var data = getFunctionFromObj(args),
         obj = data.obj,
         fnName = data.fnName;
     return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).BindUFunction($obj, $v{fnName});
   }
 
-  public static macro function BindUFunction<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDelegate<T>>, args:Array<Expr>) : Expr {
+  public static macro function AddDynamicUObject<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseMulticastDelegate<T>>, args:Array<Expr>) : Expr {
     var pos = Context.currentPos();
-    var data = getUFunctionFromObj(args),
+    var data = getFunctionFromObj(args, false),
         obj = data.obj,
         fnName = data.fnName;
-    return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Internal_BindUFunction($obj, $v{fnName});
-  }
-
-  public static macro function AddUFunction<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseMulticastDelegate<T>>, args:Array<Expr>) : Expr {
-    var pos = Context.currentPos();
-    var data = getUFunctionFromObj(args),
-        obj = data.obj,
-        fnName = data.fnName;
-    return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Internal_AddUFunction($obj, $v{fnName});
+    var targs = null;
+    switch(data.t) {
+      case TFun(a,_):
+        targs = a;
+      case _:
+        throw new Error('Unexpected function type ${data.t}', args[0].pos);
+    }
+    var curArgs = [ for (i in 0...targs.length) 'uhx_arg_$i' ];
+    var call = null,
+        fn = null;
+    call = { expr: ECall(macro $obj.$fnName, [for (m in curArgs) macro $i{m} ]), pos:pos };
+    fn = { expr:EFunction(null, {
+      args: [ for (arg in curArgs) { name:arg, type:null }],
+      expr: macro {
+        if (!$obj.isValid() && uhx_delegate_handle != null) {
+          $self.Remove(uhx_delegate_handle);
+          uhx_delegate_handle = null;
+        } else {
+          $call;
+        }
+      },
+      ret: null
+    }), pos:pos };
+    return macro {
+      var uhx_delegate_handle = null;
+      uhx_delegate_handle = $self.AddLambda($fn);
+    }
   }
 
 #end // UHX_NO_UOBJECT
@@ -233,7 +252,10 @@ class CoreAPI {
 #end // UHX_NO_UOBJECT
 
 #else
-  private static function getUFunctionFromObj(args:Array<Expr>):{ obj:Expr, fnName:String } {
+  private static function getFunctionFromObj(args:Array<Expr>, checkUFunction=true):{ obj:Expr, fnName:String, t:Type } {
+    if (args == null || args.length == 0) {
+      throw new Error('Missing arguments', Context.currentPos());
+    }
     var obj:Expr = null,
         fnName:String = null;
     if (args.length == 1) {
@@ -256,8 +278,19 @@ class CoreAPI {
       throw new Error('Unexpected number of arguments. Expected either a single argument with an UObject field accessor (`obj.field`), or two arguments (`obj, field`)', Context.currentPos());
     }
 
-    // TODO find function and check if it is a ufunction
-    return { obj:obj, fnName:fnName };
+    var pos = args[0].pos;
+    var t = Context.typeExpr(macro @:pos(pos) $obj.$fnName);
+    if (checkUFunction) {
+      switch(t.expr) {
+      case TField(_, FInstance(_,_,cf) | FStatic(_,cf) | FClosure(_,cf)):
+        if (!cf.get().meta.has(':ufunction')) {
+          throw new Error('The function "$fnName" is not a ufunction', pos);
+        }
+      case e:
+        throw new Error('Unexpected expression type $e when getting ufunction', pos);
+      }
+    }
+    return { obj:obj, fnName:fnName, t:Context.follow(t.t) };
   }
 #end
 }
