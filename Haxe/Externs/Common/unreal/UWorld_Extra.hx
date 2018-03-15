@@ -198,4 +198,7 @@ extern class UWorld_Extra {
   function GetParameterCollectionInstance(Collection:Const<UMaterialParameterCollection>) : UMaterialParameterCollectionInstance;
 
   function AreActorsInitialized():Bool;
+
+  /** View locations rendered in the previous frame, if any. **/
+  public var ViewLocationsRenderedLastFrame:TArray<FVector>;
 }
