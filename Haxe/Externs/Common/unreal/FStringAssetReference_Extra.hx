@@ -1,5 +1,6 @@
 package unreal;
 
+#if (UE_VER < 4.19)
 @:glueCppIncludes('Misc/StringAssetReference.h')
 @:hasEquals @:hasCopy
 extern class FStringAssetReference_Extra {
@@ -26,3 +27,4 @@ extern class FStringAssetReference_Extra {
   function ToString():FString;
 
 }
+#end // (UE_VER < 4.19)
