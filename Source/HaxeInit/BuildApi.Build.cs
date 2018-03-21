@@ -318,8 +318,8 @@ public class HaxeModuleRules : BaseModuleRules {
 
     proc.StartInfo.RedirectStandardOutput = true;
     proc.StartInfo.RedirectStandardError = true;
-    proc.OutputDataReceived += (sender, args) => Log.TraceInformation(args.Data);
-    proc.ErrorDataReceived += (sender, args) => Log.TraceError(args.Data);
+    proc.OutputDataReceived += (sender, args) => { if (args != null && args.Data != null) Log.TraceInformation(args.Data); };
+    proc.ErrorDataReceived += (sender, args) => { if (args != null && args.Data != null) Log.TraceError(args.Data); };
     proc.Start();
     proc.BeginOutputReadLine();
     proc.BeginErrorReadLine();
