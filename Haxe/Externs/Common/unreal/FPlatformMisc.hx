@@ -51,11 +51,13 @@ package unreal;
   /** Pastes in text from the operating system clipboard. */
   static function ClipboardPaste(dest:PRef<FString>):Void;
 
+#if (UE_VER < 4.19)
   /**
    * Prevents screen-saver from kicking in by moving the mouse by 0 pixels. This works even on
    * Vista in the presence of a group policy for password protected screen saver.
    */
   static function PreventScreenSaver():Void;
+#end
 
   /**
    * return the number of hardware CPU cores
@@ -74,10 +76,12 @@ package unreal;
   /** Function to store the current working directory for use with LaunchDir() */
   static function CacheLaunchDir():Void;
 
+#if (UE_VER < 4.19)
   /**
    *	Return the GameDir
    */
   static function GameDir():TCharStar;
+#end
 
   /**
    * Show a message box if possible, otherwise print a message and return the default

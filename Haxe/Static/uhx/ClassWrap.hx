@@ -24,7 +24,11 @@ import unreal.*;
       wrappers = new Map();
       wrapperArray = [];
       indexes = [];
+#if (UE_VER < 4.19)
       delegateHandle = FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC);
+#else
+      delegateHandle = FCoreUObjectDelegates.GetPostGarbageCollect().AddLambda(onGC);
+#end
     }
     var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
     var ret = wrapperArray[index];

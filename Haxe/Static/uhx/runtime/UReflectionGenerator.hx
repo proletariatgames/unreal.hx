@@ -37,7 +37,11 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         trace('Error', 'The ufunction ${field}_Implementation was not found on $clsName!');
         continue;
       }
+#if (UE_VER < 4.19)
       uclass.AddFunctionToFunctionMapWithOverriddenName(fn, field);
+#else
+      uclass.AddFunctionToFunctionMap(fn, field);
+#end
     }
   }
 }
@@ -703,7 +707,11 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
           }
         }
 
+#if (UE_VER < 4.19)
         uclass.AddFunctionToFunctionMap(func);
+#else
+        uclass.AddFunctionToFunctionMap(func, funcDef.uname);
+#end
 #if DEBUG_HOTRELOAD
         trace('setting func.Next from (${func.GetName()}) to ${uclass.Children == null ? null : uclass.Children.GetName().toString()}');
 #end

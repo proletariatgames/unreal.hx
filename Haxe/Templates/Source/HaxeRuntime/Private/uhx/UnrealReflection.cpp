@@ -715,46 +715,61 @@ unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal:
   auto helper = GET_MAP_HELPER(self);
   UProperty* localKeyProp = GET_MAP_UPROP()->KeyProp;
   UProperty* localValueProp = GET_MAP_UPROP()->ValueProp;
+  FScriptMapLayout& localMapLayout = helper.MapLayout;
   void *keyPtr = hxcppPointerToCppPointer(GET_MAP_UPROP()->KeyProp, Key, stackSpace1);
   void *result = (void *) helper.FindValueFromHash(keyPtr);
   if (!result) {
-    helper.Map->Add(
-      keyPtr,
-      nullptr,
-      helper.MapLayout,
-      [localKeyProp](const void* ElementKey) { return localKeyProp->GetValueTypeHash(ElementKey); },
-      [localKeyProp](const void* A, const void* B) { return localKeyProp->Identical(A, B); },
-      [localKeyProp, keyPtr](void* NewElementKey)
-      {
-        if (localKeyProp->PropertyFlags & CPF_ZeroConstructor)
-        {
-          FMemory::Memzero(NewElementKey, localKeyProp->GetSize());
-        }
-        else
-        {
-          localKeyProp->InitializeValue(NewElementKey);
-        }
+		helper.Map->Add(
+			keyPtr,
+			nullptr,
+			helper.MapLayout,
+			[localKeyProp](const void* ElementKey) { return localKeyProp->GetValueTypeHash(ElementKey); },
+			[localKeyProp](const void* A, const void* B) { return localKeyProp->Identical(A, B); },
+			[localKeyProp, keyPtr, localMapLayout](void* NewElementKey)
+			{
+				if (localKeyProp->PropertyFlags & CPF_ZeroConstructor)
+				{
+					FMemory::Memzero(NewElementKey, localKeyProp->GetSize());
+				}
+				else
+				{
+					localKeyProp->InitializeValue(NewElementKey);
+				}
 
-        localKeyProp->CopySingleValueToScriptVM(NewElementKey, keyPtr);
-      },
-      [&](void* NewElementValue)
-      {
-        if (localValueProp->PropertyFlags & CPF_ZeroConstructor)
-        {
-          FMemory::Memzero(NewElementValue, localValueProp->GetSize());
-        }
-        else
-        {
-          localValueProp->InitializeValue(NewElementValue);
-        }
+				localKeyProp->CopySingleValueToScriptVM(NewElementKey, keyPtr);
+			},
+			[localValueProp, result, localMapLayout](void* NewElementValue)
+			{
+				if (localValueProp->PropertyFlags & CPF_ZeroConstructor)
+				{
+					FMemory::Memzero(NewElementValue, localValueProp->GetSize());
+				}
+				else
+				{
+					localValueProp->InitializeValue(NewElementValue);
+				}
 
-        result = NewElementValue;
-      },
-      [&](void* ExistingElementValue)
-      {
-        result = ExistingElementValue;
-      }
-    );
+				localValueProp->CopySingleValueToScriptVM(NewElementValue, result);
+			},
+			[localValueProp, result](void* ExistingElementValue)
+			{
+				localValueProp->CopySingleValueToScriptVM(ExistingElementValue, result);
+			},
+			[localKeyProp](void* ElementKey)
+			{
+				if (!(localKeyProp->PropertyFlags & (CPF_IsPlainOldData | CPF_NoDestructor)))
+				{
+					localKeyProp->DestroyValue(ElementKey);
+				}
+			},
+			[localValueProp](void* ElementValue)
+			{
+				if (!(localValueProp->PropertyFlags & (CPF_IsPlainOldData | CPF_NoDestructor)))
+				{
+					localValueProp->DestroyValue(ElementValue);
+				}
+			}
+		);
   }
 
   return getValueWithProperty(localValueProp, result);

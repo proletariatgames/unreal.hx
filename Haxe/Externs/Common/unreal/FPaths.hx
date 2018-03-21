@@ -284,8 +284,11 @@ package unreal;
    *
    * @return Project file path.
    */
+#if (UE_VER < 4.10)
   public static function GetProjectFilePath():Const<PRef<FString>>;
-
+#else
+  public static function GetProjectFilePath():FString;
+#end
 
   /**
    * Converts a relative path name to a fully qualified name relative to the process BaseDir().
