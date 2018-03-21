@@ -92,7 +92,7 @@ class UnrealInit
 
   static function editorSetup() {
     // get game path
-    var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()).toString();
+    var gameDir = FPaths.ConvertRelativePathToFull(FPaths.ProjectDir()).toString();
     var target = '$gameDir/Binaries/Haxe/game.cppia';
     var stamp = .0;
     var internalStamp = .0;
