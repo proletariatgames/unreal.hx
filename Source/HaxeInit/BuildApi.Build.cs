@@ -1,3 +1,4 @@
+using Tools.DotNETCommon;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Diagnostics;
@@ -193,7 +194,7 @@ public class HaxeModuleRules : BaseModuleRules {
     } else {
       foreach (string def in File.ReadAllText(definesPath).Trim().Split('\n')) {
         if (def != "") {
-          this.Definitions.Add(def);
+          this.PublicDefinitions.Add(def);
         }
       }
     }
@@ -215,9 +216,9 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.PrivateIncludePaths.Add(Path.Combine(info.outputDir, "Template/Private"));
 
     Log.TraceInformation("BuildApi.Build.cs: Using Haxe");
-    rules.Definitions.Add("WITH_HAXE=1");
-    rules.Definitions.Add("HXCPP_EXTERN_CLASS_ATTRIBUTES=");
-    rules.Definitions.Add("MAY_EXPORT_SYMBOL=");
+    rules.PublicDefinitions.Add("WITH_HAXE=1");
+    rules.PublicDefinitions.Add("HXCPP_EXTERN_CLASS_ATTRIBUTES=");
+    rules.PublicDefinitions.Add("MAY_EXPORT_SYMBOL=");
 
     if (options != null && options.haxeInstallPath != null) {
       string haxePath = System.IO.Path.Combine(info.gameDir, options.haxeInstallPath);
@@ -229,39 +230,35 @@ public class HaxeModuleRules : BaseModuleRules {
       Environment.SetEnvironmentVariable("HAXELIB_PATH", libPath);
     }
     if (options != null && options.noDynamicObjects) {
-      rules.Definitions.Add("NO_DYNAMIC_UCLASS=1");
+      rules.PublicDefinitions.Add("NO_DYNAMIC_UCLASS=1");
     } else {
-      rules.Definitions.Add("NO_DYNAMIC_UCLASS=0");
+      rules.PublicDefinitions.Add("NO_DYNAMIC_UCLASS=0");
     }
 
 
-    BuildVersion version;
-    if (BuildVersion.TryRead("../Build/Build.version", out version)) {
-      rules.Definitions.Add("UE_VER=" + version.MajorVersion + version.MinorVersion);
-    } else {
-      Log.TraceError("Cannot read build.version");
-    }
+    BuildVersion version = BuildVersion.ReadDefault();
+    rules.PublicDefinitions.Add("UE_VER=" + version.MajorVersion + version.MinorVersion);
 
     switch (rules.Target.Platform) {
       case UnrealTargetPlatform.Win64:
       case UnrealTargetPlatform.Win32:
-        rules.Definitions.Add("HX_WINDOWS");
+        rules.PublicDefinitions.Add("HX_WINDOWS");
         break;
       case UnrealTargetPlatform.Mac:
-        rules.Definitions.Add("HX_MACOS");
+        rules.PublicDefinitions.Add("HX_MACOS");
         break;
       case UnrealTargetPlatform.Linux:
-        rules.Definitions.Add("HX_LINUX");
+        rules.PublicDefinitions.Add("HX_LINUX");
         break;
       case UnrealTargetPlatform.Android:
-        rules.Definitions.Add("HX_ANDROID");
+        rules.PublicDefinitions.Add("HX_ANDROID");
         break;
       case UnrealTargetPlatform.IOS:
-        rules.Definitions.Add("IPHONE");
-        rules.Definitions.Add("IPHONEOS");
+        rules.PublicDefinitions.Add("IPHONE");
+        rules.PublicDefinitions.Add("IPHONEOS");
         break;
       case UnrealTargetPlatform.HTML5:
-        rules.Definitions.Add("EMSCRIPTEN");
+        rules.PublicDefinitions.Add("EMSCRIPTEN");
         break;
       default:
         break;
@@ -359,16 +356,16 @@ public class HaxeCompilationInfo {
       this.name = this.name.Substring(0, this.name.Length - "Server".Length);
     }
 
-    List<UProjectInfo> infos = UProjectInfo.FilterGameProjects(true, this.name);
-    if (infos.Count == 0) {
+    List<FileReference> projectFiles = UProjectInfo.FilterGameProjects(true, this.name);
+    if (projectFiles.Count == 0) {
       Log.TraceWarning("Could not find any code project with name " + this.name);
-      infos = UProjectInfo.FilterGameProjects(true, null);
+      projectFiles = UProjectInfo.FilterGameProjects(true, null);
     }
-    if (infos.Count == 0) {
+    if (projectFiles.Count == 0) {
       Log.TraceWarning("Could not find any code project");
       this.gameDir = Path.GetFullPath(rules.ModuleDirectory + "/../../");
     } else {
-      this.gameDir = infos[0].Folder.ToString();
+      this.gameDir = projectFiles[0].Directory.FullName;
     }
 
     string libName = null;
