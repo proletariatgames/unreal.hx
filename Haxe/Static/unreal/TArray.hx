@@ -41,7 +41,7 @@ private typedef TArrayImpl<T> = Dynamic;
   public inline function getChecked(index:Int) {
     #if debug
     if (!isValidIndex(index)) {
-      throw 'Index $index out of bounds (num=${this.Num()})';
+      throwAssert('Index $index out of bounds (num=${this.Num()})');
     }
     #end
     return this.get_Item(index);
@@ -50,11 +50,16 @@ private typedef TArrayImpl<T> = Dynamic;
   public inline function setChecked(index:Int, v:T) : T {
     #if debug
     if (!isValidIndex(index)) {
-      throw 'Index $index out of bounds (num=${this.Num()})';
+      throwAssert('Index $index out of bounds (num=${this.Num()})');
     }
     #end
     this.set_Item(index, v);
     return v;
+  }
+
+  inline function throwAssert(s:String) : Void
+  {
+      throw '$s\n${haxe.CallStack.toString(haxe.CallStack.callStack())}';
   }
 
   public inline function isValidIndex(index:Int) : Bool
