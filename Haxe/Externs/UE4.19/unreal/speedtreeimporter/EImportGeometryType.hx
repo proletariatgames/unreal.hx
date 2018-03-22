@@ -34,4 +34,10 @@ package unreal.speedtreeimporter;
   @DisplayName("Billboards")
   IGT_Billboards;
   
+  /**
+    Both
+  **/
+  @DisplayName("Both")
+  IGT_Both;
+  
 }

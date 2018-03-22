@@ -41,5 +41,6 @@ package unreal;
   **/
   @DisplayName("Face Locked")
   SLT_FaceLocked;
+  SLT_MAX;
   
 }

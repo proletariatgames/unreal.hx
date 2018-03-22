@@ -49,4 +49,10 @@ package unreal.aimodule;
   @DisplayName("Is Greater Than")
   Greater;
   
+  /**
+    Is Greater Than Or Equal To
+  **/
+  @DisplayName("Is Greater Than Or Equal To")
+  GreaterOrEqual;
+  
 }

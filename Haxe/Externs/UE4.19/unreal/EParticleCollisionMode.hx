@@ -24,4 +24,10 @@ package unreal;
   @DisplayName("Scene Depth")
   SceneDepth;
   
+  /**
+    Distance Field
+  **/
+  @DisplayName("Distance Field")
+  DistanceField;
+  
 }

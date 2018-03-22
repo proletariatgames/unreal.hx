@@ -47,5 +47,6 @@ package unreal;
   **/
   @DisplayName("-Y Up")
   CameraFacing_NegativeYUp;
+  CameraFacing_MAX;
   
 }

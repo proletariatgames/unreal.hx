@@ -24,5 +24,6 @@ package unreal.animationcore;
   Translation;
   Rotation;
   Scale;
+  Parent;
   
 }

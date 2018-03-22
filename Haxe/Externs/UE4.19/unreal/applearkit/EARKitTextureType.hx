@@ -19,5 +19,6 @@ package unreal.applearkit;
 @:uname("EARKitTextureType")
 @:uextern @:uenum extern enum EARKitTextureType {
   TextureY;
+  TextureCbCr;
   
 }

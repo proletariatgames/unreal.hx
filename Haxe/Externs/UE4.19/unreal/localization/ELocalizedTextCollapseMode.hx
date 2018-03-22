@@ -33,4 +33,11 @@ package unreal.localization;
   @DisplayName("Identical Package ID, Text Identity (Namespace + Key) and Source Text")
   IdenticalPackageIdTextIdAndSource;
   
+  /**
+    Collapse texts with the same namespace and source text (legacy pre-4.14 behavior).
+    @DisplayName Identical Namespace and Source Text
+  **/
+  @DisplayName("Identical Namespace and Source Text")
+  IdenticalNamespaceAndSource;
+  
 }

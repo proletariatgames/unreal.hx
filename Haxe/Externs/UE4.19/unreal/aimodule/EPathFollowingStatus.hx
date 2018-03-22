@@ -34,4 +34,9 @@ package unreal.aimodule;
   **/
   Paused;
   
+  /**
+    Following path
+  **/
+  Moving;
+  
 }

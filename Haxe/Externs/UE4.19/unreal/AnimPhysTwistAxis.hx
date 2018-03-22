@@ -22,5 +22,6 @@ package unreal;
 @:class @:uextern @:uenum extern enum AnimPhysTwistAxis {
   AxisX;
   AxisY;
+  AxisZ;
   
 }

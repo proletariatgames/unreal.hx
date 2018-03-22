@@ -35,5 +35,6 @@ package unreal;
     Only play this event when extreme content (gore) is disabled
   **/
   EVTC_GoreDisabled;
+  EVTC_MAX;
   
 }

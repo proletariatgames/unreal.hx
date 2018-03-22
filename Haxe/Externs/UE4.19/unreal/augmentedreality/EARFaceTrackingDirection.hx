@@ -24,4 +24,9 @@ package unreal.augmentedreality;
   **/
   FaceRelative;
   
+  /**
+    Blend shapes are tracked as if looking at the face, e.g. right eye is the mesh's left eye and right side of screen if facing you (like a mirror)
+  **/
+  FaceMirrored;
+  
 }

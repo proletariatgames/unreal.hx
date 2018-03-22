@@ -27,4 +27,10 @@ package unreal;
   @DisplayName("Linear")
   CABM_Linear;
   
+  /**
+    Cubic
+  **/
+  @DisplayName("Cubic")
+  CABM_Cubic;
+  
 }

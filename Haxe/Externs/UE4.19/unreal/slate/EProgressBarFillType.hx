@@ -42,4 +42,9 @@ package unreal.slate;
   **/
   TopToBottom;
   
+  /**
+    will fill up from the bottom to the the top
+  **/
+  BottomToTop;
+  
 }

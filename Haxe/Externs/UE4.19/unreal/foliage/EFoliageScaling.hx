@@ -39,4 +39,9 @@ package unreal.foliage;
   **/
   LockXZ;
   
+  /**
+    Locks the Y and Z axis scale.
+  **/
+  LockYZ;
+  
 }

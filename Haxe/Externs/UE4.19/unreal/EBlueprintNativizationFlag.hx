@@ -20,4 +20,9 @@ package unreal;
   Disabled;
   Dependency;
   
+  /**
+    conditionally enabled (set from sub-class as a dependency)
+  **/
+  ExplicitlyEnabled;
+  
 }

@@ -22,5 +22,6 @@ package unreal.umg;
   Custom;
   CustomOnScreen;
   Desired;
+  DesiredOnScreen;
   
 }

@@ -20,5 +20,6 @@ package unreal;
   Red;
   Green;
   Blue;
+  Alpha;
   
 }

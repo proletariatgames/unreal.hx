@@ -30,5 +30,6 @@ package unreal;
     Impulse should get linearly weaker the further from origin.
   **/
   RIF_Linear;
+  RIF_MAX;
   
 }

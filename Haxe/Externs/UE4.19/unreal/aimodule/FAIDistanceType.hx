@@ -21,5 +21,6 @@ package unreal.aimodule;
   Distance3D;
   Distance2D;
   DistanceZ;
+  MAX;
   
 }

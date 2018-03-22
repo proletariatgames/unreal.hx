@@ -34,4 +34,10 @@ package unreal.textureeditor;
   @DisplayName("Checkered")
   TextureEditorBackground_Checkered;
   
+  /**
+    Checkered (Fill)
+  **/
+  @DisplayName("Checkered (Fill)")
+  TextureEditorBackground_CheckeredFill;
+  
 }

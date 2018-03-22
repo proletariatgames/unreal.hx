@@ -29,4 +29,9 @@ package unreal.animgraphruntime;
   **/
   Scale;
   
+  /**
+    Blend input with new curve value, using Alpha setting on the node
+  **/
+  Blend;
+  
 }

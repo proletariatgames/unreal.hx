@@ -38,5 +38,6 @@ package unreal;
   **/
   @DisplayName("High")
   DM_High;
+  DM_MAX;
   
 }

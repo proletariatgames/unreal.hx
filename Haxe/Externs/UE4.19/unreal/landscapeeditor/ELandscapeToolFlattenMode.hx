@@ -30,4 +30,9 @@ package unreal.landscapeeditor;
   **/
   Raise;
   
+  /**
+    Flatten may only lower values, values below the clicked point will be left unchanged
+  **/
+  Lower;
+  
 }

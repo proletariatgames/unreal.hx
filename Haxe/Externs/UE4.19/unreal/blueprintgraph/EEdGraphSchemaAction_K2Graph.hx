@@ -26,5 +26,6 @@ package unreal.blueprintgraph;
   Function;
   Interface;
   Macro;
+  MAX;
   
 }

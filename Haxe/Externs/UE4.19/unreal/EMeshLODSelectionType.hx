@@ -32,4 +32,11 @@ package unreal;
   @DisplayName("Use specific LOD level")
   SpecificLOD;
   
+  /**
+    Whether or not to calculate the appropriate LOD model for the given screen size
+    @DisplayName Calculate correct LOD level
+  **/
+  @DisplayName("Calculate correct LOD level")
+  CalculateLOD;
+  
 }

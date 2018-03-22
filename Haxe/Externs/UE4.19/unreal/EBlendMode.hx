@@ -56,5 +56,6 @@ package unreal;
   **/
   @DisplayName("AlphaComposite (Premultiplied Alpha)")
   BLEND_AlphaComposite;
+  BLEND_MAX;
   
 }

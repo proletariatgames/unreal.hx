@@ -35,4 +35,11 @@ package unreal;
   @DisplayName("Particle Bounds")
   EPSOBM_ParticleBounds;
   
+  /**
+    Use the custom occlusion bounds when determining occlusion
+    @DisplayName Custom Bounds
+  **/
+  @DisplayName("Custom Bounds")
+  EPSOBM_CustomBounds;
+  
 }

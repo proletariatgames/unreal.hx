@@ -42,4 +42,11 @@ package unreal;
   @DisplayName("Time since application start")
   SinceGStartTime;
   
+  /**
+    Display log timestamps in local time.
+    @DisplayName Local time
+  **/
+  @DisplayName("Local time")
+  Local;
+  
 }

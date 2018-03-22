@@ -122,5 +122,6 @@ package unreal;
   **/
   VMI_RequiredTextureResolution;
   VMI_Max;
+  VMI_Unknown;
   
 }

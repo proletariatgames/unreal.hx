@@ -36,4 +36,10 @@ package unreal;
   @DisplayName("Text Bottom")
   EVRTA_TextBottom;
   
+  /**
+    Quad Top
+  **/
+  @DisplayName("Quad Top")
+  EVRTA_QuadTop;
+  
 }

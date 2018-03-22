@@ -27,4 +27,9 @@ package unreal.moviescene;
   **/
   Static;
   
+  /**
+    Evaluation from one frame to the next must consider the entire swept delta range on the track. Example: Events
+  **/
+  Swept;
+  
 }

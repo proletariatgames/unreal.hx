@@ -31,4 +31,11 @@ package unreal.portalservices;
   **/
   Memory;
   
+  /**
+    Allow reference to entitlements cached on disk between sessions of the portal.
+    This cache is updated regularly while a user is signed-in.  If no user is signed-in
+    then disk cached entitlements are still used from the last signed-in user's session.
+  **/
+  Disk;
+  
 }

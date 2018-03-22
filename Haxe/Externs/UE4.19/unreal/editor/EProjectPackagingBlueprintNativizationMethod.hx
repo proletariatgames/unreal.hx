@@ -32,4 +32,9 @@ package unreal.editor;
   **/
   Inclusive;
   
+  /**
+    Enable nativization for selected Blueprint assets only.
+  **/
+  Exclusive;
+  
 }

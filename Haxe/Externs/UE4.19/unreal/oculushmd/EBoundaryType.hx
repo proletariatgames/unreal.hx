@@ -28,4 +28,10 @@ package unreal.oculushmd;
   @DisplayName("Outer Boundary")
   Boundary_Outer;
   
+  /**
+    Play Area
+  **/
+  @DisplayName("Play Area")
+  Boundary_PlayArea;
+  
 }

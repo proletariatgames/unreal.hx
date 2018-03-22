@@ -33,4 +33,11 @@ package unreal.animgraphruntime;
   @DisplayName("Replace Existing")
   BMM_Replace;
   
+  /**
+    The modifier adds to the existing translation, rotation, or scale.
+    @DisplayName Add to Existing
+  **/
+  @DisplayName("Add to Existing")
+  BMM_Additive;
+  
 }

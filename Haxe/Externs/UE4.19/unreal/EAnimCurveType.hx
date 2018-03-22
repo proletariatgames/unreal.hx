@@ -21,4 +21,9 @@ package unreal;
   MaterialCurve;
   MorphTargetCurve;
   
+  /**
+    make sure to update MaxCurve
+  **/
+  MaxAnimCurveType;
+  
 }

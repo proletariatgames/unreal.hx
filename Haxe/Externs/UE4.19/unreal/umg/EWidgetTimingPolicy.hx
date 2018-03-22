@@ -24,4 +24,9 @@ package unreal.umg;
   **/
   RealTime;
   
+  /**
+    The widget will tick using game time, respecting pausing and time dilation.
+  **/
+  GameTime;
+  
 }

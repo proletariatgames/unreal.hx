@@ -45,4 +45,11 @@ package unreal.landscape;
   @DisplayName("Existing Layers Only")
   ExistingOnly;
   
+  /**
+    Restricts painting to only components that have this layer in their whitelist.
+    @DisplayName Component Whitelist
+  **/
+  @DisplayName("Component Whitelist")
+  UseComponentWhitelist;
+  
 }

@@ -66,5 +66,6 @@ package unreal;
   SOUNDGROUP_GameSoundGroup17;
   SOUNDGROUP_GameSoundGroup18;
   SOUNDGROUP_GameSoundGroup19;
+  SOUNDGROUP_GameSoundGroup20;
   
 }

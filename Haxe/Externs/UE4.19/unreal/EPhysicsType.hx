@@ -32,4 +32,11 @@ package unreal;
   @DisplayName("Kinematic")
   PhysType_Kinematic;
   
+  /**
+    Do not follow owner, but simulate.
+    @DisplayName Simulated
+  **/
+  @DisplayName("Simulated")
+  PhysType_Simulated;
+  
 }

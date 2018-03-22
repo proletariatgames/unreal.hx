@@ -38,4 +38,9 @@ package unreal;
   **/
   Z;
   
+  /**
+    Used for backwards compatibility. Indicates that we've updated into the new struct.
+  **/
+  Invalid;
+  
 }

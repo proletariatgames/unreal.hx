@@ -29,4 +29,9 @@ package unreal.animgraphruntime;
   **/
   StartPosition;
   
+  /**
+    Reset InternalTimeAccumulator to ExplicitTime
+  **/
+  ExplicitTime;
+  
 }

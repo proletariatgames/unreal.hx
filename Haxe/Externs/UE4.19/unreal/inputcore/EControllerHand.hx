@@ -39,4 +39,10 @@ package unreal.inputcore;
   Special_10;
   Special_11;
   
+  /**
+    <INVALID>
+  **/
+  @DisplayName("<INVALID>")
+  ControllerHand_Count;
+  
 }

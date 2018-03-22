@@ -32,4 +32,9 @@ package unreal.introtutorials;
   **/
   NamedWidget;
   
+  /**
+    An asset accessible via the content browser
+  **/
+  Asset;
+  
 }

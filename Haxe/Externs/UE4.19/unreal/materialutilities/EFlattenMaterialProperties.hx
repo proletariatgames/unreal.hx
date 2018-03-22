@@ -31,5 +31,6 @@ package unreal.materialutilities;
   SubSurface;
   OpacityMask;
   AmbientOcclusion;
+  NumFlattenMaterialProperties;
   
 }

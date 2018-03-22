@@ -41,4 +41,9 @@ package unreal;
   **/
   Blue;
   
+  /**
+    Importance from alpha channel of texture.
+  **/
+  Alpha;
+  
 }

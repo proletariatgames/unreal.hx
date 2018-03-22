@@ -18,5 +18,6 @@ package unreal;
 @:uname("EPostCopyOperation")
 @:class @:uextern @:uenum extern enum EPostCopyOperation {
   None;
+  LogicalNegateBool;
   
 }

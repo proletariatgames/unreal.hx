@@ -23,5 +23,6 @@ package unreal;
   METRICS_VERTS;
   METRICS_TRIS;
   METRICS_SECTIONS;
+  METRICS_MAX;
   
 }

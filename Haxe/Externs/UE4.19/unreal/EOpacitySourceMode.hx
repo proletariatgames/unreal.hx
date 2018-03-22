@@ -21,5 +21,6 @@ package unreal;
   OSM_ColorBrightness;
   OSM_RedChannel;
   OSM_GreenChannel;
+  OSM_BlueChannel;
   
 }

@@ -43,5 +43,6 @@ package unreal.aimodule;
     Ultimate priority, to be used with caution, makes AI perform given action regardless of anything else (for example disabled reactions).
   **/
   Ultimate;
+  MAX;
   
 }

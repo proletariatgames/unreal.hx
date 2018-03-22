@@ -35,4 +35,9 @@ package unreal;
   **/
   InnerSphere;
   
+  /**
+    Use the smallest sphere that wholely contains the body extents to collide with planes.
+  **/
+  OuterSphere;
+  
 }

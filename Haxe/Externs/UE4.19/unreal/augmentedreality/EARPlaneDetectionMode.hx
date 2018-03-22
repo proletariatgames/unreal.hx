@@ -24,4 +24,9 @@ package unreal.augmentedreality;
   **/
   None;
   
+  /**
+    Detect Horizontal Surfaces
+  **/
+  HorizontalPlaneDetection;
+  
 }

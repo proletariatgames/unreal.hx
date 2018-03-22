@@ -33,4 +33,9 @@ package unreal.slate;
   **/
   LeftToRight;
   
+  /**
+    Force text to be flowed right-to-left
+  **/
+  RightToLeft;
+  
 }

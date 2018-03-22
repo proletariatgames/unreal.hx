@@ -24,4 +24,9 @@ package unreal.aimodule;
   **/
   OnEveryPerception;
   
+  /**
+    From "visible" to "not visible" or vice versa.
+  **/
+  OnPerceptionChange;
+  
 }

@@ -28,4 +28,9 @@ package unreal;
   **/
   World;
   
+  /**
+    This anim is applied in a user-specified space (defined by UserPlaySpaceMatrix).
+  **/
+  UserDefined;
+  
 }

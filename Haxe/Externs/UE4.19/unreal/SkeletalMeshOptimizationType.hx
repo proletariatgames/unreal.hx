@@ -22,5 +22,6 @@ package unreal;
 @:uextern @:uenum extern enum SkeletalMeshOptimizationType {
   SMOT_NumOfTriangles;
   SMOT_MaxDeviation;
+  SMOT_MAX;
   
 }

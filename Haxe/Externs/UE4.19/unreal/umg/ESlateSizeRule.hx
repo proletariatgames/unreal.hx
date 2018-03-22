@@ -27,4 +27,9 @@ package unreal.umg;
   **/
   Automatic;
   
+  /**
+    Greedily attempts to fill all available room based on the percentage value 0..1
+  **/
+  Fill;
+  
 }

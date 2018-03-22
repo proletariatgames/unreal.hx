@@ -42,4 +42,9 @@ package unreal.editor;
   **/
   ReimportLOD;
   
+  /**
+    The fbx will be imported, package will be save, object will be delete from memory then reload from the saved package. This mode force a delete of the asset after the test, no reimport is possible after
+  **/
+  ImportReload;
+  
 }

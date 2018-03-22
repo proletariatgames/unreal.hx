@@ -23,4 +23,9 @@ package unreal;
   **/
   NotLagging;
   
+  /**
+    The net driver is in the process of timing out all of the client connections
+  **/
+  Lagging;
+  
 }

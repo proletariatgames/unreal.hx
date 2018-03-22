@@ -27,5 +27,6 @@ package unreal;
   ShiftBucket3;
   ShiftBucket4;
   ShiftBucket5;
+  ShiftBucketMax;
   
 }

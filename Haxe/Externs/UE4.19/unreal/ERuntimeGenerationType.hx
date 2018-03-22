@@ -36,4 +36,9 @@ package unreal;
   **/
   Dynamic;
   
+  /**
+    Only for legacy loading don't use it!
+  **/
+  LegacyGeneration;
+  
 }

@@ -34,4 +34,9 @@ package unreal.slate;
   **/
   SingleToggle;
   
+  /**
+    Multiple items can be selected at the same time.
+  **/
+  Multi;
+  
 }

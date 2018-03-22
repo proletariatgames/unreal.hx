@@ -37,4 +37,9 @@ package unreal.introtutorials;
   **/
   UDNExcerpt;
   
+  /**
+    Rich text content
+  **/
+  RichText;
+  
 }

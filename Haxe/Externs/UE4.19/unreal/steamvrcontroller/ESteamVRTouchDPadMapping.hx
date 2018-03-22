@@ -32,4 +32,9 @@ package unreal.steamvrcontroller;
   **/
   ThumbstickDirections;
   
+  /**
+    Unmaps all directional touchpad input so that the d-pad buttons won't trigger their own input events
+  **/
+  Disabled;
+  
 }

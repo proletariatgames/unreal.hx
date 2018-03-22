@@ -22,5 +22,6 @@ package unreal;
 @:uextern @:uenum extern enum EMaterialFunctionUsage {
   Default;
   MaterialLayer;
+  MaterialLayerBlend;
   
 }

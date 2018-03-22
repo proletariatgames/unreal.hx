@@ -26,4 +26,11 @@ package unreal.sequencer;
   @DisplayName("Current Time")
   SZP_CurrentTime;
   
+  /**
+    Mouse Position.
+    @DisplayName Mouse Position
+  **/
+  @DisplayName("Mouse Position")
+  SZP_MousePosition;
+  
 }

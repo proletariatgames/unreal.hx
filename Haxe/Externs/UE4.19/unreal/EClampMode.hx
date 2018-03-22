@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum EClampMode {
   CMODE_Clamp;
   CMODE_ClampMin;
+  CMODE_ClampMax;
   
 }

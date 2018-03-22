@@ -26,4 +26,9 @@ package unreal;
   **/
   RowFound;
   
+  /**
+    Failed to find the row.
+  **/
+  RowNotFound;
+  
 }

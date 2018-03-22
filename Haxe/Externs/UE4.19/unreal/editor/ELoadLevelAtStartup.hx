@@ -20,5 +20,6 @@ package unreal.editor;
 @:uextern @:uenum extern enum ELoadLevelAtStartup {
   None;
   ProjectDefault;
+  LastOpened;
   
 }

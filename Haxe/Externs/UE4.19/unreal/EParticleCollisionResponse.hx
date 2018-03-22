@@ -31,4 +31,9 @@ package unreal;
   **/
   Stop;
   
+  /**
+    The particle will be killed.
+  **/
+  Kill;
+  
 }

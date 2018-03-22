@@ -20,5 +20,6 @@ package unreal;
   T_Original;
   T_TargetMin;
   T_TargetMax;
+  MAX;
   
 }

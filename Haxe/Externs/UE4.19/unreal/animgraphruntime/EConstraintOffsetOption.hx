@@ -23,4 +23,9 @@ package unreal.animgraphruntime;
 @:class @:uextern @:uenum extern enum EConstraintOffsetOption {
   None;
   
+  /**
+    no offset
+  **/
+  Offset_RefPose;
+  
 }

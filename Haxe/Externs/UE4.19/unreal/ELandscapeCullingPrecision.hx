@@ -30,4 +30,10 @@ package unreal;
   @DisplayName("Medium memory intensity and computation time")
   Medium;
   
+  /**
+    Low memory intensity and computation time
+  **/
+  @DisplayName("Low memory intensity and computation time")
+  Low;
+  
 }

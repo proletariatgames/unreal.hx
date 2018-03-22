@@ -39,4 +39,10 @@ package unreal;
   @DisplayName("Cubic")
   RCIM_Cubic;
   
+  /**
+    None
+  **/
+  @DisplayName("None")
+  RCIM_None;
+  
 }

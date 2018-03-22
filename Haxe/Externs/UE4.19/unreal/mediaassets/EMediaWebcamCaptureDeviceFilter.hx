@@ -37,4 +37,9 @@ package unreal.mediaassets;
   **/
   Rear;
   
+  /**
+    Unknown web cam types.
+  **/
+  Unknown;
+  
 }

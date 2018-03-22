@@ -25,5 +25,6 @@ package unreal;
   Low;
   Normal;
   High;
+  Highest;
   
 }

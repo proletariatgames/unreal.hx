@@ -46,5 +46,6 @@ package unreal;
     Camera smoothly accelerates and decelerates.  Ease amount controlled by BlendExp.
   **/
   VTBlend_EaseInOut;
+  VTBlend_MAX;
   
 }

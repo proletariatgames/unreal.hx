@@ -29,4 +29,9 @@ package unreal.aimodule;
   **/
   HierarchicalQuery;
   
+  /**
+    Slow
+  **/
+  RegularPathFinding;
+  
 }

@@ -29,4 +29,9 @@ package unreal.animgraphruntime;
   **/
   Distance;
   
+  /**
+    Use animated chain length (length in local space of every bone from 'ChainStartBone' to 'ChainEndBone'
+  **/
+  ChainLength;
+  
 }

@@ -19,5 +19,6 @@ package unreal.aimodule;
 @:uname("EPawnSubActionTriggeringPolicy.Type")
 @:uextern @:uenum extern enum EPawnSubActionTriggeringPolicy {
   CopyBeforeTriggering;
+  ReuseInstances;
   
 }

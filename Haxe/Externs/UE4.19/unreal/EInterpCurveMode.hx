@@ -51,4 +51,10 @@ package unreal;
   @DisplayName("Curve Break")
   CIM_CurveBreak;
   
+  /**
+    Curve Auto Clamped
+  **/
+  @DisplayName("Curve Auto Clamped")
+  CIM_CurveAutoClamped;
+  
 }

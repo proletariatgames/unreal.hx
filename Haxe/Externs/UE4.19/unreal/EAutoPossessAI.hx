@@ -33,4 +33,9 @@ package unreal;
   **/
   Spawned;
   
+  /**
+    Pawn is automatically possessed by an AI Controller whenever it is created.
+  **/
+  PlacedInWorldOrSpawned;
+  
 }

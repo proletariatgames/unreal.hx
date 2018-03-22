@@ -42,4 +42,9 @@ package unreal.netcodeunittest;
   **/
   VerifiedNeedsUpdate;
   
+  /**
+    Unit test is verified as having executed unreliably
+  **/
+  VerifiedUnreliable;
+  
 }

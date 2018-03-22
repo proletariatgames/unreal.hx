@@ -48,5 +48,6 @@ package unreal;
   **/
   @DisplayName("Camera Relative World Position (Excluding Material Shader Offsets)")
   WPT_CameraRelativeNoOffsets;
+  WPT_MAX;
   
 }

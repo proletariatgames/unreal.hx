@@ -31,4 +31,9 @@ package unreal;
   **/
   UseSyncScene;
   
+  /**
+    use async scene
+  **/
+  UseAsyncScene;
+  
 }

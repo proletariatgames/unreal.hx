@@ -34,4 +34,10 @@ package unreal.editor;
   @DisplayName("Standard")
   Standard;
   
+  /**
+    Natural
+  **/
+  @DisplayName("Natural")
+  Natural;
+  
 }

@@ -58,4 +58,9 @@ package unreal.slate;
   **/
   CenterAligned;
   
+  /**
+    Items are evenly horizontally stretched to distribute any extra space
+  **/
+  Fill;
+  
 }

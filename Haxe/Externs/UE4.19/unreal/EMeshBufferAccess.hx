@@ -26,4 +26,9 @@ package unreal;
   **/
   Default;
   
+  /**
+    Force access on both CPU and GPU.
+  **/
+  ForceCPUAndGPU;
+  
 }

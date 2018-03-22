@@ -23,5 +23,6 @@ package unreal.moviescene;
 @:class @:uextern @:uenum extern enum EMovieSceneCompletionMode {
   KeepState;
   RestoreState;
+  ProjectDefault;
   
 }

@@ -31,4 +31,9 @@ package unreal;
   **/
   Shown;
   
+  /**
+    There are some advanced pins, and they are hidden.
+  **/
+  Hidden;
+  
 }

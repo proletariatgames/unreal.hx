@@ -29,4 +29,9 @@ package unreal.editor;
   **/
   Ignore;
   
+  /**
+    Override all vertex colors with the specified color.
+  **/
+  Override;
+  
 }

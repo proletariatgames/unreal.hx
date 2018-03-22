@@ -118,4 +118,9 @@ package unreal;
   **/
   Percentage;
   
+  /**
+    Symbolic entry, not specifiable on meta data.
+  **/
+  Unspecified;
+  
 }

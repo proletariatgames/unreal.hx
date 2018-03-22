@@ -19,5 +19,6 @@ package unreal.vreditor;
 @:uname("EVREditorWidgetDrawingPolicy")
 @:class @:uextern @:uenum extern enum EVREditorWidgetDrawingPolicy {
   Always;
+  Hovering;
   
 }

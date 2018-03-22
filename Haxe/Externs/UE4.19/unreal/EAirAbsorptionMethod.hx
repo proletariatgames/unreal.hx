@@ -23,4 +23,9 @@ package unreal;
   **/
   Linear;
   
+  /**
+    The air absorption conforms to a custom distance curve.
+  **/
+  CustomCurve;
+  
 }

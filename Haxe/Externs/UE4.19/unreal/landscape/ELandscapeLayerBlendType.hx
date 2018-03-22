@@ -20,5 +20,6 @@ package unreal.landscape;
 @:uextern @:uenum extern enum ELandscapeLayerBlendType {
   LB_WeightBlend;
   LB_AlphaBlend;
+  LB_HeightBlend;
   
 }

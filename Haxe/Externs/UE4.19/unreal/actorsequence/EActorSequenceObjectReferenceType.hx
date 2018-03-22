@@ -29,4 +29,9 @@ package unreal.actorsequence;
   **/
   ExternalActor;
   
+  /**
+    The reference relates to a component
+  **/
+  Component;
+  
 }

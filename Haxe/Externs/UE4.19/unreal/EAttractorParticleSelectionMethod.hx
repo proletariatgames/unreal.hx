@@ -29,5 +29,6 @@ package unreal;
   **/
   @DisplayName("Sequential")
   EAPSM_Sequential;
+  EAPSM_MAX;
   
 }

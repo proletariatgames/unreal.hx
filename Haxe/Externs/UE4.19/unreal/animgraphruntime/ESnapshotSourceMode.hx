@@ -28,4 +28,10 @@ package unreal.animgraphruntime;
   **/
   NamedSnapshot;
   
+  /**
+    Use a snapshot variable (previously populated using SnapshotPose).
+    This is more flexible and allows poses to be modified and managed externally to the animation blueprint.
+  **/
+  SnapshotPin;
+  
 }

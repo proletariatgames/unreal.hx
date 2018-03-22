@@ -37,4 +37,9 @@ package unreal.mediaassets;
   **/
   Unknown;
   
+  /**
+    Web cam.
+  **/
+  Webcam;
+  
 }

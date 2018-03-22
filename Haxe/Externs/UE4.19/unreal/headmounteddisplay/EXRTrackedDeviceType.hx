@@ -44,4 +44,9 @@ package unreal.headmounteddisplay;
   **/
   Invalid;
   
+  /**
+    Pass to EnumerateTrackedDevices to get all devices regardless of type
+  **/
+  Any;
+  
 }

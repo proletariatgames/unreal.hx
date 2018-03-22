@@ -26,5 +26,6 @@ package unreal.animgraph;
   CurrentState_ElapsedTime;
   CurrentState_GetBlendWeight;
   CurrentTransitionDuration;
+  ArbitraryState_GetBlendWeight;
   
 }

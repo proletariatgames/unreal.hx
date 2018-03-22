@@ -39,4 +39,10 @@ package unreal;
   @DisplayName("Leave")
   RCTWM_WeightedLeave;
   
+  /**
+    Both
+  **/
+  @DisplayName("Both")
+  RCTWM_WeightedBoth;
+  
 }

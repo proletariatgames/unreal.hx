@@ -20,4 +20,9 @@ package unreal.gameplaytags;
 @:class @:uextern @:uenum extern enum EGameplayContainerMatchType {
   Any;
   
+  /**
+    Means the filter is populated by any tag matches in this container.
+  **/
+  All;
+  
 }

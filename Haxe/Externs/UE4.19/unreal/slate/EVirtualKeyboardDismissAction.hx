@@ -29,4 +29,9 @@ package unreal.slate;
   **/
   TextCommitOnAccept;
   
+  /**
+    Send a text commit message when the virtual keyboard is dismissed by the user.
+  **/
+  TextCommitOnDismiss;
+  
 }

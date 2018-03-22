@@ -45,5 +45,6 @@ package unreal;
   **/
   @DisplayName("MSAA")
   AAM_MSAA;
+  AAM_MAX;
   
 }

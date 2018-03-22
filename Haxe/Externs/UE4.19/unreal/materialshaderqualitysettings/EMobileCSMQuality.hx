@@ -31,4 +31,11 @@ package unreal.materialshaderqualitysettings;
   @DisplayName("1x1 PCF")
   PCF_1x1;
   
+  /**
+    Highest quality, 2x2 PCF filtering.
+    @DisplayName 2x2 PCF
+  **/
+  @DisplayName("2x2 PCF")
+  PCF_2x2;
+  
 }

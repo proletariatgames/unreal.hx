@@ -41,5 +41,6 @@ package unreal;
   **/
   @DisplayName("Locked")
   LCM_Locked;
+  LCM_MAX;
   
 }

@@ -25,4 +25,10 @@ package unreal.aimodule;
   @DisplayName("Is Equal To")
   Equal;
   
+  /**
+    Is Not Equal To
+  **/
+  @DisplayName("Is Not Equal To")
+  NotEqual;
+  
 }

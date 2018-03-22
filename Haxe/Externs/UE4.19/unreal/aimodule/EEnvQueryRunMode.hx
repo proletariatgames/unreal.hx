@@ -40,4 +40,9 @@ package unreal.aimodule;
   @DisplayName("Single Random Item from Best 25%")
   RandomBest25Pct;
   
+  /**
+    Get all items that match conditions
+  **/
+  AllMatching;
+  
 }

@@ -21,5 +21,6 @@ package unreal.landscapeeditor;
   Red;
   Green;
   Blue;
+  Alpha;
   
 }

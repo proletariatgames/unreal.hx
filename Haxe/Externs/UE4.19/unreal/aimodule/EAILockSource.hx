@@ -22,5 +22,6 @@ package unreal.aimodule;
   Logic;
   Script;
   Gameplay;
+  MAX;
   
 }

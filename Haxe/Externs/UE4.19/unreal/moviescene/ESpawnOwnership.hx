@@ -29,4 +29,9 @@ package unreal.moviescene;
   **/
   MasterSequence;
   
+  /**
+    Once spawned, the object's lifetime is managed externally.
+  **/
+  External;
+  
 }

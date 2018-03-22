@@ -26,4 +26,11 @@ package unreal.landscape;
   **/
   Additive;
   
+  /**
+    Three layers blended 50/30/20 represented as 0.5, 0.6, and 1.0 in the alpha maps
+    Each alpha map only specifies the remainder from previous layers, so the last layer used will always be 1.0
+    Some other tools use this format
+  **/
+  Layered;
+  
 }

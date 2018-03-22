@@ -24,4 +24,9 @@ package unreal.vreditor;
   **/
   Right;
   
+  /**
+    Left hand
+  **/
+  Left;
+  
 }

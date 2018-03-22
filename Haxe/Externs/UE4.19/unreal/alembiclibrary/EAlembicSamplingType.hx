@@ -31,4 +31,9 @@ package unreal.alembiclibrary;
   @DisplayName("Per X Frames")
   PerXFrames;
   
+  /**
+    Samples the animation at given intervals determined by Time Steps
+  **/
+  PerTimeStep;
+  
 }

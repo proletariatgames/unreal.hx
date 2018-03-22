@@ -203,4 +203,11 @@ package unreal;
   @DisplayName("BaseColor (as stored in GBuffer)")
   PPI_StoredBaseColor;
   
+  /**
+    Material specular, single channel (GBuffer)
+    @DisplayName Specular (as stored in GBuffer)
+  **/
+  @DisplayName("Specular (as stored in GBuffer)")
+  PPI_StoredSpecular;
+  
 }

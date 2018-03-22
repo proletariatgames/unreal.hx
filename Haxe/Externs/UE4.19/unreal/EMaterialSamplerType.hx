@@ -71,5 +71,6 @@ package unreal;
   **/
   @DisplayName("External")
   SAMPLERTYPE_External;
+  SAMPLERTYPE_MAX;
   
 }

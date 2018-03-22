@@ -57,4 +57,9 @@ package unreal.viewportinteraction;
   **/
   Interactable;
   
+  /**
+    Dragging a material
+  **/
+  Material;
+  
 }

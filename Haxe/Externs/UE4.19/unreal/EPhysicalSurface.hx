@@ -88,5 +88,6 @@ package unreal;
   SurfaceType60;
   SurfaceType61;
   SurfaceType62;
+  SurfaceType_Max;
   
 }

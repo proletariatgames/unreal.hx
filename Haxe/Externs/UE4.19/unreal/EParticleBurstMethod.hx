@@ -32,5 +32,6 @@ package unreal;
   **/
   @DisplayName("Interpolated")
   EPBM_Interpolated;
+  EPBM_MAX;
   
 }

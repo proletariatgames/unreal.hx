@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum ENavCostDisplay {
   TotalCost;
   HeuristicOnly;
+  RealCostOnly;
   
 }

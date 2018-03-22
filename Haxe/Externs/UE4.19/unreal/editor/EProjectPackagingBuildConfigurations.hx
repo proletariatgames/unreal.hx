@@ -57,4 +57,11 @@ package unreal.editor;
   @DisplayName("Shipping")
   PPBC_Shipping;
   
+  /**
+    Shipping Client configuration.
+    @DisplayName Shipping Client
+  **/
+  @DisplayName("Shipping Client")
+  PPBC_ShippingClient;
+  
 }

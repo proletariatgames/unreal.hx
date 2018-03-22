@@ -27,4 +27,9 @@ package unreal.buildpatchservices;
   **/
   STORED_RAW;
   
+  /**
+    Flag for compressed.
+  **/
+  STORED_COMPRESSED;
+  
 }

@@ -39,5 +39,6 @@ package unreal.editor;
   **/
   @DisplayName("Never use WASD for Camera Controls")
   WASD_Never;
+  WASD_MAX;
   
 }

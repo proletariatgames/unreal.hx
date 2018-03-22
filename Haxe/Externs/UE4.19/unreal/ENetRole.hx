@@ -37,5 +37,6 @@ package unreal;
     Authoritative control over the actor.
   **/
   ROLE_Authority;
+  ROLE_MAX;
   
 }

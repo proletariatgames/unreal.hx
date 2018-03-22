@@ -25,5 +25,6 @@ package unreal.moviescene;
   Jumping;
   Stepping;
   Paused;
+  MAX;
   
 }

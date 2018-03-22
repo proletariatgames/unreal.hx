@@ -26,4 +26,11 @@ package unreal.mactargetplatform;
   @DisplayName("Metal v1.2 (10.12.0+)")
   MacMetalSLStandard_1_2;
   
+  /**
+    Metal Shaders, supporting multiple viewports, Compatible With macOS 10.13.0 or later (std=osx-metal2.0)
+    @DisplayName Metal v2.0 (10.13.0+)
+  **/
+  @DisplayName("Metal v2.0 (10.13.0+)")
+  MacMetalSLStandard_2_0;
+  
 }

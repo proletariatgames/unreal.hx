@@ -76,5 +76,6 @@ package unreal;
   **/
   @DisplayName("Newly Spawned")
   TG_NewlySpawned;
+  TG_MAX;
   
 }

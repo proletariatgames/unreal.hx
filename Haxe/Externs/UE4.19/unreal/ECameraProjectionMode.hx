@@ -21,5 +21,6 @@ package unreal;
 @:uname("ECameraProjectionMode.Type")
 @:uextern @:uenum extern enum ECameraProjectionMode {
   Perspective;
+  Orthographic;
   
 }

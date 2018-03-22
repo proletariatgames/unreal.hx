@@ -50,5 +50,6 @@ package unreal;
   **/
   @DisplayName("Random Blend")
   PSUVIM_Random_Blend;
+  PSUVIM_MAX;
   
 }

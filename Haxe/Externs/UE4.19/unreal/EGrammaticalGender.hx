@@ -36,4 +36,10 @@ package unreal;
   @DisplayName("Feminine")
   Feminine;
   
+  /**
+    Mixed
+  **/
+  @DisplayName("Mixed")
+  Mixed;
+  
 }

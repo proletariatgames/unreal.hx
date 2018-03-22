@@ -60,4 +60,9 @@ package unreal.slate;
   **/
   ScaleBySafeZone;
   
+  /**
+    Scales the content by the scale specified by the user.
+  **/
+  UserSpecified;
+  
 }

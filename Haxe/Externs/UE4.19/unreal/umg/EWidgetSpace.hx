@@ -24,4 +24,9 @@ package unreal.umg;
   **/
   World;
   
+  /**
+    The widget is rendered in the screen, completely outside of the world, never occluded.
+  **/
+  Screen;
+  
 }

@@ -53,5 +53,6 @@ package unreal;
   **/
   @DisplayName("Highest")
   TCQ_Highest;
+  TCQ_MAX;
   
 }

@@ -24,5 +24,6 @@ package unreal.editor;
   None;
   Metric;
   Imperial;
+  Invalid;
   
 }

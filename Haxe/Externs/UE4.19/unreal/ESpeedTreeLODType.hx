@@ -24,4 +24,10 @@ package unreal;
   @DisplayName("Pop")
   STLOD_Pop;
   
+  /**
+    Smooth
+  **/
+  @DisplayName("Smooth")
+  STLOD_Smooth;
+  
 }

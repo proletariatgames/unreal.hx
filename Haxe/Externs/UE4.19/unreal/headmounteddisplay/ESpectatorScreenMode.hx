@@ -67,4 +67,10 @@ package unreal.headmounteddisplay;
   @DisplayName("Texture")
   Texture;
   
+  /**
+    TexturePlusEye
+  **/
+  @DisplayName("TexturePlusEye")
+  TexturePlusEye;
+  
 }

@@ -33,4 +33,9 @@ package unreal;
   **/
   Multiply;
   
+  /**
+    Uses the maximum value of materials touching: max(a,b)
+  **/
+  Max;
+  
 }

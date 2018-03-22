@@ -32,4 +32,9 @@ package unreal.hardwaretargeting;
   **/
   Maximum;
   
+  /**
+    Scalable quality - Some features are disabled by default but can be enabled based on the actual hardware
+  **/
+  Scalable;
+  
 }

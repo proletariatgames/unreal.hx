@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum EMaterialAttributeBlend {
   Blend;
   UseA;
+  UseB;
   
 }

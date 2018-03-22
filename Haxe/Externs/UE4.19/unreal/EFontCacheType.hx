@@ -26,4 +26,9 @@ package unreal;
   **/
   Offline;
   
+  /**
+    The font is using runtime caching (this is how Slate fonts work).
+  **/
+  Runtime;
+  
 }

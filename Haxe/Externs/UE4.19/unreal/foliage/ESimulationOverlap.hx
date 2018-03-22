@@ -29,4 +29,9 @@ package unreal.foliage;
   **/
   ShadeOverlap;
   
+  /**
+    No overlap
+  **/
+  None;
+  
 }

@@ -30,5 +30,6 @@ package unreal;
     Terminate - if you terminate, you won't be able to re-init when unhidden.
   **/
   PBO_Term;
+  PBO_MAX;
   
 }

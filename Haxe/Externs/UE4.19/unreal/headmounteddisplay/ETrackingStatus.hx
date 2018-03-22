@@ -20,5 +20,6 @@ package unreal.headmounteddisplay;
 @:class @:uextern @:uenum extern enum ETrackingStatus {
   NotTracked;
   InertialOnly;
+  Tracked;
   
 }

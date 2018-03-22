@@ -31,4 +31,10 @@ package unreal.grapheditor;
   @DisplayName("Middle")
   Middle;
   
+  /**
+    Right or Middle
+  **/
+  @DisplayName("Right or Middle")
+  Both;
+  
 }

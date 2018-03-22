@@ -29,4 +29,11 @@ package unreal.slatecore;
   @DisplayName("Down")
   Scroll_Down;
   
+  /**
+    Scroll up.
+    @DisplayName Up
+  **/
+  @DisplayName("Up")
+  Scroll_Up;
+  
 }

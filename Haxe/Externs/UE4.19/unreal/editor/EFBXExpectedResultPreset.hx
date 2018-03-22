@@ -132,4 +132,9 @@ package unreal.editor;
   **/
   Animation_Frame_Number;
   
+  /**
+    Data should contain the animation length [float0].
+  **/
+  Animation_Length;
+  
 }

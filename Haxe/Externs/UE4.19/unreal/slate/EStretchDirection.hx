@@ -29,4 +29,9 @@ package unreal.slate;
   **/
   DownOnly;
   
+  /**
+    Will only make the content larger, will never scale it smaller than the content's desired size.
+  **/
+  UpOnly;
+  
 }

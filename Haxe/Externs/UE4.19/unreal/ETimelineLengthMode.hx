@@ -21,5 +21,6 @@ package unreal;
 @:uname("ETimelineLengthMode")
 @:uextern @:uenum extern enum ETimelineLengthMode {
   TL_TimelineLength;
+  TL_LastKeyFrame;
   
 }

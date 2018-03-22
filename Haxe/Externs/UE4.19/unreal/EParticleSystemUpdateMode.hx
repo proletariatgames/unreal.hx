@@ -29,4 +29,11 @@ package unreal;
   @DisplayName("Real-Time")
   EPSUM_RealTime;
   
+  /**
+    FixedTime      - update via a fixed time step
+    @DisplayName Fixed-Time
+  **/
+  @DisplayName("Fixed-Time")
+  EPSUM_FixedTime;
+  
 }

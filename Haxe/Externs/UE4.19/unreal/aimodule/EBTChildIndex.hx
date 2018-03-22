@@ -19,5 +19,6 @@ package unreal.aimodule;
 @:uname("EBTChildIndex")
 @:class @:uextern @:uenum extern enum EBTChildIndex {
   FirstNode;
+  TaskNode;
   
 }

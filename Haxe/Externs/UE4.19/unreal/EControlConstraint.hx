@@ -31,4 +31,9 @@ package unreal;
   **/
   Translation;
   
+  /**
+    Max Number.
+  **/
+  MAX;
+  
 }

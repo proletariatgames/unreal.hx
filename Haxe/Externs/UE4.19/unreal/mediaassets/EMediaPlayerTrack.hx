@@ -54,4 +54,9 @@ package unreal.mediaassets;
   **/
   Text;
   
+  /**
+    Video track.
+  **/
+  Video;
+  
 }

@@ -26,4 +26,9 @@ package unreal;
   **/
   NoFiltering;
   
+  /**
+    Filter By Skeletal Mesh LOD.
+  **/
+  LOD;
+  
 }

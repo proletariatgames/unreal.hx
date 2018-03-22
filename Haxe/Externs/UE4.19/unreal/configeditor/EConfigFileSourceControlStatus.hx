@@ -31,4 +31,10 @@ package unreal.configeditor;
   @DisplayName("Available to edit")
   CFSCS_Writable;
   
+  /**
+    File is locked
+  **/
+  @DisplayName("File is locked")
+  CFSCS_Locked;
+  
 }

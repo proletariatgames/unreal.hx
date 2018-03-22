@@ -25,5 +25,6 @@ package unreal;
   DTYPE_Procedural;
   DTYPE_Xenon;
   DTYPE_Streaming;
+  DTYPE_MAX;
   
 }

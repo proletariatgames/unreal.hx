@@ -22,5 +22,6 @@ package unreal.aimodule;
   Square;
   InverseLinear;
   SquareRoot;
+  Constant;
   
 }

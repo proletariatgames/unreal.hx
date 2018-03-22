@@ -25,5 +25,6 @@ package unreal.aimodule;
   GreaterOrEqual;
   Greater;
   IsTrue;
+  MAX;
   
 }

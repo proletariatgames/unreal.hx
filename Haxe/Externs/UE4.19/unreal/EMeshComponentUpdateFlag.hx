@@ -38,4 +38,9 @@ package unreal;
   **/
   OnlyTickMontagesWhenNotRendered;
   
+  /**
+    Tick only when rendered, and it will only RefreshBoneTransforms when rendered.
+  **/
+  OnlyTickPoseWhenRendered;
+  
 }

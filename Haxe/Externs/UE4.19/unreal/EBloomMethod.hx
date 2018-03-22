@@ -31,5 +31,6 @@ package unreal;
   **/
   @DisplayName("Convolution")
   BM_FFT;
+  BM_MAX;
   
 }

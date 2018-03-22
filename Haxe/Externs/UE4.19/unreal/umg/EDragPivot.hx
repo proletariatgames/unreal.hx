@@ -31,5 +31,6 @@ package unreal.umg;
   CenterRight;
   BottomLeft;
   BottomCenter;
+  BottomRight;
   
 }

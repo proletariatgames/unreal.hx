@@ -21,5 +21,6 @@ package unreal;
 @:uname("EConstraintFrame.Type")
 @:uextern @:uenum extern enum EConstraintFrame {
   Frame1;
+  Frame2;
   
 }

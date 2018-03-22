@@ -26,4 +26,9 @@ package unreal.aimodule;
   @DisplayName("Two Points")
   TwoPoints;
   
+  /**
+    Context's rotation will be used as a direction.
+  **/
+  Rotation;
+  
 }

@@ -31,4 +31,9 @@ package unreal;
   **/
   Finished;
   
+  /**
+    Source has been queued for removal, will be removed next PrepareRootMotion() by the SourceGroup
+  **/
+  MarkedForRemoval;
+  
 }

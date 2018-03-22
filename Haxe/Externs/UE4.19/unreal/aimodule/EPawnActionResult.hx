@@ -22,5 +22,6 @@ package unreal.aimodule;
   InProgress;
   Success;
   Failed;
+  Aborted;
   
 }

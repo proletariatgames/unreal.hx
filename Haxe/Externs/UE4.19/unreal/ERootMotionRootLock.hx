@@ -31,4 +31,9 @@ package unreal;
   **/
   AnimFirstFrame;
   
+  /**
+    FTransform::Identity.
+  **/
+  Zero;
+  
 }

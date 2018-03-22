@@ -24,4 +24,9 @@ package unreal.paper2d;
   **/
   DilateBorder;
   
+  /**
+    Padding border filled with zeros.
+  **/
+  PadWithZero;
+  
 }

@@ -76,5 +76,6 @@ package unreal;
   **/
   @DisplayName("Roughness")
   MDR_Roughness;
+  MDR_MAX;
   
 }

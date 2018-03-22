@@ -67,5 +67,6 @@ package unreal;
   **/
   @DisplayName("Surface ForwardShading")
   TLM_SurfacePerPixelLighting;
+  TLM_MAX;
   
 }

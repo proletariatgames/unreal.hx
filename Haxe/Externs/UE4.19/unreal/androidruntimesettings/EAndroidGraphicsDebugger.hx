@@ -39,4 +39,11 @@ package unreal.androidruntimesettings;
   @DisplayName("Adreno Profiler")
   Adreno;
   
+  /**
+    Configure for RenderDoc.
+    @DisplayName RenderDoc (Experimental)
+  **/
+  @DisplayName("RenderDoc (Experimental)")
+  RenderDoc;
+  
 }

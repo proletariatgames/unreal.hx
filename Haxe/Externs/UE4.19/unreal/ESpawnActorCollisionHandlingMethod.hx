@@ -49,4 +49,11 @@ package unreal;
   @DisplayName("Try To Adjust Location, Don\'t Spawn If Still Colliding")
   AdjustIfPossibleButDontSpawnIfColliding;
   
+  /**
+    Actor will fail to spawn.
+    @DisplayName Do Not Spawn
+  **/
+  @DisplayName("Do Not Spawn")
+  DontSpawnIfColliding;
+  
 }

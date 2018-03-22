@@ -25,4 +25,11 @@ package unreal.clothingsystemruntime;
   **/
   Legacy;
   
+  /**
+    Use updated wind calculation for NvCloth based solved taking into account
+    drag and lift, this will require those properties to be correctly set in
+    the clothing configuration
+  **/
+  Accurate;
+  
 }

@@ -35,4 +35,11 @@ package unreal;
   @DisplayName("Hardware clear")
   HardwareClear;
   
+  /**
+    Draws a quad to perform the clear at the far plane, this is faster than a hardware clear on some GPUs.
+    @DisplayName Clear at far plane
+  **/
+  @DisplayName("Clear at far plane")
+  QuadAtMaxZ;
+  
 }

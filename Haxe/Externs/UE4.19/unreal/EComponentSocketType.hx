@@ -31,4 +31,9 @@ package unreal;
   **/
   Bone;
   
+  /**
+    Socket.
+  **/
+  Socket;
+  
 }

@@ -19,5 +19,6 @@ package unreal.animgraphruntime;
 @:uname("ERefPoseType")
 @:uextern @:uenum extern enum ERefPoseType {
   EIT_LocalSpace;
+  EIT_Additive;
   
 }

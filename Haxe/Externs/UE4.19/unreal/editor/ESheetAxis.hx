@@ -21,5 +21,6 @@ package unreal.editor;
   AX_Horizontal;
   AX_XAxis;
   AX_YAxis;
+  AX_MAX;
   
 }

@@ -36,4 +36,9 @@ package unreal;
   **/
   DevelopmentCook;
   
+  /**
+    Asset will always be cooked, in both production and development.
+  **/
+  AlwaysCook;
+  
 }

@@ -118,4 +118,9 @@ package unreal;
   @DisplayName("Skip Replay")
   COND_SkipReplay;
   
+  /**
+    This property will not send to the replay connection
+  **/
+  COND_Max;
+  
 }

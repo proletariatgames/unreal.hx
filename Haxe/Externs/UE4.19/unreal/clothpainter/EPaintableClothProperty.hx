@@ -29,4 +29,9 @@ package unreal.clothpainter;
   **/
   BackstopDistances;
   
+  /**
+    Backstop radius property
+  **/
+  BackstopRadius;
+  
 }

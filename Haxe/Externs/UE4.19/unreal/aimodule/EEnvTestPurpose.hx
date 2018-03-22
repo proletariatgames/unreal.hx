@@ -31,4 +31,10 @@ package unreal.aimodule;
   @DisplayName("Score Only")
   Score;
   
+  /**
+    Filter and Score
+  **/
+  @DisplayName("Filter and Score")
+  FilterAndScore;
+  
 }

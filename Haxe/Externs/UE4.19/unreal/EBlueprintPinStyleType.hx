@@ -24,4 +24,10 @@ package unreal;
   @DisplayName("Circles, Grid, Diamond")
   BPST_Original;
   
+  /**
+    Directional Circles
+  **/
+  @DisplayName("Directional Circles")
+  BPST_VariantA;
+  
 }

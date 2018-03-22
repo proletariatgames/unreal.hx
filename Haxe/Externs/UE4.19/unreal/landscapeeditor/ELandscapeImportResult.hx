@@ -20,5 +20,6 @@ package unreal.landscapeeditor;
 @:class @:uextern @:uenum extern enum ELandscapeImportResult {
   Success;
   Warning;
+  Error;
   
 }

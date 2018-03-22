@@ -31,4 +31,9 @@ package unreal;
   **/
   EulerInterp;
   
+  /**
+    Dual quaternion interpolation, follows helix or screw-motion path between keyframes.
+  **/
+  DualQuatInterp;
+  
 }

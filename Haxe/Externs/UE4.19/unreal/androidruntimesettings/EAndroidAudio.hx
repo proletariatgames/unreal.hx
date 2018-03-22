@@ -33,4 +33,11 @@ package unreal.androidruntimesettings;
   @DisplayName("Ogg Vorbis")
   OGG;
   
+  /**
+    This option selects ADPCM lossless encoding.
+    @DisplayName ADPCM
+  **/
+  @DisplayName("ADPCM")
+  ADPCM;
+  
 }

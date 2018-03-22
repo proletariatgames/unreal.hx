@@ -28,4 +28,9 @@ package unreal;
   **/
   SetVelocity;
   
+  /**
+    Clamp velocity magnitude to the specified value. Note that it will not clamp Z if negative (falling). it will clamp Z positive though.
+  **/
+  ClampVelocity;
+  
 }

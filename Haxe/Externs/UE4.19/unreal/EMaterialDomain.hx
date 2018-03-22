@@ -62,5 +62,6 @@ package unreal;
   **/
   @DisplayName("User Interface")
   MD_UI;
+  MD_MAX;
   
 }

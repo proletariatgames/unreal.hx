@@ -23,4 +23,9 @@ package unreal;
   **/
   MontageLength;
   
+  /**
+    Return value is the play duration of the montage (length / play rate, in seconds)
+  **/
+  Duration;
+  
 }

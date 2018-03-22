@@ -22,4 +22,10 @@ package unreal.aimodule;
   Distance2D;
   DistanceZ;
   
+  /**
+    Distance Z (Absolute)
+  **/
+  @DisplayName("Distance Z (Absolute)")
+  DistanceAbsoluteZ;
+  
 }

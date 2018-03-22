@@ -31,4 +31,9 @@ package unreal;
   **/
   WindowedFullscreen;
   
+  /**
+    The window has a border and may not take up the entire screen area
+  **/
+  Windowed;
+  
 }

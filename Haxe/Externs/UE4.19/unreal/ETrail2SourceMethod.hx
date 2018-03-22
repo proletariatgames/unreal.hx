@@ -35,5 +35,6 @@ package unreal;
         The name of the actor should be set in SourceName.
   **/
   PET2SRCM_Actor;
+  PET2SRCM_MAX;
   
 }

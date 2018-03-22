@@ -47,5 +47,6 @@ package unreal;
   **/
   @DisplayName("XYZ")
   EDVLF_XYZ;
+  EDVLF_MAX;
   
 }

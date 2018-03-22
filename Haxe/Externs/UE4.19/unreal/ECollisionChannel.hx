@@ -101,5 +101,6 @@ package unreal;
     Add only nonserialized/transient flags below // NOTE!!!! THESE ARE BEING DEPRECATED BUT STILL THERE FOR BLUEPRINT. PLEASE DO NOT USE THEM IN CODE
   **/
   ECC_OverlapAll_Deprecated;
+  ECC_MAX;
   
 }

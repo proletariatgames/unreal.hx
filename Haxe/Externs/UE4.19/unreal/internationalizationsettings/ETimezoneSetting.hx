@@ -612,5 +612,6 @@ package unreal.internationalizationsettings;
   **/
   @DisplayName("(UTC+13:00) Nuku\'alofa")
   Nukualofa;
+  LocalTime;
   
 }

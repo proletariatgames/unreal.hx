@@ -71,4 +71,9 @@ package unreal;
   **/
   NetGuidMismatch;
   
+  /**
+    Network checksum mismatch
+  **/
+  NetChecksumMismatch;
+  
 }

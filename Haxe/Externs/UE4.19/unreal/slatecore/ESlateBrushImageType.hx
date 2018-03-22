@@ -32,4 +32,9 @@ package unreal.slatecore;
   **/
   FullColor;
   
+  /**
+    The image is a special texture in linear space (usually a rendering resource such as a lookup table).
+  **/
+  Linear;
+  
 }

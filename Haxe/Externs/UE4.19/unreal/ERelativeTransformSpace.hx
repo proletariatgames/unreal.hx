@@ -36,4 +36,9 @@ package unreal;
   **/
   RTS_Component;
   
+  /**
+    Parent bone space transform
+  **/
+  RTS_ParentBoneSpace;
+  
 }

@@ -22,5 +22,6 @@ package unreal;
 @:uextern @:uenum extern enum EEdGraphPinDirection {
   EGPD_Input;
   EGPD_Output;
+  EGPD_MAX;
   
 }

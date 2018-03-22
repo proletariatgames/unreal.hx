@@ -23,5 +23,6 @@ package unreal.landscapeeditor;
   InvalidSize;
   CorruptFile;
   ColorPng;
+  LowBitDepth;
   
 }

@@ -35,4 +35,11 @@ package unreal;
   @DisplayName("Maintain Local Rotation Relative to Parent")
   BRS_KeepLocalSpaceRotation;
   
+  /**
+    Copy rotation of target to bone.
+    @DisplayName Copy Target Rotation
+  **/
+  @DisplayName("Copy Target Rotation")
+  BRS_CopyFromTarget;
+  
 }

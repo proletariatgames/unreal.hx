@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum EAdManagerDelegate {
   AMD_ClickedBanner;
   AMD_UserClosedAd;
+  AMD_MAX;
   
 }

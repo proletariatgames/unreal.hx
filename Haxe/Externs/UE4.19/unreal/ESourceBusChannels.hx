@@ -21,5 +21,6 @@ package unreal;
 @:uname("ESourceBusChannels")
 @:class @:uextern @:uenum extern enum ESourceBusChannels {
   Mono;
+  Stereo;
   
 }

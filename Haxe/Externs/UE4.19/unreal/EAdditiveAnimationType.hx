@@ -41,5 +41,6 @@ package unreal;
   **/
   @DisplayName("Mesh Space")
   AAT_RotationOffsetMeshSpace;
+  AAT_MAX;
   
 }

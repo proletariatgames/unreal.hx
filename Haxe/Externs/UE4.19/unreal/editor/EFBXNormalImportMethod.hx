@@ -36,5 +36,6 @@ package unreal.editor;
   **/
   @DisplayName("Import Normals and Tangents")
   FBXNIM_ImportNormalsAndTangents;
+  FBXNIM_MAX;
   
 }

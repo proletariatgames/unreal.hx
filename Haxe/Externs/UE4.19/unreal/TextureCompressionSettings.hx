@@ -92,5 +92,6 @@ package unreal;
   **/
   @DisplayName("BC7 (DX11, optional A)")
   TC_BC7;
+  TC_MAX;
   
 }

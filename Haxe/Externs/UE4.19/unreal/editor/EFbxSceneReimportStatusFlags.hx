@@ -23,5 +23,6 @@ package unreal.editor;
   Removed;
   Same;
   FoundContentBrowserAsset;
+  ReimportAsset;
   
 }

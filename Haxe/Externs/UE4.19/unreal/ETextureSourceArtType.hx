@@ -32,5 +32,6 @@ package unreal;
     DDS file with header.
   **/
   TSAT_DDSFile;
+  TSAT_MAX;
   
 }

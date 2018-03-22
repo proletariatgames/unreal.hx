@@ -41,4 +41,9 @@ package unreal.slatecore;
   **/
   Num;
   
+  /**
+    Denotes an invalid navigation, more important used to denote no specified navigation
+  **/
+  Invalid;
+  
 }

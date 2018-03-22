@@ -24,5 +24,6 @@ package unreal.umg;
   None;
   Designing;
   ShowOutline;
+  ExecutePreConstruct;
   
 }

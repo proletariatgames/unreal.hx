@@ -26,5 +26,6 @@ package unreal;
   SMOI_Normal;
   SMOI_High;
   SMOI_Highest;
+  SMOI_MAX;
   
 }

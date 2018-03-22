@@ -48,5 +48,6 @@ package unreal;
   **/
   @DisplayName("Selected animation frame")
   ABPT_AnimFrame;
+  ABPT_MAX;
   
 }

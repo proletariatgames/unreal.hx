@@ -52,4 +52,9 @@ package unreal.augmentedreality;
   **/
   UnsupportedConfiguration;
   
+  /**
+    Session isn't running due to unknown reason; @see FARSessionStatus::AdditionalInfo for more information
+  **/
+  Other;
+  
 }

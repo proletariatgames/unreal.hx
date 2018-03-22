@@ -26,4 +26,9 @@ package unreal;
   **/
   Override;
   
+  /**
+    Gets added on top of existing velocity
+  **/
+  Additive;
+  
 }

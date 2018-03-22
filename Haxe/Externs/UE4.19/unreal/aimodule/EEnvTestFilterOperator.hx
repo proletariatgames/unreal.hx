@@ -24,4 +24,9 @@ package unreal.aimodule;
   **/
   AllPass;
   
+  /**
+    At least one context must pass condition
+  **/
+  AnyPass;
+  
 }

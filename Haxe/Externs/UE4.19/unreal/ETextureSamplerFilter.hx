@@ -24,5 +24,6 @@ package unreal;
   Bilinear;
   Trilinear;
   AnisotropicPoint;
+  AnisotropicLinear;
   
 }

@@ -41,4 +41,9 @@ package unreal;
   **/
   Vertical;
   
+  /**
+    Custom - Allows custom rule interpretation.
+  **/
+  Custom;
+  
 }

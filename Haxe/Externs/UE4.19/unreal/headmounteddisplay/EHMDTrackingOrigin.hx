@@ -28,4 +28,10 @@ package unreal.headmounteddisplay;
   @DisplayName("Floor Level")
   Floor;
   
+  /**
+    Eye Level
+  **/
+  @DisplayName("Eye Level")
+  Eye;
+  
 }

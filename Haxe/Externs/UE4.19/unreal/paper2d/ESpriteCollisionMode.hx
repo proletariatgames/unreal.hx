@@ -33,4 +33,11 @@ package unreal.paper2d;
   @DisplayName("Use 2D Physics (Deprecated)")
   Use2DPhysics;
   
+  /**
+    Should this have 3D collision geometry and participate in the 3D physics world?
+    @DisplayName Use 3D Physics
+  **/
+  @DisplayName("Use 3D Physics")
+  Use3DPhysics;
+  
 }

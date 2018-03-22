@@ -47,4 +47,11 @@ package unreal.moviescene;
   @DisplayName("Linear")
   Linear;
   
+  /**
+    Constant.
+    @DisplayName Constant
+  **/
+  @DisplayName("Constant")
+  Constant;
+  
 }

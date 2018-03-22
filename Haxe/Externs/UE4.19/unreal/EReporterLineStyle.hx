@@ -21,5 +21,6 @@ package unreal;
 @:uname("EReporterLineStyle.Type")
 @:uextern @:uenum extern enum EReporterLineStyle {
   Line;
+  Dash;
   
 }

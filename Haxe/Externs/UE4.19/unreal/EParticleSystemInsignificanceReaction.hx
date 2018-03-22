@@ -41,4 +41,9 @@ package unreal;
   **/
   DisableTickAndKill;
   
+  /**
+    Hidden for now until I make it useful i.e. Killing particles saves memory.
+  **/
+  Num;
+  
 }

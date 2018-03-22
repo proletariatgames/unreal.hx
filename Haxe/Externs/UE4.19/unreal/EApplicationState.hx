@@ -36,4 +36,9 @@ package unreal;
   **/
   Background;
   
+  /**
+    The Application was active when receiving the notification
+  **/
+  Active;
+  
 }

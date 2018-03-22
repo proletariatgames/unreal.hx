@@ -21,5 +21,6 @@ package unreal;
 @:uname("ESplineCoordinateSpace.Type")
 @:uextern @:uenum extern enum ESplineCoordinateSpace {
   Local;
+  World;
   
 }

@@ -20,5 +20,6 @@ package unreal.slate;
 @:class @:uextern @:uenum extern enum EMultipleKeyBindingIndex {
   Primary;
   Secondary;
+  NumChords;
   
 }

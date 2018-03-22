@@ -32,4 +32,9 @@ package unreal.animgraphruntime;
   **/
   Quaternion;
   
+  /**
+    Treat inputs as quaternion, and find distance between rotated TwistAxis direction
+  **/
+  SwingAngle;
+  
 }

@@ -22,5 +22,6 @@ package unreal.animgraphruntime;
 @:uname("ESphericalLimitType")
 @:class @:uextern @:uenum extern enum ESphericalLimitType {
   Inner;
+  Outer;
   
 }

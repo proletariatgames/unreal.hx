@@ -40,4 +40,9 @@ package unreal.slatecore;
   **/
   FF_LastResortFallback;
   
+  /**
+    Tries all fallbacks
+  **/
+  FF_Max;
+  
 }

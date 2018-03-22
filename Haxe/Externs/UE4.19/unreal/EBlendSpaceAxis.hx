@@ -38,5 +38,6 @@ package unreal;
   **/
   @DisplayName("Vertical (Y) Axis")
   BSA_Y;
+  BSA_Max;
   
 }

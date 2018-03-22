@@ -24,4 +24,9 @@ package unreal.aimodule;
   **/
   BySpaceBetween;
   
+  /**
+    Use a fixed number of points
+  **/
+  ByNumberOfPoints;
+  
 }

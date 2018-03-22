@@ -27,4 +27,9 @@ package unreal.animgraphruntime;
   **/
   DrivePoses;
   
+  /**
+    Use the target's DrivenName to drive curves
+  **/
+  DriveCurves;
+  
 }

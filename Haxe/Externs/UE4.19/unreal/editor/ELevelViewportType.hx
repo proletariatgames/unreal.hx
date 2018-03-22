@@ -54,5 +54,6 @@ package unreal.editor;
   **/
   LVT_OrthoNegativeYZ;
   LVT_MAX;
+  LVT_None;
   
 }

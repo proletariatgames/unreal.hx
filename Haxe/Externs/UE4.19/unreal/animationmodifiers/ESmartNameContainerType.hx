@@ -30,5 +30,6 @@ package unreal.animationmodifiers;
   **/
   @DisplayName("Track Curve Names")
   SNCT_TrackCurveMapping;
+  SNCT_MAX;
   
 }

@@ -35,5 +35,6 @@ package unreal;
   **/
   @DisplayName("Sequential")
   EPSSM_Sequential;
+  EPSSM_MAX;
   
 }

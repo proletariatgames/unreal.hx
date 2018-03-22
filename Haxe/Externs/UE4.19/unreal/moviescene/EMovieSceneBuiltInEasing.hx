@@ -71,5 +71,6 @@ package unreal.moviescene;
   **/
   CircIn;
   CircOut;
+  CircInOut;
   
 }

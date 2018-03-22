@@ -42,4 +42,9 @@ package unreal.paper2d;
   **/
   FullyCustom;
   
+  /**
+    Diced (split up into smaller squares, including only non-empty ones in the final geometry).  This option is only supported for Render geometry and will be ignored for Collision geometry.
+  **/
+  Diced;
+  
 }

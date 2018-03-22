@@ -19,4 +19,9 @@ package unreal.editor;
 @:uname("ELaunchModeType")
 @:uextern @:uenum extern enum ELaunchModeType {
   
+  /**
+    Runs the map on a specified device.
+  **/
+  LaunchMode_OnDevice;
+  
 }

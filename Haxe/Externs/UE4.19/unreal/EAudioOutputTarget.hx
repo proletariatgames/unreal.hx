@@ -28,4 +28,9 @@ package unreal;
   **/
   Controller;
   
+  /**
+    Sound plays on the controller if present. If not present, it plays from speakers.
+  **/
+  ControllerFallbackToSpeaker;
+  
 }

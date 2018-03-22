@@ -23,5 +23,6 @@ package unreal.oculushmd;
 @:class @:uextern @:uenum extern enum EGearVRControllerHandedness_DEPRECATED {
   RightHanded_DEPRECATED;
   LeftHanded_DEPRECATED;
+  Unknown_DEPRECATED;
   
 }

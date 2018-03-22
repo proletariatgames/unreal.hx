@@ -48,5 +48,6 @@ package unreal;
   **/
   @DisplayName("Derivative (explicit derivative to compute mip level)")
   TMVM_Derivative;
+  TMVM_MAX;
   
 }

@@ -32,4 +32,11 @@ package unreal;
   @DisplayName("Render Scene Primitives")
   PRM_RenderScenePrimitives;
   
+  /**
+    Render only primitives in the ShowOnlyActors list, or components specified with ShowOnlyComponent().
+    @DisplayName Use ShowOnly List
+  **/
+  @DisplayName("Use ShowOnly List")
+  PRM_UseShowOnlyList;
+  
 }

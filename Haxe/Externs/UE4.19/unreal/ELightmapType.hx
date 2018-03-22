@@ -28,4 +28,11 @@ package unreal;
   **/
   ForceSurface;
   
+  /**
+    Force Volumetric Lightmaps, even if the component is static and could have supported surface lightmaps.
+    Volumetric Lightmaps have better directionality and no Lightmap UV seams, but are much lower resolution than Surface Lightmaps and frequently have self-occlusion and leaking problems.
+    Note: Lightmass currently requires valid lightmap UVs and sufficient lightmap resolution to compute bounce lighting, even though the Volumetric Lightmap will be used at runtime.
+  **/
+  ForceVolumetric;
+  
 }

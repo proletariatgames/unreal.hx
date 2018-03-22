@@ -22,5 +22,6 @@ package unreal.addcontentdialog;
 @:uname("EFeaturePackDetailLevel")
 @:class @:uextern @:uenum extern enum EFeaturePackDetailLevel {
   Standard;
+  High;
   
 }

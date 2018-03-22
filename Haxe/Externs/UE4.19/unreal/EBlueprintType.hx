@@ -62,5 +62,6 @@ package unreal;
   **/
   @DisplayName("Blueprint Function Library")
   BPTYPE_FunctionLibrary;
+  BPTYPE_MAX;
   
 }

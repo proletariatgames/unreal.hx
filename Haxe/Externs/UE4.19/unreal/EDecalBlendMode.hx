@@ -104,5 +104,6 @@ package unreal;
   **/
   @DisplayName("Volumetric Distance Function (experimental)")
   DBM_Volumetric_DistanceFunction;
+  DBM_MAX;
   
 }

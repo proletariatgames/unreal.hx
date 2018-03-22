@@ -25,5 +25,6 @@ package unreal.aimodule;
   NoMove;
   DirectMove;
   PartialPath;
+  PathToGoal;
   
 }

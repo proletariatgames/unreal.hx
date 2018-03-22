@@ -25,5 +25,6 @@ package unreal.androiddeviceprofileselector;
   CMP_GreaterEqual;
   CMP_NotEqual;
   CMP_Regex;
+  CMP_MAX;
   
 }

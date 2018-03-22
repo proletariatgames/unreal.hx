@@ -73,4 +73,9 @@ package unreal.netcodeunittest;
   **/
   DumpReceivedRPC;
   
+  /**
+    Whether or not to dump RPC receives (with LogNetTraffic, detects ProcessEvent RPC fail)
+  **/
+  DumpSendRPC;
+  
 }

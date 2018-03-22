@@ -27,5 +27,6 @@ package unreal;
   TT_Connecting;
   TT_Precaching;
   TT_WaitingToConnect;
+  TT_MAX;
   
 }

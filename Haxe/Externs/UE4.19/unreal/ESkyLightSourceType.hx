@@ -27,5 +27,6 @@ package unreal;
     Construct the sky light from the specified cubemap.
   **/
   SLS_SpecifiedCubemap;
+  SLS_MAX;
   
 }

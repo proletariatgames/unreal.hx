@@ -28,4 +28,12 @@ package unreal;
   **/
   UseSensitiveLiftoffCheck;
   
+  /**
+    If Duration of Source would end partway through the last tick it is active,
+    do not reduce SimulationTime. Disabling this is useful for sources that
+    are more about providing velocity (like jumps), vs. sources that need
+    the precision of partial ticks for say ending up at an exact location (MoveTo)
+  **/
+  DisablePartialEndTick;
+  
 }

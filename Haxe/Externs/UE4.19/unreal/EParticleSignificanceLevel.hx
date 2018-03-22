@@ -40,5 +40,6 @@ package unreal;
     Critical emitter. Never culled.
   **/
   Critical;
+  Num;
   
 }

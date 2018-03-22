@@ -35,5 +35,6 @@ package unreal;
     Bone is hidden directly.
   **/
   BVS_ExplicitlyHidden;
+  BVS_MAX;
   
 }

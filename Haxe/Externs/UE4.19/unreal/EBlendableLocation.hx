@@ -57,5 +57,6 @@ package unreal;
   **/
   @DisplayName("SSR Input")
   BL_SSRInput;
+  BL_MAX;
   
 }

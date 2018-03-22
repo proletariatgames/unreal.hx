@@ -29,4 +29,11 @@ package unreal.aimodule;
   @DisplayName("Immediate")
   AbortBackground;
   
+  /**
+    When main task finishes, wait for background tree to finish.
+    @DisplayName Delayed
+  **/
+  @DisplayName("Delayed")
+  WaitForBackground;
+  
 }

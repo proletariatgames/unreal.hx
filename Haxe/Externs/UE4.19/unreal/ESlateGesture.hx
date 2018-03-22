@@ -22,5 +22,6 @@ package unreal;
   Magnify;
   Swipe;
   Rotate;
+  LongPress;
   
 }

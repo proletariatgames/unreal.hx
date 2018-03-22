@@ -37,4 +37,9 @@ package unreal.paper2d;
   **/
   IsometricStaggered;
   
+  /**
+    Hexagonal tile layout (roughly in a square with alternating rows staggered).  Warning: Not fully supported yet.
+  **/
+  HexagonalStaggered;
+  
 }

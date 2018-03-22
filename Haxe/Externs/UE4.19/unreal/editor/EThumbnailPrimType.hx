@@ -26,5 +26,6 @@ package unreal.editor;
   TPT_Cube;
   TPT_Plane;
   TPT_Cylinder;
+  TPT_MAX;
   
 }

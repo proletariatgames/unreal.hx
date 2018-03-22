@@ -29,4 +29,9 @@ package unreal.paper2d;
   **/
   FirstFrameCollision;
   
+  /**
+    The flipbook changes collision each frame based on the animation (Note: This setting is not recommended and is very expensive, recreating the physics state every frame)
+  **/
+  EachFrameCollision;
+  
 }

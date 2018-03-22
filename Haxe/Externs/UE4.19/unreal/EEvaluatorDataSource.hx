@@ -27,4 +27,10 @@ package unreal;
   @DisplayName("Source Pose")
   EDS_SourcePose;
   
+  /**
+    Destination Pose
+  **/
+  @DisplayName("Destination Pose")
+  EDS_DestinationPose;
+  
 }

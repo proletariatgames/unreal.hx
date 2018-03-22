@@ -28,4 +28,9 @@ package unreal;
   **/
   ILCQ_Point;
   
+  /**
+    The object will get a 5x5x5 stable volume of interpolated indirect lighting, which allows gradients of lighting intensity across the receiving object.
+  **/
+  ILCQ_Volume;
+  
 }

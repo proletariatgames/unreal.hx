@@ -60,4 +60,10 @@ package unreal;
   **/
   AACF_DriveTrack;
   
+  /**
+    @Todo: remove?
+    disabled, right now it's used by track
+  **/
+  AACF_Disabled;
+  
 }

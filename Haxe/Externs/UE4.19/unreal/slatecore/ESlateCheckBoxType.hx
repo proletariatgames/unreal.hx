@@ -27,4 +27,9 @@ package unreal.slatecore;
   **/
   CheckBox;
   
+  /**
+    Toggle button.  You provide button content (such as an image), and the user can press to toggle it.
+  **/
+  ToggleButton;
+  
 }

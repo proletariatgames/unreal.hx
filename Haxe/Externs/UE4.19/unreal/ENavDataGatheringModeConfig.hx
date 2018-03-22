@@ -19,5 +19,6 @@ package unreal;
 @:class @:uextern @:uenum extern enum ENavDataGatheringModeConfig {
   Invalid;
   Instant;
+  Lazy;
   
 }

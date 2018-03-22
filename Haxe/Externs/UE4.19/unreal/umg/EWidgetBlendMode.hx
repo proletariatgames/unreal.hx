@@ -20,5 +20,6 @@ package unreal.umg;
 @:class @:uextern @:uenum extern enum EWidgetBlendMode {
   Opaque;
   Masked;
+  Transparent;
   
 }

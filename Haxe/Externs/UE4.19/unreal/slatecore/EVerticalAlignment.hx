@@ -43,4 +43,11 @@ package unreal.slatecore;
   @DisplayName("Center")
   VAlign_Center;
   
+  /**
+    Bottom-align.
+    @DisplayName Bottom
+  **/
+  @DisplayName("Bottom")
+  VAlign_Bottom;
+  
 }

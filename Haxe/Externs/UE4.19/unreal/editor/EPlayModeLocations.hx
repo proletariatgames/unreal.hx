@@ -24,4 +24,9 @@ package unreal.editor;
   **/
   PlayLocation_CurrentCameraLocation;
   
+  /**
+    Spawns the player from the default player start.
+  **/
+  PlayLocation_DefaultPlayerStart;
+  
 }

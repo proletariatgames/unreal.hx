@@ -21,5 +21,6 @@ package unreal.aimodule;
   Line;
   Box;
   Sphere;
+  Capsule;
   
 }

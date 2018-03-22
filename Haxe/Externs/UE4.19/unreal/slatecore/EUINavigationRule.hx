@@ -50,4 +50,9 @@ package unreal.slatecore;
   **/
   CustomBoundary;
   
+  /**
+    Invalid Rule
+  **/
+  Invalid;
+  
 }

@@ -29,4 +29,9 @@ package unreal.augmentedreality;
   **/
   NotTracking;
   
+  /**
+    Stopped tracking forever.
+  **/
+  StoppedTracking;
+  
 }

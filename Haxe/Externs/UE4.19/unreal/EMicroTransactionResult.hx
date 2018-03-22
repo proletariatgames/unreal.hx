@@ -24,5 +24,6 @@ package unreal;
   MTR_Failed;
   MTR_Canceled;
   MTR_RestoredFromServer;
+  MTR_MAX;
   
 }

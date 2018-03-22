@@ -40,4 +40,11 @@ package unreal.iosruntimesettings;
   @DisplayName("30 FPS")
   PUFRL_30;
   
+  /**
+    Frame rate is limited to a maximum of 60 frames per second.
+    @DisplayName 60 FPS
+  **/
+  @DisplayName("60 FPS")
+  PUFRL_60;
+  
 }

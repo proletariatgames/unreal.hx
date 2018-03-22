@@ -24,4 +24,9 @@ package unreal.paper2deditor;
   **/
   Auto;
   
+  /**
+    Extract sprites in a grid defined in the properties below
+  **/
+  Grid;
+  
 }

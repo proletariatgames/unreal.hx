@@ -38,4 +38,9 @@ package unreal.aimodule;
   **/
   Or;
   
+  /**
+    logic op: NOT
+  **/
+  Not;
+  
 }

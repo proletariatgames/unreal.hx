@@ -26,4 +26,11 @@ package unreal.sequencer;
   @DisplayName("Origin")
   SSP_Origin;
   
+  /**
+    Place in Front of Camera.
+    @DisplayName Place in Front of Camera
+  **/
+  @DisplayName("Place in Front of Camera")
+  SSP_PlaceInFrontOfCamera;
+  
 }

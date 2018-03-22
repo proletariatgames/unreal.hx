@@ -38,5 +38,6 @@ package unreal;
   **/
   @DisplayName("CircleDOF")
   DOFM_CircleDOF;
+  DOFM_MAX;
   
 }

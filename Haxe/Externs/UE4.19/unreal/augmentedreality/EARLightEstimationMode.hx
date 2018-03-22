@@ -29,4 +29,10 @@ package unreal.augmentedreality;
   **/
   AmbientLightEstimate;
   
+  /**
+    Enable directional light estimation of environment with an additional key light.
+    Currently not supported.
+  **/
+  DirectionalLightEstimate;
+  
 }

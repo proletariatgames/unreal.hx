@@ -19,4 +19,10 @@ package unreal.windowstargetplatform;
 @:uname("EMinimumSupportedOS")
 @:class @:uextern @:uenum extern enum EMinimumSupportedOS {
   
+  /**
+    Windows Vista
+  **/
+  @DisplayName("Windows Vista")
+  MSOS_Vista;
+  
 }

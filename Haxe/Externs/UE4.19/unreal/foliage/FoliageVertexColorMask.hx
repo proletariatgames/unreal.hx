@@ -43,4 +43,10 @@ package unreal.foliage;
   @DisplayName("Blue")
   FOLIAGEVERTEXCOLORMASK_Blue;
   
+  /**
+    Alpha
+  **/
+  @DisplayName("Alpha")
+  FOLIAGEVERTEXCOLORMASK_Alpha;
+  
 }

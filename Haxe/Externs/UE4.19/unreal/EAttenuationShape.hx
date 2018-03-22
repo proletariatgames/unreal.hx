@@ -20,5 +20,6 @@ package unreal;
   Sphere;
   Capsule;
   Box;
+  Cone;
   
 }

@@ -134,5 +134,6 @@ package unreal.vectorvm;
   **/
   enter_stat_scope;
   exit_stat_scope;
+  NumOpcodes;
   
 }

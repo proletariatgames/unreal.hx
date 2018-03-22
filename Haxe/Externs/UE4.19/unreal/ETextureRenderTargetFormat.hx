@@ -61,4 +61,9 @@ package unreal;
   **/
   RTF_RG32f;
   
+  /**
+    RGBA channels, 32 bit per channel floating point, range [-3.402823 x 10^38, 3.402823 x 10^38]
+  **/
+  RTF_RGBA32f;
+  
 }

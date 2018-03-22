@@ -58,4 +58,10 @@ package unreal.oculushmd;
   @DisplayName("DeviceObject Zero")
   DeviceObjectZero;
   
+  /**
+    All Devices
+  **/
+  @DisplayName("All Devices")
+  All;
+  
 }

@@ -28,4 +28,10 @@ package unreal.speedtreeimporter;
   @DisplayName("Painted Foliage")
   ILT_PaintedFoliage;
   
+  /**
+    Individual Actors
+  **/
+  @DisplayName("Individual Actors")
+  ILT_IndividualActors;
+  
 }

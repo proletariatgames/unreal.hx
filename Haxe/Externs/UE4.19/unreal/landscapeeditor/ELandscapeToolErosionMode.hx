@@ -30,4 +30,9 @@ package unreal.landscapeeditor;
   **/
   Raise;
   
+  /**
+    Only applies erosion effects that result in lowering the heightmap
+  **/
+  Lower;
+  
 }

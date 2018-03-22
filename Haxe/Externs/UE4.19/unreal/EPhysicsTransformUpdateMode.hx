@@ -18,5 +18,6 @@ package unreal;
 @:uname("EPhysicsTransformUpdateMode.Type")
 @:uextern @:uenum extern enum EPhysicsTransformUpdateMode {
   SimulationUpatesComponentTransform;
+  ComponentTransformIsKinematic;
   
 }

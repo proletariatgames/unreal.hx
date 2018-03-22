@@ -35,4 +35,11 @@ package unreal;
   @DisplayName("Direct Set")
   PARTICLESYSTEMLODMETHOD_DirectSet;
   
+  /**
+    LOD level is determined at Activation time, then left alone unless directly set by game code.
+    @DisplayName Activate Automatic
+  **/
+  @DisplayName("Activate Automatic")
+  PARTICLESYSTEMLODMETHOD_ActivateAutomatic;
+  
 }

@@ -36,4 +36,9 @@ package unreal;
   **/
   NavigationOnly;
   
+  /**
+    Focus Brush will not be rendered.
+  **/
+  Never;
+  
 }

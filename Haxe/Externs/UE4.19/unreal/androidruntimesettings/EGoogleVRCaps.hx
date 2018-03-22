@@ -33,4 +33,11 @@ package unreal.androidruntimesettings;
   @DisplayName("Daydream (3.3 DoF)")
   Daydream33;
   
+  /**
+    Head position and orientation, controller orientation. Daydream with positional tracking.
+    @DisplayName Daydream (6.3 DoF)
+  **/
+  @DisplayName("Daydream (6.3 DoF)")
+  Daydream63;
+  
 }

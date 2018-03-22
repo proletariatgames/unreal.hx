@@ -24,5 +24,6 @@ package unreal;
   IL_High;
   IL_Highest;
   TEMP_BROKEN2;
+  EImportanceLevel_MAX;
   
 }

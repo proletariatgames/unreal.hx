@@ -32,4 +32,9 @@ package unreal.editor;
   **/
   SelectedKeys;
   
+  /**
+    Don't display tangents.
+  **/
+  NoTangents;
+  
 }

@@ -20,5 +20,6 @@ package unreal;
   TID_AuthorizeComplete;
   TID_TweetUIComplete;
   TID_RequestComplete;
+  TID_MAX;
   
 }

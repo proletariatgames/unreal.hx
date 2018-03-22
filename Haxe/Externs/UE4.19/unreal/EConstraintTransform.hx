@@ -26,4 +26,9 @@ package unreal;
   **/
   Absolute;
   
+  /**
+    Apply relative transform from ref pose.
+  **/
+  Relative;
+  
 }

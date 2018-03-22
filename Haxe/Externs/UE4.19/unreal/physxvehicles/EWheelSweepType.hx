@@ -33,4 +33,11 @@ package unreal.physxvehicles;
   @DisplayName("Simple")
   Simple;
   
+  /**
+    Sweeps against complex geometry only
+    @DisplayName Complex
+  **/
+  @DisplayName("Complex")
+  Complex;
+  
 }

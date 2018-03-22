@@ -19,5 +19,6 @@ package unreal.umg;
 @:uname("EBindingKind")
 @:class @:uextern @:uenum extern enum EBindingKind {
   Function;
+  Property;
   
 }

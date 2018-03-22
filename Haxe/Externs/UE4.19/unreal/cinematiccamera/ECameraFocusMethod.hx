@@ -32,4 +32,9 @@ package unreal.cinematiccamera;
   **/
   Manual;
   
+  /**
+    Locks focus to specific object.
+  **/
+  Tracking;
+  
 }

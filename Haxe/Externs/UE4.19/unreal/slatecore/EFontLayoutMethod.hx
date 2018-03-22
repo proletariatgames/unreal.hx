@@ -24,4 +24,9 @@ package unreal.slatecore;
   **/
   Metrics;
   
+  /**
+    Layout the font using the values from its bounding box. This typically yields a larger line height for fonts that have valid metrics, however it can also produce much better results for fonts that have broken or incorrect metrics.
+  **/
+  BoundingBox;
+  
 }

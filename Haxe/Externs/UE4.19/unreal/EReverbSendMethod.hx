@@ -28,4 +28,9 @@ package unreal;
   **/
   CustomCurve;
   
+  /**
+    A manual reverb send level (Uses the specififed constant send level value. Useful for 2D sounds.)
+  **/
+  Manual;
+  
 }

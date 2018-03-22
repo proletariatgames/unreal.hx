@@ -35,5 +35,6 @@ package unreal;
     Toggles visibility of the object
   **/
   EVTA_Toggle;
+  EVTA_MAX;
   
 }

@@ -21,5 +21,6 @@ package unreal.audiomixer;
   MeanSquared;
   RootMeanSquared;
   Peak;
+  Count;
   
 }

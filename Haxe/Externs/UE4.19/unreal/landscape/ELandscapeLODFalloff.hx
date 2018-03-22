@@ -26,4 +26,11 @@ package unreal.landscape;
   @DisplayName("Linear")
   Linear;
   
+  /**
+    Square Root give more natural transition, and also keep the same LOD.
+    @DisplayName Square Root
+  **/
+  @DisplayName("Square Root")
+  SquareRoot;
+  
 }

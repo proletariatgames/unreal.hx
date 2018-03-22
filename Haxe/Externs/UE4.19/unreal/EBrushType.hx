@@ -36,5 +36,6 @@ package unreal;
   **/
   @DisplayName("Subtractive")
   Brush_Subtract;
+  Brush_MAX;
   
 }

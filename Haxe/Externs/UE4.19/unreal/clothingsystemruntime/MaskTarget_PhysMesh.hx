@@ -25,5 +25,6 @@ package unreal.clothingsystemruntime;
   MaxDistance;
   BackstopDistance;
   BackstopRadius;
+  AnimDriveMultiplier;
   
 }

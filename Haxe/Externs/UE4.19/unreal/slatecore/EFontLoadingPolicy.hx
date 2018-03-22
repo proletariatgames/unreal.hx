@@ -29,4 +29,9 @@ package unreal.slatecore;
   **/
   Stream;
   
+  /**
+    Embed the font data within the asset. This will consume more memory than Streaming, however it is guaranteed to be hitch free (only valid for font data within a Font Face asset).
+  **/
+  Inline;
+  
 }

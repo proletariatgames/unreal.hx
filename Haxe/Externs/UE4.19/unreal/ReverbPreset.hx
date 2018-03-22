@@ -44,5 +44,6 @@ package unreal;
   REVERB_MediumHall;
   REVERB_LargeHall;
   REVERB_Plate;
+  REVERB_MAX;
   
 }

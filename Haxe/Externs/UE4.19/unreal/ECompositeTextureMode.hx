@@ -51,5 +51,6 @@ package unreal;
   **/
   @DisplayName("Add Normal Roughness To Alpha")
   CTM_NormalRoughnessToAlpha;
+  CTM_MAX;
   
 }

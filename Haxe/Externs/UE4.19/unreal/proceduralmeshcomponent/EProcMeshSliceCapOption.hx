@@ -32,4 +32,9 @@ package unreal.proceduralmeshcomponent;
   **/
   CreateNewSectionForCap;
   
+  /**
+    Add cap geometry to existing last section
+  **/
+  UseLastSectionForCap;
+  
 }

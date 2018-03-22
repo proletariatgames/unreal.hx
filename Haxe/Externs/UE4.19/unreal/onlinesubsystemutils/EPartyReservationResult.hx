@@ -92,4 +92,9 @@ package unreal.onlinesubsystemutils;
   **/
   BadSessionId;
   
+  /**
+    The reservation contains players already in this game
+  **/
+  ReservationDenied_ContainsExistingPlayers;
+  
 }

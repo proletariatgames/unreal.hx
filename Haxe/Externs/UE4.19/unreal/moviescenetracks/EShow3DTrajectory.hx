@@ -34,4 +34,10 @@ package unreal.moviescenetracks;
   @DisplayName("Always")
   EST_Always;
   
+  /**
+    Never
+  **/
+  @DisplayName("Never")
+  EST_Never;
+  
 }

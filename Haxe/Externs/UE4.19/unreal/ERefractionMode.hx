@@ -30,4 +30,14 @@ package unreal;
   @DisplayName("Index Of Refraction")
   RM_IndexOfRefraction;
   
+  /**
+    The refraction offset into Scene Color is computed based on the difference between the per-pixel normal and the per-vertex normal.
+    With this mode, a material whose normal is the default (0, 0, 1) will never cause any refraction.  This mode is only valid with tangent space normals.
+    The refraction material input scales the offset, although a value of 1.0 maps to no refraction, and a value of 2 maps to a scale of 1.0 on the offset.
+    This is a non-physical model of refraction but is useful on large refractive surfaces like water, since offsets have to stay small to avoid reading outside scene color.
+    @DisplayName Pixel Normal Offset
+  **/
+  @DisplayName("Pixel Normal Offset")
+  RM_PixelNormalOffset;
+  
 }

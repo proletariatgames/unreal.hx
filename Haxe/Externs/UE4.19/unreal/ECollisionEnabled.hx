@@ -42,4 +42,11 @@ package unreal;
   @DisplayName("Physics Only (No Query Collision)")
   PhysicsOnly;
   
+  /**
+    Can be used for both spatial queries (raycasts, sweeps, overlaps) and simulation (rigid body, constraints).
+    @DisplayName Collision Enabled (Query and Physics)
+  **/
+  @DisplayName("Collision Enabled (Query and Physics)")
+  QueryAndPhysics;
+  
 }

@@ -18,5 +18,6 @@ package unreal;
 @:uname("EMaterialSceneAttributeInputMode.Type")
 @:uextern @:uenum extern enum EMaterialSceneAttributeInputMode {
   Coordinates;
+  OffsetFraction;
   
 }

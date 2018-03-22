@@ -22,5 +22,6 @@ package unreal.landscape;
   TCMT_XY;
   TCMT_XZ;
   TCMT_YZ;
+  TCMT_MAX;
   
 }

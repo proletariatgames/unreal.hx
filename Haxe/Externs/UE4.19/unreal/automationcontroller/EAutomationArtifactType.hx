@@ -20,5 +20,6 @@ package unreal.automationcontroller;
 @:class @:uextern @:uenum extern enum EAutomationArtifactType {
   None;
   Image;
+  Comparison;
   
 }

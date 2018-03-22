@@ -75,4 +75,10 @@ package unreal;
   @DisplayName("Seventh bit (64), ignore depth")
   ERSM_64;
   
+  /**
+    Eighth bit (128), ignore depth
+  **/
+  @DisplayName("Eighth bit (128), ignore depth")
+  ERSM_128;
+  
 }

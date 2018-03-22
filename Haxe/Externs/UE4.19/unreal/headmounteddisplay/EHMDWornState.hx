@@ -34,4 +34,10 @@ package unreal.headmounteddisplay;
   @DisplayName("Worn")
   Worn;
   
+  /**
+    Not Worn
+  **/
+  @DisplayName("Not Worn")
+  NotWorn;
+  
 }

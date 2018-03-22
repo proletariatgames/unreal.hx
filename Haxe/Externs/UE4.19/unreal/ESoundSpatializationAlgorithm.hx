@@ -25,4 +25,11 @@ package unreal;
   @DisplayName("Panning")
   SPATIALIZATION_Default;
   
+  /**
+    3rd party binaural spatialization (HRTF, Atmos). Requires a spatializaton plugin.
+    @DisplayName Binaural
+  **/
+  @DisplayName("Binaural")
+  SPATIALIZATION_HRTF;
+  
 }

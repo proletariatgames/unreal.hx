@@ -39,4 +39,11 @@ package unreal;
   @DisplayName("Opaque and masked meshes")
   OpaqueAndMasked;
   
+  /**
+    Let the engine decide what to render in the early Z pass based on the features being used.
+    @DisplayName Decide automatically
+  **/
+  @DisplayName("Decide automatically")
+  Auto;
+  
 }

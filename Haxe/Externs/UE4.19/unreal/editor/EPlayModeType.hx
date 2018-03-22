@@ -59,4 +59,9 @@ package unreal.editor;
   **/
   PlayMode_Simulate;
   
+  /**
+    The number of different Play Modes.
+  **/
+  PlayMode_Count;
+  
 }

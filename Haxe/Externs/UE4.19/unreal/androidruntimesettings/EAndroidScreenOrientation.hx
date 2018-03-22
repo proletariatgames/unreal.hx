@@ -57,4 +57,9 @@ package unreal.androidruntimesettings;
   **/
   Sensor;
   
+  /**
+    Use any orientation (including ones the device wouldn't choose in Sensor mode), based on the device orientation sensor.
+  **/
+  FullSensor;
+  
 }

@@ -88,4 +88,9 @@ package unreal;
   **/
   ExpInOut;
   
+  /**
+    Custom interpolation, will use custom curve inside an FAlphaBlend or linear if none has been set
+  **/
+  Custom;
+  
 }

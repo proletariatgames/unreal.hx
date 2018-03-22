@@ -30,5 +30,6 @@ package unreal;
     Start with zero offset.
   **/
   EOO_OffsetZero;
+  EOO_MAX;
   
 }

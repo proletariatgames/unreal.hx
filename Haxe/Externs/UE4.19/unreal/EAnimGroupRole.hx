@@ -38,4 +38,9 @@ package unreal;
   **/
   TransitionLeader;
   
+  /**
+    This node will be excluded from the sync group while blending in. Once blended in it will be a follower until blended out
+  **/
+  TransitionFollower;
+  
 }

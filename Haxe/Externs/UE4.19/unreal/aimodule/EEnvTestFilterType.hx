@@ -34,4 +34,9 @@ package unreal.aimodule;
   **/
   Range;
   
+  /**
+    For Boolean tests.
+  **/
+  Match;
+  
 }

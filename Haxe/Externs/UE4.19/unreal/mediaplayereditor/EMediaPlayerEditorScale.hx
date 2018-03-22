@@ -32,4 +32,9 @@ package unreal.mediaplayereditor;
   **/
   Fit;
   
+  /**
+    Do not stretch or scale.
+  **/
+  Original;
+  
 }

@@ -31,5 +31,6 @@ package unreal;
     Foreground scene DPG.
   **/
   SDPG_Foreground;
+  SDPG_MAX;
   
 }

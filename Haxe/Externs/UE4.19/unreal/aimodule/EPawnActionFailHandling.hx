@@ -19,5 +19,6 @@ package unreal.aimodule;
 @:uname("EPawnActionFailHandling.Type")
 @:uextern @:uenum extern enum EPawnActionFailHandling {
   RequireSuccess;
+  IgnoreFailure;
   
 }

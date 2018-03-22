@@ -95,5 +95,6 @@ package unreal;
   **/
   @DisplayName("Velocity Aligned : -Y Axis Facing")
   VelocityAligned_NegativeYAxisFacing;
+  EMeshCameraFacingOptions_MAX;
   
 }

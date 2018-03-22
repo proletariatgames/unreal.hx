@@ -31,4 +31,9 @@ package unreal.aimodule;
   **/
   High;
   
+  /**
+    (1.5 * FGameplayTasks::DefaultPriority),
+  **/
+  Ultimate;
+  
 }

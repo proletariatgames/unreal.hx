@@ -32,5 +32,6 @@ package unreal;
     Normals are generated from a cylinder going through NormalsSphereCenter, in the direction NormalsCylinderDirection.
   **/
   ENM_Cylindrical;
+  ENM_MAX;
   
 }

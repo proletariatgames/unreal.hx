@@ -28,4 +28,9 @@ package unreal;
   **/
   NormalizeByWeight;
   
+  /**
+    Blend By Weight without normalizing
+  **/
+  BlendByWeight;
+  
 }

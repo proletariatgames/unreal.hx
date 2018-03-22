@@ -37,4 +37,9 @@ package unreal.sequencer;
   **/
   All;
   
+  /**
+    Do nothing
+  **/
+  None;
+  
 }

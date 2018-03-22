@@ -32,4 +32,9 @@ package unreal.moviescenetracks;
   **/
   AtEndOfEvaluation;
   
+  /**
+    Fire events right after any spawn tracks have been evaluated
+  **/
+  AfterSpawn;
+  
 }

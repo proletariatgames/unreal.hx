@@ -39,4 +39,11 @@ package unreal;
   **/
   HighPrecisionNormals;
   
+  /**
+    Forces all GBuffers to 16 bits per channel. Intended as profiling for best quality.
+    @DisplayName Force 16 Bits Per Channel
+  **/
+  @DisplayName("Force 16 Bits Per Channel")
+  Force16BitsPerChannel;
+  
 }

@@ -56,4 +56,18 @@ package unreal.slatecore;
   @DisplayName("Clip To Bounds - Always (Advanced)")
   ClipToBoundsAlways;
   
+  /**
+    This widget clips to its bounds when it's Desired Size is larger than the allocated geometry
+    the widget is given.  If that occurs, it work like [Yes].
+    
+    NOTE: This mode was primarily added for Text, which is often placed into containers that eventually
+    are resized to not be able to support the length of the text.  So rather than needing to tag every
+    container that could contain text with [Yes], which would result in almost no batching, this mode
+    was added to dynamically adjust the clipping if needed.  The reason not every panel is set to OnDemand,
+    is because not every panel returns a Desired Size that matches what it plans to render at.
+    @DisplayName On Demand (Advanced)
+  **/
+  @DisplayName("On Demand (Advanced)")
+  OnDemand;
+  
 }

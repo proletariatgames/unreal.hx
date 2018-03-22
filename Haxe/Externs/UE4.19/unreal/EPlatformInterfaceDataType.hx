@@ -34,5 +34,6 @@ package unreal;
     A custom type where more than one value may be filled out.
   **/
   PIDT_Custom;
+  PIDT_MAX;
   
 }

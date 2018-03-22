@@ -76,4 +76,9 @@ package unreal;
   **/
   ServerTravelFailure;
   
+  /**
+    There was an error during a client travel to a new map
+  **/
+  ClientTravelFailure;
+  
 }

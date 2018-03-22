@@ -32,4 +32,11 @@ package unreal;
   @DisplayName("Shared: Wrap")
   SSM_Wrap_WorldGroupSettings;
   
+  /**
+    Shared sampler source that does not consume a sampler slot.  Uses clamp addressing and gets filter mode from the world texture group.
+    @DisplayName Shared: Clamp
+  **/
+  @DisplayName("Shared: Clamp")
+  SSM_Clamp_WorldGroupSettings;
+  
 }

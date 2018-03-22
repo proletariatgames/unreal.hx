@@ -36,4 +36,10 @@ package unreal.slatecore;
   **/
   KerningOnly;
   
+  /**
+    Provides full text shaping, allowing accurate rendering of complex right-to-left or bi-directional glyphs (such as Arabic).
+    This mode will perform ligature replacement for all languages (such as the combined "fi" glyph in English).
+  **/
+  FullShaping;
+  
 }

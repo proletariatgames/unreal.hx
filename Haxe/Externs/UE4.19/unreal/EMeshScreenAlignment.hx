@@ -35,5 +35,6 @@ package unreal;
   **/
   @DisplayName("Face Camera With Locked-Axis")
   PSMA_MeshFaceCameraWithLockedAxis;
+  PSMA_MAX;
   
 }

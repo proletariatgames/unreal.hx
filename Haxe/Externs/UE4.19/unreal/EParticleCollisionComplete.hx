@@ -62,5 +62,6 @@ package unreal;
   **/
   @DisplayName("Freeze Movement")
   EPCC_FreezeMovement;
+  EPCC_MAX;
   
 }

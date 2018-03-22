@@ -33,4 +33,10 @@ package unreal;
   @DisplayName("Y Axis")
   BA_Y;
   
+  /**
+    Z Axis
+  **/
+  @DisplayName("Z Axis")
+  BA_Z;
+  
 }

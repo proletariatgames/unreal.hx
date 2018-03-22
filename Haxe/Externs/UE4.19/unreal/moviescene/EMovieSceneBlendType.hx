@@ -32,4 +32,9 @@ package unreal.moviescene;
   **/
   Additive;
   
+  /**
+    Applies this value as a sum total of all other additives and the initial value before the animation
+  **/
+  Relative;
+  
 }

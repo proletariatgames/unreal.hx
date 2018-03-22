@@ -20,5 +20,6 @@ package unreal.moviescenetools;
 @:class @:uextern @:uenum extern enum EThumbnailQuality {
   Draft;
   Normal;
+  Best;
   
 }

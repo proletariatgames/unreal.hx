@@ -21,5 +21,6 @@ package unreal;
   GameMode;
   EditorMode;
   SimulationMode;
+  PIEMode;
   
 }

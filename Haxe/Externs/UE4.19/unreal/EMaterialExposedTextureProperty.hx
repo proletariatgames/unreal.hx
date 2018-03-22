@@ -34,5 +34,6 @@ package unreal;
   **/
   @DisplayName("Texel Size")
   TMTM_TexelSize;
+  TMTM_MAX;
   
 }

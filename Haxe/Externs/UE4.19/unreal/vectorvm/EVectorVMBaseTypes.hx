@@ -21,5 +21,6 @@ package unreal.vectorvm;
   Float;
   Int;
   Bool;
+  Num;
   
 }

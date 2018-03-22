@@ -24,5 +24,6 @@ package unreal.editor;
   ArrayIndex3;
   ArrayIndex4;
   ArrayIndex5;
+  ArrayIndex_MAX;
   
 }

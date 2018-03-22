@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum EDynamicForceFeedbackAction {
   Start;
   Update;
+  Stop;
   
 }

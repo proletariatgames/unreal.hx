@@ -213,5 +213,6 @@ package unreal;
   **/
   @DisplayName("Hierarchical LOD")
   TEXTUREGROUP_HierarchicalLOD;
+  TEXTUREGROUP_MAX;
   
 }

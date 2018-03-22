@@ -32,4 +32,9 @@ package unreal.paper2d;
   **/
   Circle;
   
+  /**
+    Custom closed polygon
+  **/
+  Polygon;
+  
 }

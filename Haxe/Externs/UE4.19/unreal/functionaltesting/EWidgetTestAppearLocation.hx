@@ -19,5 +19,6 @@ package unreal.functionaltesting;
 @:uname("EWidgetTestAppearLocation")
 @:class @:uextern @:uenum extern enum EWidgetTestAppearLocation {
   Viewport;
+  PlayerScreen;
   
 }

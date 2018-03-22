@@ -48,4 +48,9 @@ package unreal;
   **/
   CustomPlane;
   
+  /**
+    No constraints.
+  **/
+  None;
+  
 }

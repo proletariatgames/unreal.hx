@@ -29,5 +29,6 @@ package unreal;
   MATUSAGE_NiagaraSprites;
   MATUSAGE_NiagaraRibbons;
   MATUSAGE_NiagaraMeshParticles;
+  MATUSAGE_MAX;
   
 }

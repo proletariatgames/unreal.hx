@@ -43,4 +43,9 @@ package unreal.slatecore;
   @DisplayName("Foreground Color")
   UseColor_Foreground;
   
+  /**
+    Use the widget's subdued color.
+  **/
+  UseColor_Foreground_Subdued;
+  
 }

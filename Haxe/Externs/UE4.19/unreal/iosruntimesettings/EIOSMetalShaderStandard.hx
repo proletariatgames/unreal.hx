@@ -40,4 +40,11 @@ package unreal.iosruntimesettings;
   @DisplayName("Metal v1.2 (iOS 10.0/tvOS 10.0)")
   IOSMetalSLStandard_1_2;
   
+  /**
+    Metal Shaders Compatible With iOS 11.0/tvOS 11.0 or later (std=ios-metal2.0)
+    @DisplayName Metal v2.0 (iOS 11.0/tvOS 11.0)
+  **/
+  @DisplayName("Metal v2.0 (iOS 11.0/tvOS 11.0)")
+  IOSMetalSLStandard_2_0;
+  
 }

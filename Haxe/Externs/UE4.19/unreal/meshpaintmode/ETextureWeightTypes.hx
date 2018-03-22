@@ -40,4 +40,11 @@ package unreal.meshpaintmode;
   @DisplayName("ARGB (Four Textures)")
   ARGB;
   
+  /**
+    Weighting Five Textures according to Channels
+    @DisplayName ARGB - 1 (Five Textures)
+  **/
+  @DisplayName("ARGB - 1 (Five Textures)")
+  OneMinusARGB;
+  
 }

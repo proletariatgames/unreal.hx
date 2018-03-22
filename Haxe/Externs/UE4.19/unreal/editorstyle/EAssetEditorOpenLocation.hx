@@ -49,4 +49,9 @@ package unreal.editorstyle;
   **/
   LastDockedWindowOrMainWindow;
   
+  /**
+    Docks tabs into the last window that was docked into, or the content browser window if there is no last docked window.
+  **/
+  LastDockedWindowOrContentBrowser;
+  
 }

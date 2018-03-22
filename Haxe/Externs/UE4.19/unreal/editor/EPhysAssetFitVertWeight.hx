@@ -25,4 +25,10 @@ package unreal.editor;
   @DisplayName("Any Weight")
   EVW_AnyWeight;
   
+  /**
+    Dominant Weight
+  **/
+  @DisplayName("Dominant Weight")
+  EVW_DominantWeight;
+  
 }

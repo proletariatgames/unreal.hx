@@ -36,4 +36,9 @@ package unreal;
   **/
   PinShownByDefault;
   
+  /**
+    Always show this property as a pin; it never makes sense to edit it in the details panel (default for FPoseLink properties).
+  **/
+  AlwaysAsPin;
+  
 }

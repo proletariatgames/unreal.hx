@@ -61,5 +61,6 @@ package unreal.editor;
     Special version of TEXALIGN_Planar.
   **/
   TEXALIGN_PlanarFloor;
+  TEXALIGN_MAX;
   
 }

@@ -37,4 +37,12 @@ package unreal;
   **/
   Stationary;
   
+  /**
+    Movable objects can be moved and changed in game.
+    - Totally dynamic
+    - Can cast dynamic shadows
+    - Slowest rendering
+  **/
+  Movable;
+  
 }

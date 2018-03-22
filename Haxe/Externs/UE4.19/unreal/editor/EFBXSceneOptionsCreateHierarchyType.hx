@@ -39,5 +39,6 @@ package unreal.editor;
   **/
   @DisplayName("Create one Blueprint asset")
   FBXSOCHT_CreateBlueprint;
+  FBXSOCHT_MAX;
   
 }

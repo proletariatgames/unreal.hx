@@ -20,5 +20,6 @@ package unreal.blueprintruntime;
 @:class @:uextern @:uenum extern enum EBlueprintWarningBehavior {
   Warn;
   Error;
+  Suppress;
   
 }

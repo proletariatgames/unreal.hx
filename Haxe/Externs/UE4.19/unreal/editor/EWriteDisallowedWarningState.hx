@@ -33,5 +33,6 @@ package unreal.editor;
     Warning for the package unnecessary.
   **/
   WDWS_WarningUnnecessary;
+  WDWS_MAX;
   
 }

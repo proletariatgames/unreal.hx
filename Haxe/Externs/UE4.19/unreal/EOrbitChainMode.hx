@@ -38,5 +38,6 @@ package unreal;
   **/
   @DisplayName("Link")
   EOChainMode_Link;
+  EOChainMode_MAX;
   
 }

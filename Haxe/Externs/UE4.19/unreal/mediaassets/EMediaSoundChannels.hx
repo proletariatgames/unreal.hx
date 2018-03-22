@@ -32,4 +32,9 @@ package unreal.mediaassets;
   **/
   Stereo;
   
+  /**
+    Surround sound (7.1 channels; for UI).
+  **/
+  Surround;
+  
 }

@@ -51,4 +51,9 @@ package unreal;
   **/
   FaceUp;
   
+  /**
+    The orientation is as if place on a desk with the screen downward
+  **/
+  FaceDown;
+  
 }

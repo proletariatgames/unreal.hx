@@ -48,5 +48,6 @@ package unreal;
   **/
   @DisplayName("Bone Space")
   BCS_BoneSpace;
+  BCS_MAX;
   
 }

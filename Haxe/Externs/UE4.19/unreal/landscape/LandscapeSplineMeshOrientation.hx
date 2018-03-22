@@ -23,5 +23,6 @@ package unreal.landscape;
 @:uextern @:uenum extern enum LandscapeSplineMeshOrientation {
   LSMO_XUp;
   LSMO_YUp;
+  LSMO_MAX;
   
 }

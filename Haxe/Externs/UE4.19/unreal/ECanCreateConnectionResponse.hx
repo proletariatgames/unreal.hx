@@ -50,5 +50,6 @@ package unreal;
     Make the connection via an intermediate cast node, or some other conversion node.
   **/
   CONNECT_RESPONSE_MAKE_WITH_CONVERSION_NODE;
+  CONNECT_RESPONSE_MAX;
   
 }

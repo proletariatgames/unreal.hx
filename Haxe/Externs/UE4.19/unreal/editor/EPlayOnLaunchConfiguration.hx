@@ -50,4 +50,11 @@ package unreal.editor;
   @DisplayName("Test")
   LaunchConfig_Test;
   
+  /**
+    Launch on device with a Shipping build configuration.
+    @DisplayName Shipping
+  **/
+  @DisplayName("Shipping")
+  LaunchConfig_Shipping;
+  
 }

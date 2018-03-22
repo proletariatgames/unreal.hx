@@ -38,4 +38,9 @@ package unreal;
   **/
   RemovedFromWorld;
   
+  /**
+    When the application is being exited.
+  **/
+  Quit;
+  
 }

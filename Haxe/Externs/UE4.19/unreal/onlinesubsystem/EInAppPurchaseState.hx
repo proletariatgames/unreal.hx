@@ -64,4 +64,10 @@ package unreal.onlinesubsystem;
   @DisplayName("Restored")
   Restored;
   
+  /**
+    AlreadyOwned
+  **/
+  @DisplayName("AlreadyOwned")
+  AlreadyOwned;
+  
 }

@@ -35,5 +35,6 @@ package unreal;
   **/
   @DisplayName("Maintain Major Axis FOV")
   AspectRatio_MajorAxisFOV;
+  AspectRatio_MAX;
   
 }

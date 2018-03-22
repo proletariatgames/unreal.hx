@@ -38,4 +38,9 @@ package unreal.augmentedreality;
   **/
   PlaneUsingExtent;
   
+  /**
+    Trace against any plane tracked geometries using the boundary polygon.
+  **/
+  PlaneUsingBoundaryPolygon;
+  
 }

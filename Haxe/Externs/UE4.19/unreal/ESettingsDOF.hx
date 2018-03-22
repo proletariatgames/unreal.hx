@@ -33,4 +33,9 @@ package unreal;
   **/
   XZPlane;
   
+  /**
+    Allows 2D movement along the X-Y plane.
+  **/
+  XYPlane;
+  
 }

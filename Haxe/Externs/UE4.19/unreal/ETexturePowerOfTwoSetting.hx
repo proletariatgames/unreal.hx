@@ -31,4 +31,9 @@ package unreal;
   **/
   PadToPowerOfTwo;
   
+  /**
+    Pad the texture to the nearest square power of two size.
+  **/
+  PadToSquarePowerOfTwo;
+  
 }

@@ -27,4 +27,9 @@ package unreal.slate;
   **/
   DefaultWrapping;
   
+  /**
+    Fallback to per-character wrapping if a word is too long
+  **/
+  AllowPerCharacterWrapping;
+  
 }

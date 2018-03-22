@@ -106,4 +106,11 @@ package unreal.slatecore;
   @DisplayName("Right Center, Left Center")
   MenuPlacement_RightLeftCenter;
   
+  /**
+    Place the menu's bottom left corner directly on top of the menu anchor's bottom left corner
+    @DisplayName Match Bottom Left Corner
+  **/
+  @DisplayName("Match Bottom Left Corner")
+  MenuPlacement_MatchBottomLeft;
+  
 }

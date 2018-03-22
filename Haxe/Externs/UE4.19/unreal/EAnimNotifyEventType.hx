@@ -18,5 +18,6 @@ package unreal;
 @:uname("EAnimNotifyEventType.Type")
 @:uextern @:uenum extern enum EAnimNotifyEventType {
   Begin;
+  End;
   
 }

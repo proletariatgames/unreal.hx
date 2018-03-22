@@ -27,5 +27,6 @@ package unreal.editor;
   Violet;
   Pink;
   Magenta;
+  Cyan;
   
 }

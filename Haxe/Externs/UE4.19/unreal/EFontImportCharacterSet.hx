@@ -23,5 +23,6 @@ package unreal;
   FontICS_Default;
   FontICS_Ansi;
   FontICS_Symbol;
+  FontICS_MAX;
   
 }

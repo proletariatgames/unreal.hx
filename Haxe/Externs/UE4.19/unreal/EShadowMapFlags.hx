@@ -26,4 +26,9 @@ package unreal;
   **/
   SMF_None;
   
+  /**
+    Shadowmap should be placed in a streaming texture.
+  **/
+  SMF_Streamed;
+  
 }

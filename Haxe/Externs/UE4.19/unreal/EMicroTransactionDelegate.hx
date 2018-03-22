@@ -36,5 +36,6 @@ package unreal;
                  out with the most recent localized and possible resolutions.
   **/
   MTD_PurchaseComplete;
+  MTD_MAX;
   
 }

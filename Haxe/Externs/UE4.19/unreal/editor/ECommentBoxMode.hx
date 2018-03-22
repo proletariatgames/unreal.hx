@@ -26,4 +26,11 @@ package unreal.editor;
   @DisplayName("Group Movement")
   GroupMovement;
   
+  /**
+    This comment box has no effect on nodes contained inside it.
+    @DisplayName Comment
+  **/
+  @DisplayName("Comment")
+  NoGroupMovement;
+  
 }

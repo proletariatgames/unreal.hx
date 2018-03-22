@@ -30,4 +30,9 @@ package unreal.landscapeeditor;
   **/
   Add;
   
+  /**
+    Noise will only lower the heightmap
+  **/
+  Sub;
+  
 }

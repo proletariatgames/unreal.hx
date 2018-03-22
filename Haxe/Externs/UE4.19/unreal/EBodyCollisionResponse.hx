@@ -24,4 +24,10 @@ package unreal;
   @DisplayName("Enabled")
   BodyCollision_Enabled;
   
+  /**
+    Disabled
+  **/
+  @DisplayName("Disabled")
+  BodyCollision_Disabled;
+  
 }

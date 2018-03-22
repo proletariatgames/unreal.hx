@@ -19,5 +19,6 @@ package unreal.blueprintgraph;
 @:uname("ESelfContextInfo.Type")
 @:uextern @:uenum extern enum ESelfContextInfo {
   Unspecified;
+  NotSelfContext;
   
 }

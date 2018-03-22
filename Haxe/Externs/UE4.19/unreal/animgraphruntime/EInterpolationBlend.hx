@@ -28,5 +28,6 @@ package unreal.animgraphruntime;
   EaseInOutExponent3;
   EaseInOutExponent4;
   EaseInOutExponent5;
+  MAX;
   
 }

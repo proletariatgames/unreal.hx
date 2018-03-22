@@ -55,5 +55,6 @@ package unreal;
   **/
   @DisplayName("Unwalkable")
   WalkableSlope_Unwalkable;
+  WalkableSlope_Max;
   
 }

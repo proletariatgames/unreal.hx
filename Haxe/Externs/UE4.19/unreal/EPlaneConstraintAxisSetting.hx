@@ -42,4 +42,9 @@ package unreal;
   **/
   Z;
   
+  /**
+    Use the global physics project setting.
+  **/
+  UseGlobalPhysicsSetting;
+  
 }

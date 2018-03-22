@@ -20,5 +20,6 @@ package unreal;
   DPM_Normal;
   DPM_Abs;
   DPM_Direct;
+  DPM_MAX;
   
 }

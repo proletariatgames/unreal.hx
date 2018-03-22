@@ -36,4 +36,10 @@ package unreal.alembiclibrary;
   @DisplayName("Autodesk 3ds Max")
   Max;
   
+  /**
+    Custom Settings
+  **/
+  @DisplayName("Custom Settings")
+  Custom;
+  
 }

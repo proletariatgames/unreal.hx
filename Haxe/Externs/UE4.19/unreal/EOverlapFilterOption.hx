@@ -35,4 +35,11 @@ package unreal;
   @DisplayName("AllDynamicObjects")
   OverlapFilter_DynamicOnly;
   
+  /**
+    returns only overlaps with static actors (fewer results, more efficient)
+    @DisplayName AllStaticObjects
+  **/
+  @DisplayName("AllStaticObjects")
+  OverlapFilter_StaticOnly;
+  
 }

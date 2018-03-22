@@ -31,4 +31,10 @@ package unreal.editor;
   @DisplayName("Play As Listen Server")
   PIE_ListenServer;
   
+  /**
+    Play As Client
+  **/
+  @DisplayName("Play As Client")
+  PIE_Client;
+  
 }

@@ -51,4 +51,10 @@ package unreal;
   @DisplayName("Constant")
   RCCE_Constant;
   
+  /**
+    None
+  **/
+  @DisplayName("None")
+  RCCE_None;
+  
 }

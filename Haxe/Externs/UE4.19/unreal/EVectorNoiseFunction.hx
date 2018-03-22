@@ -65,5 +65,6 @@ package unreal;
   **/
   @DisplayName("Voronoi")
   VNF_VoronoiALU;
+  VNF_MAX;
   
 }

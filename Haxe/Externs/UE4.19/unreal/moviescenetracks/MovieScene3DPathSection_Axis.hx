@@ -49,4 +49,10 @@ package unreal.moviescenetracks;
   @DisplayName("-Y")
   NEG_Y;
   
+  /**
+    -Z
+  **/
+  @DisplayName("-Z")
+  NEG_Z;
+  
 }

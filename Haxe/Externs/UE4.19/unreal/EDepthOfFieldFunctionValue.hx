@@ -40,5 +40,6 @@ package unreal;
     in pixels, only works for CircleDOF, use Abs for the actual radius as the sign of the value indicates near out of focus, positive indicates far out of focus
   **/
   TDOF_CircleOfConfusionRadius;
+  TDOF_MAX;
   
 }

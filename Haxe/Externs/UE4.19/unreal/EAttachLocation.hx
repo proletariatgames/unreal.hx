@@ -35,4 +35,11 @@ package unreal;
   @DisplayName("Snap to Target, Keep World Scale")
   SnapToTarget;
   
+  /**
+    Snaps entire transform to target, including scale.
+    @DisplayName Snap to Target, Including Scale
+  **/
+  @DisplayName("Snap to Target, Including Scale")
+  SnapToTargetIncludingScale;
+  
 }

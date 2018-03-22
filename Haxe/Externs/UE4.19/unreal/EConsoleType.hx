@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum EConsoleType {
   CONSOLE_Any;
   CONSOLE_Mobile;
+  CONSOLE_MAX;
   
 }

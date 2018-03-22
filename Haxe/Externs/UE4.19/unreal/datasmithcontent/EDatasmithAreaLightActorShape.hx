@@ -24,5 +24,6 @@ package unreal.datasmithcontent;
   Rectangle;
   Disc;
   Sphere;
+  Cylinder;
   
 }

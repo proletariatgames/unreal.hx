@@ -43,5 +43,6 @@ package unreal.movieplayer;
   **/
   @DisplayName("Looped Last Playback")
   MT_LoadingLoop;
+  MT_MAX;
   
 }

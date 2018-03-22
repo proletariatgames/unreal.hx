@@ -36,5 +36,6 @@ package unreal.animgraphruntime;
   Scale;
   ScaleX;
   ScaleY;
+  ScaleZ;
   
 }

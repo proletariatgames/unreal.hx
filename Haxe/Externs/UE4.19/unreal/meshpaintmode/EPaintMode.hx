@@ -22,5 +22,6 @@ package unreal.meshpaintmode;
 @:uname("EPaintMode")
 @:class @:uextern @:uenum extern enum EPaintMode {
   Vertices;
+  Textures;
   
 }

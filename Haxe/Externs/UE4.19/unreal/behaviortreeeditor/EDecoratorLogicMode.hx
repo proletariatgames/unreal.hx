@@ -21,5 +21,6 @@ package unreal.behaviortreeeditor;
   Sink;
   And;
   Or;
+  Not;
   
 }

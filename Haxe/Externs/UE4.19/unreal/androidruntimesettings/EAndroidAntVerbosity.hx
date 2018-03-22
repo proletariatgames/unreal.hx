@@ -29,4 +29,9 @@ package unreal.androidruntimesettings;
   **/
   Normal;
   
+  /**
+    Extra verbose logging (-verbose)
+  **/
+  Verbose;
+  
 }

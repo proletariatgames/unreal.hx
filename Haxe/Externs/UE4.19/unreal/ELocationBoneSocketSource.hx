@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum ELocationBoneSocketSource {
   BONESOCKETSOURCE_Bones;
   BONESOCKETSOURCE_Sockets;
+  BONESOCKETSOURCE_MAX;
   
 }

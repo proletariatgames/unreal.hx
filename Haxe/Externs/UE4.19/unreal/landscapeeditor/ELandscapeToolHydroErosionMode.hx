@@ -25,4 +25,9 @@ package unreal.landscapeeditor;
   **/
   Both;
   
+  /**
+    Rain is applied to the entire area
+  **/
+  Positive;
+  
 }

@@ -27,4 +27,9 @@ package unreal.editor;
   **/
   GridMode_DivisionsOf360;
   
+  /**
+    Uses the user defined grid values.
+  **/
+  GridMode_Common;
+  
 }

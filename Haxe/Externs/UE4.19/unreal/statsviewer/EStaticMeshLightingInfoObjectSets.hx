@@ -36,4 +36,11 @@ package unreal.statsviewer;
   @DisplayName("Selected Levels")
   StaticMeshLightingInfoObjectSets_SelectedLevels;
   
+  /**
+    View static mesh lighting info for all levels
+    @DisplayName All Levels
+  **/
+  @DisplayName("All Levels")
+  StaticMeshLightingInfoObjectSets_AllLevels;
+  
 }

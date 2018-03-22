@@ -42,5 +42,6 @@ package unreal.editor;
   **/
   @DisplayName("Animation")
   FBXIT_Animation;
+  FBXIT_MAX;
   
 }

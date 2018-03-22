@@ -32,4 +32,11 @@ package unreal.slate;
   **/
   Center;
   
+  /**
+    Justify the text logically to the right.
+    When text is flowing left-to-right, this will align text visually to the right.
+    When text is flowing right-to-left, this will align text visually to the left.
+  **/
+  Right;
+  
 }

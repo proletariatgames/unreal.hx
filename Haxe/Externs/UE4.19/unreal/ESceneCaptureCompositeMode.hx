@@ -30,4 +30,10 @@ package unreal;
   @DisplayName("Additive")
   SCCM_Additive;
   
+  /**
+    Composite
+  **/
+  @DisplayName("Composite")
+  SCCM_Composite;
+  
 }

@@ -68,5 +68,6 @@ package unreal;
   **/
   @DisplayName("Material")
   PSPT_Material;
+  PSPT_MAX;
   
 }

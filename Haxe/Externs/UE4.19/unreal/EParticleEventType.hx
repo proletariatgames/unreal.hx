@@ -62,5 +62,6 @@ package unreal;
   **/
   @DisplayName("Blueprint")
   EPET_Blueprint;
+  EPET_MAX;
   
 }

@@ -30,4 +30,9 @@ package unreal.landscapeeditor;
   **/
   Raise;
   
+  /**
+    Paste may only lower values, places where the pasted data would be above the heightmap are left unchanged. Good for copy/pasting valleys or pits
+  **/
+  Lower;
+  
 }

@@ -75,5 +75,6 @@ package unreal;
   **/
   @DisplayName("Voronoi")
   NOISEFUNCTION_VoronoiALU;
+  NOISEFUNCTION_MAX;
   
 }

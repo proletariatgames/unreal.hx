@@ -41,5 +41,6 @@ package unreal;
   **/
   @DisplayName("Use Simplygon\'s automatic texture sizing")
   TextureSizingType_UseSimplygonAutomaticSizing;
+  TextureSizingType_MAX;
   
 }

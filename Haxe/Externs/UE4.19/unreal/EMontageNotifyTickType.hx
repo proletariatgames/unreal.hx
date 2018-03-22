@@ -26,4 +26,9 @@ package unreal;
   **/
   Queued;
   
+  /**
+    Trigger notifies as they are encountered (Slower). Suitable for changing sections or montage position.
+  **/
+  BranchingPoint;
+  
 }

@@ -29,5 +29,6 @@ package unreal;
   **/
   @DisplayName("Highest Weighted Animation")
   HighestWeightedAnimation;
+  None;
   
 }

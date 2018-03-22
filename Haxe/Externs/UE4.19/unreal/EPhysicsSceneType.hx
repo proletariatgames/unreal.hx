@@ -35,5 +35,6 @@ package unreal;
     The asynchronous scene, which may run while Unreal simulation code runs.
   **/
   PST_Async;
+  PST_MAX;
   
 }

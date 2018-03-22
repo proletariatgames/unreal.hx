@@ -27,4 +27,9 @@ package unreal.slatecore;
   **/
   FocusedWidget;
   
+  /**
+    Navigate from the widget under the cursor
+  **/
+  WidgetUnderCursor;
+  
 }

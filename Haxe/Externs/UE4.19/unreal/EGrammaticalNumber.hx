@@ -24,4 +24,10 @@ package unreal;
   @DisplayName("Singular")
   Singular;
   
+  /**
+    Plural
+  **/
+  @DisplayName("Plural")
+  Plural;
+  
 }

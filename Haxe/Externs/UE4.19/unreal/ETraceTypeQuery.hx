@@ -49,5 +49,6 @@ package unreal;
   TraceTypeQuery30;
   TraceTypeQuery31;
   TraceTypeQuery32;
+  TraceTypeQuery_MAX;
   
 }

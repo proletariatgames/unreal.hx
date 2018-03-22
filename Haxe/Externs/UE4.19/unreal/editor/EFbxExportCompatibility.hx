@@ -26,5 +26,6 @@ package unreal.editor;
   FBX_2013;
   FBX_2014;
   FBX_2016;
+  FBX_2018;
   
 }

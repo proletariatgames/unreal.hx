@@ -29,5 +29,6 @@ package unreal;
   **/
   @DisplayName("Surfaces")
   VERTSURFACESOURCE_Surface;
+  VERTSURFACESOURCE_MAX;
   
 }

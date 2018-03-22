@@ -28,5 +28,6 @@ package unreal;
   FunctionInput_TextureCube;
   FunctionInput_StaticBool;
   FunctionInput_MaterialAttributes;
+  FunctionInput_MAX;
   
 }

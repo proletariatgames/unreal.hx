@@ -19,5 +19,6 @@ package unreal.aimodule;
 @:uname("EPawnActionMoveMode.Type")
 @:uextern @:uenum extern enum EPawnActionMoveMode {
   UsePathfinding;
+  StraightLine;
   
 }

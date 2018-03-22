@@ -23,5 +23,6 @@ package unreal.slate;
 @:uextern @:uenum extern enum ETableViewMode {
   List;
   Tile;
+  Tree;
   
 }

@@ -24,4 +24,9 @@ package unreal.aimodule;
   **/
   Absolute;
   
+  /**
+    Use lowest item score as the base of normalization range.
+  **/
+  RelativeToScores;
+  
 }

@@ -31,4 +31,9 @@ package unreal;
   **/
   Inclusive;
   
+  /**
+    The bound is open.
+  **/
+  Open;
+  
 }

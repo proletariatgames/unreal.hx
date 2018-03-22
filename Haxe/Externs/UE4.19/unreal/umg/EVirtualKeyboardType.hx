@@ -23,5 +23,6 @@ package unreal.umg;
   Web;
   Email;
   Password;
+  AlphaNumeric;
   
 }

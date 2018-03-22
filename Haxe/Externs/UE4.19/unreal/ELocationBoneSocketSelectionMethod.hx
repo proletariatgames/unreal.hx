@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum ELocationBoneSocketSelectionMethod {
   BONESOCKETSEL_Sequential;
   BONESOCKETSEL_Random;
+  BONESOCKETSEL_MAX;
   
 }

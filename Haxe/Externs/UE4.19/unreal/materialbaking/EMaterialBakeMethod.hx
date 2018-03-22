@@ -34,4 +34,10 @@ package unreal.materialbaking;
   @DisplayName("Combine Materials into Atlassed Material")
   AtlasMaterial;
   
+  /**
+    Combine Materials into Binned Material
+  **/
+  @DisplayName("Combine Materials into Binned Material")
+  BinnedMaterial;
+  
 }

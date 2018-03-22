@@ -39,4 +39,9 @@ package unreal.animgraphruntime;
   **/
   RootRelative;
   
+  /**
+    Sim origin is the location/orientation of the bone specified in RelativeSpaceBone
+  **/
+  BoneRelative;
+  
 }

@@ -39,4 +39,9 @@ package unreal.slatecore;
   **/
   Monochrome;
   
+  /**
+    Do not use hinting.
+  **/
+  None;
+  
 }

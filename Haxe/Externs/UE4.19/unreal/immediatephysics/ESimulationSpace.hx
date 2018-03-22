@@ -32,4 +32,9 @@ package unreal.immediatephysics;
   **/
   WorldSpace;
   
+  /**
+    Simulate in root bone space. Moving the entire skeletal mesh and individually modifying the root bone will have no affect on velocities
+  **/
+  RootBoneSpace;
+  
 }

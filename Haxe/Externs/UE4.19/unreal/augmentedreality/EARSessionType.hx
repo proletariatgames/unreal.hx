@@ -34,4 +34,9 @@ package unreal.augmentedreality;
   **/
   World;
   
+  /**
+    AR meant to overlay onto a face
+  **/
+  Face;
+  
 }

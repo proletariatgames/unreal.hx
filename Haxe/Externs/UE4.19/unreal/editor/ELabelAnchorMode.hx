@@ -70,4 +70,10 @@ package unreal.editor;
   @DisplayName("Bottom Center")
   LabelAnchorMode_BottomCenter;
   
+  /**
+    Bottom Right
+  **/
+  @DisplayName("Bottom Right")
+  LabelAnchorMode_BottomRight;
+  
 }

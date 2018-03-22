@@ -20,5 +20,6 @@ package unreal.editor;
 @:uextern @:uenum extern enum EPasteTo {
   PT_OriginalLocation;
   PT_Here;
+  PT_WorldOrigin;
   
 }

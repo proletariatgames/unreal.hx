@@ -26,4 +26,10 @@ package unreal.windowstargetplatform;
   @DisplayName("Visual Studio 2015")
   VisualStudio2015;
   
+  /**
+    Visual Studio 2017
+  **/
+  @DisplayName("Visual Studio 2017")
+  VisualStudio2017;
+  
 }

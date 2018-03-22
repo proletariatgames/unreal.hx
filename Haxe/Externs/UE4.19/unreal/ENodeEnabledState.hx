@@ -31,4 +31,9 @@ package unreal;
   **/
   Disabled;
   
+  /**
+    Node is enabled for development only.
+  **/
+  DevelopmentOnly;
+  
 }

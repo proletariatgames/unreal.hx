@@ -29,4 +29,9 @@ package unreal.aimodule;
   **/
   Medium;
   
+  /**
+    Really expensive calls (e.g. visibility traces, pathfinding).
+  **/
+  High;
+  
 }

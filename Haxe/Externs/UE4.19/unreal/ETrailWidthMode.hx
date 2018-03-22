@@ -33,4 +33,10 @@ package unreal;
   @DisplayName("From First Socket")
   ETrailWidthMode_FromFirst;
   
+  /**
+    From Second Socket
+  **/
+  @DisplayName("From Second Socket")
+  ETrailWidthMode_FromSecond;
+  
 }

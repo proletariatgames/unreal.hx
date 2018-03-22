@@ -22,5 +22,6 @@ package unreal;
 @:uextern @:uenum extern enum EOptimizationType {
   OT_NumOfTriangles;
   OT_MaxDeviation;
+  OT_MAX;
   
 }

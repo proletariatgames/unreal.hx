@@ -29,4 +29,9 @@ package unreal.augmentedreality;
   **/
   OrientationOnly;
   
+  /**
+    The tracking quality is good.
+  **/
+  OrientationAndPosition;
+  
 }

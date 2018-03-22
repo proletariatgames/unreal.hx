@@ -26,5 +26,6 @@ package unreal.androiddeviceprofileselector;
   SRC_DeviceModel;
   SRC_VulkanVersion;
   SRC_UsingHoudini;
+  SRC_MAX;
   
 }

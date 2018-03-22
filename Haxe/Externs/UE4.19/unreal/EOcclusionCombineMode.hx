@@ -29,5 +29,6 @@ package unreal;
     SSAO should be tweaked to be less strong compared to Minimum.
   **/
   OCM_Multiply;
+  OCM_MAX;
   
 }

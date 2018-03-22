@@ -24,5 +24,6 @@ package unreal;
   PSA_AwayFromCenter;
   PSA_TypeSpecific;
   PSA_FacingCameraDistanceBlend;
+  PSA_MAX;
   
 }

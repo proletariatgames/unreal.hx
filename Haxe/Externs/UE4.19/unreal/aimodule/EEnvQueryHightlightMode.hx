@@ -26,4 +26,10 @@ package unreal.aimodule;
   @DisplayName("Best 5%")
   Best5Pct;
   
+  /**
+    Best 25%
+  **/
+  @DisplayName("Best 25%")
+  Best25Pct;
+  
 }

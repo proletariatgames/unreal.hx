@@ -37,4 +37,9 @@ package unreal.slatecore;
   **/
   OnUserMovedFocus;
   
+  /**
+    Keyboard focus was explicitly cleared via the escape key or other similar action
+  **/
+  OnCleared;
+  
 }

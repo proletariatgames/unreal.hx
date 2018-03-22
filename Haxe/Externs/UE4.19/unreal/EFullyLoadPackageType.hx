@@ -45,5 +45,6 @@ package unreal;
     Load the package for a mutator that is active.
   **/
   FULLYLOAD_Mutator;
+  FULLYLOAD_MAX;
   
 }

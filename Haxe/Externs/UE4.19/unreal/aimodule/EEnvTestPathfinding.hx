@@ -20,5 +20,6 @@ package unreal.aimodule;
 @:uextern @:uenum extern enum EEnvTestPathfinding {
   PathExist;
   PathCost;
+  PathLength;
   
 }

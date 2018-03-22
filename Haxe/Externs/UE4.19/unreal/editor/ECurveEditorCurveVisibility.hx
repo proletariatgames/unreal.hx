@@ -32,4 +32,9 @@ package unreal.editor;
   **/
   SelectedCurves;
   
+  /**
+    Only curves which have keyframes should be visible.
+  **/
+  AnimatedCurves;
+  
 }

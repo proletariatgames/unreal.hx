@@ -86,4 +86,9 @@ package unreal;
   **/
   CircularOut;
   
+  /**
+    Easing is based on two half circles.
+  **/
+  CircularInOut;
+  
 }

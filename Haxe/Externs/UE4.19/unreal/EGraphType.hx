@@ -25,5 +25,6 @@ package unreal;
   GT_Macro;
   GT_Animation;
   GT_StateMachine;
+  GT_MAX;
   
 }

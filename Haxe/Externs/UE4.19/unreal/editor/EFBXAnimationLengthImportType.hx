@@ -42,5 +42,6 @@ package unreal.editor;
   **/
   @DisplayName("Set Range")
   FBXALIT_SetRange;
+  FBXALIT_MAX;
   
 }

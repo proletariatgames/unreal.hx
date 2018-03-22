@@ -114,4 +114,10 @@ package unreal;
   MP_MaterialAttributes;
   MP_CustomOutput;
   
+  /**
+    None
+  **/
+  @DisplayName("None")
+  MP_MAX;
+  
 }

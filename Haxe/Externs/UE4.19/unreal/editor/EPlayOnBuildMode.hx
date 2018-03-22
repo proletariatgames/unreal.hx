@@ -43,4 +43,11 @@ package unreal.editor;
   @DisplayName("If project has code, or running a locally built editor")
   PlayOnBuild_Default;
   
+  /**
+    Build if we're using a locally built (ie. non-promoted) editor.
+    @DisplayName If running a locally built editor
+  **/
+  @DisplayName("If running a locally built editor")
+  PlayOnBuild_IfEditorBuiltLocally;
+  
 }

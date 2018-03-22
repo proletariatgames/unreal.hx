@@ -31,5 +31,6 @@ package unreal;
   **/
   @DisplayName("No")
   Disable;
+  MAX;
   
 }

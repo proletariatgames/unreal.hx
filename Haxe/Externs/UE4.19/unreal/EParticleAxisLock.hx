@@ -90,5 +90,6 @@ package unreal;
   **/
   @DisplayName("Rotate Z")
   EPAL_ROTATE_Z;
+  EPAL_MAX;
   
 }

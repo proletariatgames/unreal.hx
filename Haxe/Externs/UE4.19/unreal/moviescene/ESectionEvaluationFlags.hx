@@ -32,4 +32,9 @@ package unreal.moviescene;
   **/
   PreRoll;
   
+  /**
+    Segment resides inside the 'post-roll' time for the section
+  **/
+  PostRoll;
+  
 }

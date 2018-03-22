@@ -47,4 +47,9 @@ package unreal.slatecore;
   **/
   OtherWidgetLostFocus;
   
+  /**
+    Focus was set in response to the owning window being activated.
+  **/
+  WindowActivate;
+  
 }

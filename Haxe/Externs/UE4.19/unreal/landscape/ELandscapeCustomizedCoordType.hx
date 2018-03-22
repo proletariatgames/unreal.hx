@@ -31,5 +31,6 @@ package unreal.landscape;
     Use original WeightMapUV, which could not be customized.
   **/
   LCCT_WeightMapUV;
+  LCCT_MAX;
   
 }

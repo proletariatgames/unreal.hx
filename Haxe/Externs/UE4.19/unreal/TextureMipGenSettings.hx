@@ -152,5 +152,6 @@ package unreal;
   **/
   @DisplayName("Blur5")
   TMGS_Blur5;
+  TMGS_MAX;
   
 }

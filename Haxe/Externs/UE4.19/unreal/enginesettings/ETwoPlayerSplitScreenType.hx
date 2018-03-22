@@ -22,5 +22,6 @@ package unreal.enginesettings;
 @:uname("ETwoPlayerSplitScreenType.Type")
 @:uextern @:uenum extern enum ETwoPlayerSplitScreenType {
   Horizontal;
+  Vertical;
   
 }

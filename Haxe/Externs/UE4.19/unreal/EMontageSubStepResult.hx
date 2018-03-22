@@ -20,5 +20,6 @@ package unreal;
   Moved;
   NotMoved;
   InvalidSection;
+  InvalidMontage;
   
 }

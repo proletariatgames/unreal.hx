@@ -24,4 +24,9 @@ package unreal.editor;
   **/
   BuiltIn;
   
+  /**
+    Use MikkTSpace to generate normals and tangents
+  **/
+  MikkTSpace;
+  
 }

@@ -37,4 +37,9 @@ package unreal.editor;
   **/
   CVDT_All;
   
+  /**
+    Max developer type
+  **/
+  CVDT_Max;
+  
 }

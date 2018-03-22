@@ -35,5 +35,6 @@ package unreal;
     Desc: Called when multiple machines have updated the document, and script needs to determine which one to use, via the Resolve functions.
   **/
   CSD_DocumentConflictDetected;
+  CSD_MAX;
   
 }

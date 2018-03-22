@@ -24,5 +24,6 @@ package unreal.animgraphruntime;
 @:class @:uextern @:uenum extern enum ESplineBoneAxis {
   X;
   Y;
+  Z;
   
 }

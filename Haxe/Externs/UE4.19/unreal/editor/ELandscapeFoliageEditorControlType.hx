@@ -34,4 +34,10 @@ package unreal.editor;
   @DisplayName("Require Ctrl held for tools")
   RequireCtrl;
   
+  /**
+    Require Ctrl is not held
+  **/
+  @DisplayName("Require Ctrl is not held")
+  RequireNoCtrl;
+  
 }

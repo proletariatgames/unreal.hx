@@ -38,5 +38,6 @@ package unreal;
   **/
   @DisplayName("Scalar")
   EPCOUM_Scalar;
+  EPCOUM_MAX;
   
 }

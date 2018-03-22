@@ -20,5 +20,6 @@ package unreal.inputcore;
 @:uextern @:uenum extern enum EConsoleForGamepadLabels {
   None;
   XBoxOne;
+  PS4;
   
 }

@@ -23,4 +23,9 @@ package unreal;
   **/
   SLERP;
   
+  /**
+    Path is decomposed into twist (roll constraint) and swing (cone constraint). Doesn't follow shortest arc and may experience gimbal lock. Does work with locked angular constraints.
+  **/
+  TwistAndSwing;
+  
 }

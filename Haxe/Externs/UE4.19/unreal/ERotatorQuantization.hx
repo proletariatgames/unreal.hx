@@ -23,4 +23,9 @@ package unreal;
   **/
   ByteComponents;
   
+  /**
+    The rotator will be compressed to 16 bits per component.
+  **/
+  ShortComponents;
+  
 }

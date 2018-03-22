@@ -59,5 +59,6 @@ package unreal;
   **/
   @DisplayName("Mesh Particle Space")
   TRANSFORMPOSSOURCE_Particle;
+  TRANSFORMPOSSOURCE_MAX;
   
 }

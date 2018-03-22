@@ -23,5 +23,6 @@ package unreal.animgraphruntime;
 @:class @:uextern @:uenum extern enum EPoseDriverType {
   SwingAndTwist;
   SwingOnly;
+  Translation;
   
 }

@@ -51,5 +51,6 @@ package unreal;
     VelocityMag - pass the particle velocity magnitude thru
   **/
   EDPV_VelocityMag;
+  EDPV_MAX;
   
 }

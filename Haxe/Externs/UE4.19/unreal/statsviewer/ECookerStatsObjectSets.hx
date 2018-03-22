@@ -22,4 +22,11 @@ package unreal.statsviewer;
 @:uname("ECookerStatsObjectSets")
 @:uextern @:uenum extern enum ECookerStatsObjectSets {
   
+  /**
+    View cooker statistics
+    @DisplayName Default
+  **/
+  @DisplayName("Default")
+  CookerStatsObjectSets_Default;
+  
 }

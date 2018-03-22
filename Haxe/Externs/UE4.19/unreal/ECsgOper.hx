@@ -46,5 +46,6 @@ package unreal;
   **/
   CSG_Deintersect;
   CSG_None;
+  CSG_MAX;
   
 }

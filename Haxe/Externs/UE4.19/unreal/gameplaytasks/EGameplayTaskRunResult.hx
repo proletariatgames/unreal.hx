@@ -35,4 +35,9 @@ package unreal.gameplaytasks;
   **/
   Success_Active;
   
+  /**
+    Successfully activated, but finished instantly
+  **/
+  Success_Finished;
+  
 }

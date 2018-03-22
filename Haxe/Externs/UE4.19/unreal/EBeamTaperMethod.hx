@@ -38,5 +38,6 @@ package unreal;
   **/
   @DisplayName("Partial")
   PEBTM_Partial;
+  PEBTM_MAX;
   
 }

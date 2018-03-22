@@ -21,5 +21,6 @@ package unreal.oculushmd;
   ETiledMultiResLevel_Off;
   ETiledMultiResLevel_LMSLow;
   ETiledMultiResLevel_LMSMedium;
+  ETiledMultiResLevel_LMSHigh;
   
 }

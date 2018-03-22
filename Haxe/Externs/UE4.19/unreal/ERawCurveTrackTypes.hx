@@ -47,5 +47,6 @@ package unreal;
   **/
   @DisplayName("Baked Vector Curve")
   RCT_BakedVector;
+  RCT_MAX;
   
 }

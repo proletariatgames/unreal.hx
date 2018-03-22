@@ -28,4 +28,9 @@ package unreal;
   **/
   LockOnCapture;
   
+  /**
+    Always lock the mouse cursor to the viewport
+  **/
+  LockAlways;
+  
 }

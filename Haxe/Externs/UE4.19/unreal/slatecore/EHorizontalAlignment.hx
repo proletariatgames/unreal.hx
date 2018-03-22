@@ -43,4 +43,11 @@ package unreal.slatecore;
   @DisplayName("Center")
   HAlign_Center;
   
+  /**
+    Right-align.
+    @DisplayName Right
+  **/
+  @DisplayName("Right")
+  HAlign_Right;
+  
 }

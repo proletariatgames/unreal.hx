@@ -23,5 +23,6 @@ package unreal;
   TRM_Get;
   TRM_Post;
   TRM_Delete;
+  TRM_MAX;
   
 }

@@ -34,4 +34,10 @@ package unreal.editor;
   @DisplayName("Meters")
   MeasureUnits_Meters;
   
+  /**
+    Kilometers
+  **/
+  @DisplayName("Kilometers")
+  MeasureUnits_Kilometers;
+  
 }

@@ -24,5 +24,6 @@ package unreal;
   Quality_Medium;
   Quality_High;
   Quality_Production;
+  Quality_MAX;
   
 }

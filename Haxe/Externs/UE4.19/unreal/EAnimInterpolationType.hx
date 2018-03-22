@@ -28,4 +28,11 @@ package unreal;
   @DisplayName("Linear")
   Linear;
   
+  /**
+    Step interpolation when looking up values between keys.
+    @DisplayName Step
+  **/
+  @DisplayName("Step")
+  Step;
+  
 }

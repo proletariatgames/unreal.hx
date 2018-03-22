@@ -24,4 +24,9 @@ package unreal.pinnedcommandlist;
   **/
   Command;
   
+  /**
+    A registered custom widget
+  **/
+  CustomWidget;
+  
 }

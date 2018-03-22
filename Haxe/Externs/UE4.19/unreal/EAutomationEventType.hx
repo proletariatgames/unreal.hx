@@ -22,5 +22,6 @@ package unreal;
 @:class @:uextern @:uenum extern enum EAutomationEventType {
   Info;
   Warning;
+  Error;
   
 }

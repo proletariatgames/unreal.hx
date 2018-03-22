@@ -19,5 +19,6 @@ package unreal.animgraphruntime;
 @:uname("CopyBoneDeltaMode")
 @:class @:uextern @:uenum extern enum CopyBoneDeltaMode {
   Accumulate;
+  Copy;
   
 }

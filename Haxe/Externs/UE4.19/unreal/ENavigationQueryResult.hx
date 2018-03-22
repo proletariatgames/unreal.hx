@@ -20,5 +20,6 @@ package unreal;
   Invalid;
   Error;
   Fail;
+  Success;
   
 }

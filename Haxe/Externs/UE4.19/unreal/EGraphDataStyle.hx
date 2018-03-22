@@ -21,5 +21,6 @@ package unreal;
 @:uname("EGraphDataStyle.Type")
 @:uextern @:uenum extern enum EGraphDataStyle {
   Lines;
+  Filled;
   
 }

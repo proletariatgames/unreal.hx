@@ -66,5 +66,6 @@ package unreal;
   **/
   @DisplayName("Viewport Offset")
   MEVP_ViewportOffset;
+  MEVP_MAX;
   
 }

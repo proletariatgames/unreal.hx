@@ -26,4 +26,11 @@ package unreal.aimodule;
   @DisplayName("Dot (3D)")
   Dot3D;
   
+  /**
+    Dot Product in the XY-plane, which is equivalent to the cosine of the heading or yaw angle.
+    @DisplayName Dot 2D (Heading)
+  **/
+  @DisplayName("Dot 2D (Heading)")
+  Dot2D;
+  
 }

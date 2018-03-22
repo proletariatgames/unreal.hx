@@ -57,5 +57,6 @@ package unreal.moviescenecapture;
   **/
   @DisplayName("Linear")
   HCGM_Linear;
+  HCGM_MAX;
   
 }

@@ -35,5 +35,6 @@ package unreal;
     Relative URL.
   **/
   TRAVEL_Relative;
+  TRAVEL_MAX;
   
 }

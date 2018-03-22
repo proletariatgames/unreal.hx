@@ -40,4 +40,10 @@ package unreal.androidruntimesettings;
   @DisplayName("24-bit")
   Bits24;
   
+  /**
+    32-bit
+  **/
+  @DisplayName("32-bit")
+  Bits32;
+  
 }

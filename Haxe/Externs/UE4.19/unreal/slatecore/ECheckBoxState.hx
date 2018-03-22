@@ -32,4 +32,9 @@ package unreal.slatecore;
   **/
   Checked;
   
+  /**
+    Neither checked nor unchecked
+  **/
+  Undetermined;
+  
 }

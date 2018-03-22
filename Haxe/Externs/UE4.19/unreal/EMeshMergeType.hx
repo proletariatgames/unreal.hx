@@ -18,5 +18,6 @@ package unreal;
 @:uname("EMeshMergeType")
 @:class @:uextern @:uenum extern enum EMeshMergeType {
   MeshMergeType_Default;
+  MeshMergeType_MergeActor;
   
 }

@@ -22,5 +22,6 @@ package unreal.foliage;
   Green;
   Blue;
   Alpha;
+  MAX_None;
   
 }

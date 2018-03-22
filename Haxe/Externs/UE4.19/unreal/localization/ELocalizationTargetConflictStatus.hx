@@ -29,4 +29,9 @@ package unreal.localization;
   **/
   ConflictsPresent;
   
+  /**
+    The localization target is clear of conflicts.
+  **/
+  Clear;
+  
 }

@@ -37,4 +37,9 @@ package unreal.editor;
   **/
   MSB_PolyFlags;
   
+  /**
+    Set CSG operation.
+  **/
+  MSB_BrushType;
+  
 }

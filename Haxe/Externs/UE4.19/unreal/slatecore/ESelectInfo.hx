@@ -37,4 +37,9 @@ package unreal.slatecore;
   **/
   OnMouseClick;
   
+  /**
+    Selection was directly set in code
+  **/
+  Direct;
+  
 }

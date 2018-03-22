@@ -50,5 +50,6 @@ package unreal;
     Blueprint has been compiled since it was last modified. There are warnings.
   **/
   BS_UpToDateWithWarnings;
+  BS_MAX;
   
 }

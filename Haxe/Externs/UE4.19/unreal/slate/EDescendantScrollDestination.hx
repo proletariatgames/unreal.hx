@@ -34,4 +34,11 @@ package unreal.slate;
   **/
   TopOrLeft;
   
+  /**
+    Always scroll the widget so it appears at the center of the scrollable area, if possible.
+    This won't be possible for the first few items and the last few items, as there's not enough
+    slack.
+  **/
+  Center;
+  
 }

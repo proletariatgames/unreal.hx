@@ -32,4 +32,9 @@ package unreal.animationcore;
   **/
   Aim;
   
+  /**
+    MAX - invalid
+  **/
+  MAX;
+  
 }

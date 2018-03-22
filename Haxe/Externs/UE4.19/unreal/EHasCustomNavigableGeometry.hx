@@ -33,4 +33,9 @@ package unreal;
   **/
   EvenIfNotCollidable;
   
+  /**
+    Don't export navigable geometry even if primitive is relevant for navigation (can still add modifiers)
+  **/
+  DontExport;
+  
 }

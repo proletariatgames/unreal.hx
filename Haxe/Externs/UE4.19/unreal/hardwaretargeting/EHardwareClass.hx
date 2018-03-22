@@ -32,4 +32,9 @@ package unreal.hardwaretargeting;
   **/
   Desktop;
   
+  /**
+    Mobile or tablet
+  **/
+  Mobile;
+  
 }

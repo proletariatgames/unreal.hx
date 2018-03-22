@@ -18,5 +18,6 @@ package unreal;
 @:uname("EWindowTitleBarMode")
 @:class @:uextern @:uenum extern enum EWindowTitleBarMode {
   Overlay;
+  VerticalBox;
   
 }

@@ -37,4 +37,9 @@ package unreal.steamvr;
   **/
   Other;
   
+  /**
+    DeviceId is invalid
+  **/
+  Invalid;
+  
 }

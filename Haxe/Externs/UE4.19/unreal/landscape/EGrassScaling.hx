@@ -29,4 +29,9 @@ package unreal.landscape;
   **/
   Free;
   
+  /**
+    X and Y will be the same random scale, Z will be another
+  **/
+  LockXY;
+  
 }

@@ -21,5 +21,6 @@ package unreal.blueprintgraph;
   Unknown;
   EntrySite;
   InputSite;
+  OutputSite;
   
 }

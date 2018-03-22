@@ -34,4 +34,9 @@ package unreal.applearkit;
   **/
   ComponentWithTracked;
   
+  /**
+    Use only the tracked face transform
+  **/
+  TrackingOnly;
+  
 }

@@ -42,4 +42,11 @@ package unreal;
   @DisplayName("Exponential")
   Exponential;
   
+  /**
+    Special linear interpolation designed specifically for replays. Not intended as a selectable mode in-editor.
+    @DisplayName Replay
+  **/
+  @DisplayName("Replay")
+  Replay;
+  
 }

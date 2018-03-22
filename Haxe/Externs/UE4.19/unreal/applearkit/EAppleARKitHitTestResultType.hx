@@ -44,4 +44,11 @@ package unreal.applearkit;
   @DisplayName("Existing Plane")
   ExistingPlane;
   
+  /**
+    Result type from intersecting with an existing plane anchor.
+    @DisplayName Existing Plane Using Extent
+  **/
+  @DisplayName("Existing Plane Using Extent")
+  ExistingPlaneUsingExtent;
+  
 }

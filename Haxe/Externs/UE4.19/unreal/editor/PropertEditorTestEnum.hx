@@ -48,5 +48,6 @@ package unreal.editor;
     This comment should appear above enum 6
   **/
   PropertyEditorTest_Enum6;
+  PropertyEditorTest_MAX;
   
 }

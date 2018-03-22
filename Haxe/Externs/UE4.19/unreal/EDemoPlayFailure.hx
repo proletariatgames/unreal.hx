@@ -36,4 +36,9 @@ package unreal;
   **/
   Corrupt;
   
+  /**
+    Invalid version.
+  **/
+  InvalidVersion;
+  
 }

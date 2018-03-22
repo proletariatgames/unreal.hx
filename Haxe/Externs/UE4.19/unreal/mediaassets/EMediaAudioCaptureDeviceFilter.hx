@@ -37,4 +37,9 @@ package unreal.mediaassets;
   **/
   Software;
   
+  /**
+    Unknown audio capture device types.
+  **/
+  Unknown;
+  
 }

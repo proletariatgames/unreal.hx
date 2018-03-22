@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum EControllerAnalogStick {
   CAS_LeftStick;
   CAS_RightStick;
+  CAS_MAX;
   
 }

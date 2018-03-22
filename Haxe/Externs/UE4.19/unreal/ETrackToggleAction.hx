@@ -24,5 +24,6 @@ package unreal;
   ETTA_On;
   ETTA_Toggle;
   ETTA_Trigger;
+  ETTA_MAX;
   
 }

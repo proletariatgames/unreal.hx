@@ -25,4 +25,10 @@ package unreal.animgraph;
   @DisplayName("Single animation")
   AST_SingleAnimation;
   
+  /**
+    Blend graph
+  **/
+  @DisplayName("Blend graph")
+  AST_BlendGraph;
+  
 }

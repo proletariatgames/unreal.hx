@@ -38,4 +38,9 @@ package unreal.automationcontroller;
   **/
   Success;
   
+  /**
+    Automation test was run and succeeded
+  **/
+  NotEnoughParticipants;
+  
 }

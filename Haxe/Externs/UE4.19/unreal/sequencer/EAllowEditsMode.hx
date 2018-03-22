@@ -32,4 +32,9 @@ package unreal.sequencer;
   **/
   AllowSequencerEditsOnly;
   
+  /**
+    Allow edits to go to level only
+  **/
+  AllowLevelEditsOnly;
+  
 }

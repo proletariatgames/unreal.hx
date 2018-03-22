@@ -42,4 +42,10 @@ package unreal;
   @DisplayName("Facing Leaf")
   STG_FacingLeaf;
   
+  /**
+    Billboard
+  **/
+  @DisplayName("Billboard")
+  STG_Billboard;
+  
 }

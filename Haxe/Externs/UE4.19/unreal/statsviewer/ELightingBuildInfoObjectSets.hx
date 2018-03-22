@@ -22,4 +22,11 @@ package unreal.statsviewer;
 @:uname("ELightingBuildInfoObjectSets")
 @:uextern @:uenum extern enum ELightingBuildInfoObjectSets {
   
+  /**
+    View lighting build statistics
+    @DisplayName Default
+  **/
+  @DisplayName("Default")
+  LightingBuildInfoObjectSets_Default;
+  
 }

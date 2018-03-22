@@ -64,4 +64,10 @@ package unreal.editorstyle;
   @DisplayName("Tritanopia (1% of males and females)")
   CVD_Tritanopia;
   
+  /**
+    Achromatopsia (Extremely Rare)
+  **/
+  @DisplayName("Achromatopsia (Extremely Rare)")
+  CVD_Achromatopsia;
+  
 }

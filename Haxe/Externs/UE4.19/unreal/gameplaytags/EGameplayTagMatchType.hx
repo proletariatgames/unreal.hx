@@ -23,4 +23,9 @@ package unreal.gameplaytags;
 @:uextern @:uenum extern enum EGameplayTagMatchType {
   Explicit;
   
+  /**
+    This will check for a match against just this tag
+  **/
+  IncludeParentTags;
+  
 }

@@ -18,5 +18,6 @@ package unreal;
 @:uname("ELegendPosition.Type")
 @:uextern @:uenum extern enum ELegendPosition {
   Outside;
+  Inside;
   
 }

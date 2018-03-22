@@ -32,4 +32,9 @@ package unreal.androidruntimesettings;
   **/
   PreferExternal;
   
+  /**
+    Internal storage is preferred over external, unless the interal storage is low on space
+  **/
+  Auto;
+  
 }

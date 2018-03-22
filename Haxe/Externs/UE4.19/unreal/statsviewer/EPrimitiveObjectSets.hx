@@ -36,4 +36,11 @@ package unreal.statsviewer;
   @DisplayName("Current Level")
   PrimitiveObjectSets_CurrentLevel;
   
+  /**
+    View primitive statistics for selected objects
+    @DisplayName Selected Objects
+  **/
+  @DisplayName("Selected Objects")
+  PrimitiveObjectSets_SelectedObjects;
+  
 }

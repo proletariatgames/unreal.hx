@@ -23,5 +23,6 @@ package unreal;
   None;
   Array;
   Set;
+  Map;
   
 }

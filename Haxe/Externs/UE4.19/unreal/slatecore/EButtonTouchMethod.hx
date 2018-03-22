@@ -27,4 +27,10 @@ package unreal.slatecore;
   **/
   DownAndUp;
   
+  /**
+    Inside a list, buttons can only be clicked with precise tap.
+    Moving the pointer will scroll the list.
+  **/
+  PreciseTap;
+  
 }

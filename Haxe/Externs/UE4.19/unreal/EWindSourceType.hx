@@ -18,5 +18,6 @@ package unreal;
 @:uname("EWindSourceType")
 @:class @:uextern @:uenum extern enum EWindSourceType {
   Directional;
+  Point;
   
 }

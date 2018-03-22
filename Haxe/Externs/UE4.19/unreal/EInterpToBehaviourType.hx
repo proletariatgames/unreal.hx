@@ -36,4 +36,9 @@ package unreal;
   **/
   Loop_Reset;
   
+  /**
+    Repeatedly lerp from start to end and back
+  **/
+  PingPong;
+  
 }

@@ -22,5 +22,6 @@ package unreal.animgraphruntime;
 @:uname("AnimPhysAngularConstraintType")
 @:class @:uextern @:uenum extern enum AnimPhysAngularConstraintType {
   Angular;
+  Cone;
   
 }

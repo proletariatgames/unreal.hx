@@ -33,4 +33,11 @@ package unreal.sequencer;
   @DisplayName("Loop")
   SLM_Loop;
   
+  /**
+    Loop Selection Range.
+    @DisplayName Loop Selection Range
+  **/
+  @DisplayName("Loop Selection Range")
+  SLM_LoopSelectionRange;
+  
 }

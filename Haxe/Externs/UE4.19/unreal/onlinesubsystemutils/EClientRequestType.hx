@@ -47,4 +47,9 @@ package unreal.onlinesubsystemutils;
   **/
   Reconnect;
   
+  /**
+    Abandon the reservation beacon (game specific handling)
+  **/
+  Abandon;
+  
 }

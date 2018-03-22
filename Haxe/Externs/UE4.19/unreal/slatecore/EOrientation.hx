@@ -29,4 +29,11 @@ package unreal.slatecore;
   @DisplayName("Horizontal")
   Orient_Horizontal;
   
+  /**
+    Orient vertically, i.e. top to bottom.
+    @DisplayName Vertical
+  **/
+  @DisplayName("Vertical")
+  Orient_Vertical;
+  
 }

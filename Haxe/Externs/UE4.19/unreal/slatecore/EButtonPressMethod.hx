@@ -33,4 +33,10 @@ package unreal.slatecore;
   **/
   ButtonPress;
   
+  /**
+    Click will always be triggered when a button release occurs on the focused button,
+    even if the button wasn't pressed while focused.
+  **/
+  ButtonRelease;
+  
 }

@@ -32,4 +32,9 @@ package unreal.slatecore;
   **/
   Controller;
   
+  /**
+    Navigate caused by a user generated event (Users = WIdgets, Client Code, ...)
+  **/
+  User;
+  
 }

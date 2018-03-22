@@ -37,4 +37,9 @@ package unreal.slatecore;
   **/
   Vertical;
   
+  /**
+    Mirror in both directions.
+  **/
+  Both;
+  
 }

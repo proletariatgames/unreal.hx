@@ -31,4 +31,10 @@ package unreal.headmounteddisplay;
   @DisplayName("Position")
   Position;
   
+  /**
+    Orientation and Position
+  **/
+  @DisplayName("Orientation and Position")
+  OrientationAndPosition;
+  
 }

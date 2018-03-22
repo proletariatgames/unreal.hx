@@ -24,5 +24,6 @@ package unreal;
   SOUNDDISTANCE_InfiniteXYPlane;
   SOUNDDISTANCE_InfiniteXZPlane;
   SOUNDDISTANCE_InfiniteYZPlane;
+  SOUNDDISTANCE_MAX;
   
 }

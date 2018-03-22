@@ -27,5 +27,6 @@ package unreal.paper2d;
   Bottom_Left;
   Bottom_Center;
   Bottom_Right;
+  Custom;
   
 }

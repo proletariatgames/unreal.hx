@@ -31,4 +31,10 @@ package unreal.blueprintgraph;
   @DisplayName("On Success Only")
   SoC_SuccessOnly;
   
+  /**
+    Always
+  **/
+  @DisplayName("Always")
+  SoC_Always;
+  
 }

@@ -29,4 +29,11 @@ package unreal.aimodule;
   @DisplayName("On Value Change")
   ValueChange;
   
+  /**
+    Restart only when result of evaluated condition is changed
+    @DisplayName On Result Change
+  **/
+  @DisplayName("On Result Change")
+  ResultChange;
+  
 }

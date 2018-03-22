@@ -26,4 +26,9 @@ package unreal;
   **/
   KeepRelative;
   
+  /**
+    Automatically calculates the relative transform such that the detached component maintains the same world transform.
+  **/
+  KeepWorld;
+  
 }

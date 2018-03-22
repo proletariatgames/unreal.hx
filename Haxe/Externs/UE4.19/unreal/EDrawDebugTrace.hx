@@ -20,5 +20,6 @@ package unreal;
   None;
   ForOneFrame;
   ForDuration;
+  Persistent;
   
 }

@@ -33,4 +33,9 @@ package unreal;
   **/
   Development;
   
+  /**
+    Always compile in final release mode.
+  **/
+  FinalRelease;
+  
 }

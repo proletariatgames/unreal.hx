@@ -49,5 +49,6 @@ package unreal;
   ObjectTypeQuery30;
   ObjectTypeQuery31;
   ObjectTypeQuery32;
+  ObjectTypeQuery_MAX;
   
 }

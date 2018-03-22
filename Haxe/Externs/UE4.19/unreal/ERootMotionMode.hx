@@ -33,4 +33,9 @@ package unreal;
   **/
   RootMotionFromEverything;
   
+  /**
+    Root motion is only taken from montages, suitable for network multiplayer setups.
+  **/
+  RootMotionFromMontagesOnly;
+  
 }

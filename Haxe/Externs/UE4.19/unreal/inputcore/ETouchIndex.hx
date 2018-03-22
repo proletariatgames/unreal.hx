@@ -37,5 +37,6 @@ package unreal.inputcore;
     as another finger index, but doesn't overlap with touch input indexes.
   **/
   CursorPointerIndex;
+  MAX_TOUCHES;
   
 }

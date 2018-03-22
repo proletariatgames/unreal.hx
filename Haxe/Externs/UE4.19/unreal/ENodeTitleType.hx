@@ -40,5 +40,6 @@ package unreal;
     Menu Title for context menus to be displayed in context menus referencing the node.
   **/
   MenuTitle;
+  MAX_TitleTypes;
   
 }

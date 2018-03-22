@@ -27,4 +27,9 @@ package unreal.moviescenetracks;
   **/
   Visible;
   
+  /**
+    The streamed levels should be hidden.
+  **/
+  Hidden;
+  
 }

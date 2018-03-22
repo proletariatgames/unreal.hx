@@ -43,5 +43,6 @@ package unreal.editor;
     The package has been marked dirty but cannot be checked out, and is pending a modal warning dialog.
   **/
   NS_PendingWarning;
+  NS_MAX;
   
 }

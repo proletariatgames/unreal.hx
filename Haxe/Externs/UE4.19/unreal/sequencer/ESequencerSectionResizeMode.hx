@@ -22,5 +22,6 @@ package unreal.sequencer;
 @:uname("ESequencerSectionResizeMode")
 @:uextern @:uenum extern enum ESequencerSectionResizeMode {
   SSRM_LeadingEdge;
+  SSRM_TrailingEdge;
   
 }

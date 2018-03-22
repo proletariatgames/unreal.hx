@@ -35,5 +35,6 @@ package unreal;
     Track is active when extreme content (gore) is disabled
   **/
   ETAC_GoreDisabled;
+  ETAC_MAX;
   
 }

@@ -31,5 +31,6 @@ package unreal.animgraph;
     Playing all sections.
   **/
   EMPT_AllSections;
+  EMPT_MAX;
   
 }

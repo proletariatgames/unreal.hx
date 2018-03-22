@@ -30,4 +30,9 @@ package unreal.landscapeeditor;
   **/
   Clip;
   
+  /**
+    The landscape will have the same overall size in the world, and have the same number of components. Existing landscape geometry and layer data will be resampled to match the new resolution.
+  **/
+  Resample;
+  
 }

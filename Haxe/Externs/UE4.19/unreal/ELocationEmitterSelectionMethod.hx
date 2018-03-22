@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum ELocationEmitterSelectionMethod {
   ELESM_Random;
   ELESM_Sequential;
+  ELESM_MAX;
   
 }

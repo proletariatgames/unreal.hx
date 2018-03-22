@@ -39,4 +39,10 @@ package unreal;
   @DisplayName("4x MSAA")
   Four;
   
+  /**
+    8x MSAA
+  **/
+  @DisplayName("8x MSAA")
+  Eight;
+  
 }

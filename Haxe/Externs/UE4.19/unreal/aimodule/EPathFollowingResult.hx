@@ -44,4 +44,9 @@ package unreal.aimodule;
   **/
   Skipped_DEPRECATED;
   
+  /**
+    Request was invalid
+  **/
+  Invalid;
+  
 }

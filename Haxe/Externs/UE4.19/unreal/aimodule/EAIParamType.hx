@@ -21,5 +21,6 @@ package unreal.aimodule;
   Float;
   Int;
   Bool;
+  MAX;
   
 }

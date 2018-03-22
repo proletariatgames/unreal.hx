@@ -53,4 +53,9 @@ package unreal;
   **/
   RandomFlipVOnly;
   
+  /**
+    Flips U and V independently at random for each particle on spawn.
+  **/
+  RandomFlipUVIndependent;
+  
 }

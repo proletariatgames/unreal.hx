@@ -28,4 +28,13 @@ package unreal;
   @DisplayName("Volumetric Lightmap")
   VLM_VolumetricLightmap;
   
+  /**
+    Volume lighting samples are placed on top of static surfaces at medium density, and everywhere else in the Lightmass Importance Volume at low density.  Positions outside of the Importance Volume will have no indirect lighting.
+    This method requires CPU interpolation so the Indirect Lighting Cache is used to interpolate results for each dynamic object, adding Rendering Thread overhead.
+    Volumetric Fog cannot be affected by precomputed lighting with this method.
+    @DisplayName Sparse Volume Lighting Samples
+  **/
+  @DisplayName("Sparse Volume Lighting Samples")
+  VLM_SparseVolumeLightingSamples;
+  
 }

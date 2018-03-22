@@ -25,5 +25,6 @@ package unreal.inputcore;
   Moved;
   Stationary;
   Ended;
+  NumTypes;
   
 }

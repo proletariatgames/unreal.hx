@@ -25,5 +25,6 @@ package unreal;
   IE_Repeat;
   IE_DoubleClick;
   IE_Axis;
+  IE_MAX;
   
 }

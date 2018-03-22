@@ -33,4 +33,9 @@ package unreal.onlinesubsystemutils;
   **/
   Pending;
   
+  /**
+    Connection is awaiting connection.
+  **/
+  Open;
+  
 }

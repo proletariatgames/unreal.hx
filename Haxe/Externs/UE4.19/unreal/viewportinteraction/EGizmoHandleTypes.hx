@@ -21,5 +21,6 @@ package unreal.viewportinteraction;
   All;
   Translate;
   Rotate;
+  Scale;
   
 }

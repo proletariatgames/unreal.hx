@@ -27,5 +27,6 @@ package unreal.aimodule;
   MarkPendingAbort;
   LatentAbortInProgress;
   AbortDone;
+  MAX;
   
 }

@@ -51,4 +51,9 @@ package unreal;
   **/
   ToNegativeInfinity;
   
+  /**
+    Rounds to the value which is more positive: 0.1 becomes 1, -0.1 becomes 0
+  **/
+  ToPositiveInfinity;
+  
 }

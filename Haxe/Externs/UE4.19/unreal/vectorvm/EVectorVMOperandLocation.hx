@@ -20,5 +20,6 @@ package unreal.vectorvm;
 @:class @:uextern @:uenum extern enum EVectorVMOperandLocation {
   Register;
   Constant;
+  Num;
   
 }

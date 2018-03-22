@@ -22,5 +22,6 @@ package unreal.functionaltesting;
   Low;
   Medium;
   High;
+  Custom;
   
 }

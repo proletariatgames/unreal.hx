@@ -31,4 +31,9 @@ package unreal;
   **/
   Relative;
   
+  /**
+    Element moves with its segment and will stay at a certain proportion through the segment.
+  **/
+  Proportional;
+  
 }

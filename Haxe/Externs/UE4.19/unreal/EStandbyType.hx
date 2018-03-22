@@ -23,5 +23,6 @@ package unreal;
   STDBY_Rx;
   STDBY_Tx;
   STDBY_BadPing;
+  STDBY_MAX;
   
 }

@@ -21,5 +21,6 @@ package unreal;
 @:uname("ETimelineDirection.Type")
 @:uextern @:uenum extern enum ETimelineDirection {
   Forward;
+  Backward;
   
 }

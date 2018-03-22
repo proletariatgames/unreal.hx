@@ -24,5 +24,6 @@ package unreal;
   Curve;
   Constant;
   CurveClamped;
+  CurveCustomTangent;
   
 }

@@ -25,5 +25,6 @@ package unreal;
   SVB_VisibilityBlockingOnLoad;
   SVB_BlockingOnLoad;
   SVB_LoadingNotVisible;
+  SVB_MAX;
   
 }

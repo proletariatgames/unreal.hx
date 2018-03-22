@@ -35,5 +35,6 @@ package unreal;
   **/
   @DisplayName("Z")
   PMLPC_HEIGHTAXIS_Z;
+  PMLPC_HEIGHTAXIS_MAX;
   
 }

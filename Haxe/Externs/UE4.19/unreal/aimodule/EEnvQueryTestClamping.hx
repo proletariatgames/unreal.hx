@@ -25,4 +25,9 @@ package unreal.aimodule;
   **/
   SpecifiedValue;
   
+  /**
+    Clamp to test's filter threshold.
+  **/
+  FilterThreshold;
+  
 }

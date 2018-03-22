@@ -32,4 +32,9 @@ package unreal.editor;
   **/
   Bounds;
   
+  /**
+    Follow a bone or socket
+  **/
+  Bone;
+  
 }

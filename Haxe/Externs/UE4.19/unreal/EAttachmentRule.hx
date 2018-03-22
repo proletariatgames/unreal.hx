@@ -31,4 +31,9 @@ package unreal;
   **/
   KeepWorld;
   
+  /**
+    Snaps transform to the attach point
+  **/
+  SnapToTarget;
+  
 }

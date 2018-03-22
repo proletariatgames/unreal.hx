@@ -33,4 +33,11 @@ package unreal.androidruntimesettings;
   @DisplayName("Daydream")
   Daydream;
   
+  /**
+    Configure GoogleVR to run in Daydream mode on Daydream-ready phone and fallback to Cardboard mode on Non Daydream-ready phone.
+    @DisplayName Daydream & Cardboard
+  **/
+  @DisplayName("Daydream & Cardboard")
+  DaydreamAndCardboard;
+  
 }

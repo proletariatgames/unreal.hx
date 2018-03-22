@@ -27,4 +27,9 @@ package unreal.meshpaint;
   **/
   PaintColors;
   
+  /**
+    Painting texture blend weights
+  **/
+  PaintWeights;
+  
 }

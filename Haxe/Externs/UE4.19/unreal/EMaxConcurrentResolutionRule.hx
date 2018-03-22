@@ -48,4 +48,9 @@ package unreal;
   **/
   StopQuietest;
   
+  /**
+    Stop the lowest priority sound in the group. If all sounds are the same priority, then it won't play a new sound.
+  **/
+  StopLowestPriorityThenPreventNew;
+  
 }

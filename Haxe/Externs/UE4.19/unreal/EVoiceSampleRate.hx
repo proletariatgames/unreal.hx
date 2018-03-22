@@ -21,5 +21,6 @@ package unreal;
 @:uname("EVoiceSampleRate")
 @:class @:uextern @:uenum extern enum EVoiceSampleRate {
   Low16000Hz;
+  Normal24000Hz;
   
 }

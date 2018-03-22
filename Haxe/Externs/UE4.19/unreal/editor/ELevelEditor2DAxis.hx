@@ -20,5 +20,6 @@ package unreal.editor;
 @:class @:uextern @:uenum extern enum ELevelEditor2DAxis {
   X;
   Y;
+  Z;
   
 }

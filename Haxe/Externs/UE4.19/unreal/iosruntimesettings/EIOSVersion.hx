@@ -48,4 +48,11 @@ package unreal.iosruntimesettings;
   @DisplayName("10.0")
   IOS_10;
   
+  /**
+    iOS 11
+    @DisplayName 11.0
+  **/
+  @DisplayName("11.0")
+  IOS_11;
+  
 }

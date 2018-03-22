@@ -41,5 +41,6 @@ package unreal;
   **/
   @DisplayName("Cubemap Layer")
   SLSH_CubemapLayer;
+  SLSH_MAX;
   
 }

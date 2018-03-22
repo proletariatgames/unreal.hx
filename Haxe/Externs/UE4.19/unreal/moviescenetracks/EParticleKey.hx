@@ -23,5 +23,6 @@ package unreal.moviescenetracks;
 @:uextern @:uenum extern enum EParticleKey {
   Activate;
   Deactivate;
+  Trigger;
   
 }

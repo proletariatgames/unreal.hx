@@ -34,5 +34,6 @@ package unreal.landscape;
     No Layer Info, need to add proper layers.
   **/
   LSE_NoLayerInfo;
+  LSE_MAX;
   
 }

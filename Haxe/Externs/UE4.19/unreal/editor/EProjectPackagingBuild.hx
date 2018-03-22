@@ -43,4 +43,11 @@ package unreal.editor;
   @DisplayName("If project has code, or running a locally built editor")
   IfProjectHasCode;
   
+  /**
+    If we're not packaging from a promoted build.
+    @DisplayName If running a locally built editor
+  **/
+  @DisplayName("If running a locally built editor")
+  IfEditorWasBuiltLocally;
+  
 }

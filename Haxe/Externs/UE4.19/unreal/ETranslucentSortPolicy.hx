@@ -31,4 +31,9 @@ package unreal;
   **/
   SortByProjectedZ;
   
+  /**
+    Sort based on the projection onto a fixed axis. (Best for 2D games.)
+  **/
+  SortAlongAxis;
+  
 }

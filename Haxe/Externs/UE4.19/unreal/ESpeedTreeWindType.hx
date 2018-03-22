@@ -54,4 +54,10 @@ package unreal;
   @DisplayName("Palm")
   STW_Palm;
   
+  /**
+    BestPlus
+  **/
+  @DisplayName("BestPlus")
+  STW_BestPlus;
+  
 }

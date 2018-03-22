@@ -37,5 +37,6 @@ package unreal;
     Struct is a duplicate, the original one was changed.
   **/
   UDSS_Duplicate;
+  UDSS_MAX;
   
 }

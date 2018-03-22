@@ -38,4 +38,10 @@ package unreal.umg;
   **/
   CenterScreen;
   
+  /**
+    Sends traces from a custom location determined by the user.  Will use whatever
+    FHitResult is set by the call to SetCustomHitResult.
+  **/
+  Custom;
+  
 }

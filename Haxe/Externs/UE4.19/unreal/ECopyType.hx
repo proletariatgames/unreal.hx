@@ -33,4 +33,9 @@ package unreal;
   **/
   StructProperty;
   
+  /**
+    Read and write properties using object property helpers, as source/dest could be regular/weak/lazy etc.
+  **/
+  ObjectProperty;
+  
 }

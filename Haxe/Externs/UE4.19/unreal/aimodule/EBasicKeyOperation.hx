@@ -25,4 +25,10 @@ package unreal.aimodule;
   @DisplayName("Is Set")
   Set;
   
+  /**
+    Is Not Set
+  **/
+  @DisplayName("Is Not Set")
+  NotSet;
+  
 }

@@ -24,4 +24,9 @@ package unreal.gameplaytasks;
   **/
   StartOnTop;
   
+  /**
+    Wait for other same-priority tasks to finish.
+  **/
+  StartAtEnd;
+  
 }

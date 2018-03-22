@@ -32,4 +32,9 @@ package unreal.slatecore;
   **/
   Always;
   
+  /**
+    Never consume the mouse wheel
+  **/
+  Never;
+  
 }

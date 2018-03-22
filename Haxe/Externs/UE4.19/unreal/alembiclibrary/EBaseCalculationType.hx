@@ -24,4 +24,9 @@ package unreal.alembiclibrary;
   **/
   PercentageBased;
   
+  /**
+    Set a fixed number of bases to import
+  **/
+  FixedNumber;
+  
 }

@@ -20,5 +20,6 @@ package unreal.gameplaydebugger;
 @:class @:uextern @:uenum extern enum EGameplayDebuggerOverrideMode {
   Enable;
   Disable;
+  UseDefault;
   
 }

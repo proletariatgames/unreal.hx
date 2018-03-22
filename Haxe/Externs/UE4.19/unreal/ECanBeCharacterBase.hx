@@ -42,5 +42,6 @@ package unreal;
   **/
   @DisplayName("(Owner)")
   ECB_Owner;
+  ECB_MAX;
   
 }

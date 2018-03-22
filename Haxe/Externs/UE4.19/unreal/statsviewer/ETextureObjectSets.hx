@@ -43,4 +43,11 @@ package unreal.statsviewer;
   @DisplayName("Selected Actor(s)")
   TextureObjectSet_SelectedActors;
   
+  /**
+    Display texture statistics of selected Materials
+    @DisplayName Selected Materials(s)
+  **/
+  @DisplayName("Selected Materials(s)")
+  TextureObjectSet_SelectedMaterials;
+  
 }

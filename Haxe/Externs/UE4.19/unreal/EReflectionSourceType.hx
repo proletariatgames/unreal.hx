@@ -23,4 +23,9 @@ package unreal;
   **/
   CapturedScene;
   
+  /**
+    Construct the reflection source from the specified cubemap.
+  **/
+  SpecifiedCubemap;
+  
 }

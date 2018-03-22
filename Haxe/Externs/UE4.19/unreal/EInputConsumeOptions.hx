@@ -32,5 +32,6 @@ package unreal;
     All input events will be available to components lower in the stack.
   **/
   ICO_ConsumeNone;
+  ICO_MAX;
   
 }

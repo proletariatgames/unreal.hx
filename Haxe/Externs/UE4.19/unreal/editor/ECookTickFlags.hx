@@ -20,4 +20,9 @@ package unreal.editor;
 @:class @:uextern @:uenum extern enum ECookTickFlags {
   None;
   
+  /**
+    no flags
+  **/
+  MarkupInUsePackages;
+  
 }

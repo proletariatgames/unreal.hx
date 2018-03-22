@@ -50,5 +50,6 @@ package unreal;
   **/
   @DisplayName("None")
   ERM_None;
+  ERM_MAX;
   
 }

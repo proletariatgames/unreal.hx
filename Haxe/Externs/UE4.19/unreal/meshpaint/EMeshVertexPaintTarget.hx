@@ -27,4 +27,9 @@ package unreal.meshpaint;
   **/
   ComponentInstance;
   
+  /**
+    Paint the actual static mesh asset
+  **/
+  Mesh;
+  
 }

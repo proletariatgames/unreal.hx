@@ -35,5 +35,6 @@ package unreal;
   **/
   @DisplayName("Cubic Interpolation")
   BSIT_Cubic;
+  BSIT_MAX;
   
 }

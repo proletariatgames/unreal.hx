@@ -71,5 +71,6 @@ package unreal;
   **/
   @DisplayName("Custom")
   MOVE_Custom;
+  MOVE_MAX;
   
 }

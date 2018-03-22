@@ -41,5 +41,6 @@ package unreal;
   **/
   @DisplayName("Manual")
   AEM_Manual;
+  AEM_MAX;
   
 }

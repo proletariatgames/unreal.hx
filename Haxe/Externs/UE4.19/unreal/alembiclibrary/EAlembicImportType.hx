@@ -34,4 +34,9 @@ package unreal.alembiclibrary;
   @DisplayName("Geometry Cache (Experimental)")
   GeometryCache;
   
+  /**
+    Imports the Alembic file as a skeletal mesh containing base poses as morph targets and blending between them to achieve the correct animation frame
+  **/
+  Skeletal;
+  
 }

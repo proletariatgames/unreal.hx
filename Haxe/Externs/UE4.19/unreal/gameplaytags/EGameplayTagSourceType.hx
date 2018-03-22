@@ -35,4 +35,9 @@ package unreal.gameplaytags;
   **/
   DataTable;
   
+  /**
+    From a DataTable
+  **/
+  Invalid;
+  
 }

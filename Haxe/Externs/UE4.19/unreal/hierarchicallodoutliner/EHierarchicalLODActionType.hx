@@ -25,5 +25,6 @@ package unreal.hierarchicallodoutliner;
   RemoveActorFromCluster;
   MergeClusters;
   ChildCluster;
+  MAX;
   
 }

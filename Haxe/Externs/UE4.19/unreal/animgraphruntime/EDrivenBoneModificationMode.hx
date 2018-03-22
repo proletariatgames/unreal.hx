@@ -32,4 +32,9 @@ package unreal.animgraphruntime;
   **/
   ReplaceComponent;
   
+  /**
+    Add the driven value to the reference pose value
+  **/
+  AddToRefPose;
+  
 }

@@ -43,4 +43,10 @@ package unreal.editor;
   @DisplayName("Single Convex Hull")
   EFG_SingleConvexHull;
   
+  /**
+    Multi Convex Hull
+  **/
+  @DisplayName("Multi Convex Hull")
+  EFG_MultiConvexHull;
+  
 }

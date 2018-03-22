@@ -29,5 +29,6 @@ package unreal.functionaltesting;
   Error;
   Running;
   Failed;
+  Succeeded;
   
 }

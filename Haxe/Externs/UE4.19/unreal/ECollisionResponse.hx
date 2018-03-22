@@ -38,5 +38,6 @@ package unreal;
   **/
   @DisplayName("Block")
   ECR_Block;
+  ECR_MAX;
   
 }

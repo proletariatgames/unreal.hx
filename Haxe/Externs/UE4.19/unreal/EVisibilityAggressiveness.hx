@@ -35,5 +35,6 @@ package unreal;
   **/
   @DisplayName("Most Aggressive")
   VIS_MostAggressive;
+  VIS_Max;
   
 }

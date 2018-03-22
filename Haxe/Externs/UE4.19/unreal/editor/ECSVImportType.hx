@@ -42,4 +42,9 @@ package unreal.editor;
   **/
   ECSV_CurveVector;
   
+  /**
+    Import as a UCurveLinearColor
+  **/
+  ECSV_CurveLinearColor;
+  
 }

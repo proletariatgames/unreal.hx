@@ -86,5 +86,6 @@ package unreal;
   **/
   @DisplayName("Toon")
   MSM_Toon;
+  MSM_MAX;
   
 }

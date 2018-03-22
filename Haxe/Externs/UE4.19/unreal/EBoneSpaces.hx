@@ -28,4 +28,11 @@ package unreal;
   @DisplayName("World Space")
   WorldSpace;
   
+  /**
+    Set position of bone in components reference frame.
+    @DisplayName Component Space
+  **/
+  @DisplayName("Component Space")
+  ComponentSpace;
+  
 }

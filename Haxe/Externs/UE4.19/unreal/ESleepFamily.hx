@@ -31,4 +31,9 @@ package unreal;
   **/
   Sensitive;
   
+  /**
+    Specify your own sleep threshold multiplier
+  **/
+  Custom;
+  
 }

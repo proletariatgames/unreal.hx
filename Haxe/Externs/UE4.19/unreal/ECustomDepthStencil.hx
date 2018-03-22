@@ -32,4 +32,9 @@ package unreal;
   **/
   EnabledOnDemand;
   
+  /**
+    Depth buffer created immediately. Stencil available for read/write.
+  **/
+  EnabledWithStencil;
+  
 }

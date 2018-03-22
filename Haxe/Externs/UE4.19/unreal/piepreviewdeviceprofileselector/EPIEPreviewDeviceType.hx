@@ -22,5 +22,6 @@ package unreal.piepreviewdeviceprofileselector;
   Android;
   IOS;
   TVOS;
+  MAX;
   
 }

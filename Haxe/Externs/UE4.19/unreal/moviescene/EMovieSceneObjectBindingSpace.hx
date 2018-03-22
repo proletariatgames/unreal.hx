@@ -27,4 +27,9 @@ package unreal.moviescene;
   **/
   Local;
   
+  /**
+    The object binding sequence ID resolves from the root of the sequence
+  **/
+  Root;
+  
 }

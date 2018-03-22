@@ -22,5 +22,6 @@ package unreal.audiomixer;
   Limiter;
   Expander;
   Gate;
+  Count;
   
 }

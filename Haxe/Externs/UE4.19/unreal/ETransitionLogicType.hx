@@ -27,4 +27,10 @@ package unreal;
   @DisplayName("Standard Blend")
   TLT_StandardBlend;
   
+  /**
+    Custom
+  **/
+  @DisplayName("Custom")
+  TLT_Custom;
+  
 }

@@ -35,4 +35,11 @@ package unreal;
   @DisplayName("Freeze")
   EM_Freeze;
   
+  /**
+    DataSource is ticked and evaluated for a given number of frames, then freezes after and uses the cached pose for future frames.
+    @DisplayName Delayed Freeze
+  **/
+  @DisplayName("Delayed Freeze")
+  EM_DelayedFreeze;
+  
 }

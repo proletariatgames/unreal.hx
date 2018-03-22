@@ -42,4 +42,9 @@ package unreal.umg;
   **/
   HitTestInvisible;
   
+  /**
+    Same as HitTestInvisible, but doesn't apply to child widgets.
+  **/
+  SelfHitTestInvisible;
+  
 }

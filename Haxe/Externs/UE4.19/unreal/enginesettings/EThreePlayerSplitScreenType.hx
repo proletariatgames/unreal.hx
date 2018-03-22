@@ -22,5 +22,6 @@ package unreal.enginesettings;
 @:uname("EThreePlayerSplitScreenType.Type")
 @:uextern @:uenum extern enum EThreePlayerSplitScreenType {
   FavorTop;
+  FavorBottom;
   
 }

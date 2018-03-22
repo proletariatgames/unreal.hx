@@ -32,5 +32,6 @@ package unreal;
     Do not change rotation. Ignore it.
   **/
   IMR_Ignore;
+  IMR_MAX;
   
 }

@@ -40,4 +40,10 @@ package unreal.aimodule;
   @DisplayName("Self")
   Self;
   
+  /**
+    Both
+  **/
+  @DisplayName("Both")
+  Both;
+  
 }

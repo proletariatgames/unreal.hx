@@ -37,4 +37,9 @@ package unreal.slatecore;
   **/
   Vertical;
   
+  /**
+    Tile in both directions
+  **/
+  Both;
+  
 }

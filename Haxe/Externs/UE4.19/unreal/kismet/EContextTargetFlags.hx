@@ -61,4 +61,9 @@ package unreal.kismet;
   @DisplayName("Libraries")
   TARGET_BlueprintLibraries;
   
+  /**
+    +1 to the last flag (so we can easily iterate these flags)
+  **/
+  ContextTargetFlagsEnd;
+  
 }

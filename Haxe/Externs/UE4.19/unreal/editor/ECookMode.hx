@@ -34,4 +34,9 @@ package unreal.editor;
   **/
   CookByTheBookFromTheEditor;
   
+  /**
+    Cooking by the book (not in the editor).
+  **/
+  CookByTheBook;
+  
 }

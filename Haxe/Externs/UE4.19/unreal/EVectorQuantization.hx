@@ -28,4 +28,9 @@ package unreal;
   **/
   RoundOneDecimal;
   
+  /**
+    Each vector component will be rounded, preserving two decimal places.
+  **/
+  RoundTwoDecimals;
+  
 }

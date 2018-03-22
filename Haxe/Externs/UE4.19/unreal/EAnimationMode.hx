@@ -30,4 +30,11 @@ package unreal;
   @DisplayName("Use Animation Asset")
   AnimationSingleNode;
   
+  /**
+    This is custom type, engine leaves AnimInstance as it is
+    @DisplayName Use Custom Mode
+  **/
+  @DisplayName("Use Custom Mode")
+  AnimationCustomMode;
+  
 }

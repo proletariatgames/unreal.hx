@@ -29,4 +29,9 @@ package unreal.landscape;
   **/
   Alphabetical;
   
+  /**
+    User specific sorting display mode
+  **/
+  UserSpecific;
+  
 }

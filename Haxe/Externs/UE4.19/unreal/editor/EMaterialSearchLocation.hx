@@ -34,4 +34,9 @@ package unreal.editor;
   **/
   UnderRoot;
   
+  /**
+    Search for matching material in all assets folders.
+  **/
+  AllAssets;
+  
 }

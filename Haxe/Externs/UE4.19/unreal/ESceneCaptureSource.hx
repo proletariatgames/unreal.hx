@@ -60,4 +60,10 @@ package unreal;
   @DisplayName("Normal in RGB (Deferred Renderer only)")
   SCS_Normal;
   
+  /**
+    BaseColor in RGB (Deferred Renderer only)
+  **/
+  @DisplayName("BaseColor in RGB (Deferred Renderer only)")
+  SCS_BaseColor;
+  
 }

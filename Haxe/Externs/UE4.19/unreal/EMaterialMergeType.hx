@@ -18,5 +18,6 @@ package unreal;
 @:uname("EMaterialMergeType")
 @:uextern @:uenum extern enum EMaterialMergeType {
   MaterialMergeType_Default;
+  MaterialMergeType_Simplygon;
   
 }

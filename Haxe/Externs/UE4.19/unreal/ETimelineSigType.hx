@@ -25,5 +25,6 @@ package unreal;
   ETS_VectorSignature;
   ETS_LinearColorSignature;
   ETS_InvalidSignature;
+  ETS_MAX;
   
 }

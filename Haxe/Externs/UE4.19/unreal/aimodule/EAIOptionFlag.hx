@@ -32,5 +32,6 @@ package unreal.aimodule;
   **/
   @DisplayName("No")
   Disable;
+  MAX;
   
 }

@@ -27,4 +27,9 @@ package unreal.animgraphruntime;
   **/
   Rotation;
   
+  /**
+    Driver using translation
+  **/
+  Translation;
+  
 }

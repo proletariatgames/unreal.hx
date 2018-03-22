@@ -29,4 +29,9 @@ package unreal.aimodule;
   **/
   MinScore;
   
+  /**
+    Use maximum score from all contexts
+  **/
+  MaxScore;
+  
 }

@@ -33,4 +33,9 @@ package unreal.aimodule;
   **/
   Aborted;
   
+  /**
+    finished aborting = failure
+  **/
+  InProgress;
+  
 }

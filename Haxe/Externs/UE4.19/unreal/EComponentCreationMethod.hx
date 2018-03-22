@@ -33,4 +33,9 @@ package unreal;
   **/
   UserConstructionScript;
   
+  /**
+    A component added to a single Actor instance via the Component section of the Actor's details panel.
+  **/
+  Instance;
+  
 }

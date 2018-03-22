@@ -33,5 +33,6 @@ package unreal;
     @todo: Deprecated!
   **/
   TSF_RGBE8;
+  TSF_MAX;
   
 }

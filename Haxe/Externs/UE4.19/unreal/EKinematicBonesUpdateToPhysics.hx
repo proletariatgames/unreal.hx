@@ -28,4 +28,9 @@ package unreal;
   **/
   SkipSimulatingBones;
   
+  /**
+    Skip physics update from kinematic changes.
+  **/
+  SkipAllBones;
+  
 }

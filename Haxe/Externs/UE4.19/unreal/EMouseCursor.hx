@@ -83,4 +83,9 @@ package unreal;
   **/
   SlashedCircle;
   
+  /**
+    Eye-dropper cursor for picking colors.
+  **/
+  EyeDropper;
+  
 }

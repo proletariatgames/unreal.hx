@@ -42,4 +42,9 @@ package unreal.editor;
   **/
   CJK;
   
+  /**
+    All known cultures.
+  **/
+  All;
+  
 }

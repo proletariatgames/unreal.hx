@@ -25,5 +25,6 @@ package unreal;
   NM_RecalculateNormalsSmooth;
   NM_RecalculateNormalsHard;
   TEMP_BROKEN;
+  ENormalMode_MAX;
   
 }

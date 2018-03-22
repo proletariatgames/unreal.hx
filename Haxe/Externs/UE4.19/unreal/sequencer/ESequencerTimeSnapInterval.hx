@@ -115,4 +115,10 @@ package unreal.sequencer;
   @DisplayName("120 fps")
   STSI_120Fps;
   
+  /**
+    Custom
+  **/
+  @DisplayName("Custom")
+  STSI_Custom;
+  
 }

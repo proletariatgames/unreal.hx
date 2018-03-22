@@ -38,4 +38,9 @@ package unreal;
   **/
   CaptureDuringMouseDown;
   
+  /**
+    Capture only when the right mouse button is down, not any of the other mouse buttons
+  **/
+  CaptureDuringRightMouseDown;
+  
 }

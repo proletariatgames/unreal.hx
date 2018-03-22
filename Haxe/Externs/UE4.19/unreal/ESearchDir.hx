@@ -21,5 +21,6 @@ package unreal;
 @:uname("ESearchDir.Type")
 @:uextern @:uenum extern enum ESearchDir {
   FromStart;
+  FromEnd;
   
 }

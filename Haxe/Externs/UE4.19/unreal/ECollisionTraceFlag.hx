@@ -45,5 +45,6 @@ package unreal;
   **/
   @DisplayName("Use Complex Collision As Simple")
   CTF_UseComplexAsSimple;
+  CTF_MAX;
   
 }

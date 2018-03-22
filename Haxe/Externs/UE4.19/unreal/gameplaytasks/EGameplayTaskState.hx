@@ -22,5 +22,6 @@ package unreal.gameplaytasks;
   AwaitingActivation;
   Paused;
   Active;
+  Finished;
   
 }

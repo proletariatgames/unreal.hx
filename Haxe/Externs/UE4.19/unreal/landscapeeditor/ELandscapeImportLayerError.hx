@@ -23,5 +23,6 @@ package unreal.landscapeeditor;
   FileNotFound;
   FileSizeMismatch;
   CorruptFile;
+  ColorPng;
   
 }

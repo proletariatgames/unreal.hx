@@ -21,5 +21,6 @@ package unreal;
 @:uname("ESearchCase.Type")
 @:uextern @:uenum extern enum ESearchCase {
   CaseSensitive;
+  IgnoreCase;
   
 }

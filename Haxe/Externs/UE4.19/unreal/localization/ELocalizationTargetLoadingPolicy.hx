@@ -44,4 +44,9 @@ package unreal.localization;
   **/
   PropertyNames;
   
+  /**
+    This target's localization data will only be loaded if the editor is displaying localized tool tips.
+  **/
+  ToolTips;
+  
 }

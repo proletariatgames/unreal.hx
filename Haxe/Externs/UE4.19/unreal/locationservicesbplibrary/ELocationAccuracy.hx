@@ -53,4 +53,10 @@ package unreal.locationservicesbplibrary;
   @DisplayName("Best")
   LA_Best;
   
+  /**
+    Best for Navigation
+  **/
+  @DisplayName("Best for Navigation")
+  LA_Navigation;
+  
 }

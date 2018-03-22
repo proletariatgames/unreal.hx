@@ -37,4 +37,10 @@ package unreal.aimodule;
   @DisplayName("Contains")
   Contain;
   
+  /**
+    Not Contains
+  **/
+  @DisplayName("Not Contains")
+  NotContain;
+  
 }

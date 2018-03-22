@@ -57,4 +57,11 @@ package unreal.meshpaint;
   @DisplayName("Green Channel")
   Green;
   
+  /**
+    Blue only
+    @DisplayName Blue Channel
+  **/
+  @DisplayName("Blue Channel")
+  Blue;
+  
 }

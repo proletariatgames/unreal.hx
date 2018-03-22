@@ -24,4 +24,9 @@ package unreal.augmentedreality;
   **/
   SyncTickWithCameraImage;
   
+  /**
+    Unreal tick will not related to the camera image update rate.
+  **/
+  SyncTickWithoutCameraImage;
+  
 }

@@ -22,5 +22,6 @@ package unreal.animgraphruntime;
 @:uname("AnimPhysLinearConstraintType")
 @:class @:uextern @:uenum extern enum AnimPhysLinearConstraintType {
   Free;
+  Limited;
   
 }

@@ -28,4 +28,10 @@ package unreal.sequencerecorder;
   @DisplayName("Don\'t Record Audio")
   None;
   
+  /**
+    Into Audio Track
+  **/
+  @DisplayName("Into Audio Track")
+  AudioTrack;
+  
 }

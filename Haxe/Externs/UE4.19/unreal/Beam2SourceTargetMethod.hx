@@ -59,5 +59,6 @@ package unreal;
   **/
   @DisplayName("Actor")
   PEB2STM_Actor;
+  PEB2STM_MAX;
   
 }

@@ -39,4 +39,9 @@ package unreal.slatecore;
   **/
   Border;
   
+  /**
+    Draw an image; margin is ignored
+  **/
+  Image;
+  
 }

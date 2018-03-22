@@ -21,5 +21,6 @@ package unreal;
   TCC_Green;
   TCC_Blue;
   TCC_Alpha;
+  TCC_MAX;
   
 }

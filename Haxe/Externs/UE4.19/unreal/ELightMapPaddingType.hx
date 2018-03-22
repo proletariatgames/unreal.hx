@@ -19,5 +19,6 @@ package unreal;
 @:uextern @:uenum extern enum ELightMapPaddingType {
   LMPT_NormalPadding;
   LMPT_PrePadding;
+  LMPT_NoPadding;
   
 }

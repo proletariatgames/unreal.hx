@@ -20,5 +20,6 @@ package unreal.animgraph;
 @:class @:uextern @:uenum extern enum EBlueprintUsage {
   NoProperties;
   DoesNotUseBlueprint;
+  UsesBlueprint;
   
 }

@@ -24,4 +24,10 @@ package unreal.aimodule;
   Unused;
   Constant;
   
+  /**
+    Do not weight
+  **/
+  @DisplayName("Do not weight")
+  Skip;
+  
 }

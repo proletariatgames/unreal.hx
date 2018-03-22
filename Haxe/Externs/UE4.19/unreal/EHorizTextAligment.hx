@@ -30,4 +30,10 @@ package unreal;
   @DisplayName("Center")
   EHTA_Center;
   
+  /**
+    Right
+  **/
+  @DisplayName("Right")
+  EHTA_Right;
+  
 }

@@ -42,5 +42,6 @@ package unreal;
   **/
   @DisplayName("Default (from Texture Group)")
   TF_Default;
+  TF_MAX;
   
 }

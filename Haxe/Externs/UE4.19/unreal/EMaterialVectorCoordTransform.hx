@@ -59,5 +59,6 @@ package unreal;
   **/
   @DisplayName("Mesh particle space")
   TRANSFORM_ParticleWorld;
+  TRANSFORM_MAX;
   
 }

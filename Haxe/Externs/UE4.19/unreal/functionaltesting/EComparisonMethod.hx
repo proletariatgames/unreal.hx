@@ -23,5 +23,6 @@ package unreal.functionaltesting;
   Greater_Than_Or_Equal_To;
   Less_Than_Or_Equal_To;
   Greater_Than;
+  Less_Than;
   
 }

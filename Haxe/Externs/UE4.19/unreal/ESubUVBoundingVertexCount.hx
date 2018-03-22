@@ -23,5 +23,6 @@ package unreal;
 @:uname("ESubUVBoundingVertexCount")
 @:uextern @:uenum extern enum ESubUVBoundingVertexCount {
   BVC_FourVertices;
+  BVC_EightVertices;
   
 }

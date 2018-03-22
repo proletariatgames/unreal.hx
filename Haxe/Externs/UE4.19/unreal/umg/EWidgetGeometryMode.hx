@@ -24,4 +24,9 @@ package unreal.umg;
   **/
   Plane;
   
+  /**
+    The widget is mapped onto a cylinder
+  **/
+  Cylinder;
+  
 }
