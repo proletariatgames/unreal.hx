@@ -142,7 +142,7 @@ extern class UWorld_Extra {
 	 *  @return TRUE if OutHits contains any blocking hit entries
 	 */
   @:thisConst
-  public function LineTraceMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
+  public function LineTraceMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
 
   @:thisConst
   public function SweepSingleByChannel(OutHit:PRef<FHitResult>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
