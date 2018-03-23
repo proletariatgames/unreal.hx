@@ -1429,17 +1429,6 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         ret.Struct = cls;
         prop = ret;
       case TEnum:
-#if (UE_VER >= 4.18)
-        var ret:UEnumProperty = cast newProperty(outer, UEnumProperty.StaticClass(), name, objFlags);
-        delays.push(function() {
-          var uenum = getUEnum(def.typeUName, true);
-          if (uenum == null) {
-            trace('Error', 'Could not find UENUM ${def.typeUName} while creating property $name');
-          }
-          ret.SetEnum(uenum);
-        });
-        prop = ret;
-#else
         var ret:UByteProperty = cast newProperty(outer, UByteProperty.StaticClass(), name, objFlags);
         delays.push(function() {
           var uenum = getUEnum(def.typeUName, true);
@@ -1449,8 +1438,6 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
           ret.Enum = uenum;
         });
         prop = ret;
-#end
-
       case TDynamicDelegate:
         var delDef = scriptDelegates[def.typeUName],
             sigFn = getDelegateSignature(def.typeUName.substr(1));
