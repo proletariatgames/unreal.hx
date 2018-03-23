@@ -513,6 +513,26 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
     }
   }
 
+  private static function containsInstancedData(def:UPropertyDef) : Bool {
+    if (def.metas != null) {
+      for (meta in def.metas) {
+        if (meta.name.toLowerCase() == 'instanced') {
+          return true;
+        }
+      }
+    }
+    switch (def.flags.type) {
+    case TMap | TArray | TSet:
+      for (param in def.params) {
+        if (containsInstancedData(param)) {
+          return true;
+        }
+      }
+    case _:
+    }
+    return false;
+  }
+
   public static function addProperties(struct:UStruct, uname:String, isNative:Bool) {
 #if DEBUG_HOTRELOAD
     trace('$id: addProperties $uname $isNative');
@@ -558,12 +578,17 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
       }
     }
 
+    var isClass = Std.is(struct, UClass);
     var uprops = meta.uclass.uprops,
         i = uprops.length;
     while (i --> 0) {
       var propDef = uprops[i];
       if (isNative && propDef.metas != null && propDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
         continue;
+      }
+      if (isClass && containsInstancedData(propDef)) {
+        var cls:UClass = cast struct;
+        cls.ClassFlags = cls.ClassFlags | CLASS_HasInstancedReference;
       }
       var prop = generateUProperty(struct, struct, propDef, false);
       if (prop == null) {
@@ -1543,6 +1568,11 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
     if (def.repNotify) {
       prop.PropertyFlags |= CPF_RepNotify;
       prop.RepNotifyFunc = 'onRep_' + def.uname;
+    }
+    switch(def.flags.type) {
+    case TMap|TArray|TSet if (containsInstancedData(def)):
+      prop.PropertyFlags |= CPF_ContainsInstancedReference;
+    case _:
     }
 
     if (def.hxName != null && def.hxName != def.uname) {
