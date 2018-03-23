@@ -305,9 +305,9 @@ import uhx.internal.Helpers;
 #end
   }
 
-  public static function callHaxeFunction(selfHaxe:UIntPtr, stack:VariantPtr, result:UIntPtr):Void {
+  public static function callHaxeFunction(contextObj:UIntPtr, stack:VariantPtr, result:UIntPtr):Void {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
-    HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(HaxeHelpers.pointerToDynamic(selfHaxe), cast stack, result) );
+    HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(cast UObject.wrap(contextObj), cast stack, result) );
 #else
     trace('Warning', 'Trying to call haxe function but dynamic class support was disabled');
 #end
