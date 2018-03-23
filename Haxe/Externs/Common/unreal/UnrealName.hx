@@ -170,5 +170,10 @@ extern enum UnrealName {
   NAME_WeakObjectProperty;
   NAME_AssetObjectProperty;
   NAME_AssetSubclassOfProperty;
+#else
+  NAME_GameSession;
+  NAME_PartySession;
+  NAME_GamePort;
+  NAME_BeaconPort;
 #end
 }
