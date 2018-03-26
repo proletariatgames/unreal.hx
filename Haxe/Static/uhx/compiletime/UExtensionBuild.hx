@@ -852,9 +852,9 @@ class UExtensionBuild {
 
     if (Globals.isDynamicUType(clt) && (clt.superClass == null || !Globals.isDynamicUType(clt.superClass.t.get()))) {
       includes.add('UObject/Stack.h');
-      headerDef << 'public: void ${Globals.UHX_CALL_FUNCTION}( FFrame& Stack, RESULT_DECL )' << new Begin("{") <<
-        '::uhx::expose::HxcppRuntime::callHaxeFunction(this->haxeGcRef.get(), unreal::VariantPtr(&Stack), (unreal::UIntPtr) RESULT_PARAM);' << new Newline() <<
-      new End('}');
+      headerDef << 'public:\n\tstatic void ${Globals.UHX_CALL_FUNCTION}( UObject* Context, FFrame& Stack, RESULT_DECL ) ' << new Begin("{") <<
+        '\t\t::uhx::expose::HxcppRuntime::callHaxeFunction(reinterpret_cast<unreal::UIntPtr>(Context), unreal::VariantPtr(&Stack), reinterpret_cast<unreal::UIntPtr>(RESULT_PARAM));' <<
+      new End('\t}');
     }
 
     // metas.push({ name: ':haxeGenerated', params:[], pos: clt.pos });

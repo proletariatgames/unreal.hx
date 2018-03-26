@@ -12,7 +12,7 @@ static int uhx_uniqueId = 0;
 
 static TMap<FName, uint32> getCrcMapPvt() {
   TMap<FName, uint32> map;
-  FString path = FPaths::ConvertRelativePathToFull(FPaths::GameDir()) + TEXT("/Binaries/Haxe/gameCrcs.data");
+  FString path = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir()) + TEXT("/Binaries/Haxe/gameCrcs.data");
   auto file = FPlatformFileManager::Get().GetPlatformFile().OpenRead(*path, false);
   if (file == nullptr) {
     return map;

@@ -37,7 +37,11 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         trace('Error', 'The ufunction ${field}_Implementation was not found on $clsName!');
         continue;
       }
+#if (UE_VER < 4.19)
       uclass.AddFunctionToFunctionMapWithOverriddenName(fn, field);
+#else
+      uclass.AddFunctionToFunctionMap(fn, field);
+#end
     }
   }
 }
@@ -728,7 +732,11 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
           }
         }
 
+#if (UE_VER < 4.19)
         uclass.AddFunctionToFunctionMap(func);
+#else
+        uclass.AddFunctionToFunctionMap(func, funcDef.uname);
+#end
 #if DEBUG_HOTRELOAD
         trace('setting func.Next from (${func.GetName()}) to ${uclass.Children == null ? null : uclass.Children.GetName().toString()}');
 #end
@@ -1446,17 +1454,6 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         ret.Struct = cls;
         prop = ret;
       case TEnum:
-#if (UE_VER >= 4.18)
-        var ret:UEnumProperty = cast newProperty(outer, UEnumProperty.StaticClass(), name, objFlags);
-        delays.push(function() {
-          var uenum = getUEnum(def.typeUName, true);
-          if (uenum == null) {
-            trace('Error', 'Could not find UENUM ${def.typeUName} while creating property $name');
-          }
-          ret.SetEnum(uenum);
-        });
-        prop = ret;
-#else
         var ret:UByteProperty = cast newProperty(outer, UByteProperty.StaticClass(), name, objFlags);
         delays.push(function() {
           var uenum = getUEnum(def.typeUName, true);
@@ -1466,8 +1463,6 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
           ret.Enum = uenum;
         });
         prop = ret;
-#end
-
       case TDynamicDelegate:
         var delDef = scriptDelegates[def.typeUName],
             sigFn = getDelegateSignature(def.typeUName.substr(1));

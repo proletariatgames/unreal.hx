@@ -18,14 +18,24 @@ extern class UWorld_Extra {
   @:thisConst
   public function IsPlayInEditor() : Bool;
 
+#if (UE_VER < 4.19)
   @:thisConst
   public function GetControllerIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<AController>>;
+#else
+  @:thisConst
+  public function GetControllerIterator() : TConstArrayIteratorWrapper<TWeakObjectPtr<AController>>;
+#end
 
   @:thisConst
   public function GetFirstPlayerController() : APlayerController;
 
+#if (UE_VER < 4.19)
   @:thisConst
   public function GetPawnIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<APawn>>;
+#else
+  @:thisConst
+  public function GetPawnIterator() : TConstArrayIteratorWrapper<TWeakObjectPtr<APawn>>;
+#end
 
   /** Returns a pointer to the physics scene for this world. */
   @:thisConst

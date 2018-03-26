@@ -12,7 +12,6 @@ extern enum UnrealName {
   NAME_ObjectProperty;
   NAME_NameProperty;
   NAME_DelegateProperty;
-  NAME_ClassProperty;
   NAME_ArrayProperty;
   NAME_StructProperty;
   NAME_VectorProperty;
@@ -21,16 +20,13 @@ extern enum UnrealName {
   NAME_TextProperty;
   NAME_InterfaceProperty;
   NAME_MulticastDelegateProperty;
-  NAME_WeakObjectProperty;
   NAME_LazyObjectProperty;
-  NAME_AssetObjectProperty;
   NAME_UInt64Property;
   NAME_UInt32Property;
   NAME_UInt16Property;
   NAME_Int64Property;
   NAME_Int16Property;
   NAME_Int8Property;
-  NAME_AssetSubclassOfProperty;
 
   NAME_Core;
   NAME_Engine;
@@ -168,4 +164,16 @@ extern enum UnrealName {
 
   NAME_EditorLayout;
   NAME_EditorKeyBindings;
+
+#if (UE_VER < 4.19)
+  NAME_ClassProperty;
+  NAME_WeakObjectProperty;
+  NAME_AssetObjectProperty;
+  NAME_AssetSubclassOfProperty;
+#else
+  NAME_GameSession;
+  NAME_PartySession;
+  NAME_GamePort;
+  NAME_BeaconPort;
+#end
 }

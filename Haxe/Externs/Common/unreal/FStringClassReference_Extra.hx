@@ -1,5 +1,6 @@
 package unreal;
 
+#if (UE_VER < 4.19)
 @:glueCppIncludes('Misc/StringClassReference.h')
 @:hasCopy @:hasEquals
 extern class FStringClassReference_Extra {
@@ -18,3 +19,4 @@ extern class FStringClassReference_Extra {
    */
   @:thisConst function ResolveClass():UClass;
 }
+#end // (UE_VER < 4.19)

@@ -13,7 +13,9 @@ extern class FWorldContext_Extra {
 
   var PIEPrefix:FString;
 
+#if (UE_VER < 4.19)
   var PIERemapPrefix:FString;
+#end
 
   var RunAsDedicated:Bool;
 

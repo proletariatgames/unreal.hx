@@ -643,7 +643,7 @@ class NeedsGlueBuild
           @:glueCppIncludes("IntPtr.h", "Engine.h")
           @:glueCppBody($v{'{
             UFunction *realFn = ((UFunction*)fn);
-            Native native = (Native)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ';
+            FNativeFuncPtr native = (FNativeFuncPtr)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ';
             ((UClass *) cls)->AddNativeFunction(*realFn->GetName(), native);
             ((UFunction*) fn)->SetNativeFunc(native);
           }'})

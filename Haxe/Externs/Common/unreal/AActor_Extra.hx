@@ -48,8 +48,10 @@ extern class AActor_Extra {
   @:thisConst
   public function GetRootComponent() : USceneComponent;
 
+#if (UE_VER < 4.19)
   @:thisConst
   public function GetRootPrimitiveComponent() : UPrimitiveComponent;
+#end
 
   @:thisConst
   public function GetActorLocation() : FVector;
