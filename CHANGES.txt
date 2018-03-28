@@ -1,4 +1,13 @@
 ????-??-??: 1.0.0
+  New Features:
+
+  added UE 4.19 support
+
+  Deprecation:
+
+  all pre-4.19 unreal version support have been dropped
+
+2018-03-26: 0.4.0
   Bugfixes:
 
   fixed DCE issues
@@ -9,6 +18,7 @@
   added dynamic uclasses, which allow entire UClasses be defined only by cppia
   added ufunction definition support for dynamic uclasses
   added uproperty definition support for dynamic uclasses
+  added a way to detect 
   added UE 4.17 support
   supported Build.cs files without having to create a Build.hx file
   added a way to set configuration options as Haxe code with UhxConfig.hx and UhxConfigLocal.hx
