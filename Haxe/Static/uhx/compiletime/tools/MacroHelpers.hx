@@ -57,13 +57,28 @@ class MacroHelpers
       ret.push({ name: s });
     case EBinop(OpAssign,{ expr: EConst(CIdent(name) | CString(name)) }, { expr:EConst(CIdent(value) | CString(value)) }):
       ret.push({ name: name, value:value });
+    case EBinop(OpAssign,{ expr: EConst(CIdent(name) | CString(name)) }, { expr:EParenthesis(value) }):
+      if (name.toLowerCase() == "meta") {
+        var i = ret.length;
+        extractMetaDefFromParam(value, ret);
+        for (i in (i)...ret.length) {
+          ret[i].isMeta = true;
+        }
+      } else {
+        switch(value.expr) {
+        case EConst(CString(s) | CIdent(s)):
+          ret.push({ name:name, value:s });
+        case _:
+          // TODO error?
+        }
+      }
     case EBinop(OpAssign,{ expr: EConst(CIdent(name) | CString(name)) }, { expr:EArrayDecl(arr) }):
       if (name.toLowerCase() == "meta") {
         var i = ret.length;
         for (value in arr) {
           extractMetaDefFromParam(value, ret);
         }
-        for (i in (i+1)...ret.length) {
+        for (i in (i)...ret.length) {
           ret[i].isMeta = true;
         }
       } else {
