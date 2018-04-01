@@ -348,6 +348,32 @@ public class HaxeCompilationInfo {
     this.init();
   }
 
+  public static bool IsCodeProject(FileReference ProjectFile)
+  {
+    DirectoryReference ProjectDirectory = ProjectFile.Directory;
+
+    // Check if it's a code project
+    DirectoryReference SourceFolder = DirectoryReference.Combine(ProjectDirectory, "Source");
+    DirectoryReference IntermediateSourceFolder = DirectoryReference.Combine(ProjectDirectory, "Intermediate", "Source");
+    return DirectoryReference.Exists(SourceFolder) || DirectoryReference.Exists(IntermediateSourceFolder);
+  }
+
+  static List<FileReference> FilterGameProjects(bool bOnlyCodeProjects, string GameNameFilter)
+  {
+    List<FileReference> Filtered = new List<FileReference>();
+    foreach (FileReference ProjectFile in UProjectInfo.AllProjectFiles)
+    {
+      if (!bOnlyCodeProjects || IsCodeProject(ProjectFile))
+      {
+        if (string.IsNullOrEmpty(GameNameFilter) || ProjectFile.GetFileNameWithoutAnyExtensions() == GameNameFilter)
+        {
+          Filtered.Add(ProjectFile);
+        }
+      }
+    }
+    return Filtered;
+  }
+
   private void init() {
     this.name = rules.Target.Name;
     if (this.name.EndsWith("Editor")) {
@@ -356,10 +382,10 @@ public class HaxeCompilationInfo {
       this.name = this.name.Substring(0, this.name.Length - "Server".Length);
     }
 
-    List<FileReference> projectFiles = UProjectInfo.FilterGameProjects(true, this.name);
+    List<FileReference> projectFiles = FilterGameProjects(true, this.name);
     if (projectFiles.Count == 0) {
       Log.TraceWarning("Could not find any code project with name " + this.name);
-      projectFiles = UProjectInfo.FilterGameProjects(true, null);
+      projectFiles = FilterGameProjects(true, null);
     }
     if (projectFiles.Count == 0) {
       Log.TraceWarning("Could not find any code project");

@@ -80,12 +80,6 @@ package unreal;
   **/
   @DisplayName("Eye")
   MSM_Eye;
-  
-  /**
-    Toon
-  **/
-  @DisplayName("Toon")
-  MSM_Toon;
   MSM_MAX;
   
 }

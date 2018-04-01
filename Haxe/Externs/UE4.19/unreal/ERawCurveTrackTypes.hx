@@ -35,18 +35,6 @@ package unreal;
   **/
   @DisplayName("Transformation Curve")
   RCT_Transform;
-  
-  /**
-    Baked Transform Curve
-  **/
-  @DisplayName("Baked Transform Curve")
-  RCT_BakedTransform;
-  
-  /**
-    Baked Vector Curve
-  **/
-  @DisplayName("Baked Vector Curve")
-  RCT_BakedVector;
   RCT_MAX;
   
 }

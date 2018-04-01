@@ -32,16 +32,6 @@ package unreal;
   **/
   @:uproperty public var VectorCurves : unreal.TArray<unreal.FVectorCurve>;
   #end // WITH_EDITORONLY_DATA
-  
-  /**
-    norm proletariat - Serialized curves we can use to pre-process data for pose matching
-  **/
-  @:uproperty public var BakedVectorCurves : unreal.TArray<unreal.FVectorCurve>;
-  
-  /**
-    norm proletariat - Serialized curves we can use to pre-process data for pose matching
-  **/
-  @:uproperty public var BakedTransformCurves : unreal.TArray<unreal.FTransformCurve>;
   @:uproperty public var FloatCurves : unreal.TArray<unreal.FFloatCurve>;
   
 }

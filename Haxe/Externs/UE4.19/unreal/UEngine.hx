@@ -399,12 +399,6 @@ package unreal;
     Texture used to do font rendering in shaders
   **/
   @:uproperty public var MiniFontTexture : unreal.UTexture2D;
-  @:uproperty public var ToonShaderRampTextureName : unreal.FSoftObjectPath;
-  
-  /**
-    Texture used for toon shading ramp
-  **/
-  @:uproperty public var ToonShaderRampTexture : unreal.UTexture2D;
   
   /**
     @todo document
