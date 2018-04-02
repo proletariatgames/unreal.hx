@@ -68,13 +68,18 @@ class ScriptGlue {
 
     var scriptGlue = typeref.getScriptGlueType();
     Globals.cur.cachedBuiltTypes.push(scriptGlue.getClassPath());
+    // make sure we don't have to rebuild the .cpp files if this file has changed position
+    var curPos = Context.getPosInfos(cl.pos);
+    curPos.min = curPos.max = 0;
+    curPos.file += ' (${cl.name})';
+    var invariantPos = Context.makePosition(curPos);
 
     Globals.cur.hasUnprocessedTypes = true;
     Context.defineType({
       pack: scriptGlue.pack,
       name: scriptGlue.name,
       meta: [{ name:':static', params:[], pos:cl.pos }, {name:':scriptGlue', params:[], pos:cl.pos}],
-      pos: cl.pos,
+      pos: invariantPos,
       kind: TDClass(),
       fields: toBuild
     });
