@@ -20,7 +20,7 @@ package unreal;
   /**
     Prints a stack trace to the log, so you can see how a blueprint got to this node
   **/
-  @:ufunction(BlueprintCallable) static public function StackTrace() : Void;
+  // @:ufunction(BlueprintCallable) static public function StackTrace() : Void;
   
   /**
     Return true if the object is usable : non-null and not pending kill

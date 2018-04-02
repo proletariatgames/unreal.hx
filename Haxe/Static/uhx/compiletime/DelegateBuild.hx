@@ -141,10 +141,6 @@ class DelegateBuild {
           $delayedglue.getNativeCall("Clear", false);
         }
       }
-      // There is no Remove for DynamicMulticastDelegate, so pull off that field
-      if (type == 'DynamicMulticastDelegate') {
-        def.fields.shift();
-      }
 
       var idx = 0;
       var expr = {
