@@ -191,7 +191,7 @@ class UExtensionBuild {
 
         switch (field.kind) {
         case FMethod(_):
-          if (field.name.toLowerCase().startsWith('onrep_')) {
+          if (field.meta.has(':ufunction') && field.name.toLowerCase().startsWith('onrep_')) {
             var propName = field.name.substr('onrep_'.length);
             // ensure that the variable this replication function is for exists.
             // Can match the field uname or, if none exists, the field name
