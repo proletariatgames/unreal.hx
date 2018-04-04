@@ -191,8 +191,8 @@ class UExtensionBuild {
 
         switch (field.kind) {
         case FMethod(_):
-          if (field.name.startsWith('onRep_')) {
-            var propName = field.name.substr('onRep_'.length);
+          if (field.name.toLowerCase().startsWith('onrep_')) {
+            var propName = field.name.substr('onrep_'.length);
             // ensure that the variable this replication function is for exists.
             // Can match the field uname or, if none exists, the field name
             var prop = clt.fields.get().find(function(t){
@@ -430,19 +430,18 @@ class UExtensionBuild {
             if (uprop.meta.has(UhxMeta.UReplicate)) {
               if (first) first = false; else data.add(', ');
 
-              var fnName = 'onRep_$uname';
               var replicateFn = clt.fields.get().find(function(fld) {
                 return switch (fld.type) {
-                  case TFun(_): fld.name == fnName;
+                  case TFun(_): fld.name.toLowerCase().startsWith("onrep_") && fld.name.substr("onrep_".length) == uname;
                   default: false;
                 }
               });
 
               if (replicateFn != null) {
                 if (!replicateFn.meta.has(UhxMeta.UFunction)) {
-                  throw new Error('$fnName must be a ufunction to use ReplicatedUsing', uprop.pos);
+                  throw new Error('${replicateFn.name} must be a ufunction to use ReplicatedUsing', uprop.pos);
                 }
-                data.add('ReplicatedUsing=$fnName');
+                data.add('ReplicatedUsing=${replicateFn.name}');
               } else {
                 data.add('Replicated');
               }

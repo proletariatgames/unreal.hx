@@ -43,7 +43,7 @@ typedef UPropertyDef = {
   ?typeUName: String, // with the prefix
   ?replication: UPropReplicationKind,
   ?customReplicationName: String,
-  ?repNotify: Bool,
+  ?repNotify: String,
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
   ?params: Array<UPropertyDef>,
   // ?arrayDim: Int

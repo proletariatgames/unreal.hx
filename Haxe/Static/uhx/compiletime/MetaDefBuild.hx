@@ -7,6 +7,7 @@ import uhx.compiletime.types.*;
 import uhx.meta.MetaDef;
 
 using uhx.compiletime.tools.MacroHelpers;
+using StringTools;
 using Lambda;
 
 /**
@@ -220,8 +221,10 @@ class MetaDefBuild {
 
     for (uprop in classDef.uprops) {
       if (uprop.replication != null || uprop.customReplicationName != null) {
-        if (classDef.ufuncs != null && classDef.ufuncs.exists(function(f) return f.uname == 'onRep_' + uprop.uname)) {
-          uprop.repNotify = true;
+        var ufunc = null;
+        if (classDef.ufuncs != null && (ufunc = classDef.ufuncs.find(function(f) return f.uname.toLowerCase().startsWith('onrep_') &&
+            f.uname.substr('onrep_'.length) == uprop.uname)) != null) {
+          uprop.repNotify = ufunc.uname;
         }
       }
     }

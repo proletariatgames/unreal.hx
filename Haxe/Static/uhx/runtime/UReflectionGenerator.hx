@@ -127,7 +127,7 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         } else {
           if (def.uclass.ufuncs != null) {
             for (fn in def.uclass.ufuncs) {
-              if (fn.uname.startsWith('onRep_') && ustruct.FindFunctionByName(fn.uname) == null) {
+              if (fn.uname.toLowerCase().startsWith('onrep_') && ustruct.FindFunctionByName(fn.uname) == null) {
                 // if onRep is found, perform a full hot reload
                 needsReinstancing = true;
                 break;
@@ -713,8 +713,8 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
       if (func != null) {
         // we already do this when creating the property, but we must do it again so that we catch the cases
         // where the onRep function was created after the property was already created (cppia hot reload)
-        if (funcDef.uname.startsWith('onRep_')) {
-          var propName = funcDef.uname.substr('onRep_'.length);
+        if (funcDef.uname.toLowerCase().startsWith('onrep_')) {
+          var propName = funcDef.uname.substr('onrep_'.length);
 #if DEBUG_HOTRELOAD
           trace('$id: Found onRep function for property $propName');
 #end
@@ -1560,9 +1560,9 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
     if (def.replication != null) {
       prop.PropertyFlags |= CPF_Net;
     }
-    if (def.repNotify) {
+    if (def.repNotify != null) {
       prop.PropertyFlags |= CPF_RepNotify;
-      prop.RepNotifyFunc = 'onRep_' + def.uname;
+      prop.RepNotifyFunc = def.repNotify;
     }
     switch(def.flags.type) {
     case TMap|TArray|TSet if (containsInstancedData(def)):
