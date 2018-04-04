@@ -128,7 +128,7 @@ abstract PtrMacros<T>(PtrBase<T>) {
         var tpath = conv.haxeType.toTypePath();
         return macro @:mergeBlock {
           var ret = new $tpath();
-          cast uhx.runtime.Helpers.getWrapperPointer(ret);
+          cast uhx.internal.Helpers.getWrapperPointer(ret);
         };
       case _:
         throw new Error("PtrMacros: Unsupported type : " + t, pos);
