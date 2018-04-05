@@ -56,4 +56,10 @@ extern class APlayerController_Extra {
   public function CleanupPlayerState() : Void;
 
   public function SetPawn(InPawn:APawn) : Void;
+
+  /**
+    Retrieves the X and Y screen coordinates of the mouse cursor. Returns false if there is no associated mouse device
+  **/
+  @:ureplace @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMousePosition(LocationX : Ref<unreal.Float32>, LocationY : Ref<unreal.Float32>) : Bool;
+
 }
