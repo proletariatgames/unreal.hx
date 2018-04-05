@@ -1,9 +1,6 @@
 package unreal;
 
 extern class AActor_Extra {
-  /** Dormancy setting for actor to take itself off of the replication list without being destroyed on clients. */
-  public var NetDormancy:ENetDormancy;
-
   public function Tick(DeltaSeconds:Float32) : Void;
 
   public function Reset() : Void;
@@ -18,9 +15,6 @@ extern class AActor_Extra {
 
   /** Overridable function called whenever this actor is being removed from a level */
   public function EndPlay(Reason:EEndPlayReason) : Void;
-
-  /** Puts actor in dormant networking state */
-  public function SetNetDormancy(NewDormancy:ENetDormancy) : Void;
 
   /**
    * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
@@ -87,6 +81,10 @@ extern class AActor_Extra {
    *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
    */
   public function NotifyActorEndOverlap(OtherActor:AActor) : Void;
+
+
+	/** Event when this actor is clicked by the mouse when using the clickable interface. */
+	public function NotifyActorOnClicked(?ButtonPressed:unreal.inputcore.FKey = unreal.inputcore.EKeys.LeftMouseButton) : Void;
 
   public function TornOff() : Void;
 
