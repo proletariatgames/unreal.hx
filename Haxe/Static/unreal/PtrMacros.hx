@@ -25,10 +25,14 @@ abstract PtrMacros<T>(PtrBase<T>) {
         }
       case CUObject(_):
         var type = t.haxeType.toComplexType();
-        return macro (cast (cast $ethis : unreal.AnyPtr).getUObject(0) : $type);
+        return macro (cast ((cast $ethis : unreal.AnyPtr).getPointer(0).getUObject(0)) : $type);
       case CStruct(_):
         var type = t.haxeType.toComplexType();
-        return macro (cast (cast $ethis : unreal.AnyPtr).getStruct(0) : $type);
+        var isPointer = t.modifiers != null && (t.modifiers.has(Ref) || t.modifiers.has(Ptr));
+        if (isPointer) {
+          return macro (cast ((cast $ethis : unreal.AnyPtr).getPointer(0).getStruct(0)) : $type);
+        }
+        return macro (cast ((cast $ethis : unreal.AnyPtr).getStruct(0)) : $type);
       case CEnum(_):
         var strthis = ethis.toString();
         return Context.parse(t.glueToHaxe('(cast $strthis : unreal.AnyPtr).getInt(0)', null), Context.currentPos());
@@ -52,13 +56,17 @@ abstract PtrMacros<T>(PtrBase<T>) {
       case CUObject(_):
         return macro (cast $ethis : unreal.AnyPtr).setUObject(0, $val);
       case CStruct(_):
+        var isPointer = t.modifiers != null && (t.modifiers.has(Ref) || t.modifiers.has(Ptr));
+        if (isPointer) {
+          return macro (cast $ethis : unreal.AnyPtr).setPointer(0, uhx.internal.Helpers.getWrapperPointer($val));
+        }
         var type = t.haxeType.toComplexType();
         try {
           Context.typeof(macro (null : $type).assign(null));
         } catch(e:Dynamic) {
           throw new Error('PtrMacros: Type ${t.haxeType} was not compiled with `assign` support.', ethis.pos);
         }
-        return macro (cast (cast $ethis : unreal.AnyPtr).getStruct(0) : $type).assign($val);
+        return macro (cast ((cast $ethis : unreal.AnyPtr).getStruct(0)) : $type).assign($val);
       case CEnum(_):
         // return macro (cast $ethis : unreal.AnyPtr).setInt(0, );
         var strthis = ethis.toString();

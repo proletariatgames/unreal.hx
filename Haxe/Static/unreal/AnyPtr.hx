@@ -68,6 +68,12 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
     return ptr.value;
   }
 
+  public function getPointer(at:Int):AnyPtr {
+    var curThis = this + at;
+    var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
+    return ptr.value;
+  }
+
   public function getFloat32(at:Int):Float32 {
     var curThis = this + at;
     var ptr:cpp.Pointer<Float32> = cpp.Pointer.fromRaw(untyped __cpp__("(cpp::Float32*){0}", curThis));
@@ -89,7 +95,11 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
   public function setUObject(at:Int, val:UObject):Void {
     var curThis = this + at;
     var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
-    ptr.ref = @:privateAccess val.wrapped;
+    if (val == null) {
+      ptr.ref = 0;
+    } else {
+      ptr.ref = @:privateAccess val.wrapped;
+    }
   }
 
   public function setInt(at:Int, val:Int):Void {
@@ -113,6 +123,12 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
   public function setInt64(at:Int, val:Int64):Void {
     var curThis = this + at;
     var ptr:cpp.Pointer<Int64> = cpp.Pointer.fromRaw(untyped __cpp__("(cpp::Int64*){0}", curThis));
+    ptr.ref = val;
+  }
+
+  public function setPointer(at:Int, val:AnyPtr):Void {
+    var curThis = this + at;
+    var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
     ptr.ref = val;
   }
 

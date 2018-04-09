@@ -70,12 +70,15 @@ import unreal.FPlatformMisc;
     if (world != null && world.IsPlayInEditor()) {
       inPIE = true;
     } else {
-      var ctxs = unreal.UEngine.GEngine.GetWorldContexts();
-      for (i in 0...ctxs.Num()) {
-        var ctx = ctxs.get_Item(i);
-        if (ctx.WorldType.match(PIE) && ctx.World() != null) {
-          inPIE = true;
-          break;
+      var engine = unreal.UEngine.GEngine;
+      if (engine != null) {
+        var ctxs = engine.GetWorldContexts();
+        for (i in 0...ctxs.Num()) {
+          var ctx = ctxs.get_Item(i);
+          if (ctx.WorldType.match(PIE) && ctx.World() != null) {
+            inPIE = true;
+            break;
+          }
         }
       }
     }
