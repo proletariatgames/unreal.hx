@@ -41,7 +41,7 @@ extern class FVector_Extra {
 
   @:thisConst
   public function SizeSquared2D() : Float32;
-  
+
   @:thisConst
   public function Rotation() : FRotator;
 
@@ -143,4 +143,20 @@ extern class FVector_Extra {
   public function ToOrientationRotator():Const<FRotator>;
 
   public function ToDirectionAndLength(OutDir:PRef<FVector>, OutLength:Ref<Float32>):Void;
+
+  /** Create a copy of this vector, with its magnitude clamped between Min and Max. */
+  @:thisConst
+  public function GetClampedToSize(Min:Float32, Max:Float32) : FVector;
+
+  /** Create a copy of this vector, with the 2D magnitude clamped between Min and Max. Z is unchanged. */
+  @:thisConst
+  public function GetClampedToSize2D(Min:Float32, Max:Float32) : FVector;
+
+  /** Create a copy of this vector, with its maximum magnitude clamped to MaxSize. */
+  @:thisConst
+  public function GetClampedToMaxSize(MaxSize:Float32) : FVector;
+
+  /** Create a copy of this vector, with the maximum 2D magnitude clamped to MaxSize. Z is unchanged. */
+  @:thisConst
+  public function GetClampedToMaxSize2D(MaxSize:Float32) : FVector;
 }
