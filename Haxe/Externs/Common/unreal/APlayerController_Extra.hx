@@ -57,6 +57,9 @@ extern class APlayerController_Extra {
 
   public function SetPawn(InPawn:APawn) : Void;
 
+  /** Returns the first of GetPawn() or GetSpectatorPawn() that is not nullptr, or nullptr otherwise. */
+  @:thisConst
+	public function GetPawnOrSpectator() : APawn;
   /**
     Retrieves the X and Y screen coordinates of the mouse cursor. Returns false if there is no associated mouse device
   **/
