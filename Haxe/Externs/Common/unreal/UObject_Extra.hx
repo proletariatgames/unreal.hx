@@ -62,6 +62,8 @@ extern class UObject_Extra {
 
   public function BeginDestroy() : Void;
 
+  public function ConditionalBeginDestroy() : Void;
+
   /**
     Add an object to the root set. This prevents the object and all
     its descendants from being deleted during garbage collection.
