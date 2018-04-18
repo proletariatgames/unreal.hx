@@ -18,6 +18,22 @@ extern class UWorld_Extra {
   @:thisConst
   public function IsPlayInEditor() : Bool;
 
+  /** @return true if this level is a client */
+  @:thisConst
+  public function IsClient() : Bool;
+
+  /** @return true if this level is a server */
+  @:thisConst
+  public function IsServer() : Bool;
+
+  /** @return true if the world is in the paused state */
+  @:thisConst
+  public function IsPaused() : Bool;
+
+  /** @return true if the camera is in a moveable state (taking pausedness into account) */
+  @:thisConst
+  public function IsCameraMoveable() : Bool;
+
 #if (UE_VER < 4.19)
   @:thisConst
   public function GetControllerIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<AController>>;
