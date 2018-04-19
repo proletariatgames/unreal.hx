@@ -259,8 +259,9 @@ class UExtensionBuild {
           [ for (arg in field.args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ];
         if (!field.type.isStatic())
           fnArgs.unshift({ name: 'self', type: thisConv.haxeGlueType.toComplexType() });
-        var headerDef = new HelperBuf(),
-            cppDef = new HelperBuf();
+        var headerDef = new CodeFormatter(),
+            cppDef = new CodeFormatter();
+        headerDef.begin('').begin('');
         var ret = field.ret.ueType.getCppType().toString();
 
         var implementCpp = true,
@@ -271,9 +272,9 @@ class UExtensionBuild {
         // Can't mark it as private here, but then you can't legitimately
         // extern a private field anyway.
         if (field.cf.isPublic) {
-          headerDef << 'public:\n\t\t';
+          headerDef << 'public:' << new Newline();
         } else {
-          headerDef << 'protected:\n\t\t';
+          headerDef << 'protected:' << new Newline();
         }
 
         var isBlueprintOverridable = false;
@@ -298,7 +299,7 @@ class UExtensionBuild {
               }
             }
           }
-          headerDef << ')\n\t\t';
+          headerDef << ')' << new Newline();
         }
 
         cppDef << ret << ' ' << nativeUe.getCppClass() << '::' << cppName << '(';
@@ -323,15 +324,17 @@ class UExtensionBuild {
         if (field.type == Override) {
           headerDef << ' override';
         }
-        headerDef << ';\n';
+        headerDef << ';' << new Newline();
 
         if (!field.type.isStatic()) {
-          headerDef << 'public:\n\t\t';
-          headerDef << 'typedef $ret (${nativeUe.getCppClass()}::*_${field.cf.name}_methodPtr_T)(' << args << (thisConst ? ' const' : '') << ';\n\t\t';
-          headerDef << 'static const _${field.cf.name}_methodPtr_T& _get_${field.cf.name}_methodPtr() { static auto Fn = &${nativeUe.getCppClass()}::$name; return Fn; }\n';
+          headerDef << 'public:' << new Newline();
+          headerDef << 'typedef $ret (${nativeUe.getCppClass()}::*_${field.cf.name}_methodPtr_T)(' << args << (thisConst ? ' const' : '') << ';' << new Newline();
+          headerDef << 'static const _${field.cf.name}_methodPtr_T& _get_${field.cf.name}_methodPtr()' << new Begin(' {')
+            << 'static auto Fn = &${nativeUe.getCppClass()}::$name;' << new Newline()
+            << 'return Fn;' << new End('}') << new Newline();
         }
 
-        cppDef << '{\n\t';
+        cppDef << new Begin(' {');
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name , ctx) ];
         if (!field.type.isStatic())
           args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this', ctx) );
@@ -340,7 +343,7 @@ class UExtensionBuild {
         if (!field.ret.haxeType.isVoid()) {
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
         }
-        cppDef << cppBody << ';\n}\n';
+        cppDef << cppBody << ';' << new End('}') << new Newline();
 
         var allTypes = [ for (arg in field.args) arg.type ];
         if (!field.type.isStatic())
@@ -355,7 +358,7 @@ class UExtensionBuild {
           t.collectUeIncludes(headerIncludes, headerForwards, cppIncludes);
         }
 
-        if (!implementCpp) cppDef = new HelperBuf();
+        if (!implementCpp) cppDef = new CodeFormatter();
         var metas:Metadata = [
           { name: ':glueHeaderCode', params:[macro $v{headerDef.toString()}], pos: field.cf.pos },
           { name: ':glueCppCode', params:[macro $v{cppDef.toString()}], pos: field.cf.pos },
@@ -767,7 +770,7 @@ class UExtensionBuild {
       cppDef.add('DEFINE_UHX_DYNAMIC_UCLASS(${ueName});\n');
     }
     if (clt.doc != null) {
-      headerDef.add('/**\n${clt.doc.replace('**/','')}\n**/\n');
+      headerDef << new Comment(clt.doc);
     }
     if (uclass != null) {
       headerDef.add('UCLASS(');
@@ -779,30 +782,29 @@ class UExtensionBuild {
           headerDef.add(param.toString().replace('[','(').replace(']',')'));
         }
       }
-      headerDef.add(')\n');
+      headerDef.add(')') << new Newline();
     }
     headerDef.add('class ${targetModule.toUpperCase()}_API ${ueName} ');
     if (extendsAndImplements.length > 0) {
       headerDef.add(' : ');
       headerDef.add(extendsAndImplements.join(', '));
     }
+    headerDef << new Begin(' {');
     if (uclass != null) {
-      headerDef.add(' {\n\tGENERATED_BODY()\n\n');
-    } else {
-      headerDef.add(' {\n\n');
+      headerDef << 'GENERATED_BODY()' << new Newline();
     }
     var superConv = TypeConv.get( TInst(clt.superClass.t, clt.superClass.params), clt.pos);
     var superName = superConv.ueType.getCppClass();
 
-    headerDef.add('private:\n\t\tstatic FName uhx_className;\n');
+    headerDef << 'private:' << new Newline() << 'static FName uhx_className;' << new Newline();
     if (cppDef == null) {
       cppDef = new StringBuf();
     }
-    headerDef.add('public:\n');
+    headerDef << 'public:' << new Newline();
     // include class map
     includes.add('uhx/ue/ClassMap.h');
-    headerDef.add('\t\tstatic unreal::UIntPtr getHaxePointer(unreal::UIntPtr inUObject) {\n');
-      headerDef.add('\t\t\treturn (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
+    headerDef << 'static unreal::UIntPtr getHaxePointer(unreal::UIntPtr inUObject)' << new Begin(' {')
+      << 'return (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();' << new End('}') << new Newline();
 
     var objectInit = new HelperBuf() << 'ObjectInitializer';
     var useObjInitializer = clt.meta.has(UhxMeta.NoDefaultConstructor) || (clt.superClass != null && clt.superClass.t.get().meta.has(UhxMeta.NoDefaultConstructor));
@@ -829,31 +831,39 @@ class UExtensionBuild {
     includes.add('uhx/UEHelpers.h');
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
-    ctorBody << '\n\t\t\tstatic bool addToMap = ::uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
-      << '\n\t\t\tstatic bool addFunctions = ::uhx::expose::HxcppRuntime::addHaxeBlueprintOverrides("${typeRef.getClassPath(true)}", (unreal::UIntPtr) $ueName::StaticClass());\n\t\t\t'
-      << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
-      << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(uhx_className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
+    ctorBody << 'static bool addToMap = ::uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n'
+      << 'static bool addFunctions = ::uhx::expose::HxcppRuntime::addHaxeBlueprintOverrides("${typeRef.getClassPath(true)}", (unreal::UIntPtr) $ueName::StaticClass());\n'
+      << 'UClass *curClass = ObjectInitializer.GetClass();\n'
+      << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(uhx_className,curClass,this->haxeGcRef,this,&createHaxeWrapper);';
 
     if (!hasHaxeSuper) {
-      headerDef.add('\t\t::uhx::GcRef haxeGcRef;\n');
+      headerDef << '::uhx::GcRef haxeGcRef;' << new Newline();
       if (useObjInitializer) {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
+        headerDef.add('${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit)');
       } else {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) {$ctorBody}\n');
+        headerDef.add('${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get())');
       }
     } else {
-      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
+      headerDef.add('${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit)');
     }
+    headerDef << new Begin(' {');
+      headerDef.addNewlines(ctorBody.toString());
+    headerDef << new End('}') << new Newline();
     if (!hasHaxeSuper) {
       includes.add('uhx/ThreadAttach.h');
-      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tuhx::ThreadAttach threadAttach(true);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
+      headerDef << 'void Serialize( FArchive& Ar ) override' << new Begin(' {') 
+        << 'Super::Serialize(Ar);' << new Newline()
+        << 'uhx::ThreadAttach threadAttach(true);' << new Newline()
+        << 'if (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());'
+      << new End('}') << new Newline();
     }
 
     if (Globals.isDynamicUType(clt) && (clt.superClass == null || !Globals.isDynamicUType(clt.superClass.t.get()))) {
       includes.add('UObject/Stack.h');
-      headerDef << 'public:\n\tstatic void ${Globals.UHX_CALL_FUNCTION}( UObject* Context, FFrame& Stack, RESULT_DECL ) ' << new Begin("{") <<
-        '\t\t::uhx::expose::HxcppRuntime::callHaxeFunction(reinterpret_cast<unreal::UIntPtr>(Context), unreal::VariantPtr(&Stack), reinterpret_cast<unreal::UIntPtr>(RESULT_PARAM));' <<
-      new End('\t}');
+      headerDef << 'public:' << new Newline()
+        << 'static void ${Globals.UHX_CALL_FUNCTION}( UObject* Context, FFrame& Stack, RESULT_DECL ) ' << new Begin(" {") 
+          << '::uhx::expose::HxcppRuntime::callHaxeFunction(reinterpret_cast<unreal::UIntPtr>(Context), unreal::VariantPtr(&Stack), reinterpret_cast<unreal::UIntPtr>(RESULT_PARAM));'
+        << new End('}') << new Newline();
     }
 
     // metas.push({ name: ':haxeGenerated', params:[], pos: clt.pos });

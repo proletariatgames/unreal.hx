@@ -239,13 +239,13 @@ class GlueMethod {
         } else {
           localDerivedClassBody << ', ';
         }
-        localDerivedClassBody << arg.t.ueType.getCppType();
+        localDerivedClassBody << arg.t.ueType.getCppType().toString();
       }
       localDerivedClassBody << ');\n';
       var staticCppArgDecl = [ for ( arg in this.glueArgs ) arg.t.glueType.getCppType() + ' ' + '_s_' + escapeCpp(arg.name, true) ].join(', ');
       localDerivedClassBody << '\t\tpublic:\n\t\t\tstatic ${this.glueRet.glueType.getCppType()} static_${meth.name}(${staticCppArgDecl}) {\n\t\t\t\t'
-        << staticCppVars
-        << staticCppBody
+        << staticCppVars.toString()
+        << staticCppBody.toString()
         << ';\n\t\t}\n'
         << '\t};\n'
         << "#if PLATFORM_WINDOWS\n#pragma warning( default : 4510 4610 )\n#endif // PLATFORM_WINDOWS\n\n\t";
@@ -269,7 +269,7 @@ class GlueMethod {
     } else {
       glueHeaderCode << ';';
       glueCppCode <<
-        this.glueRet.glueType.getCppType() <<
+        this.glueRet.glueType.getCppType().toString() <<
         ' ${this.glueType.getCppType()}_obj::${escapeGlue(meth.name)}(' << cppArgDecl << ') {' <<
           '\n\t' << glueCppBodyVars << ';\n}';
     }
