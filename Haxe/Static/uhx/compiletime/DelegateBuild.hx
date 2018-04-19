@@ -19,6 +19,7 @@ class DelegateBuild {
       case TInst(_,[TType(t,_), TFun(a,r)]):
         tfun = TFun(a,r);
         tdef = t.get();
+        pos = tdef.pos;
         args = a;
         ret = r;
       case _:
@@ -383,6 +384,7 @@ class DelegateBuild {
     // def.pack = TypeRef.parse(Context.getLocalModule()).pack;
     def.pack = ['uhx','delegates'];
     def.isExtern = isExtern;
+    def.pos = pos;
 #if bake_externs
     meta.push({ name:':udelegate', params:[macro var _:$sup], pos:pos });
     def.kind = TDClass();
