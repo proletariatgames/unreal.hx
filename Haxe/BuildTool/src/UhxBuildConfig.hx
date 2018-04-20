@@ -171,6 +171,45 @@ typedef UhxBuildConfig = {
     Sets UhxBuild to test mode, which allows assertions to be passed onto it
   **/
   ?testMode:Bool,
+
+  /**
+    Ignores the static/cppia build checks and always build them
+  **/
+  ?alwaysBuild:BuildKind
+}
+
+@:enum abstract BuildKind(String) from String {
+  /**
+    Neither cppia nor static builds
+  **/
+  var None = "none";
+
+  /**
+    Represents both cppia and static builds
+  **/
+  var All = "all";
+
+  /**
+    Represents a cppia build
+  **/
+  var Cppia = "cppia";
+
+  /**
+    Represents a static build
+  **/
+  var Static = "static";
+
+
+  inline public function hasCppia()
+  {
+    return this == All || this == Cppia;
+  }
+
+
+  inline public function hasStatic()
+  {
+    return this == All || this == Static;
+  }
 }
 
 @:enum abstract Dce(String) from String {

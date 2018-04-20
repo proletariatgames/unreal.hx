@@ -1489,8 +1489,15 @@ class UhxBuild extends UhxBaseBuild {
         var compFile = '${this.outputDir}/Data/staticCompile.stamp';
         var depCheck = timer('static dependency check');
         needsStatic = compilationParamsChanged();
-        if (needsStatic && this.config.verbose) {
-          log('compiling static because latest compilation was compiled with different arguments');
+        if (needsStatic) {
+          if (this.config.verbose) {
+            log('compiling static because latest compilation was compiled with different arguments');
+          }
+        } else {
+          needsStatic = this.config.alwaysBuild.hasStatic();
+          if (needsStatic && this.config.verbose) {
+            log('compiling static because it was requested by the config option `alwaysBuild`');
+          }
         }
         if (!needsStatic) {
           var templatePath = this.data.pluginDir + '/Haxe/Templates';
@@ -1540,7 +1547,14 @@ class UhxBuild extends UhxBaseBuild {
         var targetName = this.data.cppiaRecompile ? 'game-recompile' : 'game';
         var targetFile = '${data.projectDir}/Binaries/Haxe/game.cppia';
 
-        var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, compFile, this.config.verbose, 'cppia');
+        var needsCppia = this.config.alwaysBuild.hasCppia();
+        if (needsCppia) {
+          if (this.config.verbose) {
+            log('compiling cppia because it was requested by the config option `alwaysBuild`');
+          }
+        } else {
+          needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, compFile, this.config.verbose, 'cppia');
+        }
         if (!needsCppia) {
           needsCppia = this.hasNewModules('${this.outputDir}/Data/cppiaModules.txt', this.scriptPaths, this.config.verbose, 'cppia');
         }
