@@ -2,6 +2,9 @@ package unreal;
 
 extern class FMath_Extra {
 
+	@:expr(3.4e+38)
+	public static var BIG_NUMBER(default, null):Float;
+
 	@:expr(1.e-4)
 	public static var KINDA_SMALL_NUMBER(default, null):Float;
 
