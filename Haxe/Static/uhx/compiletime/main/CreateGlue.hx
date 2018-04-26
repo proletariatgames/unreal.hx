@@ -57,9 +57,12 @@ class CreateGlue {
     for (path in staticPaths) {
       fileDeps[path] = true;
     }
-    inline function addFileDep(file:String, direct=true) {
+    var cur = Globals.cur;
+    inline function addFileDep(file:String, force:Bool, direct=true) {
       if (file != null && file.endsWith('.hx')) {
-        fileDeps.set(file, direct);
+        if (!cur.inScriptPass || (force || file.startsWith(externsDir))) {
+          fileDeps.set(file, direct);
+        }
       }
     }
 
@@ -76,7 +79,6 @@ class CreateGlue {
         return; // macro context
       }
       Globals.cur.hasUnprocessedTypes = false;
-      var cur = Globals.cur;
       for (type in types) {
         var str = Std.string(type);
         if (!typesTouched[str]) {
@@ -84,9 +86,7 @@ class CreateGlue {
           switch(type) {
           case TAbstract(a):
             var a = a.get();
-            if (!cur.inScriptPass) {
-              addFileDep(Context.getPosInfos(a.pos).file);
-            }
+            addFileDep(Context.getPosInfos(a.pos).file, false);
             if (a.meta.has(':ueHasGenerics')) {
               cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
             }
@@ -94,23 +94,29 @@ class CreateGlue {
             var c = c.get();
             if (!c.meta.has(':scriptGlue')) {
               if (!cur.inScriptPass) {
-                addFileDep(Context.getPosInfos(c.pos).file);
+                addFileDep(Context.getPosInfos(c.pos).file, true);
               } else if (!c.meta.has(':uextern') && c.meta.has(':uclass')) {
+                addFileDep(Context.getPosInfos(c.pos).file, true, false);
+              } else {
                 addFileDep(Context.getPosInfos(c.pos).file, false);
               }
             }
           case TEnumDecl(e):
             var e = e.get();
             if (!cur.inScriptPass) {
-              addFileDep(Context.getPosInfos(e.pos).file);
+              addFileDep(Context.getPosInfos(e.pos).file, true);
             } else if (!e.meta.has(':uextern') && e.meta.has(':uenum')) {
+              addFileDep(Context.getPosInfos(e.pos).file, true, false);
+            } else {
               addFileDep(Context.getPosInfos(e.pos).file, false);
             }
           case TTypeDecl(t):
             var t = t.get();
             if (!cur.inScriptPass) {
-              addFileDep(Context.getPosInfos(t.pos).file);
+              addFileDep(Context.getPosInfos(t.pos).file, true);
             } else if (t.meta.has(':ustruct') || t.meta.has(':udelegate')) {
+              addFileDep(Context.getPosInfos(t.pos).file, true, false);
+            } else {
               addFileDep(Context.getPosInfos(t.pos).file, false);
             }
           case _:
