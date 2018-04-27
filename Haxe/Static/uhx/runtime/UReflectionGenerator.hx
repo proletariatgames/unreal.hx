@@ -1254,6 +1254,10 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         // TODO check if there is another edit specifier while compiling
         flags |= CPF_BlueprintVisible;
       case 'config':
+        if (Std.is(ownerStruct, UClass)) {
+          var cls:UClass = cast ownerStruct;
+          cls.ClassFlags |= EClassFlags.CLASS_Config;
+        }
         flags |= CPF_Config;
       case 'const':
         flags |= CPF_ConstParm;

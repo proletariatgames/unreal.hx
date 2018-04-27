@@ -7,4 +7,5 @@ import unreal.*;
 @:uextern extern class IOnlineIdentity {
   public function GetAuthToken(localUserNum:Int32):FString;
   public function GetLoginStatus(localUserNum:Int32):ELoginStatus;
+  public function GetPlayerNickname(localUserNum:Int32):FString;
 }

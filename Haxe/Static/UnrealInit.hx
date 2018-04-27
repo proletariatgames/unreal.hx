@@ -36,7 +36,7 @@ class UnrealInit
 
 #if (debug && HXCPP_DEBUGGER)
 #if hxcpp_debugger_ext
-    debugger.Api.addRuntimeClassData();
+    // debugger.Api.addRuntimeClassData();
     debugger.Api.setMyClassPaths();
     var ping = debugger.VSCodeRemote.start('localhost');
     if (!ping.isConnected) {
