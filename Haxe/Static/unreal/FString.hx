@@ -31,6 +31,10 @@ package unreal;
     this.Empty(slack);
   }
 
+  inline public function assign(str:FString):Void {
+    this.assign(str);
+  }
+
   @:op(A==B) inline public function equals(other:FString) : Bool {
     if (this == null)
       return other == null;

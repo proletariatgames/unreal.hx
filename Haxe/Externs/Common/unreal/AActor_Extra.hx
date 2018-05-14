@@ -183,6 +183,8 @@ extern class AActor_Extra {
 
   @:uproperty private var bReplicates:Bool;
 
+  public function GetIsReplicated():Bool;
+
   /** The time this actor was created, relative to World->GetTimeSeconds().
   @see UWorld::GetTimeSeconds()
   */

@@ -1363,8 +1363,26 @@ class TypeConv {
               }
               ctx.accStructFlags |= SOwnedPtr;
             }
-            if (ctx.original == null) {
-              ctx.original = TypeRef.fromBaseType(a, tl, pos);
+            switch(name)
+            {
+            case 'unreal.TWeakObjectPtr':
+              if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
+                Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
+              }
+              ctx.accFlags |= OWeak;
+              if (ctx.modf == null) ctx.modf = [];
+              ctx.modf.push(Marker);
+            case 'unreal.TAutoWeakObjectPtr':
+              if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
+                Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
+              }
+              ctx.accFlags |= OAutoWeak;
+              if (ctx.modf == null) ctx.modf = [];
+              ctx.modf.push(Marker);
+            case _:
+              if (ctx.original == null) {
+                ctx.original = TypeRef.fromBaseType(a, tl, pos);
+              }
             }
             type = a.type.applyTypeParameters(a.params, tl);
           }
@@ -1419,20 +1437,6 @@ class TypeConv {
             } else {
               ctx.modf.push(Ptr);
             }
-          case 'unreal.TWeakObjectPtr':
-            if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
-              Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
-            }
-            ctx.accFlags |= OWeak;
-            if (ctx.modf == null) ctx.modf = [];
-            ctx.modf.push(Marker);
-          case 'unreal.TAutoWeakObjectPtr':
-            if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
-              Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
-            }
-            ctx.accFlags |= OAutoWeak;
-            if (ctx.modf == null) ctx.modf = [];
-            ctx.modf.push(Marker);
           case 'unreal.TSubclassOf':
             if (ctx.accFlags.hasAny(OWeak | OSubclassOf)) {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
