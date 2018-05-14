@@ -1379,6 +1379,16 @@ class TypeConv {
               ctx.accFlags |= OAutoWeak;
               if (ctx.modf == null) ctx.modf = [];
               ctx.modf.push(Marker);
+            case 'unreal.TSubclassOf':
+              if (ctx.accFlags.hasAny(OWeak | OSubclassOf)) {
+                Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
+              }
+              ctx.accFlags |= OSubclassOf;
+              type = tl[0];
+              if (ctx.modf == null) ctx.modf = [];
+              ctx.modf.push(Marker);
+              type = tl[0];
+              continue;
             case _:
               if (ctx.original == null) {
                 ctx.original = TypeRef.fromBaseType(a, tl, pos);
@@ -1437,15 +1447,6 @@ class TypeConv {
             } else {
               ctx.modf.push(Ptr);
             }
-          case 'unreal.TSubclassOf':
-            if (ctx.accFlags.hasAny(OWeak | OSubclassOf)) {
-              Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
-            }
-            ctx.accFlags |= OSubclassOf;
-            type = tl[0];
-            if (ctx.modf == null) ctx.modf = [];
-            ctx.modf.push(Marker);
-            continue;
           case 'unreal.TScriptInterface':
             if (ctx.accFlags.hasAny(OWeak | OSubclassOf | OAutoWeak)) {
               Context.warning('Unreal Type: Illogical type (TScriptInterface with weak / subclassOf flags', pos);
