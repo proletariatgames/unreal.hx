@@ -5,6 +5,9 @@ extern class AActor_Extra {
 
   public function Reset() : Void;
 
+	/** Called to finish the spawning process, generally in the case of deferred spawning */
+  public function FinishSpawning(Transform:Const<PRef<FTransform>>, bIsDefaultTransform:Bool = false) : Void;
+
   /** Event when play begins for this actor. */
 #if (UE_VER < 4.16)
   public
