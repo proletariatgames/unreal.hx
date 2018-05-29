@@ -20,6 +20,8 @@ package unreal;
 
   function InsertAt(index:Int32, chars:Const<PRef<FString>>):Void;
 
+  function Compare(Other:Const<PRef<FString>>, SearchCase:ESearchCase) : Int32;
+
   function ToLowerInline():Void;
   function ToUpperInline():Void;
   @:expr(return op_Dereference()) public function toString():String;
