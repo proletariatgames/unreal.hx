@@ -19,4 +19,7 @@ extern class FVector2D_Extra {
   @:expr({
     return createWithValues(1,1);
   }) private static function get_UnitVector() : Const<FVector2D>;
+
+  @:thisConst
+  public function Equals(V:Const<PRef<FVector2D>>, Tolerance:Float32=1e-4) : Bool;
 }
