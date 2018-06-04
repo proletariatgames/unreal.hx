@@ -8,4 +8,7 @@ extern class FHitResult_Extra {
 
   @:uname('new')
   public static function createNewForceInit(init:EForceInit) : POwnedPtr<FHitResult>;
+
+  /** Reset hit result while optionally saving TraceStart and TraceEnd. */
+  public function Reset(InTime:Float32 = 1., bPreserveTraceData:Bool = true) : Void;
 }
