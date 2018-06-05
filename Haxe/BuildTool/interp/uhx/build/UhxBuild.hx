@@ -1760,22 +1760,6 @@ class UhxBuild extends UhxBaseBuild {
     InitPlugin.updateProject(this.data.projectDir, this.haxeDir, this.data.pluginDir, proj, ver, this.data.targetType == Program, false, targetModule);
   }
 
-  private function getEngineVersion(config:UhxBuildConfig):{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> } {
-    var engineDir = this.data.engineDir;
-    if (FileSystem.exists('$engineDir/Build/Build.version')) {
-      return haxe.Json.parse( sys.io.File.getContent('$engineDir/Build/Build.version') );
-    } else if (config.engineVersion != null) {
-      var vers = config.engineVersion.split('.');
-      var ret = { MajorVersion:Std.parseInt(vers[0]), MinorVersion:Std.parseInt(vers[1]), PatchVersion:Std.parseInt(vers[2]) };
-      if (ret.MajorVersion == null || ret.MinorVersion == null) {
-        throw new BuildError('The engine version is not in the right pattern (Major.Minor.Patch)');
-      }
-      return ret;
-    } else {
-      throw new BuildError('The engine build version file at $engineDir/Build/Build.version could not be found, and neither was an overridden version set on the uhxconfig.local file');
-    }
-  }
-
   private function setEnvs(envs:Map<String,String>):Map<String,String> {
     var oldEnvs = new Map();
     for (key in envs.keys()) {

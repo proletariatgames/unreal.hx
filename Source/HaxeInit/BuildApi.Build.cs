@@ -9,24 +9,12 @@ using UnrealBuildTool;
 public class BaseModuleRules : ModuleRules {
   private static Dictionary<string, bool> firstRunMap = new Dictionary<string, bool>();
 
-// US_OLDER_416 is defined by Unreal.hx when `haxe init-plugin.hxml` is called
-#if (UE_OLDER_416)
-  public BaseModuleRules(TargetInfo target) {
-    this.init();
-    if (!isGeneratingProjectFiles()) {
-      this.run();
-    }
-  }
-#else
   public BaseModuleRules(ReadOnlyTargetRules target) : base(target) {
     this.init();
-    if (!isGeneratingProjectFiles()) {
-      this.run();
-    }
+    this.run();
   }
-#endif
 
-  static System.Type getType(string name) {
+  public static System.Type getType(string name) {
     System.Type ret = System.Type.GetType(name);
     if (ret == null) {
 			foreach (Assembly t2 in AppDomain.CurrentDomain.GetAssemblies()) {
@@ -37,21 +25,6 @@ public class BaseModuleRules : ModuleRules {
       }
     }
     return ret;
-  }
-
-  static bool isGeneratingProjectFiles() {
-    System.Type t = getType("UnrealBuildTool.ProjectFileGenerator");
-    if (t != null) {
-      FieldInfo f = t.GetField("bGenerateProjectFiles");
-      if (f != null) {
-        return (bool) f.GetValue(null);
-      }
-      PropertyInfo p = t.GetProperty("bGenerateProjectFiles");
-      if (p != null) {
-        return (bool) p.GetValue(null);
-      }
-    }
-    return false;
   }
 
   virtual protected void init() {
@@ -67,23 +40,6 @@ public class BaseModuleRules : ModuleRules {
  * multiple different Unreal Engine versions. Subclassing this is optional
  **/
 public class BaseTargetRules : TargetRules {
-#if (UE_OLDER_416)
-  public BaseTargetRules(TargetInfo target) {
-    this.init(target);
-  }
-
-  public override void SetupBinaries(
-      TargetInfo target,
-      ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-      ref List<string> OutExtraModuleNames)
-  {
-    List<string> moduleNames = new List<string>();
-    this.setupBinaries(moduleNames);
-    foreach (string module in moduleNames) {
-      OutExtraModuleNames.Add(module);
-    }
-  }
-#else
   public BaseTargetRules(TargetInfo target) : base(target) {
     this.init(target);
 
@@ -93,8 +49,6 @@ public class BaseTargetRules : TargetRules {
       ExtraModuleNames.Add(module);
     }
   }
-
-#endif
 
   virtual protected void init(TargetInfo target) {
   }
@@ -121,18 +75,28 @@ public class HaxeModuleRules : BaseModuleRules {
 
   public HaxeConfigOptions options = new HaxeConfigOptions();
 
-#if (UE_OLDER_416)
-  public HaxeModuleRules(TargetInfo target) : base(target) {
-  }
-#else
   public HaxeModuleRules(ReadOnlyTargetRules target) : base(target) {
   }
-#endif
 
-  static bool shouldSkipBuild() {
+  static bool isSkipBuild() {
     foreach (string arg in Environment.GetCommandLineArgs()) {
       if (String.Compare(arg, "-SkipBuild", StringComparison.OrdinalIgnoreCase) == 0) {
         return true;
+      }
+    }
+    return false;
+  }
+
+  static bool isGeneratingProjectFiles() {
+    System.Type t = getType("UnrealBuildTool.ProjectFileGenerator");
+    if (t != null) {
+      FieldInfo f = t.GetField("bGenerateProjectFiles");
+      if (f != null) {
+        return (bool) f.GetValue(null);
+      }
+      PropertyInfo p = t.GetProperty("bGenerateProjectFiles");
+      if (p != null) {
+        return (bool) p.GetValue(null);
       }
     }
     return false;
@@ -200,6 +164,8 @@ public class HaxeModuleRules : BaseModuleRules {
     }
   }
 
+  private static bool addedGenerateFilesHook = false;
+
   public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules, bool forceHaxeCompilation, HaxeConfigOptions options) {
     rules.PrivateIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Private"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
@@ -265,16 +231,27 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
+    bool generatingProjectFiles = isGeneratingProjectFiles();
     if (forceHaxeCompilation) {
-      if (!shouldSkipBuild()) {
+      bool skipBuild = isSkipBuild();
+      if (!skipBuild && !generatingProjectFiles) {
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
-        callHaxe(rules, info, options);
+        callHaxe(rules, info, options, true, null);
         Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
         // make sure the Build.cs file is called every time
         forceNextRun(rules, info);
       } else {
-        Log.TraceInformation("-SkipBuild detected: Skipping Haxe build");
+        if (skipBuild) {
+          Log.TraceInformation("-SkipBuild detected: Skipping Haxe build");
+        }
+      }
+
+      if (generatingProjectFiles && !addedGenerateFilesHook) {
+        addedGenerateFilesHook = true;
+        AppDomain.CurrentDomain.ProcessExit += delegate(object sender, EventArgs e) {
+          callHaxe(rules, info, options, false, "GenerateProjectFiles");
+        };
       }
     }
 
@@ -295,7 +272,7 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.ExternalDependencies.Add(info.pluginPath + "/Inexistent path to force BuildApi.Build.cs to compile Haxe");
   }
 
-  public static void callHaxe(ModuleRules rules, HaxeCompilationInfo info, HaxeConfigOptions options) {
+  public static void callHaxe(ModuleRules rules, HaxeCompilationInfo info, HaxeConfigOptions options, bool throwOnError, string command) {
     Log.TraceInformation("Calling Haxe");
     string engineDir = Path.GetFullPath("..");
 
@@ -314,6 +291,9 @@ public class HaxeModuleRules : BaseModuleRules {
         "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform +
         "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
         "\" -D \"PluginDir=" + info.pluginPath + "\" -D UE_BUILD_CS" + (options == null ? "" : options.getOptionsString());
+    if (command != null) {
+      proc.StartInfo.Arguments += " -D \"Command=" + command + "\"";
+    }
     Log.TraceInformation("Calling the build tool with arguments " + proc.StartInfo.Arguments);
 
     proc.StartInfo.RedirectStandardOutput = true;
@@ -327,7 +307,9 @@ public class HaxeModuleRules : BaseModuleRules {
 
     if (proc.ExitCode != 0) {
       Log.TraceError("Error: Haxe compilation failed");
-      throw new Exception("Haxe compilation failed");
+      if (throwOnError) {
+        throw new Exception("Haxe compilation failed");
+      }
     }
   }
 }

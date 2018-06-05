@@ -28,7 +28,7 @@ class Main {
     log('Building Haxe through the editor');
 #end
 
-      var build = new UhxBaseBuild({
+      var data:UhxBuildData = {
         engineDir: haxe.macro.Compiler.getDefine("EngineDir"),
         projectDir: haxe.macro.Compiler.getDefine("ProjectDir"),
         targetName: haxe.macro.Compiler.getDefine("TargetName"),
@@ -42,7 +42,20 @@ class Main {
         cppiaRecompile: #if UE_CPPIA_RECOMPILE true #else false #end,
         ueEditorRecompile: #if UE_EDITOR_RECOMPILE true #else false #end,
         ueEditorCompile: #if UE_EDITOR_COMPILE true #else false #end,
-      });
+      };
+
+      // we're using #if conditionals for commands so that we only compile what's needed
+#if Command
+      var cmd =
+      #if (Command == "GenerateProjectFiles")
+        new GenerateProjectFiles(data);
+      #else
+        #error "Unknown Command"
+      #end
+      cmd.run();
+
+#else
+      var build = new UhxBaseBuild(data);
 
 #if UE_PRE_BUILD
       if (!build.config.hooksEnabled)
@@ -50,10 +63,11 @@ class Main {
         log('Skipping pre-build script because hooks are disabled');
       }
         else
-#end
+#end // UE_PRE_BUILD
       {
         build.run();
       }
+#end // Command
     }
     catch(e:BuildError) {
       err('Build failed: ${e.msg}');

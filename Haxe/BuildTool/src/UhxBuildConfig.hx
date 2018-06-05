@@ -175,7 +175,10 @@ typedef UhxBuildConfig = {
   /**
     Ignores the static/cppia build checks and always build them
   **/
-  ?alwaysBuild:BuildKind
+  ?alwaysBuild:BuildKind,
+
+  /**
+  **/
 }
 
 @:enum abstract BuildKind(String) from String {
