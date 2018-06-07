@@ -1,5 +1,6 @@
 package unreal;
 
+@:hasCopy
 extern class FRotator_Extra {
 
   @:uname('.ctor') public static function createForceInit(e:EForceInit):FRotator;
