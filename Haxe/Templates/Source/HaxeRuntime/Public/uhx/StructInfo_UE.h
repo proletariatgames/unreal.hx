@@ -289,7 +289,7 @@ template<class T>
 struct TAnyData<TSubclassOf<T>, false> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
 
 template<class T>
-struct TTemplatedData<TEnumAsByte<T>> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
+struct TTemplatedData<TEnumAsByte<T>> { FORCEINLINE static const StructInfo *getInfo() { return TAnyData<T, false>::getInfo(); } };
 
 template<template<typename, typename...> class T, typename First, typename... Values>
 struct TAnyData<T<First, Values...>, false> {

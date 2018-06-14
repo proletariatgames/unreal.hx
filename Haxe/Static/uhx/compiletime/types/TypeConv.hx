@@ -828,8 +828,13 @@ class TypeConv {
         ret;
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(type, _, info):
-        '( (${ueType.getCppType()}) $expr )';
+      case CEnum(type, flags, info):
+        if (flags.hasAll(EEnumAsByte))
+        {
+          '( (${ueType.getCppType()}) (${ueType.params[0].getCppType()}) $expr )';
+        } else {
+          '( (${ueType.getCppType()}) $expr )';
+        }
 
       case CStruct(type, flags, info, params):
         var ret = null;
@@ -933,8 +938,13 @@ class TypeConv {
         '( (unreal::UIntPtr) ($ret) )';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(type, _, info):
-        '( (int) (${ueType.getCppType()}) $expr )';
+      case CEnum(type, flags, info):
+        var type = ueType;
+        if (flags.hasAny(EEnumAsByte))
+        {
+          type = type.params[0];
+        }
+        '( (int) (${type.getCppType()}) $expr )';
 
       case CStruct(type, flags, info, params):
         if (params != null && params.length > 0) {
@@ -1365,6 +1375,8 @@ class TypeConv {
             }
             switch(name)
             {
+            case 'unreal.TEnumAsByte':
+              ctx.accEnumFlags |= EEnumAsByte;
             case 'unreal.TWeakObjectPtr':
               if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
                 Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
@@ -1456,8 +1468,6 @@ class TypeConv {
             if (ctx.modf == null) ctx.modf = [];
             ctx.modf.push(Marker);
             continue;
-          case 'unreal.TEnumAsByte':
-            ctx.accEnumFlags |= EEnumAsByte;
           case _:
             throw new Error('Unreal Type: Invalid typedef: $name', pos);
           }
