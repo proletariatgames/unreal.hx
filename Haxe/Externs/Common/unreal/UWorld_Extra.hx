@@ -227,4 +227,11 @@ extern class UWorld_Extra {
 
   /** View locations rendered in the previous frame, if any. **/
   public var ViewLocationsRenderedLastFrame:TArray<FVector>;
+
+  /**
+	 * Returns the Z component of the current world gravity.
+	 *
+	 * @return Z component of current world gravity.
+	*/
+  function GetGravityZ():Float32;
 }
