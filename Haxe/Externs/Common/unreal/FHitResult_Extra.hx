@@ -4,6 +4,8 @@ extern class FHitResult_Extra {
   public function new(init:EForceInit);
 
   @:uname('.ctor')
+  public static function createWithValues(Actor:AActor, Component:UPrimitiveComponent, HitLoc:PRef<Const<FVector>>, HitNorm:PRef<Const<FVector>>) : FHitResult;
+  @:uname('.ctor')
   public static function createForceInit(init:EForceInit) : FHitResult;
 
   @:uname('new')
