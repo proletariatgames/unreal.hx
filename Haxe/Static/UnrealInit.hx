@@ -21,7 +21,7 @@ using StringTools;
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
 @:cppFileCode("#ifndef environ\n#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n#endif\n")
-@:buildXml("<compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <files id=\"cppia\"><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> </files>")
+@:buildXml("<compilerflag value=\"/bigobj\" if=\"windows\" /><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <files id=\"cppia\"><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <compilerflag value=\"/bigobj\" if=\"windows\" /> </files>")
 @:access(unreal.CoreAPI)
 class UnrealInit
 {

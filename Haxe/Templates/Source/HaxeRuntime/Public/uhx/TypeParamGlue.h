@@ -21,6 +21,7 @@ template<class ObjectType, ESPMode Mode> class TSharedPtr;
 template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
 template<class T> class TAutoWeakObjectPtr;
 template<class TClass> class TSubclassOf;
+template<class TEnum> class TEnumAsByte;
 
 namespace uhx {
 
@@ -237,6 +238,11 @@ template<class T>
 struct PtrMaker<TSubclassOf<T>> {
   typedef PtrHelper_Stack<TSubclassOf<T>> Type;
 };
+// TEnumAsByte passed by-val
+template<class T>
+struct PtrMaker<TEnumAsByte<T>> {
+  typedef PtrHelper_Stack<TEnumAsByte<T>> Type;
+};
 
 //////////////////////////////////
 // Implementations
@@ -359,7 +365,7 @@ struct TypeParamGlue<T&, InterfaceType> {
   }
 };
 
-// special types: TWeakObjectPtr, TAutoWeakObjectPtr, TSubclassOf
+// special types: TWeakObjectPtr, TAutoWeakObjectPtr, TSubclassOf, TEnumAsByte
 template<typename T>
 struct TypeParamGlue<TWeakObjectPtr<T>, OtherType> {
   inline static TWeakObjectPtr<T> haxeToUe(unreal::UIntPtr haxe) {
@@ -420,6 +426,27 @@ struct TypeParamGluePtr<TSubclassOf<T>, OtherType> {
 
   inline static unreal::UIntPtr ueToHaxeRef(TSubclassOf<T>& ue) {
     return TypeParamGlue<UClass *>::ueToHaxe( *ue );
+  }
+};
+
+template<typename T>
+struct TypeParamGlue<TEnumAsByte<T>, OtherType> {
+  inline static TEnumAsByte<T> haxeToUe(unreal::UIntPtr haxe) {
+    return (TEnumAsByte<T>) TypeParamGlue<T>::haxeToUe(haxe);
+  }
+
+  inline static unreal::UIntPtr ueToHaxe(TEnumAsByte<T> ue) {
+    return TypeParamGlue<T>::ueToHaxe( ue.GetValue() );
+  }
+};
+template<typename T>
+struct TypeParamGluePtr<TEnumAsByte<T>, OtherType> {
+  inline static typename PtrMaker<TEnumAsByte<T>>::Type haxeToUePtr(unreal::UIntPtr haxe) {
+    return typename PtrMaker<TEnumAsByte<T>>::Type(TypeParamGlue<TEnumAsByte<T>, OtherType>::haxeToUe(haxe));
+  }
+
+  inline static unreal::UIntPtr ueToHaxeRef(TEnumAsByte<T>& ue) {
+    return TypeParamGlue<T>::ueToHaxe( ue.GetValue() );
   }
 };
 

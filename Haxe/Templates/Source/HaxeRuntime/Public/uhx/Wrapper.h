@@ -13,6 +13,14 @@
 #include <type_traits>
 #include <utility>
 
+// these are special cases for the FVector_NetQuantize* since they are subclasses of the POD type FVector
+// C++ sees them as non-POD because they have a parent, but they don't have anything that would
+// benefit from being a SKNormal class
+struct FVector_NetQuantize;
+struct FVector_NetQuantize10;
+struct FVector_NetQuantize100;
+struct FVector_NetQuantizeNormal;
+
 namespace uhx {
 
 enum StructKind {
@@ -30,6 +38,16 @@ struct TStructKind<T, true> { enum { Value = TIsPODType<T>::Value ? uhx::SKPOD :
 template<class T>
 struct TStructKind<T, false> { enum { Value = UHX_ALIGNOF(T) > sizeof(void*) ? uhx::SKAligned : (TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal) }; };
 
+#define OVERRIDE_KIND(T, Kind) \
+  template<> \
+  struct TStructKind<T, false> { enum { Value = Kind }; };
+
+OVERRIDE_KIND(struct FVector_NetQuantize, uhx::SKPOD);
+OVERRIDE_KIND(struct FVector_NetQuantize10, uhx::SKPOD);
+OVERRIDE_KIND(struct FVector_NetQuantize100, uhx::SKPOD);
+OVERRIDE_KIND(struct FVector_NetQuantizeNormal, uhx::SKPOD);
+
+#undef OVERRIDE_KIND
 }
 
 namespace uhx {

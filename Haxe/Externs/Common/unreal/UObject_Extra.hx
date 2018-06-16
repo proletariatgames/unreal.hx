@@ -75,6 +75,13 @@ extern class UObject_Extra {
    **/
   public function RemoveFromRoot() : Void;
 
+	/**
+	 * Called after the C++ constructor and after the properties have been initialized, including those loaded from config.
+	 * mainly this is to emulate some behavior of when the constructor was called after the properties were initialized.
+	 */
+	public function PostInitProperties() : Void;
+
+
   /**
     Do any object-specific cleanup required immediately after loading an object, and immediately after any undo/redo.
    **/

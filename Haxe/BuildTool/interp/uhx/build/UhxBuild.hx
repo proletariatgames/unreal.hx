@@ -630,12 +630,10 @@ class UhxBuild extends UhxBaseBuild {
     tgenerate();
   }
 
+  // Same match UHT makes from System/CPPHeaders.cs
+  static var uhtRegExp = ~/^\s*U(CLASS|STRUCT|ENUM|INTERFACE|DELEGATE)\b/m;
   private static function isUhtHeader(path:String, file:String) {
-    var splitFile = file.split('.');
-    splitFile.pop();
-    splitFile.push('generated.h');
-    var genFile = splitFile.join('.');
-    return (sys.io.File.getContent(path).indexOf(genFile) >= 0);
+    return uhtRegExp.match(sys.io.File.getContent(path));
   }
 
   private static function collectUhtHeaders(dir:String, arr:Array<String>, lastRun:Float):Bool {

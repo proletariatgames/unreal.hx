@@ -1,4 +1,10 @@
 package unreal;
 
 @:unrealType
-typedef TEnumAsByte<T> = T;
+@:forward
+abstract TEnumAsByte<T>(T) from T to T {
+  inline public function GetValue():T
+  {
+    return this;
+  }
+}

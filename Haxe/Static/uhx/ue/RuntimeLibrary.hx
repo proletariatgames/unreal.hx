@@ -16,5 +16,10 @@ extern class RuntimeLibrary {
     dummyCall();
     return untyped __cpp__('HX_ALLOCA({0})', size);
   }
+
+  @:extern inline public static function allocaZeroed(size:Int):UIntPtr {
+    dummyCall();
+    return untyped __cpp__('HX_ALLOCA_ZEROED({0})', size);
+  }
 }
 #end

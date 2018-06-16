@@ -261,7 +261,8 @@ class DelegateBuild {
 
 #if !bake_externs
     var added = macro class {
-      inline public static function fromPointer(ptr:unreal.VariantPtr):$complexThis {
+      // @:keep this field so that DCE doesn't think this Haxe-created delegate can be collected
+      @:keep inline public static function fromPointer(ptr:unreal.VariantPtr):$complexThis {
         return cast ptr;
       }
     };

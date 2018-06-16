@@ -1,4 +1,10 @@
 package unreal;
 
-@:unrealType typedef TAutoWeakObjectPtr<T : UObject> = T;
-
+@:unrealType
+@:forward abstract TAutoWeakObjectPtr<T : UObject>(T) from T to T
+{
+  inline public function Get()
+  {
+    return this;
+  }
+}

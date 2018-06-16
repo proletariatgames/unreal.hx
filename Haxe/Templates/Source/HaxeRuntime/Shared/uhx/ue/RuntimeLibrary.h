@@ -9,6 +9,7 @@
 #else
   #include <alloca.h>
 #endif
+#include <string.h>
 
 #ifndef HX_ALLOCA
   #ifdef _MSC_VER
@@ -16,6 +17,10 @@
   #else
     #define HX_ALLOCA(v) (v == 0 ? (unreal::UIntPtr) 0 : (unreal::UIntPtr) alloca(v))
   #endif
+#endif
+
+#ifndef HX_ALLOCA_ZEROED
+  #define HX_ALLOCA_ZEROED(v) uhx::ue::RuntimeLibrary_obj::setZero(HX_ALLOCA(v), v)
 #endif
 
 namespace uhx {
@@ -52,6 +57,15 @@ public:
    * Sets up the class constructor as the super class' constructor
    **/
   static void setSuperClassConstructor(unreal::UIntPtr inDynamicClass);
+
+  static unreal::UIntPtr setZero(unreal::UIntPtr inPtr, int inSize)
+  {
+    if (inSize != 0)
+    {
+      memset((void*) inPtr, 0, inSize);
+    }
+    return inPtr;
+  }
 
   inline static void dummyCall() {
     // this is just here to ensure that this header is included

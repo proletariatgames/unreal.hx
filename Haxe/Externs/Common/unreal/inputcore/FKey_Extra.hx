@@ -9,4 +9,6 @@ extern class FKey_Extra {
   public function GetFName() : FName;
   public function IsGamepadKey() : Bool;
   public function ToString() : FString;
+  public function IsFloatAxis() : Bool;
+  public function IsVectorAxis() : Bool;
 }

@@ -128,7 +128,7 @@ abstract PtrMacros<T>(PtrBase<T>) {
             cast ret.getPointer();
           };
         } else {
-          return macro cast uhx.ue.RuntimeLibrary.alloca($size);
+          return macro cast uhx.ue.RuntimeLibrary.allocaZeroed($size);
         }
     } else {
       switch(conv.data) {

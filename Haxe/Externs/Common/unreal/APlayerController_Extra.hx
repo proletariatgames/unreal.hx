@@ -65,4 +65,10 @@ extern class APlayerController_Extra {
   **/
   @:ureplace @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMousePosition(LocationX : Ref<unreal.Float32>, LocationY : Ref<unreal.Float32>) : Bool;
 
+  /**
+    Helper to get the size of the HUD canvas for this player controller.  Returns 0 if there is no HUD
+  **/
+  @:ureplace @:ufunction(BlueprintCallable) @:thisConst @:final public function GetViewportSize(SizeX : Ref<unreal.Int32>, SizeY : Ref<unreal.Int32>) : Void;
+
+
 }

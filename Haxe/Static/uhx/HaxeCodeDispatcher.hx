@@ -10,6 +10,9 @@ import unreal.FPlatformMisc;
   private static var inHaxeCode = false;
 
   @:extern inline public static function runWithValue<T>(fn:Void->T, ?name:String):T {
+    #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
+    return fn();
+    #else
     if (shouldWrap()) {
       try {
         var ret = fn();
@@ -22,9 +25,13 @@ import unreal.FPlatformMisc;
     } else {
       return fn();
     }
+    #end
   }
 
   @:extern inline public static function runVoid(fn:Void->Void, ?name:String):Void {
+    #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
+    fn();
+    #else
     if (shouldWrap()) {
       try {
         fn();
@@ -35,14 +42,19 @@ import unreal.FPlatformMisc;
     } else {
       fn();
     }
+    #end
   }
 
   public static function shouldWrap():Bool {
+    #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
+    return false;
+    #else
     var ret = !inHaxeCode;
     if (ret) {
       inHaxeCode = true;
     }
     return ret;
+    #end
   }
 
   inline public static function endWrap() {
