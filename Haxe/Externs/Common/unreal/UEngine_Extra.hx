@@ -22,6 +22,14 @@ extern class UEngine_Extra {
 
   public function GetMainAudioDevice() : PPtr<FAudioDevice>;
 
+/**
+	 * Updates level streaming state using active game players view and blocks until all sub-levels are loaded/ visible/ hidden
+	 * so further calls to UpdateLevelStreaming won't do any work unless state changes.
+	 *
+	 * @param InWorld Target world
+	 */
+	public function BlockTillLevelStreamingCompleted(InWorld:UWorld) : Void;
+
   public var TravelFailureEvent : FOnTravelFailure;
   /**
     Global UEngine
