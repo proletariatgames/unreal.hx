@@ -22,4 +22,6 @@ package unreal;
    * @param Handle The handle of the ticker to remove.
    */
   function RemoveTicker(Handle:FDelegateHandle):Void;
+
+  function Tick(DeltaTime:Float32):Void;
 }

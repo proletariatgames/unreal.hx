@@ -441,6 +441,7 @@ class UhxBuild extends UhxBaseBuild {
     var targets = [{ name:this.targetModule, path:this.srcDir, headers:[] }],
         uhtDir = this.outputDir + '/UHT';
 
+    var disabledPlugins = new Map();
     if (proj.Modules != null) {
       for (module in proj.Modules) {
         if (module.Type == 'Editor' && this.data.targetType != Editor) {
@@ -459,6 +460,10 @@ class UhxBuild extends UhxBaseBuild {
     var plugins = new Map();
     if (proj.Plugins != null) {
       for (plugin in proj.Plugins) {
+        if (!plugin.Enabled)
+        {
+          disabledPlugins[plugin.Name.toLowerCase()] = true;
+        }
         var name = plugin.Name.toLowerCase();
         if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir/unreal/$name')) {
           plugins[plugin.Name.toLowerCase()] = plugin.Name;
@@ -491,6 +496,7 @@ class UhxBuild extends UhxBaseBuild {
     }
 
     var lastRun = FileSystem.exists('$uhtDir/generated.stamp') ? FileSystem.stat('$uhtDir/generated.stamp').mtime.getTime() : 0.0;
+    // if (FileSystem.stat(data.projectFile).mtime.getTime() >= last)
     if (this.stampOverride > lastRun || FileSystem.stat(this.data.projectFile).mtime.getTime() > lastRun) {
       lastRun = 0;
     }
@@ -533,6 +539,10 @@ class UhxBuild extends UhxBaseBuild {
       old.PrivateHeaders = [];
       old.PublicHeaders = concat;
       shouldRun = collectUhtHeaders(target.path, concat, lastRun) || shouldRun;
+    }
+    if (disabledPlugins.iterator().hasNext())
+    {
+      manifest.Modules = [for (module in manifest.Modules) if (!disabledPlugins.exists(module.Name.toLowerCase())) module];
     }
 
     var genExternsDir = this.rootDir + '/Haxe/GeneratedExterns';

@@ -1610,7 +1610,7 @@ class TypeConv {
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
       },
       {
-        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')], Const),
+        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void', Const)]),
         glueType: new TypeRef(['unreal'],'UIntPtr'),
         haxeType: new TypeRef(['unreal'],'ConstAnyPtr'),
 
@@ -1630,6 +1630,14 @@ class TypeConv {
         haxeType: new TypeRef(['unreal'],'IntPtr'),
 
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
+      },
+      {
+        ueType: new TypeRef([],'SIZE_T'),
+        glueType: new TypeRef(['unreal'],'SizeT'),
+        haxeType: new TypeRef(['unreal'],'SizeT'),
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['HAL/Platform.h']),
       },
     ];
     infos = infos.concat([ for (key in basicConvert.keys()) {

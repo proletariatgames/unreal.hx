@@ -142,7 +142,7 @@ class CoreAPI {
 
 #end // UHX_NO_UOBJECT
 
-  public static macro function staticVar(e:Expr):Expr {
+  @:noUsing public static macro function staticVar(e:Expr):Expr {
     return uhx.compiletime.CoreAPIMacros.runStaticVar(e);
   }
 
