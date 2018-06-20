@@ -98,9 +98,8 @@ extern class AActor_Extra {
   public function OnConstruction(Transform:Const<PRef<FTransform>>) : Void;
 
 
-  // TODO glue when we can properly handle const UDamageType& extern.
   /** called when the actor falls out of the world 'safely' (below KillZ and such) */
-  // public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
+   public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
 
   /**
    * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
