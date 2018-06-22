@@ -22,5 +22,15 @@ extern class UPlayerInput_Extra {
    **/
   public function GetInvertAxis(AxisName : FName) : Bool;
 
+	/** Add a player specific action mapping. */
   public function AddActionMapping(KeyMapping : Const<PRef<FInputActionKeyMapping>>) : Void;
+
+	/** Remove a player specific action mapping. */
+	public function RemoveActionMapping(KeyMappingconst : Const<PRef<FInputActionKeyMapping>>) : Void;
+
+	/** Add a player specific axis mapping. */
+	public function AddAxisMapping(KeyMapping : Const<PRef<FInputAxisKeyMapping>>) : Void;
+
+	/** Remove a player specific axis mapping. */
+	public function RemoveAxisMapping(KeyMapping : Const<PRef<FInputAxisKeyMapping>>) : Void;
 }
