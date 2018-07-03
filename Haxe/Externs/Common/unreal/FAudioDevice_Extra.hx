@@ -2,12 +2,18 @@ package unreal;
 
 extern class FAudioDevice_Extra {
 	/**
-	* Sets a sound class override in the given sound mix.
-	*/
-	function PushSoundMixModifier(SoundMix:USoundMix, bIsPassive:Bool, bIsRetrigger:Bool) : Void;
+	 * Push a SoundMix onto the Audio Device's list.
+	 *
+	 * @param SoundMix The SoundMix to push.
+	 * @param bIsPassive Whether this is a passive push from a playing sound.
+	 */
+	function PushSoundMixModifier(SoundMix:USoundMix, ?bIsPassive:Bool=false, ?bIsRetrigger:Bool=false) : Void;
 
 	/**
-	* Sets a sound class override in the given sound mix.
-	*/
-	function PopSoundMixModifier(InSoundMix:USoundMix, bIsPassive:Bool) : Void;
+	 * Pop a SoundMix from the Audio Device's list.
+	 *
+	 * @param SoundMix The SoundMix to pop.
+	 * @param bIsPassive Whether this is a passive pop from a sound finishing.
+	 */
+	function PopSoundMixModifier(InSoundMix:USoundMix, ?bIsPassive:Bool=false) : Void;
 }
