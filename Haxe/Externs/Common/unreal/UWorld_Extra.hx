@@ -6,6 +6,8 @@ extern class UWorld_Extra {
 
   public var Scene : PPtr<FSceneInterface>;
 
+  public var URL : FURL;
+
   @:thisConst
   public function GetGameState() : AGameStateBase;
 
