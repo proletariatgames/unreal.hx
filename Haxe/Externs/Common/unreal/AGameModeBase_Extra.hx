@@ -33,6 +33,7 @@ extern class AGameModeBase_Extra {
   function PostLogin(NewPlayer:APlayerController) : Void;
   function Logout(Exiting:AController) : Void;
   function SetPlayerDefaults(PlayerPawn:APawn) : Void;
+  private function InitSeamlessTravelPlayer(Controller:AController) : Void;
   function PostSeamlessTravel() : Void;
   function GetSeamlessTravelActorList(bToEntry:Bool, actorList:PRef<TArray<AActor>>) : Void;
   function AllowCheats(P:APlayerController) : Bool;
