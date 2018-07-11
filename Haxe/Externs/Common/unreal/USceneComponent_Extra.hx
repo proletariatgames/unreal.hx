@@ -25,6 +25,12 @@ extern class USceneComponent_Extra
 
   public function GetComponentLocation():FVector;
 
+  @:thisConst
+  public function GetComponentTransform():Const<PRef<FTransform>>;
+
+  @:thisConst
+  public function GetComponentRotation():FRotator;
+
   var Bounds:FBoxSphereBounds;
 }
 

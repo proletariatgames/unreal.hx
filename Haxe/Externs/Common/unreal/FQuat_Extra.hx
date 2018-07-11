@@ -21,4 +21,8 @@ extern class FQuat_Extra {
   /** Convert a Quaternion into floating-point Euler angles (in degrees). */
 	@:thisConst
   public function Euler() : FVector;
+
+  /** Get the up direction (Z axis) after it has been rotated by this Quaternion. */
+  @:thisConst
+	public function GetUpVector() : FVector;
 }

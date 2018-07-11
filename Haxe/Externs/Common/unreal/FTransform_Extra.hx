@@ -75,4 +75,29 @@ extern class FTransform_Extra {
 	 * @return The Scale3D component
 	 */
 	function GetScale3D() : FVector;
+
+  /**
+	 * Returns the rotation component
+	 *
+	 * @return The rotation component
+	 */
+  function GetRotation() : Const<FQuat>;
+
+  /**
+	 * Concatenates another rotation to this transformation
+	 * @param DeltaRotation The rotation to concatenate in the following fashion: Rotation = Rotation * DeltaRotation
+	 */
+  function ConcatenateRotation(DeltaRotation:Const<PRef<FQuat>>) : Void;
+
+  /**
+	 * Adjusts the translation component of this transformation
+	 * @param DeltaTranslation The translation to add in the following fashion: Translation += DeltaTranslation
+	 */
+	function AddToTranslation(DeltaTranlation:Const<PRef<FVector>>) : Void;
+
+  /**
+	 * Scales the Scale3D component by a new factor
+	 * @param Scale3DMultiplier The value to multiply Scale3D with
+	 */
+	function MultiplyScale3D(Scale3DMultiplier:Const<PRef<FVector>>) : Void;
 }
