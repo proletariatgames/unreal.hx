@@ -15,4 +15,6 @@ package unreal;
     @return The game name
    **/
   public static function GetGameName():TCharStar;
+
+  public static function CanEverRender():Bool;
 }

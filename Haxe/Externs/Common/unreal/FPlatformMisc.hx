@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("HAL/PlatformMisc.h")
 @:noEquals @:noCopy @:uextern extern class FPlatformMisc {
   /**
    * Retrieve the Mac address of the current adapter.
@@ -93,4 +93,16 @@ package unreal;
   static function MessageBoxExt(msgType:EAppMsgType, text:TCharStar, caption:TCharStar):EAppReturnType;
 
   static function GetUBTPlatform():TCharStar;
+
+  /**
+  * Generates the SHA256 signature of the given data.
+  *
+  *
+  * @param Data Pointer to the beginning of the data to hash
+  * @param Bytesize Size of the data to has, in bytes.
+  * @param OutSignature Output Structure to hold the computed signature.
+  *
+  * @return whether the hash was computed successfully
+  */
+  static function GetSHA256Signature(Data:ConstAnyPtr, ByteSize:UInt32, OutSignature:PRef<FSHA256Signature>):Bool;
 }

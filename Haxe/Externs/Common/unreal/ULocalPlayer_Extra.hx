@@ -35,7 +35,9 @@ extern class ULocalPlayer_Extra {
                                 Viewport:PPtr<FViewport>,
                                 ViewDrawer:PPtr<FViewElementDrawer>,
                                 StereoPass:EStereoscopicPass) : PPtr<FSceneView>;
-								
+
   @:thisConst
     public function GetPreferredUniqueNetId() : TSharedPtr<Const<FUniqueNetId>>;
+
+  public function Exec(InWorld:UWorld, Cmd:TCharStar, Ar:PRef<FOutputDevice>):Bool;
 }
