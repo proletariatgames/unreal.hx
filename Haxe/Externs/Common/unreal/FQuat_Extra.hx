@@ -22,7 +22,15 @@ extern class FQuat_Extra {
 	@:thisConst
   public function Euler() : FVector;
 
+  /** Get the forward direction (X axis) after it has been rotated by this Quaternion. */
+  @:thisConst
+  public function GetForwardVector() : FVector;
+
+  /** Get the right direction (Y axis) after it has been rotated by this Quaternion. */
+  @:thisConst
+  public function GetRightVector() : FVector;
+
   /** Get the up direction (Z axis) after it has been rotated by this Quaternion. */
   @:thisConst
-	public function GetUpVector() : FVector;
+  public function GetUpVector() : FVector;
 }
