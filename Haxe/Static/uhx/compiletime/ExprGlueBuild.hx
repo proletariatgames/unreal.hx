@@ -762,6 +762,39 @@ class ExprGlueBuild {
     if (abs.doc != null) {
       writer.buf.add('/**\n${abs.doc.replace('**/','')}\n**/\n');
     }
+    var align = abs.meta.extract(':ualign');
+    var alignment:Null<Int> = null;
+    if (align != null && align[0] != null && align[0].params != null && align[0].params.length > 0)
+    {
+      switch(align[0].params[0].expr)
+      {
+        case EConst(CInt(i)):
+          alignment = Std.parseInt(i);
+        case _:
+          throw new Error('Bad @:ualign argument: ${align[0].params[0]}', align[0].params[0].pos);
+      }
+    }
+    if (alignment == null)
+    {
+      var needsAlignmentOverride = uprops.length > 0;
+      for (prop in uprops) {
+        switch(prop.type.ueType.getCppType(null).toString())
+        {
+          case 'bool' | 'uint8' | 'int8' | 'char' | 'unsigned char':
+          case _:
+            needsAlignmentOverride = false;
+            break;
+        }
+      }
+      if (needsAlignmentOverride)
+      {
+        alignment = 8;
+      }
+    }
+    if (alignment != null)
+    {
+      writer.buf.add('#ifndef UHT_WORKAROUND\nMS_ALIGN($alignment)\n#endif\n'); // UHT doesn't like MS_ALIGN/GCC_ALIGN
+    }
     writer.buf.add('USTRUCT(');
     if (ustruct.params != null) {
       var first = true;
@@ -797,7 +830,12 @@ class ExprGlueBuild {
       }
       writer.buf.add('\t${cppType} $uname;\n\n');
     }
-    writer.buf.add('};\n');
+    writer.buf.add('}');
+    if (alignment != null)
+    {
+      writer.buf.add('\n#ifndef UHT_WORKAROUND\nGCC_ALIGN($alignment)\n#endif\n'); // UHT doesn't like MS_ALIGN/GCC_ALIGN
+    }
+    writer.buf.add(';');
 
     writer.close(Globals.cur.module);
     abs.meta.add(':ufiledependency', [macro "ExportHeader", macro $v{nameWithout}], abs.pos);

@@ -1,7 +1,7 @@
 #pragma once
 #ifndef UHX_NO_UOBJECT
 
-#include "Engine.h"
+#include "CoreMinimal.h"
 #include "UObjectBase.h"
 #include "HaxeInit.h"
 #include "UObject/Class.h"
@@ -96,7 +96,7 @@ public:
         ReturnClass = FindObject<UClass>((UObject *)Package, Name);
         if (ReturnClass && ReturnClass->HasMetaData(TEXT("UHX_PropSignature")))
         {
-          // this is a dynamic uclass, so the reported C++ size is not correctly set. 
+          // this is a dynamic uclass, so the reported C++ size is not correctly set.
           // We know for a fact that this class hasn't changed, otherwise FindObject would have failed
           // at this point. So we're just going to make sure that the reported size is the same as
           // the dynamic class

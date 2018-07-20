@@ -24,8 +24,16 @@ public:
   UIntPtr raw;
 
   inline VariantPtr() : raw(0) { }
-  inline VariantPtr(const void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) { }
-  inline VariantPtr(void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) { }
+  inline VariantPtr(const void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) {
+    #if !defined(UE_BUILD_SHIPPING) || !UE_BUILD_SHIPPING
+    if(raw != 0 && (raw & 1) != 1) { this->badAlignmentAssert(raw -1); }
+    #endif
+  }
+  inline VariantPtr(void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) {
+    #if !defined(UE_BUILD_SHIPPING) || !UE_BUILD_SHIPPING
+    if(raw != 0 && (raw & 1) != 1) { this->badAlignmentAssert(raw -1); }
+    #endif
+  }
   inline VariantPtr(IntPtr inRHS) : raw((UIntPtr) inRHS) { }
   inline VariantPtr(UIntPtr inRHS) : raw(inRHS) { }
   inline VariantPtr(int inRHS) : raw((UIntPtr) inRHS) { }
@@ -92,6 +100,8 @@ public:
 
   // inline operator UIntPtr() { return raw; }
 
+  void badAlignmentAssert(UIntPtr value);
+
   inline void *toPointer() const {
     return ((raw & 1) == 1) ? ( (void *) (raw - 1) ) : haxeObjToPointer(raw);
   }
@@ -132,7 +142,7 @@ template<> inline void MarkMember< unreal::VariantPtr >(unreal::VariantPtr &outT
   }
 }
 
-template <> 
+template <>
 struct CompareTraits<unreal::VariantPtr>
 {
    enum { type = (int)CompareAsInt64 };

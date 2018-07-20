@@ -11,7 +11,7 @@
 #include "Core.h"
 
 #ifndef UHX_NO_UOBJECT
-#include "Engine.h"
+#include "CoreMinimal.h"
 #include "UObject/Class.h"
 #endif
 

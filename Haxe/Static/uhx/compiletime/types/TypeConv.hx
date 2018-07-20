@@ -1659,7 +1659,7 @@ class TypeConv {
         haxeGlueType: uintPtr,
         glueType: uintPtr,
 
-        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<uhx/expose/HxcppRuntime.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['CoreMinimal.h', '<uhx/expose/HxcppRuntime.h>']),
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
         ueToGlueExpr:'::uhx::expose::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( (const char *) (%) ))',
@@ -1674,7 +1674,7 @@ class TypeConv {
         haxeGlueType: uintPtr,
         glueType: uintPtr,
 
-        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<uhx/expose/HxcppRuntime.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['CoreMinimal.h', '<uhx/expose/HxcppRuntime.h>']),
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
         ueToGlueExpr:'::uhx::expose::HxcppRuntime::constCharToString(TCHAR_TO_UTF8(ANSI_TO_TCHAR( (const char *) (%) )))',

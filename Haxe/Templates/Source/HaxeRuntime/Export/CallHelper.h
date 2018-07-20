@@ -1,5 +1,6 @@
 #pragma once
-#include "Engine.h"
+#include "CoreMinimal.h"
+#include "UObject/UObject.h"
 #include "UObject/Stack.h"
 #include "uhx/expose/HxcppRuntime.h"
 #include "IntPtr.h"

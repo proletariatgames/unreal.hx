@@ -640,7 +640,7 @@ class NeedsGlueBuild
       if (isDynamicUType && (superClass == null || !Globals.isDynamicUType(superClass))) {
         var ufuncCallDef = macro class {
           @:ifFeature($v{thisClassName})
-          @:glueCppIncludes("IntPtr.h", "Engine.h")
+          @:glueCppIncludes("IntPtr.h", "CoreMinimal.h","UObject/Class.h")
           @:glueCppBody($v{'{
             UFunction *realFn = ((UFunction*)fn);
             FNativeFuncPtr native = (FNativeFuncPtr)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ';

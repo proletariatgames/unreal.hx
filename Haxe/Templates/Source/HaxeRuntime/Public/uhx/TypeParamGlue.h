@@ -8,7 +8,7 @@
 #include "VariantPtr.h"
 
 #ifndef UHX_NO_UOBJECT
-#include "Engine.h"
+#include "CoreMinimal.h"
 
 #endif
 
