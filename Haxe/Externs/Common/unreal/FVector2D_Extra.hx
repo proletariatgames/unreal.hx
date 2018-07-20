@@ -22,4 +22,21 @@ extern class FVector2D_Extra {
 
   @:thisConst
   public function Equals(V:Const<PRef<FVector2D>>, Tolerance:Float32=1e-4) : Bool;
+
+  @:op(A+B)
+  @:expr(return createWithValues(X + b.X, Y + b.Y))
+  public function _add(b:FVector2D):FVector2D;
+
+  @:op(A*B)
+  @:commutative
+  @:expr(return createWithValues(X * b.X, Y * b.Y))
+  public function _mul(b:FVector2D):FVector2D;
+
+  @:op(A-B)
+  @:expr(return createWithValues(X - b.X, Y - b.Y))
+  public function _sub(b:FVector2D):FVector2D;
+
+  @:op(A==B)
+  @:expr(return X == b.X && Y == b.Y)
+  public function _eq(b:FVector2D):Bool;
 }
