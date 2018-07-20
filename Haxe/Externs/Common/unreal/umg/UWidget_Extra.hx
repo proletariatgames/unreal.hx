@@ -13,4 +13,6 @@ package unreal.umg;
   public function SynchronizeProperties() : Void;
 
   public function AddBinding(DelegateProperty:UDelegateProperty, SourceObject:UObject, BindingPath:Const<PRef<FDynamicPropertyPath>>) : Bool;
+
+  public function SetRenderAngle(Angle:Float) : Void;
 }
