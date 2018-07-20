@@ -625,6 +625,7 @@ class TypeConv {
     case CUObject(type, flags, info):
       var canForwardDecl = true;
       if (flags.hasAny(OWeak)) {
+        set.add('UObject/WeakObjectPtr.h');
         set.add("UObject/WeakObjectPtrTemplates.h");
       }
       if (flags.hasAny(OSubclassOf)) {
