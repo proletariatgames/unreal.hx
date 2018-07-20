@@ -9,6 +9,9 @@
 
 #ifndef UHX_NO_UOBJECT
 #include "CoreMinimal.h"
+#include "Templates/Casts.h"
+#include "Templates/PointerIsConvertibleFromTo.h"
+#include "UObject/Class.h"
 
 #endif
 
