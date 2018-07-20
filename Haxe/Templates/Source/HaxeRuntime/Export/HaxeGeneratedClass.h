@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "UObject/UObject.h"
+#include "UObject/Object.h"
 #include "Engine/BlueprintGeneratedClass.h"
 #include "UnrealNetwork.h"
 #include "HaxeGeneratedClass.generated.h"

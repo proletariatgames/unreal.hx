@@ -396,7 +396,7 @@ class CreateGlue {
           c.meta.remove(':native');
           if (Context.unify(type, uobj)) {
             c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
-            c.meta.add(':include', [macro $v{'unreal/Object.h'}], c.pos);
+            c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
             c.exclude();
           } else if (c.pack[0] != "haxe" && c.pack[0] != "cpp") {
             c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
