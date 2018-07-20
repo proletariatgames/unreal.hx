@@ -684,6 +684,7 @@ class TypeConv {
     case CTypeParam(name, kind):
       switch(kind) {
         case PWeak | PAutoWeak:
+          set.add('UObject/WeakObjectPtr.h');
           set.add("UObject/WeakObjectPtrTemplates.h");
         case PSubclassOf:
           set.add("CoreUObject.h");

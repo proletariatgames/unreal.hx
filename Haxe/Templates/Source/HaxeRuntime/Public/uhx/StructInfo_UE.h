@@ -12,7 +12,10 @@
 
 #ifndef UHX_NO_UOBJECT
 #include "CoreMinimal.h"
+#include "Templates/IsPODType.h"
+#include "Templates/Casts.h"
 #include "UObject/Class.h"
+
 #endif
 
 #ifdef _MSC_VER
