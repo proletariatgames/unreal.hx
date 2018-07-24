@@ -22,8 +22,7 @@ abstract Ref<T>(PtrMacros<T>) {
   }
 
   public static function fromStruct<T : Struct>(struct : Struct):Ref<T> {
-    var vptr:VariantPtr = struct;
-    return cast vptr.getUnderlyingPointer();
+    return cast uhx.internal.HaxeHelpers.getUnderlyingPointer(struct);
   }
 
   /**

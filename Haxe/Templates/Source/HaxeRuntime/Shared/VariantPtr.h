@@ -207,7 +207,7 @@ public:
     {
       return VariantPtr(handle, true);
     } else {
-      return VariantPtr(handle, false);
+      return VariantPtr(inPtr, false);
     }
     #else
     VariantPtr ptr;

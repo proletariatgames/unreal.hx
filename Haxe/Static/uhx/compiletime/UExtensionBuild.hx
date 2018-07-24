@@ -639,7 +639,6 @@ class UExtensionBuild {
         case FFun(fn):
           var fnRet = fn.ret;
           var isVoid = fnRet.match(TPath({ name:'Void' }));
-          // var nullExpr = macro untyped __cpp__('0');
           var nullExpr = macro cast null;
           var nameVal = typeRef.name + '.' + field.name;
           var oldExpr = fn.expr;
