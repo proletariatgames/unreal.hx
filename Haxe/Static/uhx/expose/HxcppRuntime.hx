@@ -134,7 +134,7 @@ import uhx.internal.Helpers;
     var ret = VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
 #if debug
     if (ret.isExternalPointer()) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -144,7 +144,7 @@ import uhx.internal.Helpers;
     var ret = VariantPtr.fromDynamic( InlineWrapper.create(size, info) );
 #if debug
     if (ret.isExternalPointer()) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -154,7 +154,7 @@ import uhx.internal.Helpers;
     var ret = VariantPtr.fromDynamic( AlignedInlineWrapper.create(size, info) );
 #if debug
     if (ret.isExternalPointer()) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -164,7 +164,7 @@ import uhx.internal.Helpers;
     var ret = VariantPtr.fromDynamic( InlineTemplateWrapper.create(size, info) );
 #if debug
     if (ret.isExternalPointer()) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -174,7 +174,7 @@ import uhx.internal.Helpers;
     var ret = VariantPtr.fromDynamic( PointerTemplateWrapper.create(pointer, info, extraSize) );
 #if debug
     if (ret.isExternalPointer()) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
