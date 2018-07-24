@@ -24,7 +24,7 @@ public:
 };
 
 unreal::VariantPtr uhx::internal::HaxeLatentCommand_Glue_obj::createFn(unreal::UIntPtr fn) {
-  return unreal::VariantPtr( new FHaxeLatentCommand(fn) );
+  return unreal::VariantPtr::fromExternalPointer( new FHaxeLatentCommand(fn) );
 }')
   public static function createFn(fn:Void->Bool):POwnedPtr<IAutomationLatentCommand> {
     return cast uhx.internal.HaxeLatentCommand_Glue.createFn(uhx.internal.HaxeHelpers.dynamicToPointer(fn));

@@ -744,7 +744,7 @@ class TypeConv {
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name, _):
-        'uhx.internal.HaxeHelpers.variantToPointer( $expr )';
+        '( cast $expr : unreal.VariantPtr ).getUIntPtrRepresentation()';
     }
   }
 
@@ -960,9 +960,9 @@ class TypeConv {
           }
         } else {
           if (hasModifier(Ref)) {
-            'unreal::VariantPtr( (void *) &($expr) )';
+            'unreal::VariantPtr::fromExternalPointer( (void *) &($expr) )';
           } else if (hasModifier(Ptr)) {
-            'unreal::VariantPtr( (void *) ($expr) )';
+            'unreal::VariantPtr::fromExternalPointer( (void *) ($expr) )';
           } else {
             '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>::fromStruct($expr)';
           }

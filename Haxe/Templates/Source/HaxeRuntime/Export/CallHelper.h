@@ -11,7 +11,7 @@ class HAXERUNTIME_API UCallHelper : public UObject {
 public:
   GENERATED_BODY()
   static void uhx_callFunctionOther(UObject* Context, FFrame& Stack, RESULT_DECL ) {
-    ::uhx::expose::HxcppRuntime::callHaxeFunctionOther(unreal::VariantPtr(&Stack), (unreal::UIntPtr) RESULT_PARAM);
+    ::uhx::expose::HxcppRuntime::callHaxeFunctionOther(unreal::VariantPtr::fromExternalPointer(&Stack), (unreal::UIntPtr) RESULT_PARAM);
   }
 
   static void setupFunction(void *cls, void *fn) {

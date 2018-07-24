@@ -58,7 +58,7 @@ abstract PtrMacros<T>(PtrBase<T>) {
       case CStruct(_):
         var isPointer = t.modifiers != null && (t.modifiers.has(Ref) || t.modifiers.has(Ptr));
         if (isPointer) {
-          return macro (cast $ethis : unreal.AnyPtr).setPointer(0, uhx.internal.Helpers.getWrapperPointer($val));
+          return macro (cast $ethis : unreal.AnyPtr).setPointer(0, uhx.internal.HaxeHelpers.getUnderlyingPointer($val));
         }
         var type = t.haxeType.toComplexType();
         try {
@@ -136,7 +136,7 @@ abstract PtrMacros<T>(PtrBase<T>) {
         var tpath = conv.haxeType.toTypePath();
         return macro @:mergeBlock {
           var ret = new $tpath();
-          cast uhx.internal.Helpers.getWrapperPointer(ret);
+          cast uhx.internal.HaxeHelpers.getUnderlyingPointer(ret);
         };
       case _:
         throw new Error("PtrMacros: Unsupported type : " + t, pos);

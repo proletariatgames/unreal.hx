@@ -76,6 +76,10 @@ struct MapWrapperLayout : public InitialWrapperLayout {
 
 }
 
+static inline unreal::UIntPtr getUnderlyingFromUIntPtr(unreal::UIntPtr inPtr) {
+  return unreal::VariantPtr::fromUIntPtrRepresentation(inPtr).getUnderlyingPointer();
+}
+
 static inline unreal::UIntPtr doAlign(unreal::UIntPtr offset, unreal::UIntPtr align) {
   if (align < sizeof(void*)) {
     align = sizeof(void*);
@@ -86,15 +90,15 @@ static inline unreal::UIntPtr doAlign(unreal::UIntPtr offset, unreal::UIntPtr al
 }
 
 static inline FScriptArrayHelper getArrayHelper(UProperty *inProp, unreal::VariantPtr inSelf) {
-  return FScriptArrayHelper::CreateHelperFormInnerProperty(inProp, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(inSelf));
+  return FScriptArrayHelper::CreateHelperFormInnerProperty(inProp, (void *) (inSelf.getUnderlyingPointer()));
 }
 
 static inline FScriptMapHelper getMapHelper(UMapProperty *inProp, unreal::VariantPtr inSelf) {
-  return FScriptMapHelper(inProp, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(inSelf));
+  return FScriptMapHelper(inProp, (void *) (inSelf.getUnderlyingPointer()));
 }
 
 static inline FScriptSetHelper getSetHelper(UProperty *inProp, unreal::VariantPtr inSelf) {
-  return FScriptSetHelper::CreateHelperFormElementProperty(inProp, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(inSelf));
+  return FScriptSetHelper::CreateHelperFormElementProperty(inProp, (void *) (inSelf.getUnderlyingPointer()));
 }
 
 void uhx::TArrayReflect_obj::init() {
@@ -249,17 +253,17 @@ unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::createDynamicWrapperFromStruct(u
   uhx::InitialWrapperLayout *infoLayout = nullptr;
 
   if (info.alignment > sizeof(void*)) {
-    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
     static int staticOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
     startOffset = staticOffset;
   } else if (info.flags == uhx::UHX_POD) {
-    ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
     static int staticOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
     startOffset = staticOffset;
   } else {
     // Dynamically created wrappers have more strict alignment needs than statically created (because we are using Unreal's reflection API)
     // so we always create an aligned inline wrapper
-    ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
     static int staticOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
     startOffset = staticOffset;
   }
@@ -274,7 +278,7 @@ unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::createDynamicWrapperFromStruct(u
   // re-set the info on the wrapper
   uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, (unreal::UIntPtr) &infoLayout->mainInfo);
   check( ((unreal::UIntPtr)infoLayout) + sizeof(info) <= ret + startOffset + extraSize);
-  return ret;
+  return unreal::VariantPtr::fromGcPointer(ret);
 }
 
 static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, uhx::WrapperKind wrapperKind = uhx::UHX_WRAPPER_NORMAL) {
@@ -294,12 +298,12 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
     }
     extraSize += sizeof(void*) + sizeof(uhx::ArrayWrapperLayout);
     if (pointerIfAny) {
-      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).raw;
+      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).getGcPointerUnchecked();
       static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
       startOffset = offset;
     } else {
       extraSize += sizeof(FScriptArray) + sizeof(void*);
-      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
       static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
       startOffset = offset;
     }
@@ -333,12 +337,12 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
     }
     extraSize += sizeof(void*) + sizeof(uhx::SetWrapperLayout);
     if (pointerIfAny) {
-      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).raw;
+      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).getGcPointerUnchecked();
       static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
       startOffset = offset;
     } else {
       extraSize += sizeof(FScriptSet) + sizeof(void*);
-      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
       static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
       startOffset = offset;
     }
@@ -367,12 +371,12 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
     auto prop = Cast<UMapProperty>(inProp);
     extraSize += sizeof(void*) + sizeof(uhx::MapWrapperLayout);
     if (pointerIfAny) {
-      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).raw;
+      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).getGcPointerUnchecked();
       static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
       startOffset = offset;
     } else {
       extraSize += sizeof(FScriptMap) + sizeof(void*);
-      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
       static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
       startOffset = offset;
     }
@@ -400,25 +404,25 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
 
     check(reflectPtr + (sizeof(uhx::MapWrapperLayout)) <= (ret + startOffset + extraSize));
   } else if (pointerIfAny) {
-    return unreal::VariantPtr(pointerIfAny); // we don't need wrappers
+    return unreal::VariantPtr::fromExternalPointer(pointerIfAny); // we don't need wrappers
   } else {
     extraSize += info.size +
                  info.alignment +
                  sizeof(void*) +
                  sizeof(info);
     if (info.alignment > sizeof(void*)) {
-      ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
       static int staticOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
       startOffset = staticOffset;
     } else if (info.flags == uhx::UHX_POD) {
-      ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
       static int staticOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
       startOffset = staticOffset;
     } else {
       // Dynamically created wrappers have more strict alignment needs than statically created (because we are using Unreal's reflection API)
       // so we always create an aligned inline wrapper
-      // ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-      ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+      // ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
+      ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
       static int staticOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
       startOffset = staticOffset;
       // static int staticOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
@@ -436,7 +440,7 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
   // re-set the info on the wrapper
   uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, (unreal::UIntPtr) &infoLayout->mainInfo);
   check( ((unreal::UIntPtr)infoLayout) + sizeof(info) <= ret + startOffset + extraSize);
-  return ret;
+  return unreal::VariantPtr::fromGcPointer(ret);
 }
 
 static void *hxcppPointerToCppPointer(UProperty *inProp, unreal::UIntPtr hxcppPointer, uint64& stackSpace) {
@@ -468,13 +472,12 @@ static void *hxcppPointerToCppPointer(UProperty *inProp, unreal::UIntPtr hxcppPo
     }
     #endif
 
-    return (void *) uhx::expose::HxcppRuntime::getWrapperPointer(hxcppPointer);
+    return (void *) (getUnderlyingFromUIntPtr(hxcppPointer));
   }
 
   check(false);
   return nullptr;
 }
-
 
 static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) {
   if (inProp->IsA<UNumericProperty>()) {
@@ -493,12 +496,12 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
     // auto objProp = Cast<UObjectProperty>(inProp);
     return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) *((UObject **) inPointer) );
   } else if (inProp->IsA<UStructProperty>() || inProp->IsA<UDelegateProperty>() || inProp->IsA<UMulticastDelegateProperty>()) {
-    return uhx::expose::HxcppRuntime::boxVariantPtr(inPointer);
+    return uhx::expose::HxcppRuntime::boxVariantPtr(unreal::VariantPtr::fromExternalPointer(inPointer));
   } else if (inProp->IsA<UBoolProperty>()) {
     auto prop = Cast<UBoolProperty>(inProp);
     return uhx::expose::HxcppRuntime::boxBool(prop->GetPropertyValue(inPointer));
   } else if (inProp->IsA<UNameProperty>() || inProp->IsA<UStrProperty>() || inProp->IsA<UTextProperty>()) {
-    return uhx::expose::HxcppRuntime::boxVariantPtr(inPointer);
+    return uhx::expose::HxcppRuntime::boxVariantPtr(unreal::VariantPtr::fromExternalPointer(inPointer));
   } else if (inProp->IsA<UArrayProperty>() || inProp->IsA<UMapProperty>() || inProp->IsA<USetProperty>()) {
     return uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(inProp, inPointer));
   }
@@ -532,7 +535,7 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
   } else if (inProp->IsA<UObjectProperty>()) {
     *((UObject **)dest) = (UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(value);
   } else if (inProp->IsA<UStructProperty>() || inProp->IsA<UDelegateProperty>() || inProp->IsA<UMulticastDelegateProperty>()) {
-    inProp->CopyCompleteValue(dest, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(value));
+    inProp->CopyCompleteValue(dest, (void *) (getUnderlyingFromUIntPtr(value)));
   } else if (inProp->IsA<UBoolProperty>()) {
     auto prop = Cast<UBoolProperty>(inProp);
     prop->SetPropertyValue(dest, uhx::expose::HxcppRuntime::unboxBool(value));
@@ -542,7 +545,7 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
       inProp->IsA<UArrayProperty>() ||
       inProp->IsA<UMapProperty>() ||
       inProp->IsA<USetProperty>()) {
-    inProp->CopyCompleteValue(dest, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(value));
+    inProp->CopyCompleteValue(dest, (void *) (getUnderlyingFromUIntPtr(value)));
   } else {
     // TODO: delegates, map, and set
     check(false);
@@ -574,7 +577,7 @@ unreal::UIntPtr uhx::TArrayReflect_obj::Pop(unreal::VariantPtr self, bool allowS
     ret = uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) *((UObject **) rawPtr));
   } else {
     ret = uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(prop, 0));
-    unreal::UIntPtr retPtr = uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+    unreal::UIntPtr retPtr = (getUnderlyingFromUIntPtr(ret));
     prop->InitializeValue((void *) retPtr);
     prop->CopyCompleteValue((void *) retPtr, (void *) rawPtr);
   }
@@ -643,7 +646,7 @@ unreal::VariantPtr uhx::TArrayReflect_obj::copy(unreal::VariantPtr self) {
   auto prop = GET_UPROP();
 
   unreal::VariantPtr ret = createWrapper(prop, nullptr, uhx::UHX_WRAPPER_ARRAY);
-  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  void *pointer = (void *) (ret.getUnderlyingPointer());
   new (pointer) FScriptArray();
 
   auto targetHelper = getArrayHelper(prop, ret);
@@ -807,7 +810,7 @@ unreal::VariantPtr uhx::TMapReflect_obj::GenerateKeyArray(unreal::VariantPtr sel
   auto keyProp = GET_MAP_UPROP()->KeyProp;
 
   unreal::VariantPtr ret = createWrapper(keyProp, nullptr, uhx::UHX_WRAPPER_ARRAY);
-  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  void *pointer = (void *) (ret.getUnderlyingPointer());
   // initialize
   new (pointer) FScriptArray();
 
@@ -830,7 +833,7 @@ unreal::VariantPtr uhx::TMapReflect_obj::GenerateValueArray(unreal::VariantPtr s
   auto keyProp = GET_MAP_UPROP()->ValueProp;
 
   unreal::VariantPtr ret = createWrapper(keyProp, nullptr, uhx::UHX_WRAPPER_ARRAY);
-  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  void *pointer = (void *) (ret.getUnderlyingPointer());
   // initialize
   new (pointer) FScriptArray();
 
@@ -857,17 +860,17 @@ unreal::VariantPtr uhx::TMapReflect_obj::copyNew(unreal::VariantPtr self) {
 unreal::VariantPtr uhx::TMapReflect_obj::copy(unreal::VariantPtr self) {
   auto uprop = GET_MAP_UPROP();
   auto ret = createWrapper(uprop, nullptr, uhx::UHX_WRAPPER_NORMAL);
-  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  void *pointer = (void *) (ret.getUnderlyingPointer());
   // initialize
   uprop->InitializeValue(pointer);
-  uprop->CopyCompleteValue(pointer, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(self));
+  uprop->CopyCompleteValue(pointer, (void *) (self.getUnderlyingPointer()));
 
   return ret;
 }
 
 void uhx::TMapReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr val) {
   auto uprop = GET_MAP_UPROP();
-  uprop->CopyCompleteValue((void *) uhx::expose::HxcppRuntime::getWrapperPointer(self), (void *) uhx::expose::HxcppRuntime::getWrapperPointer(val));
+  uprop->CopyCompleteValue((void *) (self.getUnderlyingPointer()), (void *) (val.getUnderlyingPointer()));
 }
 
 unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::wrapProperty(unreal::UIntPtr inProp, unreal::UIntPtr pointerIfAny) {
@@ -915,7 +918,7 @@ unreal::VariantPtr uhx::TSetReflect_obj::Add(unreal::VariantPtr self, unreal::UI
 }
 
 void uhx::TSetReflect_obj::Remove(unreal::VariantPtr self, unreal::VariantPtr ElementId) {
-  FSetElementId *pointer = (FSetElementId *) uhx::expose::HxcppRuntime::getWrapperPointer(ElementId);
+  FSetElementId *pointer = (FSetElementId *) (ElementId.getUnderlyingPointer());
   GET_SET_HELPER(self).RemoveAt(pointer->AsInteger());
 }
 
@@ -941,7 +944,7 @@ unreal::VariantPtr uhx::TSetReflect_obj::copy(unreal::VariantPtr self) {
   auto prop = GET_UPROP();
 
   unreal::VariantPtr ret = createWrapper(prop, nullptr, uhx::UHX_WRAPPER_SET);
-  void *pointer = (void *) uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+  void *pointer = (void *) (ret.getUnderlyingPointer());
   new (pointer) FScriptSet();
 
   auto targetHelper = getSetHelper(prop, ret);

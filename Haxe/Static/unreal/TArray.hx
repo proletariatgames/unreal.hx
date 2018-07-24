@@ -172,12 +172,7 @@ private typedef TArrayImpl<T> = Dynamic;
       }
     } else {
       var vptr:VariantPtr = cast obj,
-          obj:UIntPtr = 0;
-      if (vptr.isObject()) {
-        obj = vptr.getDynamic().getPointer();
-      } else {
-        obj = vptr.getUIntPtr() - 1;
-      }
+          obj:UIntPtr = vptr.getUnderlyingPointer();
 
       var data = this.GetData();
       for(i in 0...len) {

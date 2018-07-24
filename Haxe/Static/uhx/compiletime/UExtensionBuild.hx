@@ -517,7 +517,7 @@ class UExtensionBuild {
             cppCode += '\tSuper::PreReplication(ChangedPropertyTracker);\n';
             cppCode += '\tuhx::expose::HxcppRuntime::instancePreReplication(' +
                 '(unreal::UIntPtr) this, ' +
-                'unreal::VariantPtr(&ChangedPropertyTracker));\n';
+                'unreal::VariantPtr::fromExternalPointer(&ChangedPropertyTracker));\n';
             cppCode += '}\n\n';
           }
         } else if (hasReplicatedProperties) {
@@ -639,7 +639,8 @@ class UExtensionBuild {
         case FFun(fn):
           var fnRet = fn.ret;
           var isVoid = fnRet.match(TPath({ name:'Void' }));
-          var nullExpr = macro untyped __cpp__('0');
+          // var nullExpr = macro untyped __cpp__('0');
+          var nullExpr = macro cast null;
           var nameVal = typeRef.name + '.' + field.name;
           var oldExpr = fn.expr;
           if (hasReturn(oldExpr)) {
@@ -851,7 +852,7 @@ class UExtensionBuild {
     headerDef << new End('}') << new Newline();
     if (!hasHaxeSuper) {
       includes.add('uhx/ThreadAttach.h');
-      headerDef << 'void Serialize( FArchive& Ar ) override' << new Begin(' {') 
+      headerDef << 'void Serialize( FArchive& Ar ) override' << new Begin(' {')
         << 'Super::Serialize(Ar);' << new Newline()
         << 'uhx::ThreadAttach threadAttach(true);' << new Newline()
         << 'if (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());'
@@ -861,8 +862,8 @@ class UExtensionBuild {
     if (Globals.isDynamicUType(clt) && (clt.superClass == null || !Globals.isDynamicUType(clt.superClass.t.get()))) {
       includes.add('UObject/Stack.h');
       headerDef << 'public:' << new Newline()
-        << 'static void ${Globals.UHX_CALL_FUNCTION}( UObject* Context, FFrame& Stack, RESULT_DECL ) ' << new Begin(" {") 
-          << '::uhx::expose::HxcppRuntime::callHaxeFunction(reinterpret_cast<unreal::UIntPtr>(Context), unreal::VariantPtr(&Stack), reinterpret_cast<unreal::UIntPtr>(RESULT_PARAM));'
+        << 'static void ${Globals.UHX_CALL_FUNCTION}( UObject* Context, FFrame& Stack, RESULT_DECL ) ' << new Begin(" {")
+          << '::uhx::expose::HxcppRuntime::callHaxeFunction(reinterpret_cast<unreal::UIntPtr>(Context), unreal::VariantPtr::fromExternalPointer(&Stack), reinterpret_cast<unreal::UIntPtr>(RESULT_PARAM));'
         << new End('}') << new Newline();
     }
 

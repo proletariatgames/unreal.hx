@@ -133,7 +133,7 @@ import uhx.internal.Helpers;
   public static function createInlinePodWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
+    if (ret.isExternalPointer()) {
       throw 'Assertion failed: Hxcpp allocated unaligned structure';
     }
 #end
@@ -143,7 +143,7 @@ import uhx.internal.Helpers;
   public static function createInlineWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlineWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
+    if (ret.isExternalPointer()) {
       throw 'Assertion failed: Hxcpp allocated unaligned structure';
     }
 #end
@@ -153,7 +153,7 @@ import uhx.internal.Helpers;
   public static function createAlignedInlineWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( AlignedInlineWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
+    if (ret.isExternalPointer()) {
       throw 'Assertion failed: Hxcpp allocated unaligned structure';
     }
 #end
@@ -163,7 +163,7 @@ import uhx.internal.Helpers;
   public static function createInlineTemplateWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlineTemplateWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
+    if (ret.isExternalPointer()) {
       throw 'Assertion failed: Hxcpp allocated unaligned structure';
     }
 #end
@@ -173,7 +173,7 @@ import uhx.internal.Helpers;
   public static function createPointerTemplateWrapper(pointer:UIntPtr, info:UIntPtr, extraSize:Int) : VariantPtr {
     var ret = VariantPtr.fromDynamic( PointerTemplateWrapper.create(pointer, info, extraSize) );
 #if debug
-    if (ret.raw & 1 == 1) {
+    if (ret.isExternalPointer()) {
       throw 'Assertion failed: Hxcpp allocated unaligned structure';
     }
 #end
@@ -203,10 +203,6 @@ import uhx.internal.Helpers;
 
   public static function getInlinePodWrapperOffset() : UIntPtr {
     return unreal.Wrapper.InlinePodWrapper.getOffset();
-  }
-
-  public static function getWrapperPointer(vptr : VariantPtr) : UIntPtr {
-    return Helpers.getWrapperPointer(vptr);
   }
 
   public static function setWrapperStructInfo(wrapper : UIntPtr, info : UIntPtr) : Void {
