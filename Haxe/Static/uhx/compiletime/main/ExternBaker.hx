@@ -1069,7 +1069,7 @@ class ExternBaker {
               this.newline();
               this.add('if (!ops.HasZeroConstructor()) ops.Construct(( ( cast ret : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer());');
               this.newline();
-              this.add('ops.Copy(( ( cast ret : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer(), uhx.internal.Helpers.getWrapperPointer(cast this), 1);');
+              this.add('ops.Copy(( ( cast ret : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer(), uhx.internal.HaxeHelpers.getUnderlyingPointer(cast this), 1);');
               this.newline();
               this.add('return ret;');
           this.end('}');

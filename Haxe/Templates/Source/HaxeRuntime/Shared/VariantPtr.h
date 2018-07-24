@@ -1,12 +1,14 @@
 #pragma once
 
 #include "IntPtr.h"
+#include "uhx/Defines.h"
+#include "uhx/expose/BaseRuntime.h"
 
 #ifndef __UNREAL__
 #ifndef HXCPP_H
 #include <hxcpp.h>
 #endif
-#include <cpp/Pointer.h>
+#include "cpp/Pointer.h"
 // #include <hx/LessThanEq.h>
 #endif
 
@@ -20,31 +22,40 @@
 namespace unreal {
 
 class VariantPtr {
-public:
+private:
   UIntPtr raw;
+public:
+  #if UHX_FAT_VARIANTPTR
+  bool isExternal;
 
+  inline VariantPtr() : raw(0), isExternal(false) { }
+private:
+  inline VariantPtr(UIntPtr inPtr, bool isExternal) : raw(inPtr), isExternal(isExternal) {}
+public:
+  #else
   inline VariantPtr() : raw(0) { }
-  inline VariantPtr(const void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) {
-    #if !defined(UE_BUILD_SHIPPING) || !UE_BUILD_SHIPPING
-    if(raw != 0 && (raw & 1) != 1) { this->badAlignmentAssert(raw -1); }
-    #endif
-  }
-  inline VariantPtr(void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) {
-    #if !defined(UE_BUILD_SHIPPING) || !UE_BUILD_SHIPPING
-    if(raw != 0 && (raw & 1) != 1) { this->badAlignmentAssert(raw -1); }
-    #endif
-  }
-  inline VariantPtr(IntPtr inRHS) : raw((UIntPtr) inRHS) { }
-  inline VariantPtr(UIntPtr inRHS) : raw(inRHS) { }
-  inline VariantPtr(int inRHS) : raw((UIntPtr) inRHS) { }
+private:
+  inline VariantPtr(UIntPtr inPtr, bool isExternal) : raw(inPtr) {}
+public:
+  #endif
+
 #ifndef __UNREAL__
   inline VariantPtr(const Dynamic& inRHS) {
+    #if UHX_FAT_VARIANTPTR
+    this->isExternal = false;
+    #endif
+
     if (inRHS.mPtr == 0) {
       this->raw = 0;
     } else {
       void *hnd = inRHS->__GetHandle();
       if (hnd != 0) {
-        this->raw = ((UIntPtr) hnd) + 1;
+        #if UHX_FAT_VARIANTPTR
+        this->isExternal = true;
+        this->raw = ((UIntPtr) hnd);
+        #else
+        this->raw = ~((UIntPtr)hnd);
+        #endif
       } else {
         this->raw = (UIntPtr) inRHS.mPtr;
       }
@@ -53,26 +64,35 @@ public:
 
   inline VariantPtr(const cpp::Variant& inVariant) {
     Dynamic inRHS = Dynamic(inVariant);
+    #if UHX_FAT_VARIANTPTR
+    this->isExternal = false;
+    #endif
+
     if (inRHS.mPtr == 0) {
       this->raw = 0;
     } else {
       void *hnd = inRHS->__GetHandle();
       if (hnd != 0) {
-        this->raw = ((UIntPtr) hnd) + 1;
+        #if UHX_FAT_VARIANTPTR
+        this->isExternal = true;
+        this->raw = ((UIntPtr) hnd);
+        #else
+        this->raw = ~((UIntPtr)hnd);
+        #endif
       } else {
         this->raw = (UIntPtr) inRHS.mPtr;
       }
     }
   }
 
+  #if UHX_FAT_VARIANTPTR
+  inline VariantPtr(const null& inRHS) : raw(0), isExternal(false) { }
+  #else
   inline VariantPtr(const null& inRHS) : raw(0) { }
+  #endif
 
   inline operator Dynamic() const {
     return this->getDynamic();
-  }
-
-  inline bool operator ==(const VariantPtr &other) const {
-    return this->raw == other.raw;
   }
 
   inline bool operator ==(const null &other) const {
@@ -80,55 +100,182 @@ public:
   }
 
   inline Dynamic getDynamic() const {
-    if ((raw & 1) == 0) {
-      return Dynamic((hx::Object *)raw);
+    if (this->raw == 0)
+    {
+      return Dynamic((hx::Object *) nullptr);
+    }
+
+    UIntPtr ptr = this->getExternalPointer();
+    if (ptr == 0)
+    {
+      return Dynamic((hx::Object *) raw);
     } else {
-      return cpp::Pointer<void>((void *) (raw - 1));
+      return cpp::Pointer<void>((void *) (ptr));
     }
   }
 #else
+  #if UHX_FAT_VARIANTPTR
+  inline VariantPtr(const std::nullptr_t& inRHS) : raw(0), isExternal(false) { }
+  #else
   inline VariantPtr(const std::nullptr_t& inRHS) : raw(0) { }
+  #endif
+
+
+  inline bool operator ==(const std::nullptr_t &other) const {
+    return this->raw == 0;
+  }
 #endif
+
+  inline bool operator ==(const VariantPtr &other) const {
+    return this->raw == other.raw;
+  }
 
   // Allow '->' syntax
   inline VariantPtr *operator->() { return this; }
 
-  inline IntPtr getIntPtr() const { return (IntPtr) raw; }
-  inline UIntPtr getUIntPtr() const { return (UIntPtr) raw; }
-
-  inline bool isObject() const { return (raw & 1) == 0; }
-
-  // inline operator UIntPtr() { return raw; }
-
-  void badAlignmentAssert(UIntPtr value);
-
-  inline void *toPointer() const {
-    return ((raw & 1) == 1) ? ( (void *) (raw - 1) ) : haxeObjToPointer(raw);
+  inline bool isObject() const {
+    return !this->isExternalPointer();
   }
 
-  static void *haxeObjToPointer(UIntPtr inRaw) {
-    return 0;
+  inline bool isExternalPointer() const {
+    #if UHX_FAT_VARIANTPTR
+    return this->isExternal;
+    #else
+    return (this->raw & (1LL << 63)) != 0;
+    #endif
+  }
+
+  inline UIntPtr getExternalPointerUnchecked() const {
+    #if UHX_FAT_VARIANTPTR
+    return this->raw;
+    #else
+    return (this->raw == 0) ? 0 : ~this->raw;
+    #endif
+  }
+
+  inline UIntPtr getGcPointerUnchecked() const {
+    return this->raw;
+  }
+
+  inline bool isNull() const {
+    return this->raw == 0;
+  }
+
+  /**
+   * If it's an external pointer, returns the pointer itself
+   * Otherwise, the Dynamic object is assyned to be an unreal.Wrapper type,
+   * and `getPointer()` is called, so the underlying native pointer is returned
+   **/
+  inline UIntPtr getUnderlyingPointer() const {
+    if (this->raw == 0)
+    {
+      return 0;
+    }
+
+    if (this->isExternalPointer())
+    {
+      return this->getExternalPointerUnchecked();
+    } else {
+      return uhx::expose::BaseRuntime::wrapperObjectToPointer(this->raw);
+    }
+  }
+
+  /**
+   * Returns the most efficient representation possible of `this` VariantPtr
+   * to a UIntPtr. This may mean that in some platforms the result will need to be boxed
+   **/
+  inline UIntPtr getUIntPtrRepresentation() const {
+    #if UHX_FAT_VARIANTPTR
+    // By definition, we cannot get a full representation of a VariantPtr into an UIntPtr
+    // when using fat variantptrs. So instead we're going to box it
+    if (this->isExternalPointer())
+    {
+      return uhx::expose::BaseRuntime::boxPointer(this->raw);
+    } else {
+      return this->raw;
+    }
+    #else
+    return this->raw;
+    #endif
+  }
+
+  inline static VariantPtr fromUIntPtrRepresentation(UIntPtr inPtr)
+  {
+    #if UHX_FAT_VARIANTPTR
+    UIntPtr handle = uhx::expose::BaseRuntime::getPointerHandle(inPtr);
+    if (handle != 0)
+    {
+      return VariantPtr(handle, true);
+    } else {
+      return VariantPtr(inPtr, false);
+    }
+    #else
+    VariantPtr ptr;
+    ptr.raw = inPtr;
+    return ptr;
+    #endif
+  }
+
+  static void badPointerAssert(UIntPtr inPtr)
+  {
+    // if this happened, it means it's probably not safe to use the
+    // most significant bit as an indicator of external pointers on this platform
+    // If that's the case, make sure to define UHX_FAT_VARIANTPTR  for this platform
+    // (see uhx/Defines.h)
+    uhx::expose::BaseRuntime::throwBadPointer(inPtr);
+  }
+
+  inline UIntPtr getExternalPointer() const {
+    #if UHX_FAT_VARIANTPTR
+    return (this->isExternal) ? (this->raw) : 0;
+    #else
+    return ((this->raw & (1LL << 63)) != 0) ? ~this->raw : 0;
+    #endif
+  }
+
+  inline static VariantPtr fromExternalPointer(const void *inPtr)
+  {
+    return fromExternalPointer((UIntPtr) inPtr);
+  }
+
+  inline static VariantPtr fromExternalPointer(UIntPtr inPtr)
+  {
+    if (inPtr == 0)
+    {
+      return VariantPtr(0, false);
+    }
+    #if UHX_FAT_VARIANTPTR
+    return VariantPtr(inPtr, true);
+    #else
+    #if UHX_DEBUG
+    if ((inPtr & (1LL << 63)) != 0)
+    {
+      badPointerAssert(inPtr);
+    }
+    #endif
+    return VariantPtr(~inPtr, true);
+    #endif
+  }
+
+  inline static VariantPtr fromGcPointer(UIntPtr inPtr)
+  {
+    return VariantPtr(inPtr, false);
   }
 };
 
 class VariantPtr_obj {
 public:
-  inline static VariantPtr fromIntPtr(IntPtr inPtr) { return VariantPtr(inPtr); }
-  inline static VariantPtr fromUIntPtr(UIntPtr inPtr) { return VariantPtr(inPtr); }
-  inline static VariantPtr fromRawPtr(void *inPtr) { return VariantPtr( (void *) inPtr ); }
-  inline static VariantPtr fromRawPtr(const void *inPtr) { return VariantPtr( (void *) inPtr ); }
+  inline static VariantPtr fromExternalPointer(UIntPtr inPtr) { return VariantPtr::fromExternalPointer(inPtr); }
   template<typename T>
-  inline static VariantPtr fromRawPtr(T *inPtr) { return VariantPtr( (void *) inPtr ); }
+  inline static VariantPtr fromExternalRawPtr(T *inPtr) { return VariantPtr::fromExternalPointer( (UIntPtr) inPtr ); }
   template<typename T>
-  inline static VariantPtr fromRawPtr(const T *inPtr) { return VariantPtr( (void *) inPtr ); }
+  inline static VariantPtr fromExternalRawPtr(const T *inPtr) { return VariantPtr::fromExternalPointer( (UIntPtr) inPtr ); }
 #ifndef __UNREAL__
   template<typename T>
-  inline static VariantPtr fromPointer(cpp::Pointer<T> inPtr) { return VariantPtr( (void *) inPtr ); }
+  inline static VariantPtr fromExternalHxcppPointer(cpp::Pointer<T> inPtr) { return VariantPtr::fromExternalPointer( (UIntPtr) inPtr ); }
 
   inline static VariantPtr fromDynamic(Dynamic inDyn) { return VariantPtr( inDyn ); }
 #endif
-
-  inline static VariantPtr fromUIntPtrExternalPointer(UIntPtr inPtr) { return VariantPtr((void*) inPtr); }
 };
 
 }
@@ -137,8 +284,8 @@ public:
 namespace hx {
 template<> inline void MarkMember< unreal::VariantPtr >(unreal::VariantPtr &outT,hx::MarkContext *__inCtx)
 {
-  if ((outT.raw & 1) == 0) {
-    HX_MARK_OBJECT((hx::Object *) outT.raw);
+  if (outT.isObject()) {
+    HX_MARK_OBJECT((hx::Object *) outT.getGcPointerUnchecked());
   }
 }
 
@@ -147,14 +294,14 @@ struct CompareTraits<unreal::VariantPtr>
 {
    enum { type = (int)CompareAsInt64 };
 
-   inline static int toInt(unreal::VariantPtr inValue) { return (int) inValue.raw; }
-   inline static double toDouble(unreal::VariantPtr inValue) { return (double) inValue.raw; }
-   inline static cpp::Int64 toInt64(unreal::VariantPtr inValue) { return (cpp::Int64) inValue.raw; }
+   inline static int toInt(unreal::VariantPtr inValue) { return (int) inValue.getGcPointerUnchecked(); }
+   inline static double toDouble(unreal::VariantPtr inValue) { return (double) inValue.getGcPointerUnchecked(); }
+   inline static cpp::Int64 toInt64(unreal::VariantPtr inValue) { return (cpp::Int64) inValue.getGcPointerUnchecked(); }
    inline static String toString(unreal::VariantPtr inValue) { return inValue.getDynamic(); }
    inline static hx::Object *toObject(unreal::VariantPtr inValue) { return inValue.getDynamic().mPtr; }
 
    inline static int getDynamicCompareType(unreal::VariantPtr) { return type; }
-   inline static bool isNull(const unreal::VariantPtr &inValue) { return inValue.raw == 0; }
+   inline static bool isNull(const unreal::VariantPtr &inValue) { return inValue.isNull(); }
 };
 
 template<>

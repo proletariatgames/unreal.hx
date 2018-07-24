@@ -257,7 +257,7 @@ class ReflectAPI {
           } else {
             var variant : VariantPtr = curArg;
             if (!variant.isObject()) {
-              argAddr = (curArg : VariantPtr).getUIntPtr() - 1;
+              argAddr = variant.getExternalPointerUnchecked();
             } else {
               argAddr = curArg; // plain UIntPtr
             }
@@ -404,7 +404,7 @@ class ReflectAPI {
       } else {
         var variant:VariantPtr = value;
         if (!variant.isObject()) {
-          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
+          prop.CopyCompleteValue(objOffset, variant.getExternalPointerUnchecked());
         } else {
           throw 'Struct set not supported: ${prop.GetName()} for value $value' #if debug + ' ($path)' #end;
         }
@@ -414,7 +414,7 @@ class ReflectAPI {
           struct = prop.Struct;
       var variant:VariantPtr = value;
       if (!variant.isObject()) {
-          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
+          prop.CopyCompleteValue(objOffset, variant.getExternalPointerUnchecked());
       } else if (Std.is(value, unreal.Wrapper)) {
         var wrapperValue:unreal.Wrapper = value;
         prop.CopyCompleteValue(objOffset, wrapperValue.getPointer());
@@ -553,21 +553,21 @@ class ReflectAPI {
       return prop.GetObjectPropertyValue(objPtr);
     } else if (Std.is(prop, UNameProperty)) {
       if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
-        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+        return VariantPtr.fromExternalPointer(objPtr);
       }
       var value:FName = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
     } else if (Std.is(prop, UStrProperty)) {
       if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
-        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+        return VariantPtr.fromExternalPointer(objPtr);
       }
       var value:FString = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
     } else if (Std.is(prop, UTextProperty)) {
       if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
-        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+        return VariantPtr.fromExternalPointer(objPtr);
       }
       var value:FText = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);

@@ -151,7 +151,7 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
   }
 
   public function getStruct(at:Int):Struct {
-    return cast VariantPtr.fromUIntPtr(this + at + 1);
+    return cast VariantPtr.fromExternalPointer(this + at);
   }
 
   public static function fromUObject(obj:UObject):AnyPtr {
@@ -160,11 +160,7 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
 
   public static function fromStruct(obj:Struct):AnyPtr {
     var variantPtr:VariantPtr = cast obj;
-    if (variantPtr.isObject()) {
-      return (variantPtr.getDynamic() : Wrapper).getPointer();
-    } else {
-      return variantPtr.raw - 1;
-    }
+    return variantPtr.getUnderlyingPointer();
   }
 
   public static function fromNull():AnyPtr {

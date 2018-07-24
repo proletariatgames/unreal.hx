@@ -18,7 +18,7 @@ void UHaxeGeneratedClass::GetLifetimeBlueprintReplicationList(TArray<class FLife
 void UHaxeGeneratedClass::InstancePreReplication(UObject* Obj, class IRepChangedPropertyTracker& ChangedPropertyTracker) const {
   uhx::expose::HxcppRuntime::instancePreReplication(
       (unreal::UIntPtr) Obj,
-      unreal::VariantPtr(&ChangedPropertyTracker));
+      unreal::VariantPtr::fromExternalPointer(&ChangedPropertyTracker));
 }
 
 void UHaxeGeneratedClass::cdoInit() {

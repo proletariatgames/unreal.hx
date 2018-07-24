@@ -8,7 +8,7 @@ package unreal;
 abstract Ptr<T>(PtrMacros<T>) {
   /**
     Creates a reference of the target type in the stack. The reference is only guaranteed to be
-    alive 
+    alive
   **/
   macro public static function createStack<T>():haxe.macro.Expr.ExprOf<Ref<T>> {
     return PtrMacros.createStackHelper(false);
@@ -21,7 +21,7 @@ abstract Ptr<T>(PtrMacros<T>) {
   }
 
   public static function fromStruct<T : Struct>(struct : Struct):Ptr<T> {
-    return cast uhx.internal.Helpers.getWrapperPointer(struct);
+    return cast uhx.internal.HaxeHelpers.getUnderlyingPointer(struct);
   }
 
   /**

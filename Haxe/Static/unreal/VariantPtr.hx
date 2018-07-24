@@ -2,32 +2,18 @@ package unreal;
 
 @:include("VariantPtr.h") @:native("unreal.VariantPtr")
 extern class VariantPtr {
-  var raw(default, null):UIntPtr;
   /**
     Creates a `VariantPtr` from a Haxe object
    **/
   public static function fromDynamic(obj:Dynamic):VariantPtr;
 
   /**
-    Creates a `VariantPtr` from an `IntPtr`.
+    Creates a `VariantPtr` from an external `UIntPtr`
    **/
-  public static function fromIntPtr(intPtr:IntPtr):VariantPtr;
+  public static function fromExternalPointer(uintPtr:UIntPtr):VariantPtr;
 
-  /**
-    Creates a `VariantPtr` from an `IntPtr`. This directly sets `uintPtr` value as the raw value of VariantPtr.
-    If you want to set an external pointer with this, use `fromUIntPtrExternalPointer` instead
-   **/
-  public static function fromUIntPtr(uintPtr:UIntPtr):VariantPtr;
-
-  /**
-    Creates a `VariantPtr` from an `IntPtr`, considering it an external pointer (like `fromPointer` / `fromRawPtr` )
-    This differs from `fromUIntPtr` as it will set the bit as if the pointer references external code
-  **/
-  public static function fromUIntPtrExternalPointer(uintPtr:UIntPtr):VariantPtr;
 #if cpp
-  public static function fromPointer<T>(ptr:cpp.Pointer<T>):VariantPtr;
-
-  public static function fromRawPtr<T>(ptr:cpp.RawPointer<T>):VariantPtr;
+  public static function fromExternalHxcppPointer<T>(ptr:cpp.Pointer<T>):VariantPtr;
 #end
 
   /**
@@ -36,21 +22,24 @@ extern class VariantPtr {
   public function getDynamic():Null<Dynamic>;
 
   /**
-    Gets its underlying IntPtr value
-   **/
-  public function getIntPtr():IntPtr;
-
-  /**
-    Gets its underlying UIntPtr value
-   **/
-  public function getUIntPtr():UIntPtr;
-
-  /**
     Returns whether `this` represents an object or an `IntPtr` value
    **/
   public function isObject():Bool;
 
-#if cpp
-  public function toPointer():cpp.RawPointer<cpp.Void>;
-#end
+  public function isExternalPointer():Bool;
+
+  public function getExternalPointerUnchecked():UIntPtr;
+
+  public function getGcPointerUnchecked():UIntPtr;
+
+  public function getExternalPointer():UIntPtr;
+
+  /**
+   * If it's an external pointer, returns the pointer itself
+   * Otherwise, the Dynamic object is assyned to be an unreal.Wrapper type,
+   * and `getPointer()` is called, so the underlying native pointer is returned
+   **/
+  public function getUnderlyingPointer():UIntPtr;
+
+  public function getUIntPtrRepresentation():UIntPtr;
 }

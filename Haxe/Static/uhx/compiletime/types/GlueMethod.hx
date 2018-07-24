@@ -523,8 +523,8 @@ class GlueMethod {
       }
     } else if (meth.uname == '.equals') {
       // these variables are guaranteed to have this name - see getCppBody
-      outVars << 'if (self.raw == other.raw) { return true; }';
-      outVars << 'if (self.raw == 0 || other.raw == 0) { return false; }';
+      outVars << 'if (self == other) { return true; }';
+      outVars << 'if (self.isNull() || other.isNull()) { return false; }';
       body += '(' + cppArgTypes.join(', ') + ')';
     } else {
       body += '(' + cppArgTypes.join(', ') + ')';
