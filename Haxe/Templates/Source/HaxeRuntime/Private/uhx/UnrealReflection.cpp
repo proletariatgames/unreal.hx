@@ -458,7 +458,7 @@ static void *hxcppPointerToCppPointer(UProperty *inProp, unreal::UIntPtr hxcppPo
       stackSpace = (int64) uhx::expose::HxcppRuntime::unboxInt((int64) hxcppPointer);
     }
     return &stackSpace;
-  } else if (inProp->IsA<UObjectProperty>()) {
+  } else if (inProp->IsA<UObjectPropertyBase>()) {
     UObject **ptr = (UObject**) &stackSpace;
     *ptr = (UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(hxcppPointer);
     return ptr;
@@ -504,6 +504,9 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
     return uhx::expose::HxcppRuntime::boxVariantPtr(unreal::VariantPtr::fromExternalPointer(inPointer));
   } else if (inProp->IsA<UArrayProperty>() || inProp->IsA<UMapProperty>() || inProp->IsA<USetProperty>()) {
     return uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(inProp, inPointer));
+  } else if (inProp->IsA<UObjectPropertyBase>()) {
+    auto objProp = Cast<UObjectPropertyBase>(inProp);
+    return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr)  objProp->GetObjectPropertyValue((void *) inPointer));
   }
 
   #if (UE_VER >= 417)
@@ -546,6 +549,10 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
       inProp->IsA<UMapProperty>() ||
       inProp->IsA<USetProperty>()) {
     inProp->CopyCompleteValue(dest, (void *) (getUnderlyingFromUIntPtr(value)));
+  } else if (inProp->IsA<UObjectPropertyBase>()) {
+    auto objProp = Cast<UObjectPropertyBase>(inProp);
+    auto obj = (UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(value);
+    objProp->SetObjectPropertyValue(dest, obj);
   } else {
     // TODO: delegates, map, and set
     check(false);
@@ -575,6 +582,9 @@ unreal::UIntPtr uhx::TArrayReflect_obj::Pop(unreal::VariantPtr self, bool allowS
     ret = getValueWithProperty(prop, rawPtr);
   } else if (prop->IsA<UObjectProperty>()) {
     ret = uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) *((UObject **) rawPtr));
+  } else if (prop->IsA<UObjectPropertyBase>()) {
+    auto objProp = Cast<UObjectPropertyBase>(prop);
+    ret = uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr)  objProp->GetObjectPropertyValue((void *) rawPtr));
   } else {
     ret = uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(prop, 0));
     unreal::UIntPtr retPtr = (getUnderlyingFromUIntPtr(ret));
