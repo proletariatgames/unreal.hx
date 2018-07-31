@@ -238,6 +238,17 @@ extern class UObject_Extra {
   public function HasAnyFlags(flags:EObjectFlags):Bool;
   public function HasAllFlags(flags:EObjectFlags):Bool;
 
+  /**
+	 * Note that the object will be modified.  If we are currently recording into the
+	 * transaction buffer (undo/redo), save a copy of this object into the buffer and
+	 * marks the package as needing to be saved.
+	 *
+	 * @param	bAlwaysMarkDirty	if true, marks the package dirty even if we aren't
+	 *								currently recording an active undo/redo transaction
+	 * @return true if the object was saved to the transaction buffer
+	 */
+	public function Modify(bAlwaysMarkDirty:Bool=true):Bool;
+
 #if WITH_EDITOR
   public function PreEditChange(PropertyAboutToChange:UProperty) : Void;
   public function PostEditChangeProperty( PropertyChangedEvent:PRef<FPropertyChangedEvent>) : Void;

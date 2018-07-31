@@ -17,6 +17,7 @@ extern class UUserWidget_Extra {
 	public static function CreateWidgetOfClass(UserWidgetClass:UClass, InGameInstance:UGameInstance, InWorld:UWorld, InOwningPlayer:APlayerController):UUserWidget;
 
 	private function NativeTick(MyGeometry:Const<PRef<FGeometry>>, InDeltaTime:Float32):Void;
+	private function NativePreConstruct():Void;
 	private function NativeConstruct():Void;
 	private function NativeOnMouseButtonDown(MyGeometry : Const<PRef<FGeometry>>, InMouseEvent : Const<PRef<FPointerEvent>>) : FReply;
 	private function NativeOnMouseEnter(MyGeometry : Const<PRef<FGeometry>>, MouseEvent : Const<PRef<FPointerEvent>>) : Void;
