@@ -70,14 +70,6 @@ class InitPlugin {
     var buildFiles = getBuildFiles(gameDir + '/Source');
     if (buildFiles.files.length == 0) {
       trace('No Build.hx / Target.hx files found. Skipping their compilation');
-      var generatedContents = '';
-      if (Std.parseFloat(ueVer) < 4.16) {
-        generatedContents = '#define UE_OLDER_416';
-      }
-      var path = '$pluginPath/Source/HaxeInit/Generated.Build.cs';
-      if (!sys.FileSystem.exists(path) || sys.io.File.getContent(path).trim() != generatedContents.trim()) {
-        sys.io.File.saveContent(path, generatedContents.trim());
-      }
       return;
     }
 
