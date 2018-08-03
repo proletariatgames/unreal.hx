@@ -17,9 +17,11 @@ class HaxeHelpers
     return dyn;
   }
 
-  public static function setReflectionDebugMode(val)
+  public static function setReflectionDebugMode(val:Bool)
   {
+#if !UHX_NO_UOBJECT
     uhx.ue.RuntimeLibrary.setReflectionDebugMode(val);
+#end
   }
 
   #if !cppia
