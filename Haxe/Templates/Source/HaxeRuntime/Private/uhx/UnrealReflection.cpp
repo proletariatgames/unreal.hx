@@ -13,6 +13,8 @@
 #include "uhx/UEHelpers.h"
 #include "uhx/GcRef.h"
 #include <unordered_map>
+#include <string.h>
+#include "UObject/UObjectArray.h"
 // #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
 #if WITH_EDITOR // debug mode
@@ -119,6 +121,43 @@ void uhx::TSetReflect_obj::init() {
   check(prop->IsA<UProperty>());
 }
 
+static TMap<UObject*, int>& rootCount()
+{
+  static TMap<UObject*, int> ret;
+  return ret;
+}
+
+static void incrRef(UObject *inObj)
+{
+  auto obj = GUObjectArray.ObjectToObjectItem(inObj);
+  if (!obj->IsRootSet())
+  {
+    rootCount().Emplace(inObj, 1);
+    obj->SetRootSet();
+  } else {
+    auto count = rootCount().Find(inObj);
+    if (count == nullptr)
+    {
+      return;
+    }
+    *count += 1;
+  }
+}
+
+static void decrRef(UObject *inObj)
+{
+  auto count = rootCount().Find(inObj);
+  if (count != nullptr)
+  {
+    *count -= 1;
+    if (*count == 0)
+    {
+      rootCount().Remove(inObj);
+      inObj->RemoveFromRoot();
+    }
+  }
+}
+
 static bool valPropEquals(const uhx::StructInfo *info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
   if (t1 == t2) {
     return true;
@@ -132,6 +171,7 @@ static void valPropDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
   UProperty *prop = Cast<UProperty>((UObject *) info->contextObject);
   check(prop);
   prop->DestroyValue((void *) t1);
+  decrRef(prop);
 }
 
 static bool valStructEquals(const uhx::StructInfo *info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
@@ -148,6 +188,7 @@ static void valStructDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
   UScriptStruct *prop = Cast<UScriptStruct>((UObject *) info->contextObject);
   check(prop);
   prop->DestroyStruct((void *) t1);
+  decrRef(prop);
 }
 
 static void valArrayDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
@@ -155,6 +196,7 @@ static void valArrayDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
   helper.EmptyValues();
 
   ((FScriptArray*)t1)->~FScriptArray();
+  decrRef((UObject*) info->contextObject);
 }
 
 static void valSetDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
@@ -162,6 +204,7 @@ static void valSetDestruct(const uhx::StructInfo *info, unreal::UIntPtr t1) {
   helper.EmptyElements();
 
   ((FScriptSet*)t1)->~FScriptSet();
+  decrRef((UObject*) info->contextObject);
 }
 
 static uhx::StructInfo infoFromUProperty(void *inUPropertyObject, uhx::WrapperKind kind) {
@@ -181,19 +224,25 @@ static uhx::StructInfo infoFromUProperty(void *inUPropertyObject, uhx::WrapperKi
     ret.size = (unreal::UIntPtr) sizeof(FScriptArray);
     ret.alignment = (unreal::UIntPtr) alignof(FScriptArray);
     ret.destruct = &valArrayDestruct;
+    incrRef(prop);
   } else if (kind == uhx::UHX_WRAPPER_SET) {
     ret.name = "TSet";
     ret.size = (unreal::UIntPtr) sizeof(FScriptSet);
     ret.alignment = (unreal::UIntPtr) alignof(FScriptSet);
     ret.destruct = &valSetDestruct;
+    incrRef(prop);
   } else {
     ret.size = (unreal::UIntPtr) prop->ElementSize;
     ret.alignment = (unreal::UIntPtr) prop->GetMinAlignment();
     if (ret.alignment < sizeof(void*)) {
       ret.alignment = sizeof(void*);
     }
-    ret.equals = &valPropEquals;
     ret.destruct = (prop->PropertyFlags & CPF_NoDestructor) != 0 ? nullptr : &valPropDestruct;
+    if (ret.destruct)
+    {
+      incrRef(prop);
+      ret.equals = &valPropEquals;
+    }
 
     if (prop->IsA<UArrayProperty>()) {
       ret.name = "TArray";
@@ -232,8 +281,12 @@ uhx::StructInfo uhx::infoFromUScriptStruct(void *inUScriptStructObject) {
     ret.alignment = sizeof(void*);
   }
   ret.contextObject = inUScriptStructObject;
-  ret.equals = &valStructEquals;
   ret.destruct = (structOps->HasDestructor()) ? &valStructDestruct : nullptr;
+  if (ret.destruct)
+  {
+    incrRef(s);
+    ret.equals = &valStructEquals;
+  }
   return ret;
 }
 
@@ -285,9 +338,15 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
   check(inProp);
   uhx::StructInfo info = infoFromUProperty(inProp, wrapperKind);
   size_t extraSize = 0;
+  FString name;
   int startOffset = 0;
   unreal::UIntPtr ret = 0;
   uhx::InitialWrapperLayout *infoLayout = nullptr;
+  if (uhx::ue::RuntimeLibrary_obj::getReflectionDebugMode())
+  {
+    name = inProp->GetClass()->GetName() + TEXT("-") + inProp->GetName() + TEXT("-") + inProp->GetOuter()->GetName();
+    extraSize += strlen(TCHAR_TO_UTF8(*name)) + 1;
+  }
 
   if (wrapperKind == uhx::UHX_WRAPPER_ARRAY || inProp->IsA<UArrayProperty>()) {
     UProperty *innerProperty = nullptr;
@@ -437,6 +496,15 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
   }
 
   infoLayout->mainInfo = info;
+  if (!name.IsEmpty())
+  {
+    char *utf = TCHAR_TO_UTF8(*name);
+    int len = strlen(utf);
+
+    unreal::UIntPtr strPtr = ret + startOffset + extraSize - len - 1;
+    memcpy((void*) strPtr, utf, len);
+    infoLayout->mainInfo.name = (char*) strPtr;
+  }
   // re-set the info on the wrapper
   uhx::expose::HxcppRuntime::setWrapperStructInfo(ret, (unreal::UIntPtr) &infoLayout->mainInfo);
   check( ((unreal::UIntPtr)infoLayout) + sizeof(info) <= ret + startOffset + extraSize);

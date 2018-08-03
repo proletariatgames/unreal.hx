@@ -26,9 +26,9 @@ typedef FPostLoadMapDelegate = MulticastDelegate<FPostLoadMapDelegate, UWorld->V
 
   public static var PostLoadMap:FSimpleMulticastDelegate;
 #else
-  public static function GetPreGarbageCollectDelegate():FSimpleMulticastDelegate;
+  public static function GetPreGarbageCollectDelegate():PRef<FSimpleMulticastDelegate>;
 
-  public static function GetPostGarbageCollect():FSimpleMulticastDelegate;
+  public static function GetPostGarbageCollect():PRef<FSimpleMulticastDelegate>;
 #end
 
   public static var PreLoadMap:FPreLoadMapDelegate;

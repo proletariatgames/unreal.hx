@@ -1005,17 +1005,16 @@ class ExternBaker {
             this.add('this.wrapped = 0;');
           this.end('}');
 
-          this.add('inline public function isValid(threadSafe:Bool=false):Bool');
+          this.add('inline public function isValid(checkIfReachable:Bool=false):Bool');
           this.begin(' {');
             // make an inline version that checks if `this` is null as well
-            this.add('return this != null && this.pvtIsValid(threadSafe);');
+            this.add('return this != null && this.pvtIsValid(checkIfReachable);');
           this.end('}');
 
-          this.add('@:noCompletion #if (!cppia && !debug) inline #end private function pvtIsValid(threadSafe:Bool):Bool');
+          this.add('@:noCompletion #if (!cppia && !debug) inline #end private function pvtIsValid(checkIfReachable:Bool):Bool');
           this.begin(' {');
             this.add('return this.wrapped != 0 && '
-                +' uhx.internal.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex && '
-                +' (!threadSafe || uhx.internal.ObjectArrayHelper_Glue.isValid(internalIndex, serialNumber, false));');
+                +' (!checkIfReachable || uhx.internal.ObjectArrayHelper_Glue.isValid(this.wrapped, internalIndex, serialNumber, false));');
           this.end('}');
         }
 

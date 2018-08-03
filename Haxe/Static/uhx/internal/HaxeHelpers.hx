@@ -17,6 +17,11 @@ class HaxeHelpers
     return dyn;
   }
 
+  public static function setReflectionDebugMode(val)
+  {
+    uhx.ue.RuntimeLibrary.setReflectionDebugMode(val);
+  }
+
   #if !cppia
   inline
   #end

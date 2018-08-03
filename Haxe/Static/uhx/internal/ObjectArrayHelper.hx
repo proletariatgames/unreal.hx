@@ -47,17 +47,16 @@ class ObjectArrayHelper implements uhx.NeedsGlue {
     return ObjectArrayHelper_Glue.allocateSerialNumber(idx);
   }
 
-  @:glueHeaderCode('static int isValid(int index, int serial, bool evenIfPendingKill);')
+  @:glueHeaderCode('static int isValid(unreal::UIntPtr obj, int index, int serial, bool evenIfPendingKill);')
   @:glueCppCode(
-'int uhx::internal::ObjectArrayHelper_Glue_obj::isValid(int index, int serial, bool evenIfPendingKill) {
+'int uhx::internal::ObjectArrayHelper_Glue_obj::isValid(unreal::UIntPtr obj, int index, int serial, bool evenIfPendingKill) {
 \tFUObjectItem* ObjectItem = GUObjectArray.IndexToObject(index);
-\tif(!ObjectItem) { return false; }
-\tif(ObjectItem->GetSerialNumber() != serial) { return false; }
-\treturn GUObjectArray.IsValid(ObjectItem, evenIfPendingKill);
+\tif(!ObjectItem || ((unreal::UIntPtr) ObjectItem->Object) != obj || ObjectItem->GetSerialNumber() != serial) { return false; }
+\treturn evenIfPendingKill ? !ObjectItem->IsUnreachable() : !(ObjectItem->IsUnreachable() || ObjectItem->IsPendingKill());
 }')
   @:glueCppIncludes('UObject/UObjectArray.h')
-  public static function isValid(index:Int, serial:Int, evenIfPendingKill:Bool):Bool {
-    return ObjectArrayHelper_Glue.isValid(index, serial, evenIfPendingKill);
+  public static function isValid(obj:unreal.UIntPtr, index:Int, serial:Int, evenIfPendingKill:Bool):Bool {
+    return ObjectArrayHelper_Glue.isValid(obj, index, serial, evenIfPendingKill);
   }
 
   @:glueHeaderCode('static bool setObjectFlags(int index, int flags);')

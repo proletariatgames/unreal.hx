@@ -54,6 +54,18 @@ public:
   static unreal::VariantPtr createDynamicWrapperFromStruct(unreal::UIntPtr inStruct);
 
   /**
+   * Enables/disables additional debugging information on the uhx::StructInfo struct
+   **/
+  inline static void setReflectionDebugMode(bool value) {
+    getReflectionDebugMode() = value;
+  }
+
+  inline static bool& getReflectionDebugMode() {
+    static bool ret = false;
+    return ret;
+  }
+
+  /**
    * Sets up the class constructor as the super class' constructor
    **/
   static void setSuperClassConstructor(unreal::UIntPtr inDynamicClass);

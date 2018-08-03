@@ -11,6 +11,8 @@ extern class RuntimeLibrary {
   public static function setupClassConstructor(dynamicClass:UIntPtr):Void;
   public static function dummyCall():Void;
   public static function createDynamicWrapperFromStruct(inStruct:UIntPtr):VariantPtr;
+  public static function setReflectionDebugMode(value:Bool):Void;
+  public static function getReflectionDebugMode():Bool;
 
   @:extern inline public static function alloca(size:Int):UIntPtr {
     dummyCall();
