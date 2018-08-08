@@ -19,6 +19,12 @@
 
 #endif
 
+#ifndef UHX_IGNORE_POD
+// this was an optimization we used to do to make POD struct wrappers smaller,
+// but it causes issues when we try to extend POD structs
+#define UHX_IGNORE_POD 1
+#endif
+
 #ifndef UHX_DEBUG
 #if defined(UE_BUILD_SHIPPING)
 #define UHX_DEBUG !UE_BUILD_SHIPPING

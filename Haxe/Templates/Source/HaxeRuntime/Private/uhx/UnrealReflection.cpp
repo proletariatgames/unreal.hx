@@ -1,6 +1,7 @@
 #include "HaxeRuntime.h"
 #ifndef UHX_NO_UOBJECT
 
+#include "uhx/Defines.h"
 #include "uhx/ue/ClassMap.h"
 #include "uhx/ReflectTypes.h"
 #include "uhx/StructInfo.h"
@@ -212,7 +213,7 @@ static uhx::StructInfo infoFromUProperty(void *inUPropertyObject, uhx::WrapperKi
   check(prop->IsA<UProperty>());
   uhx::StructInfo ret;
   FMemory::Memzero(&ret, sizeof(ret));
-  if (kind == uhx::UHX_WRAPPER_NORMAL && prop->PropertyFlags & CPF_IsPlainOldData) {
+  if (!UHX_IGNORE_POD && kind == uhx::UHX_WRAPPER_NORMAL && prop->PropertyFlags & CPF_IsPlainOldData) {
     ret.flags = uhx::UHX_POD;
   } else {
     ret.flags = uhx::UHX_CUSTOM;
@@ -270,7 +271,7 @@ uhx::StructInfo uhx::infoFromUScriptStruct(void *inUScriptStructObject) {
   }
 
   auto structOps = s->GetCppStructOps();
-  if (structOps->IsPlainOldData()) {
+  if (!UHX_IGNORE_POD && structOps->IsPlainOldData()) {
     ret.flags = uhx::UHX_POD;
   } else {
     ret.flags = uhx::UHX_CUSTOM;

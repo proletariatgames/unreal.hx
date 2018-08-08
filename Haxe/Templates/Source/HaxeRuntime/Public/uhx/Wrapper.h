@@ -1,5 +1,6 @@
 #pragma once
 #include <hxcpp.h>
+#include "uhx/Defines.h"
 #include "IntPtr.h"
 #include "VariantPtr.h"
 
@@ -33,11 +34,12 @@ template<class T, bool isAbstract = std::is_abstract<T>::value>
 struct TStructKind { enum { Value = uhx::SKNormal }; };
 
 template<class T>
-struct TStructKind<T, true> { enum { Value = TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal }; };
+struct TStructKind<T, true> { enum { Value = (!UHX_IGNORE_POD && TIsPODType<T>::Value) ? uhx::SKPOD : uhx::SKNormal }; };
 
 template<class T>
-struct TStructKind<T, false> { enum { Value = UHX_ALIGNOF(T) > sizeof(void*) ? uhx::SKAligned : (TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal) }; };
+struct TStructKind<T, false> { enum { Value = UHX_ALIGNOF(T) > sizeof(void*) ? uhx::SKAligned : ((!UHX_IGNORE_POD && TIsPODType<T>::Value) ? uhx::SKPOD : uhx::SKNormal) }; };
 
+#if !UHX_IGNORE_POD
 #define OVERRIDE_KIND(T, Kind) \
   template<> \
   struct TStructKind<T, false> { enum { Value = Kind }; };
@@ -48,6 +50,7 @@ OVERRIDE_KIND(struct FVector_NetQuantize100, uhx::SKPOD);
 OVERRIDE_KIND(struct FVector_NetQuantizeNormal, uhx::SKPOD);
 
 #undef OVERRIDE_KIND
+#endif
 }
 
 namespace uhx {

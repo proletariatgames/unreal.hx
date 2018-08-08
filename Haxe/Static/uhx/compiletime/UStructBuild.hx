@@ -108,6 +108,11 @@ class UStructBuild {
     // TDAbstract( tthis : Null<ComplexType>, ?from : Array<ComplexType>, ?to: Array<ComplexType> );
     var structType = macro : unreal.Struct,
         ofType = sup == null ? structType : TypeRef.fromType( sup, tdef.pos ).toComplexType();
+    if (sup == null) {
+      tdef.meta.add(':forward', [macro dispose, macro isDisposed], pos);
+    } else {
+      tdef.meta.add(':forward', [], pos);
+    }
     def.kind = TDAbstract( ofType, null, [macro : unreal.VariantPtr, structType, ofType]);
     def.fields = fields;
     def.name = target.name;

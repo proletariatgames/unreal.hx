@@ -106,7 +106,7 @@ struct TAnyData {
 
 #endif
 
-template<class T, bool destructible = uhx::TypeTraits::TDestructExists<T>::Value>
+template<class T, bool destructible = !TIsPODType<T>::Value && uhx::TypeTraits::TDestructExists<T>::Value>
 struct TDestruct {
   FORCEINLINE static void doDestruct(unreal::UIntPtr ptr);
 };
@@ -214,7 +214,7 @@ struct TStructData<T, false> {
 #ifdef UHX_NO_UOBJECT
   #define CHECK_DESTRUCTOR(T) (std::is_trivially_destructible<T>::value)
 #else
-  #define CHECK_DESTRUCTOR(T) (TStructOpsTypeTraits<T>::WithNoDestructor || std::is_trivially_destructible<T>::value)
+  #define CHECK_DESTRUCTOR(T) (TIsPODType<T>::Value || TStructOpsTypeTraits<T>::WithNoDestructor || std::is_trivially_destructible<T>::value)
 #endif
   typedef TStructData<T, false> TSelf;
 
