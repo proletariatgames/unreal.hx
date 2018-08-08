@@ -365,6 +365,7 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   private function findUhtManifest(target:String) {
+    var lastUprojectChange = FileSystem.stat(data.projectFile).mtime.getTime();
     var base = this.data.projectDir + '/Intermediate/Build/$target';
     if (!FileSystem.exists(base)) {
       err('Giving up on finding a previous UHT manifest because $base could not be found: perhaps this is the first build?');
@@ -375,7 +376,12 @@ class UhxBuild extends UhxBaseBuild {
       if (FileSystem.exists(path) && FileSystem.isDirectory(path)) {
         for (file in FileSystem.readDirectory(path)) {
           if (file.toLowerCase().endsWith('.uhtmanifest')) {
-            return '$path/$file';
+            var path = '$path/$file';
+            var time = FileSystem.stat(path).mtime.getTime();
+            if (time >= lastUprojectChange)
+            {
+              return path;
+            }
           }
         }
       }
@@ -458,7 +464,9 @@ class UhxBuild extends UhxBaseBuild {
       }
     }
     var plugins = new Map();
+    var pluginToDescriptor = new Map();
     if (proj.Plugins != null) {
+      var allPlugins = new Map();
       for (plugin in proj.Plugins) {
         if (!plugin.Enabled)
         {
@@ -467,6 +475,7 @@ class UhxBuild extends UhxBaseBuild {
         var name = plugin.Name.toLowerCase();
         if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir/unreal/$name')) {
           plugins[plugin.Name.toLowerCase()] = plugin.Name;
+          allPlugins[plugin.Name.toLowerCase()] = plugin.Name;
         }
       }
       for (plugin in FileSystem.readDirectory(this.data.projectDir + '/Plugins')) {
@@ -477,7 +486,8 @@ class UhxBuild extends UhxBaseBuild {
               var name = file.substr(0,file.length - '.uplugin'.length).toLowerCase();
               if (plugins.exists(name)) {
                 plugins.remove(name);
-                var proj:{ Modules:Array<{Name:String, Type:String}> } = haxe.Json.parse(sys.io.File.getContent('$path/$file'));
+                var proj:{ Modules:Array<{Name:String, Type:String}>, Plugins:Array<{ Name:String, Enabled:Bool }> } = haxe.Json.parse(sys.io.File.getContent('$path/$file'));
+                pluginToDescriptor[name] = proj;
                 if (proj.Modules != null) {
                   for (mod in proj.Modules) {
                     if (mod.Type == 'Editor' && this.data.targetType != Editor) {
@@ -513,6 +523,93 @@ class UhxBuild extends UhxBaseBuild {
     manifest.RootBuildPath = this.data.engineDir + '/../';
     manifest.ExternalDependenciesFile = '$uhtDir/deps.deps';
     manifest.TargetName = this.targetModule;
+
+    var unrealPluginModules = new Map();
+    var allPaths = [ for (module in manifest.Modules) haxe.io.Path.normalize(module.BaseDirectory) + '/' ];
+    // read all uplugins and recursively add plugins to it
+    function addDependencies(name:String) {
+      var normalizedName = name.toLowerCase();
+      if (!pluginToDescriptor.exists(normalizedName)) {
+        var found = false;
+        inline function checkDir(dir:String) {
+          if (FileSystem.exists(dir)) {
+            for (file in FileSystem.readDirectory(dir)) {
+              if (file.toLowerCase() == normalizedName + '.uplugin') {
+                var data = haxe.Json.parse(sys.io.File.getContent(dir+ '/' + file));
+                pluginToDescriptor[normalizedName] = data;
+                found = true;
+                break;
+              }
+            }
+          }
+        }
+
+        for (module in manifest.Modules) {
+          if (module.Name.toLowerCase() == normalizedName) {
+            var dir = module.BaseDirectory;
+            checkDir(dir);
+          }
+        }
+
+        // we are making an assumption that the plugin modules are always in a folder
+        // that is a child of the plugin name. While this seems to hold up for the Unreal
+        // structure itself, it's hard to tell if that's really the case for all plugins
+        // (given that we don't want to manually check the whole Unreal's folder structure
+        // every time we compile).
+        // TODO review this
+        if (!found) {
+          var toSearch = '/$normalizedName/';
+          for (path in allPaths) {
+            var idx = path.toLowerCase().indexOf(toSearch);
+            if (idx >= 0) {
+              var dir = path.substring(0, idx + toSearch.length - 1);
+              checkDir(dir);
+            }
+          }
+        }
+      }
+
+      unrealPluginModules[normalizedName] = name;
+      var data = pluginToDescriptor[normalizedName];
+      if (data == null) {
+        if (config.verbose)
+        {
+          log('Could not find the uplugin descriptor for $name');
+        }
+        return;
+      }
+      if (data.Plugins != null) {
+        for (plugin in data.Plugins) {
+          addDependencies(plugin.Name);
+        }
+      }
+      if (data.Modules != null) {
+        for (module in data.Modules) {
+          if (module.Type == 'Editor' && this.data.targetType != Editor) {
+            continue;
+          }
+          unrealPluginModules[module.Name.toLowerCase()] = module.Name;
+        }
+      }
+    }
+
+    for (plugin in [for (p in plugins) p]) {
+      addDependencies(plugin);
+    }
+
+    {
+      var toRemove = [];
+      var outDir = '${data.pluginDir}/Haxe/Externs/$ueExternDir';
+      for (module in unrealPluginModules.keys()) {
+        var check = '$outDir/unreal/${module}';
+        if (FileSystem.exists(check) && FileSystem.readDirectory(check).length > 0) {
+          toRemove.push(module);
+        }
+      }
+      for (mod in toRemove) {
+        unrealPluginModules.remove(mod);
+      }
+    }
 
     for (target in targets) {
       var old = manifest.Modules.find(function(v) return v.Name == target.name);
@@ -601,16 +698,20 @@ class UhxBuild extends UhxBaseBuild {
     if (!sys.FileSystem.exists(genExternsDir)) {
       sys.FileSystem.createDirectory(genExternsDir);
     }
-    var oldEnvs = setEnvs([
+
+    var envs = [
       'GENERATE_EXTERNS' => '1',
       'EXTERN_MODULES' => externModules.join(','),
+      'UNREAL_EXTERN_MODULES' => [for (v in unrealPluginModules) v].join(','),
       'EXTERN_OUTPUT_DIR' => this.rootDir,
       'EXTERN_FULL_OUT_PATH' => this.rootDir + '/Haxe/GeneratedExterns'
-    ]);
+    ];
+    var oldEnvs = setEnvs(envs);
     var args = [uhtDir + '/proj.uproject','$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended'];
     if (config.uhtVerbose) {
       args.push('-AllowStdOutLogVerbosity');
       args.push('-stdout'); // the error logs will not show the position unfortunately
+      log('calling with environment: $envs');
     }
 
     var tgenerate = timer('generate externs through UHT');
