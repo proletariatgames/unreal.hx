@@ -270,4 +270,6 @@ extern class UObject_Extra {
   @:global public static function IsRunningDedicatedServer():Bool;
 
   @:thisConst public function IsTemplate(TemplateTypes:EObjectFlags = RF_ArchetypeObject|RF_ClassDefaultObject):Bool;
+
+  public function GetPrimaryAssetId() : FPrimaryAssetId;
 }
