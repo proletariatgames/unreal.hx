@@ -430,12 +430,6 @@ class UhxBuild extends UhxBaseBuild {
     var baseManifest = findUhtManifest(target);
     if (baseManifest == null) {
       warn('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Calling UBT');
-      do {
-        baseManifest = findUhtManifest(target, false);
-        if (baseManifest != null) {
-          FileSystem.deleteFile(baseManifest);
-        }
-      } while(baseManifest != null);
       var ret = callUnrealBuild(target, this.data.targetName + '', this.data.targetConfiguration + '', ['-SkipBuild', '-assemble', '-NoUBTMakefiles', '-NoMutex']);
       if (ret != 0) {
         err('UBT call failed with return code $ret. Skipping extern generation');
@@ -443,8 +437,14 @@ class UhxBuild extends UhxBaseBuild {
       }
       baseManifest = findUhtManifest(target);
       if (baseManifest == null) {
-        err('Could not find UHT manifest even after UBT was called. Skipping extern generation');
-        return;
+        baseManifest = findUhtManifest(target, false);
+        if (baseManifest != null) {
+          // touch the file
+          sys.io.File.saveContent(baseManifest, sys.io.File.getContent(baseManifest));
+        } else {
+          err('Could not find UHT manifest even after UBT was called. Skipping extern generation');
+          return;
+        }
       }
     }
     log('Found base UHT manifest: $baseManifest');
