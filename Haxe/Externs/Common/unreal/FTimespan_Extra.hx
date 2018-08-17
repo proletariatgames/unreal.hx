@@ -19,5 +19,18 @@ extern class FTimespan_Extra {
   function GetSeconds():Int;
   function GetTicks():Int64;
 
+  function GetTotalDays():Float64;
+  function GetTotalHours():Float64;
+  function GetTotalMinutes():Float64;
+  function GetTotalSeconds():Float64;
+
+  @:op(A+B)
+  @:expr(return fromTicks(GetTicks() + b.GetTicks()))
+  public function _add(b:FTimespan):FTimespan;
+
+  @:op(A-B)
+  @:expr(return fromTicks(GetTicks() - b.GetTicks()))
+  public function _sub(b:FTimespan):FTimespan;
+
   function ToString():FString;
 }
