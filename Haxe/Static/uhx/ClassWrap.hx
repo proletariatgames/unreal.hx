@@ -31,7 +31,7 @@ import unreal.*;
     var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
     var ret = wrapperArray[index];
     var serial = ObjectArrayHelper_Glue.indexToSerialChecked(index, nativePtr);
-    if (serial == -1 && ObjectArrayHelper_Glue.allocateSerialNumber(index) != -1)
+    if (serial == -1 && ObjectArrayHelper_Glue.indexToSerial(index) != -1)
     {
       trace('Warning', 'Trying to wrap an invalid/unreachable pointer', {obj:ret, serial:serial, index:index, ptr:nativePtr});
       return null;
