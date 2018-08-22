@@ -140,6 +140,34 @@ class CoreAPI {
     }
   }
 
+  @:noUsing public static macro function getTypeUName(type:Expr):ExprOf<String>
+  {
+    var t = Context.typeof(type);
+    switch(Context.follow(t))
+    {
+      case TAnonymous(anon):
+        switch(anon.get().status)
+        {
+          case AClassStatics(cl):
+            var cl = cl.get();
+            switch(cl.kind)
+            {
+              case KAbstractImpl(t):
+                return macro $v{uhx.compiletime.tools.MacroHelpers.getUName(t.get())};
+              case _:
+                return macro $v{uhx.compiletime.tools.MacroHelpers.getUName(cl)};
+            }
+          case AEnumStatics(t):
+            return macro $v{uhx.compiletime.tools.MacroHelpers.getUName(t.get())};
+          case AAbstractStatics(t):
+            return macro $v{uhx.compiletime.tools.MacroHelpers.getUName(t.get())};
+          case _:
+        }
+      case _:
+    }
+    throw new Error('Invalid type for getTypeUName $t: Expected a class/enum/abstract', type.pos);
+  }
+
 #end // UHX_NO_UOBJECT
 
   @:noUsing public static macro function staticVar(e:Expr):Expr {

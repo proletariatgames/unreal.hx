@@ -72,6 +72,7 @@ class UStructBuild {
 
     var typeThis:TypePath = {pack:[], name:tdef.name};
     var complexThis = TPath(typeThis);
+    var uname = ueType.name.substr(1);
     var added = macro class {
       inline public static function fromPointer(ptr:unreal.VariantPtr):$complexThis {
         return cast ptr;
@@ -93,6 +94,16 @@ class UStructBuild {
       }
       @:uname(".copy") public function copyNew():unreal.POwnedPtr<$complexThis> {
         return $delayedglue.getNativeCall("copyNew", false);
+      }
+
+      private static var uhx_structData:unreal.UScriptStruct;
+
+      public static function StaticStruct():unreal.UScriptStruct {
+        if (uhx_structData != null)
+        {
+          return uhx_structData;
+        }
+        return uhx_structData = uhx.runtime.UReflectionGenerator.getUStruct($v{uname});
       }
     };
     for (field in added.fields) {
