@@ -23,12 +23,20 @@ class ObjectArrayHelper implements uhx.NeedsGlue {
     return ObjectArrayHelper_Glue.indexToSerial(idx);
   }
 
-  @:glueHeaderCode('static int indexToSerialPendingKill(int index);')
-  @:glueCppCode('int uhx::internal::ObjectArrayHelper_Glue_obj::indexToSerialPendingKill(int index) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || ret->IsPendingKill() || ret->IsUnreachable()) return 0;\n\treturn ret->SerialNumber;\n}')
+  @:glueHeaderCode('static int indexToSerialChecked(int index, unreal::UIntPtr obj);')
+  @:glueCppCode('int uhx::internal::ObjectArrayHelper_Glue_obj::indexToSerialChecked(int index, unreal::UIntPtr obj) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || ret->IsUnreachable() || ret->Object != (UObject*) obj) return -1;\n\treturn ret->SerialNumber;\n}')
   @:glueCppIncludes('UObject/UObjectArray.h')
   @:glueHeaderIncludes('IntPtr.h')
-  public static function indexToSerialPendingKill(idx:Int):Int {
-    return ObjectArrayHelper_Glue.indexToSerialPendingKill(idx);
+  public static function indexToSerialChecked(idx:Int, obj:unreal.UIntPtr):Int {
+    return ObjectArrayHelper_Glue.indexToSerialChecked(idx, obj);
+  }
+
+  @:glueHeaderCode('static int indexToSerialReachable(int index);')
+  @:glueCppCode('int uhx::internal::ObjectArrayHelper_Glue_obj::indexToSerialReachable(int index) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || ret->IsPendingKill() || ret->IsUnreachable()) return 0;\n\treturn ret->SerialNumber;\n}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  @:glueHeaderIncludes('IntPtr.h')
+  public static function indexToSerialReachable(idx:Int):Int {
+    return ObjectArrayHelper_Glue.indexToSerialReachable(idx);
   }
 
   @:glueHeaderCode('static int objectToIndex(unreal::UIntPtr obj);')

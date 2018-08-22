@@ -7,7 +7,6 @@ import unreal.*;
 @:access(unreal.UObject)
 @:keep class ClassWrap {
 #if (!UHX_WRAP_OBJECTS && !UHX_NO_UOBJECT)
-  static var wrappers:Map<Int, UObject>;
   static var wrapperArray:Array<UObject>;
   static var indexes:Array<Int>;
   static var delegateHandle:FDelegateHandle;
@@ -20,8 +19,7 @@ import unreal.*;
       return null;
     }
 
-    if (wrappers == null) {
-      wrappers = new Map();
+    if (wrapperArray == null) {
       wrapperArray = [];
       indexes = [];
 #if (UE_VER < 4.19)
@@ -32,12 +30,17 @@ import unreal.*;
     }
     var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
     var ret = wrapperArray[index];
-    var serial = ObjectArrayHelper_Glue.indexToSerial(index);
+    var serial = ObjectArrayHelper_Glue.indexToSerialChecked(index, nativePtr);
+    if (serial == -1 && ObjectArrayHelper_Glue.allocateSerialNumber(index) != -1)
+    {
+      trace('Warning', 'Trying to wrap an invalid/unreachable pointer', {obj:ret, serial:serial, index:index, ptr:nativePtr});
+      return null;
+    }
     if (ret != null) {
       if (ret.serialNumber == serial) {
 #if debug
         if (ret.wrapped != nativePtr) {
-          throw 'assert: ${ret.wrapped} != ${nativePtr}';
+          throw 'assert: ${ret.wrapped} != ${nativePtr} (index=$index serial=$serial)';
         }
 #end
         return ret;
@@ -64,7 +67,6 @@ import unreal.*;
     }
     ret.serialNumber = serial;
     ret.internalIndex = index;
-    wrappers[index] = ret;
     wrapperArray[index] = ret;
     indexes[nIndex++] = index;
     return ret;
@@ -97,26 +99,23 @@ import unreal.*;
   }
 
   static function onGC() {
-    var wrappers = wrappers,
-        wrapperArray = wrapperArray,
+    var wrapperArray = wrapperArray,
         inds = indexes,
         len = nIndex;
     var nidx = 0;
     for (i in 0...len) {
       var index = inds[i],
           obj = wrapperArray[index];
-      var ptr = ObjectArrayHelper_Glue.indexToObject(index);
-      if (obj != null && ptr == obj.wrapped && ObjectArrayHelper_Glue.indexToSerialPendingKill(index) == obj.serialNumber) {
+      if (obj != null && obj.serialNumber != 0 && ObjectArrayHelper_Glue.indexToSerialChecked(index, obj.wrapped) == obj.serialNumber) {
         inds[nidx++] = index;
       } else {
         if (obj != null) {
           obj.invalidate();
         }
-        wrappers.remove(index);
         wrapperArray[index] = null;
       }
     }
-    nIndex = nidx;
+    nIndex = nidx + 1;
   }
 
 #else
