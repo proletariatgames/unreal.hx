@@ -14,8 +14,6 @@ package unreal.umg;
 
   public function AddBinding(DelegateProperty:UDelegateProperty, SourceObject:UObject, BindingPath:Const<PRef<FDynamicPropertyPath>>) : Bool;
 
-  public function SetRenderAngle(Angle:Float) : Void;
-
   @:thisConst
   public function IsDesignTime() : Bool;
 
