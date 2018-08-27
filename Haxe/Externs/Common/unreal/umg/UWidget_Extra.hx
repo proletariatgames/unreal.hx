@@ -18,4 +18,7 @@ package unreal.umg;
 
   @:thisConst
   public function IsDesignTime() : Bool;
+
+	/** Function called after the underlying SWidget is constructed. */
+	private function OnWidgetRebuilt() : Void;
 }

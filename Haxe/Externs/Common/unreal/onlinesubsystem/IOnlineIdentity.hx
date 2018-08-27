@@ -70,6 +70,16 @@ typedef FOnLogoutCompleteDelegate = unreal.Delegate<FOnLogoutCompleteDelegate, I
 	public function Login(LocalUserNum:Int32, Credentials:FOnlineAccountCredentials):Bool;
 
 	/**
+	 * Gets the platform specific unique id for the specified player
+	 *
+	 * @param LocalUserNum the controller number of the associated user
+	 *
+	 * @return Valid player id object if the call succeeded, NULL otherwise
+	 */
+	@:thisConst
+	public function GetUniquePlayerId(LocalUserNum : unreal.Int32) : TSharedPtr<Const<FUniqueNetId>>;
+
+	/**
 	 * OnLoginComplete helpers
 	 **/
 	public function AddOnLoginCompleteDelegate_Handle(LocalUserNum:Int32, Delegate:Const<PRef<FOnLoginCompleteDelegate>>) : FDelegateHandle;

@@ -6,14 +6,14 @@ import unreal.*;
 @:uname("IOnlineSubsystem")
 @:noCopy
 @:uextern extern class IOnlineSubsystem {
-  /** 
+  /**
 	 * Get the online subsystem for a given service
 	 * @param SubsystemName - Name of the requested online service
 	 * @return pointer to the appropriate online subsystem
 	 */
   public static function Get(@:uopt(unreal.FName.None) ?subsystemName:Const<PRef<FName>>) : unreal.PPtr<IOnlineSubsystem>;
 
-  /** 
+  /**
 	 * Get the online subsystem based on current platform
 	 *
 	 * @param bAutoLoad - load the module if not already loaded
@@ -22,7 +22,7 @@ import unreal.*;
 	 */
   public static function GetByPlatform(bAutoLoad:Bool=true) : PPtr<IOnlineSubsystem>;
 
-  /** 
+  /**
 	 * Destroy a single online subsystem instance
 	 * @param SubsystemName - Name of the online service to destroy
 	 */
@@ -35,7 +35,7 @@ import unreal.*;
 	 */
 	static function DoesInstanceExist(@:uopt(unreal.FName.None) ?SubsystemName:Const<PRef<FName>>) : Bool;
 
-	/** 
+	/**
 	 * Determine if the subsystem for a given interface is already loaded
 	 * @param SubsystemName - Name of the requested online service
 	 * @return true if module for the subsystem is loaded
@@ -109,18 +109,18 @@ import unreal.*;
 	 */
 	function IsLocalPlayer(UniqueId:Const<PRef<FUniqueNetId>>):Bool;
 
-	/** 
+	/**
 	 * Initialize the underlying subsystem APIs
 	 * @return true if the subsystem was successfully initialized, false otherwise
 	 */
 	function Init():Bool;
 
-	/** 
+	/**
 	 * Perform any shutdown actions prior to any other modules being unloaded/shutdown
 	 */
 	function PreUnload():Void;
 
-	/** 
+	/**
 	 * Shutdown the underlying subsystem APIs
 	 * @return true if the subsystem shutdown successfully, false otherwise
 	 */
@@ -136,6 +136,7 @@ import unreal.*;
   public function GetAchievementsInterface() : unreal.TThreadSafeSharedPtr<IOnlineAchievements>;
   public function GetLeaderboardsInterface() : unreal.TThreadSafeSharedPtr<IOnlineLeaderboards>;
   public function GetIdentityInterface() : unreal.TThreadSafeSharedPtr<IOnlineIdentity>;
+  public function GetExternalUIInterface() : unreal.TThreadSafeSharedPtr<IOnlineExternalUI>;
 
   @:thisConst
   public function GetSessionInterface() : TThreadSafeSharedPtr<IOnlineSession>;

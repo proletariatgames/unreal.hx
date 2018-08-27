@@ -15,4 +15,7 @@ package unreal.slatecore;
 
   @:thisConst
   public function GetLocalSize() : Const<PRef<unreal.FVector2D>>;
+
+  @:thisConst
+  public function GetAbsoluteSize() : unreal.FVector2D;
 }
