@@ -1,6 +1,8 @@
 package unreal;
 
 extern class UEngine_Extra {
+
+	public var bForceDisableFrameRateSmoothing:Bool;
 	/**
 		Gets all local players associated with the engine.
 		This function should only be used in rare cases where no UWorld* is available to get a player list associated with the world.
