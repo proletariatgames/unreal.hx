@@ -46,12 +46,12 @@ extern class FVector_Extra {
   public function Rotation() : FRotator;
 
   /**
-	 * Rotates around Axis (assumes Axis.Size() == 1).
-	 *
-	 * @param Angle Angle to rotate (in degrees).
-	 * @param Axis Axis to rotate around.
-	 * @return Rotated Vector.
-	 */
+   * Rotates around Axis (assumes Axis.Size() == 1).
+   *
+   * @param Angle Angle to rotate (in degrees).
+   * @param Axis Axis to rotate around.
+   * @return Rotated Vector.
+   */
   @:thisConst
   public function RotateAngleAxis(AngleDeg:Float32, Axis:Const<PRef<FVector>>) : FVector;
 
@@ -88,6 +88,14 @@ extern class FVector_Extra {
   @:expr({
     return createWithValues(0,1,0);
   }) private static function get_RightVector() : Const<FVector>;
+
+  /**
+   * Initialize this Vector based on an FString . The String is expected to contain X=, Y=, Z=.
+   * The FVector will be bogus when InitFromString returns false.
+   * @param InSourceString	FString containing the vector values.
+   * @return true if the X,Y,Z values were read successfully; false otherwise.
+   */
+  public function InitFromString(InSourceString:Const<PRef<FString>>) : Bool;
 
   public function HeadingAngle() : Float32;
 
