@@ -496,7 +496,7 @@ class UhxBuild extends UhxBaseBuild {
                 pluginToDescriptor[name] = proj;
                 if (proj.Modules != null) {
                   for (mod in proj.Modules) {
-                    if (mod.Type == 'Editor' && this.data.targetType != Editor) {
+                    if ((mod.Type != null && mod.Type.startsWith('Editor')) && this.data.targetType != Editor) {
                       continue;
                     }
                     if (FileSystem.exists('$path/Source/${mod.Name}')) {
