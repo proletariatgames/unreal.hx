@@ -501,6 +501,8 @@ class UhxBuild extends UhxBaseBuild {
                     }
                     if (FileSystem.exists('$path/Source/${mod.Name}')) {
                       targets.push({ name:mod.Name, path:'$path/Source/${mod.Name}', headers:[] });
+                    } else if (mod.Name == plugin && FileSystem.exists('$path/Source')) {
+                      targets.push({ name:mod.Name, path:'$path/Source', headers:[] });
                     }
                   }
                 }
