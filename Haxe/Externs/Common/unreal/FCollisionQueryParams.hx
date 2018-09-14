@@ -37,4 +37,8 @@ package unreal;
 
   /** Add an actor for this trace to ignore */
   public function AddIgnoredActor(InIgnoreActor:Const<AActor>) : Void;
+
+	/** Add a component for this trace to ignore */
+	public function AddIgnoredComponent(InIgnoreComponent:Const<UPrimitiveComponent>) : Void;
+
 }
