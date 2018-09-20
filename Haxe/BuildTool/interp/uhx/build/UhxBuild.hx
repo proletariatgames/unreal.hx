@@ -1332,7 +1332,7 @@ class UhxBuild extends UhxBaseBuild {
     envs.push('UHX_EXTRA_COMPILERFLAGS=${extraCompilerFlags.join(" ")}');
 
     if (envs.length > 0) {
-      args.push('--macro uhx.compiletime.main.Env.set(' + toMacroDef(envs) + ')');
+      args = ['--macro', 'uhx.compiletime.main.Env.set(' + toMacroDef(envs) + ')'].concat(args);
     }
 
     if (extraArgs != null) {

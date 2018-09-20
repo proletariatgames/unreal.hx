@@ -76,11 +76,9 @@ class DelegateBuild {
           return $delayedglue.getNativeCall("IsBound", false);
         }
 
-#if !UHX_NO_UOBJECT
         @:excludeDynamic public function GetUObject():Null<unreal.UObject> {
           return $delayedglue.getNativeCall("GetUObject", false);
         }
-#end
       }
 
       var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
@@ -95,8 +93,6 @@ class DelegateBuild {
           public function BindLambda(fn:$lambdaType) : Void {
             $delayedglue.getNativeCall("BindLambda", false, fn);
           }
-
-#if !UHX_NO_UOBJECT
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
             $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
@@ -104,7 +100,6 @@ class DelegateBuild {
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
-#end
         }
 
         for (fld in dummy.fields) {
@@ -181,16 +176,12 @@ class DelegateBuild {
           public function AddLambda(fn:$lambdaType) : unreal.FDelegateHandle {
             return $delayedglue.getNativeCall("AddLambda", false, fn);
           }
-
-#if !UHX_NO_UOBJECT
           public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
             return $delayedglue.getNativeCall("AddUObject", false, obj, fn);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
-#end
-
           public function Remove(handle:unreal.FDelegateHandle) : Void {
             $delayedglue.getNativeCall("Remove", false, handle);
           }
