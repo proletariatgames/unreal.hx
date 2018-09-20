@@ -2,7 +2,7 @@ package unreal;
 
 @:glueCppIncludes("OnlineSubsystemTypes.h")
 @:umodule("OnlineSubsystem")
-@:uextern @:noCopy @:noEquals extern class FUniqueNetId {
+@:uextern @:noCopy @:hasEquals extern class FUniqueNetId {
 	@:thisConst
 	public function GetSize() : Int32;
 

@@ -70,5 +70,26 @@ extern class APlayerController_Extra {
   **/
   @:ureplace @:ufunction(BlueprintCallable) @:thisConst @:final public function GetViewportSize(SizeX : Ref<unreal.Int32>, SizeY : Ref<unreal.Int32>) : Void;
 
+	/**
+	 * Mutes a remote player on the server and then tells the client to mute
+	 *
+	 * @param PlayerNetId the remote player to mute
+	 */
+	public function GameplayMutePlayer(PlayerNetId : Const<PRef<FUniqueNetIdRepl>>) : Void;
 
+	/**
+	 * Unmutes a remote player on the server and then tells the client to unmute
+	 *
+	 * @param PlayerNetId the remote player to unmute
+	 */
+	public function GameplayUnmutePlayer(PlayerNetId : Const<PRef<FUniqueNetIdRepl>>) : Void;
+
+	/**
+	 * Is the specified player muted by this controlling player
+	 * for any reason (gameplay, system, etc), check voice interface IsMuted() for system mutes
+	 *
+	 * @param PlayerId potentially muted player
+	 * @return true if player is muted, false otherwise
+	 */
+	public function IsPlayerMuted(PlayerId : Const<PRef<FUniqueNetId>>) : Bool;
 }
