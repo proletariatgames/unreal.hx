@@ -8,7 +8,7 @@ class Timer {
   public static function delay(seconds:Float, fn:Void->Void) {
     var cur = FPlatformTime.Seconds();
     var entry:TimerEntry = { nextSecs: cur + seconds, repeatSecs: 0, fn: fn };
-    if (entries.length == 0 || entries[entries.length-1].nextSecs >= entry.nextSecs) {
+    if (entries.length == 0 || dirty || (entries[entries.length-1] != null && entries[entries.length-1].nextSecs >= entry.nextSecs)) {
       entries.push(entry);
     } else {
       dirty = true;

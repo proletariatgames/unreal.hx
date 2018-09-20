@@ -948,8 +948,11 @@ class ExprGlueBuild {
     }
     writer.buf.add(');\n\n\n');
 
-    writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
-    writer.buf.add('USTRUCT(Meta=(UHX_Internal=true)) struct F${uname}__Dummy { GENERATED_BODY() };');
+    if (!Context.defined("UHX_NO_UOBJECT"))
+    {
+      writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
+      writer.buf.add('USTRUCT(Meta=(UHX_Internal=true)) struct F${uname}__Dummy { GENERATED_BODY() };');
+    }
     writer.close(Globals.cur.module);
     abs.meta.add(':ufiledependency', [macro "ExportHeader", macro $v{nameWithout}], abs.pos);
   }

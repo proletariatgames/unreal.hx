@@ -47,6 +47,12 @@ class IncludeSet {
     var set = new IncludeSet();
     if (array != null) {
       for (val in array) {
+#if UHX_NO_UOBJECT
+        if (val.toLowerCase().indexOf('noexporttypes.h') >= 0)
+        {
+          continue;
+        }
+#end
         set.keys.push(val);
         set.map[val] = true;
       }
@@ -55,6 +61,12 @@ class IncludeSet {
   }
 
   public function add(val:String) {
+#if UHX_NO_UOBJECT
+    if (val.toLowerCase().indexOf('noexporttypes.h') >= 0)
+    {
+      return this;
+    }
+#end
     if (!map.exists(val)) {
       this.map[val] = true;
       this.keys.push(val);
