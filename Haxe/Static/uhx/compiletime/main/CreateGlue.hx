@@ -387,34 +387,45 @@ class CreateGlue {
         ustruct = Context.getType('unreal.Struct');
     for (module in modules) {
       for (type in module) {
-        switch(Context.follow(type)) {
-        case TInst(c,_):
-          var c = c.get();
-          if (c.meta.has(':ustatic')) {
+        var type = type;
+        var isTypedef = false;
+        while (type != null)
+        {
+          switch(type) {
+          case TInst(c,_):
+            if (isTypedef)
+            {
+              // typedef might point to a static target
+              break;
+            }
+            var c = c.get();
+            if (c.meta.has(':ustatic')) {
+              break;
+            }
+            c.meta.remove(':native');
+            if (Context.unify(type, uobj)) {
+              c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
+              c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
+              c.exclude();
+            } else if (c.pack[0] != "haxe" && c.pack[0] != "cpp") {
+              c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
+              c.exclude();
+            }
+          case TAbstract(a,_):
+            // it seems cppia is smart enough to replace abstract types. So we may want to not exclude them
+            // it will work either way!
+            var a = a.get();
+            if (Context.unify(type, ustruct) && a.meta.has(':uscript')) {
+              a.impl.get().exclude();
+            }
+          case TType(_):
+            isTypedef = true;
+            type = Context.follow(type, true);
             continue;
+          case _:
+            trace(type);
           }
-          c.meta.remove(':native');
-          if (Context.unify(type, uobj)) {
-            c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
-            c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
-            c.exclude();
-          } else if (c.pack[0] != "haxe" && c.pack[0] != "cpp") {
-            c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
-            c.exclude();
-          }
-        // case TEnum(e,_):
-        //   var e = e.get();
-        //   e.meta.remove(':native');
-        //   e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
-        //   e.exclude();
-        case TAbstract(a,_):
-          // it seems cppia is smart enough to replace abstract types. So we may want to not exclude them
-          // it will work either way!
-          var a = a.get();
-          if (Context.unify(type, ustruct) && a.meta.has(':uscript')) {
-            a.impl.get().exclude();
-          }
-        case _:
+          break;
         }
       }
     }

@@ -31,7 +31,9 @@ class UnrealInit
 
   static function main()
   {
+    #if !UHX_NO_CUSTOM_TRACE
     haxe.Log.trace = customTrace;
+    #end
     trace("initializing unreal haxe");
 
 #if (debug && HXCPP_DEBUGGER)

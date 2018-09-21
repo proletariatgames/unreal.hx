@@ -1542,6 +1542,14 @@ class ExternBaker {
         if (meta.name == ':build') {
           continue;
         }
+        #if UHX_NO_UOBJECT
+        if (meta.name == ':glueCppIncludes' && meta.params != null)
+        {
+          meta.params = meta.params.filter(function(param) {
+            return param.toString().toLowerCase().indexOf('noexporttypes.h') < 0;
+          });
+        }
+        #end
         this.add('@' + meta.name);
         if (meta.params != null && meta.params.length > 0) {
           this.add('(');
