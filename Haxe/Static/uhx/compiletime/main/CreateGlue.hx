@@ -423,7 +423,6 @@ class CreateGlue {
             type = Context.follow(type, true);
             continue;
           case _:
-            trace(type);
           }
           break;
         }
