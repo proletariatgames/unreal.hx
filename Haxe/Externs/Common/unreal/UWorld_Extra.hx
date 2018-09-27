@@ -9,6 +9,9 @@ extern class UWorld_Extra {
   public var URL : FURL;
 
   @:thisConst
+  public function GetNetMode() : ENetMode;
+
+  @:thisConst
   public function GetGameState() : AGameStateBase;
 
   @:thisConst
