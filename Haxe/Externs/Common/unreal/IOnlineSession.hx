@@ -70,9 +70,17 @@ typedef FOnCancelFindSessionsCompleteDelegate = unreal.Delegate<FOnCancelFindSes
 
 @:glueCppIncludes("OnlineSessionInterface.h")
 @:uextern @:noCopy @:noEquals @:noClass extern class IOnlineSession {
-  public function CreateSession(HostingPlayerNum:Int32, SessionName:FName, NewSession:Const<PRef<FOnlineSessionSettings>>) : Bool;
-  public function EndSession(SessionName:FName) : Bool;
+	public function CreateSession(HostingPlayerNum:Int32, SessionName:FName, NewSession:Const<PRef<FOnlineSessionSettings>>) : Bool;
+	public function EndSession(SessionName:FName) : Bool;
+	/**
+	 * Searches the named session array for the specified session
+	 *
+	 * @param SessionName the name to search for
+	 *
+	 * @return pointer to the struct if found, NULL otherwise
+	 */
+	public function GetNamedSession(SessionName:FName) : PPtr<FNamedOnlineSession>;
 
-  public function AddOnSessionInviteReceivedDelegate_Handle(Delegate:Const<PRef<FOnSessionInviteReceivedDelegate>>) : FDelegateHandle;
-  public function ClearOnSessionInviteReceivedDelegate_Handle(Handle:PRef<FDelegateHandle>) : Void;
+	public function AddOnSessionInviteReceivedDelegate_Handle(Delegate:Const<PRef<FOnSessionInviteReceivedDelegate>>) : FDelegateHandle;
+	public function ClearOnSessionInviteReceivedDelegate_Handle(Handle:PRef<FDelegateHandle>) : Void;
 }
