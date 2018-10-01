@@ -106,7 +106,7 @@ import unreal.*;
     for (i in 0...len) {
       var index = inds[i],
           obj = wrapperArray[index];
-      if (obj != null && obj.serialNumber != 0 && ObjectArrayHelper_Glue.indexToSerialChecked(index, obj.wrapped) == obj.serialNumber) {
+      if (obj != null && obj.serialNumber != 0 && ObjectArrayHelper_Glue.indexToSerialReachable(index, obj.wrapped) == obj.serialNumber) {
         inds[nidx++] = index;
       } else {
         if (obj != null) {
