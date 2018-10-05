@@ -117,6 +117,9 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function IsGarbageCollecting():Bool;
 
+  @:glueCppIncludes("CoreGlobals.h")
+  @:global public static var GExitPurge:Bool;
+
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function CollectGarbage(keepFlags:EObjectFlags, performFullPurge:Bool):Void;
 
