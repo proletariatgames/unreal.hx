@@ -74,7 +74,7 @@ import unreal.*;
       // if we are doing a GC, add this as a normal object and don't immediately set its wrapped as null, as we will set it
       // in the end of this GC. We may have objects that hit this point and call into Haxe code - this can happen if you
       // override BeginDestroy in Unreal.hx
-      if (!UObject.IsGarbageCollecting() || !UObject.GExitPurge)
+      if (!UObject.IsGarbageCollecting() && !UObject.GExitPurge)
       {
         ret.wrapped = 0;
         // do not add the object to the array - it shouldn't be there!
