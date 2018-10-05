@@ -32,7 +32,7 @@ class ObjectArrayHelper implements uhx.NeedsGlue {
   }
 
   @:glueHeaderCode('static int indexToSerialReachable(int index, unreal::UIntPtr obj);')
-  @:glueCppCode('int uhx::internal::ObjectArrayHelper_Glue_obj::indexToSerialReachable(int index, unreal::UIntPtr obj) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || (ret->Object != (UObject *) obj) || ret->IsPendingKill() || ret->IsUnreachable()) return 0;\n\treturn ret->SerialNumber;\n}')
+  @:glueCppCode('int uhx::internal::ObjectArrayHelper_Glue_obj::indexToSerialReachable(int index, unreal::UIntPtr obj) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || (ret->Object != (UObject *) obj) || ret->IsUnreachable()) return 0;\n\treturn ret->SerialNumber;\n}')
   @:glueCppIncludes('UObject/UObjectArray.h')
   @:glueHeaderIncludes('IntPtr.h')
   public static function indexToSerialReachable(idx:Int, obj:unreal.UIntPtr):Int {

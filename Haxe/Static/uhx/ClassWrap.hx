@@ -45,7 +45,7 @@ import unreal.*;
 #end
         return ret;
       } else {
-        ret.invalidate();
+        throw 'The object at index $index ($ret) had incompatible serial numbers: ${ret.serialNumber} != $serial';
       }
     }
 
@@ -67,6 +67,20 @@ import unreal.*;
     }
     ret.serialNumber = serial;
     ret.internalIndex = index;
+    // if this object is no longer reachable, it must be set accordingly
+    // this can happen if the object was never referenced in Unreal.hx code - only after it was already unreachable
+    if (ObjectArrayHelper_Glue.indexToSerialReachable(index, nativePtr) != serial)
+    {
+      // if we are doing a GC, add this as a normal object and don't immediately set its wrapped as null, as we will set it
+      // in the end of this GC. We may have objects that hit this point and call into Haxe code - this can happen if you
+      // override BeginDestroy in Unreal.hx
+      if (!UObject.IsGarbageCollecting())
+      {
+        ret.wrapped = 0;
+        // do not add the object to the array - it shouldn't be there!
+        return ret;
+      }
+    }
     wrapperArray[index] = ret;
     indexes[nIndex++] = index;
     return ret;
