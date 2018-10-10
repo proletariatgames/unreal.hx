@@ -11,6 +11,7 @@ typedef UClassDef = {
   superStructUName: String, // with the prefix
   isClass:Bool,
 
+  ?upropExpose: Bool, // whether the property was compiled/exposed in C++
   ?propSig:String, // the signature of all current properties. If this changed, it means we need to perform a full hot reload
   ?propCrc:Int,
 
@@ -32,6 +33,7 @@ typedef UFunctionDef = {
   args: Null<Array<UPropertyDef>>,
   ret: Null<UPropertyDef>, // is null, it means that the function is a void function
 
+  ?isCompiled: Bool, // whether the property was compiled/exposed in C++
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
   ?propSig:String, // the signature of current signature. If this changed, it means we need to perform a full hot reload
 }
@@ -40,6 +42,7 @@ typedef UPropertyDef = {
   hxName:String,
   uname: String, // with the prefix
   flags: TypeFlags,
+  ?isCompiled: Bool, // whether the property was compiled/exposed in C++
   ?typeUName: String, // with the prefix
   ?replication: UPropReplicationKind,
   ?customReplicationName: String,

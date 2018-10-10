@@ -167,6 +167,7 @@ class MetaDefBuild {
             if (func.metas == null) {
               func.metas = [];
             }
+            func.isCompiled = true;
             func.metas.push({ name:'UnrealHxExpose', isMeta: true });
           }
           var relevantMeta = null;
@@ -200,10 +201,12 @@ class MetaDefBuild {
         }
       }
     }
+    var upropExpose = base.meta.has(':upropertyExpose');
     var relevantProps = [for (prop in classDef.uprops) {
       hxName:prop.hxName,
       uname:prop.uname,
       flags:prop.flags,
+      isCompiled: upropExpose,
       typeUName:prop.typeUName,
       replication:prop.replication,
       customReplicationName:prop.customReplicationName,
@@ -218,6 +221,7 @@ class MetaDefBuild {
     }
     classDef.propCrc = crc;
     classDef.propSig = propSignature;
+    classDef.upropExpose = upropExpose;
 
     for (uprop in classDef.uprops) {
       if (uprop.replication != null || uprop.customReplicationName != null) {

@@ -119,19 +119,22 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
       if (ustruct != null) {
         var sig = ustruct.GetMetaData(CoreAPI.staticName("UHX_PropSignature"));
         if (sig.toString() != def.uclass.propSig) {
+          // if the signature is empty, it means this is compiled in C++ - so we
+          // trust that if that's the case UhxBuild would do the right thing and perform a full compilation
+          if (!(sig.IsEmpty() && (def.uclass.upropExpose || !reg.isDynamic))) {
 #if DEBUG_HOTRELOAD
-          trace('$id: Class $uclass changed its properties and needs to be reinstanced');
+            trace('$id: Class $uclass changed its properties and needs to be reinstanced ($sig != ${def.uclass.propSig})');
 #end
-          needsReinstancing = true;
-          break;
-        } else {
-          if (def.uclass.ufuncs != null) {
-            for (fn in def.uclass.ufuncs) {
-              if (fn.uname.toLowerCase().startsWith('onrep_') && ustruct.FindFunctionByName(fn.uname) == null) {
-                // if onRep is found, perform a full hot reload
-                needsReinstancing = true;
-                break;
-              }
+            needsReinstancing = true;
+            break;
+          }
+        }
+        if (def.uclass.ufuncs != null) {
+          for (fn in def.uclass.ufuncs) {
+            if (fn.uname.toLowerCase().startsWith('onrep_') && ustruct.FindFunctionByName(fn.uname) == null) {
+              // if onRep is found, perform a full hot reload
+              needsReinstancing = true;
+              break;
             }
           }
         }
@@ -158,7 +161,13 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         }
         var sig = reg.getUpdated().GetMetaData(CoreAPI.staticName("UHX_PropSignature"));
         if (!reg.wasDeleted && !reg.needsToAddProperties && sig.toString() != def.uclass.propSig) {
-          throw 'assert: ${uclass}';
+          if (sig.IsEmpty() && (def.uclass.upropExpose || !reg.isDynamic)) {
+#if DEBUG_HOTRELOAD
+            trace('$id: Class $uclass is a @:upropertyExpose class / non-dynamic class. Ignoring propSig');
+#end
+          } else {
+            throw 'assert: ${uclass}';
+          }
         }
         toAdd.push(reg);
       }
@@ -206,48 +215,50 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
       var packName = unreal.FPackageName.GetShortFName(outer.GetFName());
 
       var manager = unreal.FModuleManager.Get();
-      var info = new unreal.FModuleStatus();
-      if (!manager.QueryModule(packName, info)) {
-        trace('Error', 'Trying to hot reload, but module $packName was not found!');
-        return Failure;
-      }
-      var path = new haxe.io.Path(info.FilePath.toString());
-      var file = path.file;
-      var regex = ~/\-(\d+)$/;
-      if (regex.match(file)) {
-        file = regex.matchedLeft();
-      }
-      var add = Std.random(1000000);
-      path.file = file + '-$add';
-      while(sys.FileSystem.exists(path.toString())) {
-        add = Std.random(1000000);
+      var infos = unreal.TArray.create(new TypeParam<FModuleStatus>());
+      manager.QueryModules(infos);
+      for (info in infos) {
+        if (!info.bIsGameModule) {
+          continue;
+        }
+        var path = new haxe.io.Path(info.FilePath.toString());
+        var file = path.file;
+        var regex = ~/\-(\d+)$/;
+        if (regex.match(file)) {
+          file = regex.matchedLeft();
+        }
+        var add = Std.random(1000000);
         path.file = file + '-$add';
-      }
-
-      {
-#if DEBUG_HOTRELOAD
-        trace('$id: Copying module to $path');
-#end
-        var copiedModule = false;
-        var maxRetries = 10;
-        var backOffSeconds = 0.1;
-        var backOffSecondsIncr = 0.1;
-        for (numRetries in 0...maxRetries) {
-          try {
-            sys.io.File.copy(info.FilePath.toString(), path.toString());
-            copiedModule = true;
-            break;
-          } catch (e:Dynamic) {
-            trace('Warning', 'Failed to copy ${info.FilePath} -> $path, try $numRetries/$maxRetries');
-            Sys.sleep(backOffSeconds);
-            backOffSeconds += backOffSecondsIncr;
-          }
+        while(sys.FileSystem.exists(path.toString())) {
+          add = Std.random(1000000);
+          path.file = file + '-$add';
         }
 
-        if (!copiedModule)
         {
-          trace('Error', 'Failed to copy module in order to trigger hotreload!');
-          return Failure;
+#if DEBUG_HOTRELOAD
+          trace('$id: Copying module to $path');
+#end
+          var copiedModule = false;
+          var maxRetries = 10;
+          var backOffSeconds = 0.1;
+          var backOffSecondsIncr = 0.1;
+          for (numRetries in 0...maxRetries) {
+            try {
+              sys.io.File.copy(info.FilePath.toString(), path.toString());
+              copiedModule = true;
+              break;
+            } catch (e:Dynamic) {
+              trace('Warning', 'Failed to copy ${info.FilePath} -> $path, try $numRetries/$maxRetries');
+              Sys.sleep(backOffSeconds);
+              backOffSeconds += backOffSecondsIncr;
+            }
+          }
+
+          if (!copiedModule)
+          {
+            trace('Error', 'Failed to copy module in order to trigger hotreload!');
+            return Failure;
+          }
         }
       }
 
@@ -463,6 +474,7 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
     trace('$id: Setting dynamic native $uname');
 #end
     reg.setNative(cls);
+    reg.setDynamic(true);
   }
 
   public static function updateClass(struct:UStruct, uname:String) {
@@ -587,7 +599,7 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         i = uprops.length;
     while (i --> 0) {
       var propDef = uprops[i];
-      if (isNative && propDef.metas != null && propDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
+      if (isNative && propDef.isCompiled) {
         continue;
       }
       if (isClass && containsInstancedData(propDef)) {
@@ -677,7 +689,9 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
       if (old != null) {
         var sig = old.GetMetaData(CoreAPI.staticName('UHX_PropSignature'));
         if (sig.IsEmpty()) {
-          trace('Error', 'Trying to hot reload a function that was not created by cppia: ${funcDef.uname} on $uname');
+          if (!funcDef.isCompiled) {
+            trace('Error', 'Trying to hot reload a function that was not created by cppia: ${funcDef.uname} on $uname');
+          }
           continue;
         }
         if (sig.toString() != funcDef.propSig) {
@@ -700,11 +714,12 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
           }
           markHotReloaded(old, uclass, funcDef.uname);
         } else {
-          // nothing has changed
+          // nothing has changed, but we need to update the ufunction native pointer
+          setupFunction(@:privateAccess uclass.wrapped,@:privateAccess old.wrapped);
           continue;
         }
       }
-      if (isNative && funcDef.metas != null && funcDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
+      if (isNative && funcDef.isCompiled) {
         continue;
       }
       var parent = sup == null ? null : sup.FindFunctionByName(funcDef.uname, ExcludeSuper);
@@ -1646,6 +1661,8 @@ class DynamicRegistry {
   public var wasDeleted(default, null):Bool;
   public var needsToAddProperties(default, null):Bool;
 
+  public var isDynamic(default, null):Bool;
+
   public var bound:Bool;
 
   var updatedClass:UClass;
@@ -1663,6 +1680,10 @@ class DynamicRegistry {
     this.updatedClass = uclass;
     this.isUpdated = true;
     this.needsToAddProperties = true;
+  }
+
+  public function setDynamic(val:Bool) {
+    this.isDynamic = val;
   }
 
   public function setUpdated(uclass:UClass, needsToAddProperties:Bool = false) {
