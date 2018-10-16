@@ -233,6 +233,9 @@ extern class UWorld_Extra {
   /** View locations rendered in the previous frame, if any. **/
   public var ViewLocationsRenderedLastFrame:TArray<FVector>;
 
+	/** Try to find an acceptable position to place TestActor as close to possible to PlaceLocation.  Expects PlaceLocation to be a valid location inside the level. */
+	public function FindTeleportSpot( TestActor:AActor, PlaceLocation:PRef<FVector>, PlaceRotation:FRotator ) : Bool;
+
   /**
 	 * Returns the Z component of the current world gravity.
 	 *
