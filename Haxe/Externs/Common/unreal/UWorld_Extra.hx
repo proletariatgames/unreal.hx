@@ -242,4 +242,12 @@ extern class UWorld_Extra {
 	 * @return Z component of current world gravity.
 	*/
   function GetGravityZ():Float32;
+
+  /** @return whether there is at least one level with a pending visibility request */
+  public function IsVisibilityRequestPending():Bool;
+
+  /**
+  * Updates sub-levels (load/unload/show/hide) using streaming levels current state
+  */
+  public function UpdateLevelStreaming():Void;
 }
