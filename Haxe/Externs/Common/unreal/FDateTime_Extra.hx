@@ -16,6 +16,17 @@ extern class FDateTime_Extra {
 	public static function FromUnixTimestamp(unixTime:Int64) : FDateTime;
 
 	/**
+	 * Returns the ISO-8601 string representation of the FDateTime.
+	 *
+	 * The resulting string assumes that the FDateTime is in UTC.
+	 *
+	 * @return String representation.
+	 * @see ParseIso8601, ToHttpDate, ToString
+	 */
+	@:thisConst
+	public function ToIso8601() : FString;
+
+	/**
 	 * Parses a date string in ISO-8601 format.
 	 *
 	 * @param DateTimeString The string to be parsed
