@@ -172,4 +172,7 @@ extern class FMath_Extra {
 	 * @returns Reflected vector.
 	 */
 	public static function GetReflectionVector(Direction:Const<PRef<FVector>>, SurfaceNormal:Const<PRef<FVector>>) : FVector;
+
+	/** Clamps X to be between Min and Max, inclusive */
+	public static function Clamp(X:Float32, Min:Float32, Max:Float32) : Float32;
 }
