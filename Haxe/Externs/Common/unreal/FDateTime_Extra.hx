@@ -1,6 +1,9 @@
 package unreal;
 
 extern class FDateTime_Extra {
+	@:uname('.ctor') public static function create(Year:Int32, Month:Int32, Day:Int32, ?Hour:Int32 = 0, ?Min:Int32 = 0, ?Second:Int32 = 0, ?Ms:Int32 = 0) : FDateTime;
+	@:uname('.ctor') public static function fromTicks(Ticks:Int64) : FDateTime;
+
 	@:thisConst
 	public function GetTicks() : Int64;
 
@@ -78,4 +81,8 @@ extern class FDateTime_Extra {
 	@:op(A-B)
 	@:expr(return FTimespan.fromTicks(GetTicks() - b.GetTicks()))
 	public function _sub(b:FDateTime):FTimespan;
+
+	@:op(A+B)
+	@:expr(return FDateTime.fromTicks(GetTicks() + b.GetTicks()))
+	public function _addTimespan(b:FTimespan):FDateTime;
 }
