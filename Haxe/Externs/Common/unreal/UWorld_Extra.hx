@@ -250,4 +250,7 @@ extern class UWorld_Extra {
   * Updates sub-levels (load/unload/show/hide) using streaming levels current state
   */
   public function UpdateLevelStreaming():Void;
+
+  /** Is level streaming currently frozen? */
+  public var bIsLevelStreamingFrozen:Bool;
 }
