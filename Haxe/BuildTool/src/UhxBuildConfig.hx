@@ -79,10 +79,14 @@ typedef UhxBuildConfig = {
   ?cppiaModuleExclude:Array<String>,
 
   /**
-    forces the Haxe compilation to not include -debug. Set explicitly to `false` to force debug mode,
-    even in Shipping
+    forces the Haxe compilation to include -debug, even in shipping mode
    **/
-  ?noDebug:Bool,
+  ?forceDebug:Bool,
+
+  /**
+    forces the Haxe compilation to compile with the debug symbols, even in shipping
+  **/
+  ?debugSymbols:Bool,
 
   /**
     Do not compile with UObject support (defines -D UHX_NO_UOBJECT)

@@ -25,7 +25,7 @@ class UhxBuild extends UhxBaseBuild {
   var outputDir:String;
   var buildName:String;
   var shortBuildName:String;
-  var debugSymbols:Bool;
+  var debugMode:Bool;
   var compserver:String;
   var externsFolder:String;
   var cppiaEnabled:Bool;
@@ -87,7 +87,7 @@ class UhxBuild extends UhxBaseBuild {
     var vars = ['dce','extraCompileArgs','extraCppiaCompileArgs','extraStaticClasspaths',
                 'extraScriptClasspaths', 'disableCppia', 'noStatic', 'disableUObject',
                 'debugger', 'noDynamicObjects', 'compilationServer', 'haxeInstallPath',
-                'haxelibPath'];
+                'haxelibPath', 'forceDebug', 'debugSymbols'];
     var buf = new StringBuf();
     buf.add('engine=${this.version};');
     for (v in vars) {
@@ -1085,7 +1085,7 @@ class UhxBuild extends UhxBaseBuild {
       args = args.concat(additional.split('\n'));
     }
 
-    if (debugSymbols) {
+    if (debugMode) {
       args.push('-debug');
     }
     if (this.config.debugger) {
@@ -1225,7 +1225,7 @@ class UhxBuild extends UhxBaseBuild {
       args.push('-dce ${this.config.dce}');
     }
 
-    if (debugSymbols) {
+    if (debugMode) {
       args.push('-debug');
       if (this.config.debugger) {
         args.push('-lib hxcpp-debugger');
@@ -1237,10 +1237,12 @@ class UhxBuild extends UhxBaseBuild {
     switch (data.targetPlatform) {
     case Win32:
       args.push('-D HXCPP_M32');
-      if (debugSymbols)
+      if (debugMode || config.debugSymbols)
         args.push('-D HXCPP_DEBUG_LINK');
     case Win64:
       args.push('-D HXCPP_M64');
+      if (debugMode || config.debugSymbols)
+        args.push('-D HXCPP_DEBUG_LINK');
     case _:
       args.push('-D HXCPP_M64');
     }
@@ -1364,7 +1366,7 @@ class UhxBuild extends UhxBaseBuild {
     if (ret == 0 && isCrossCompiling) {
       // somehow -D destination doesn't do anything when cross compiling
       var hxcppDestination = '$outputDir/Static/libUnrealInit';
-      if (debugSymbols) {
+      if (debugMode || config.debugSymbols) {
         hxcppDestination += '-debug.a';
       } else {
         hxcppDestination += '.a';
@@ -1458,10 +1460,7 @@ class UhxBuild extends UhxBaseBuild {
     this.defineVer = 'UE_VER=${this.version.MajorVersion}.${this.version.MinorVersion}';
     this.definePatch = 'UE_PATCH=${this.version.PatchVersion == null ? 0 : this.version.PatchVersion}';
     this.outputStatic = getLibLocation();
-    this.debugSymbols = data.targetConfiguration != Shipping && config.noDebug != true;
-    if (config.noDebug == false) {
-      this.debugSymbols = false;
-    }
+    this.debugMode = data.targetConfiguration != Shipping || config.forceDebug;
     if (config.compilationServer != null) {
       this.compserver = Std.string(config.compilationServer);
     }
