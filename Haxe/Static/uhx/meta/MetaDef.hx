@@ -70,6 +70,9 @@ typedef UEnumDef = {
   var ReplayOnly = 10;
   var SimulatedOnlyNoReplay = 11;
   var SimulatedOrPhysicsNoReplay = 12;
+  #if proletariat
+  var OwnerOrSpectatingOwner = 13;
+  #end
 
   inline public function t() {
     return this;

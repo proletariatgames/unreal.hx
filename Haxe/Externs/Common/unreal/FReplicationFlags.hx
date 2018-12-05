@@ -4,6 +4,10 @@ package unreal;
 @:uextern extern class FReplicationFlags {
   /** True if replicating actor is owned by the player controller on the target machine. */
   var bNetOwner:Bool;
+  #if proletariat
+  /** True if replicating actor is owned by a player controller that the target machine's player controller is spectating */
+  var bSpectatingNetOwner:Bool;
+  #end
   /** True if this is the initial network update for the replicating actor. */
   var bNetInitial:Bool;
   /** True if this is actor is RemoteRole simulated. */

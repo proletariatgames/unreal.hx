@@ -979,8 +979,11 @@ class UExtensionBuild {
     }
 
     return switch(repType) {
-      case 'InitialOnly', 'OwnerOnly', 'SkipOwner', 'SimulatedOnly',
-           'AutonomousOnly', 'SimulatedOrPhysics', 'InitialOrOwner': false;
+      case 'InitialOnly', 'OwnerOnly',
+      #if proletariat
+      'OwnerOrSpectatingOwner',
+      #end
+      'SkipOwner', 'SimulatedOnly', 'AutonomousOnly', 'SimulatedOrPhysics', 'InitialOrOwner': false;
       default: true;
     }
   }

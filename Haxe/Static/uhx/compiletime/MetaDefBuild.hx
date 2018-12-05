@@ -115,6 +115,10 @@ class MetaDefBuild {
               repl = SimulatedOnlyNoReplay;
             case 'simulatedorphysicsnoreplay':
               repl = SimulatedOrPhysicsNoReplay;
+            #if proletariat
+            case 'ownerorspectatingowner':
+              repl = OwnerOrSpectatingOwner;
+            #end
             case _:
               prop.customReplicationName = kind;
             }

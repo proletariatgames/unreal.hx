@@ -1126,6 +1126,10 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         return COND_SimulatedOnlyNoReplay;
       case SimulatedOrPhysicsNoReplay:
         return COND_SimulatedOrPhysicsNoReplay;
+      #if proletariat
+      case OwnerOrSpectatingOwner:
+        return COND_OwnerOrSpectatingOwner;
+      #end
     };
   }
 
