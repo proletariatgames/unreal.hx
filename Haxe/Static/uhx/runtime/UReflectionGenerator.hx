@@ -1176,7 +1176,13 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
     var customRepls = customReplicationProps[uclass.GetName().toString()];
     if (customRepls != null) {
       for (repl in customRepls) {
-        var active = (Reflect.field(obj, repl.funcName))();
+        var customReplFunc = Reflect.field(obj, repl.funcName);
+        if (customReplFunc == null)
+        {
+          trace('Fatal', 'Custom replication function \'${repl.funcName}\' not found on ${uclass.GetName().toString()}. Function is either missing, or the replication condition was improperly referenced.');
+          return;
+        }
+        var active = customReplFunc();
         changedPropertyTracker.SetCustomIsActiveOverride(repl.index, active);
       }
     }
