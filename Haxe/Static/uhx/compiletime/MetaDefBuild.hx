@@ -89,37 +89,19 @@ class MetaDefBuild {
         prop.hxName = field.name;
         prop.uname = MacroHelpers.getUName(field);
         if (field.meta.has(':ureplicate')) {
-          var repl:UPropReplicationKind = Always;
+          var repl:Null<UPropReplicationKind> = Always;
           var kind = field.meta.extractStrings(':ureplicate')[0];
           if (kind != null) {
-            switch(kind.toLowerCase()) {
-            case 'initialonly':
-              repl = InitialOnly;
-            case 'owneronly':
-              repl = OwnerOnly;
-            case 'skipowner':
-              repl = SkipOwner;
-            case 'simulatedonly':
-              repl = SimulatedOnly;
-            case 'autonomousonly':
-              repl = AutonomousOnly;
-            case 'simulatedorphysics':
-              repl = SimulatedOrPhysics;
-            case 'initialorowner':
-              repl = InitialOrOwner;
-            case 'replayorowner':
-              repl = ReplayOrOwner;
-            case 'replayonly':
-              repl = ReplayOnly;
-            case 'simulatedonlynoreplay':
-              repl = SimulatedOnlyNoReplay;
-            case 'simulatedorphysicsnoreplay':
-              repl = SimulatedOrPhysicsNoReplay;
-            #if proletariat
-            case 'ownerorspectatingowner':
-              repl = OwnerOrSpectatingOwner;
-            #end
-            case _:
+            repl = UPropReplicationKind.fromString(kind);
+            if (repl == null)
+            {
+              repl = Always;
+              // check if the function really exists
+              var fn = haxe.macro.TypeTools.findField(base, kind);
+              if (fn == null)
+              {
+                throw new Error('The field ${field.name} defined a ureplicate function call ${kind}, but that function was not found in ${base.name}', field.pos);
+              }
               prop.customReplicationName = kind;
             }
           }

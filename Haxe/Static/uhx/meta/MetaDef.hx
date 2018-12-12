@@ -74,6 +74,28 @@ typedef UEnumDef = {
   var OwnerOrSpectatingOwner = 13;
   #end
 
+  public static function fromString(str:String):Null<UPropReplicationKind>
+  {
+    return switch (str.toLowerCase()) {
+      case 'always': Always;
+      case 'initialonly': InitialOnly;
+      case 'owneronly': OwnerOnly;
+      case 'skipowner': SkipOwner;
+      case 'simulatedonly': SimulatedOnly;
+      case 'autonomousonly': AutonomousOnly;
+      case 'simulatedorphysics': SimulatedOrPhysics;
+      case 'initialorowner': InitialOrOwner;
+      case 'replayorowner': ReplayOrOwner;
+      case 'replayonly': ReplayOnly;
+      case 'simulatedonlynoreplay': SimulatedOnlyNoReplay;
+      case 'simulatedorphysicsnoreplay': SimulatedOrPhysicsNoReplay;
+      #if proletariat
+      case 'ownerorspectatingowner': OwnerOrSpectatingOwner;
+      #end
+      case _: null;
+    };
+  }
+
   inline public function t() {
     return this;
   }
