@@ -177,6 +177,15 @@ class GlueManager {
 
     for (changed in this.modulesChanged.keys()) {
       var files = this.modules[changed];
+      if (files == null)
+      {
+        var target = GlueInfo.getUnityPath(changed, true);
+        if (FileSystem.exists(target))
+        {
+          FileSystem.deleteFile(target);
+        }
+        continue;
+      }
       files.sort(Reflect.compare);
       var buf = new StringBuf();
       var defines = getUniqueDefines();

@@ -36,8 +36,13 @@ extern class ULocalPlayer_Extra {
                                 ViewDrawer:PPtr<FViewElementDrawer>,
                                 StereoPass:EStereoscopicPass) : PPtr<FSceneView>;
 
+#if (UE_VER <= 4.19)
   @:thisConst
-    public function GetPreferredUniqueNetId() : TSharedPtr<Const<FUniqueNetId>>;
+  public function GetPreferredUniqueNetId() : TSharedPtr<Const<FUniqueNetId>>;
+#else
+  @:thisConst
+  public function GetPreferredUniqueNetId() : FUniqueNetIdRepl;
+#end
 
   public function Exec(InWorld:UWorld, Cmd:TCharStar, Ar:PRef<FOutputDevice>):Bool;
 }
