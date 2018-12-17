@@ -3,7 +3,11 @@ package unreal;
 /**
   The class cast flags - see "ObjectMacros.h"
  **/
-#if (UE_VER > 4.19) @:unrealType @:enum #end abstract EClassCastFlags(UInt64) from UInt64 to UInt64 {
+#if (UE_VER > 4.19)
+@:glueCppIncludes("UObject/ObjectMacros.h")
+@:uextern @:enum
+#end
+abstract EClassCastFlags(UInt64) from UInt64 to UInt64 {
 
   public static var CASTCLASS_None(get, never):EClassCastFlags;
   #if !cppia inline #end static function get_CASTCLASS_None():EClassCastFlags {

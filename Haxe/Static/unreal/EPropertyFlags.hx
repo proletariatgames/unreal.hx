@@ -3,7 +3,11 @@ package unreal;
 /**
   The property flags - see "ObjectMacros.h"
  **/
-#if (UE_VER > 4.19) @:unrealType @:enum #end abstract EPropertyFlags(UInt64) from UInt64 to UInt64 {
+#if (UE_VER > 4.19)
+@:glueCppIncludes("UObject/ObjectMacros.h")
+@:uextern @:enum
+#end
+abstract EPropertyFlags(UInt64) from UInt64 to UInt64 {
   /**
     Property is user-settable in the editor.
    **/
