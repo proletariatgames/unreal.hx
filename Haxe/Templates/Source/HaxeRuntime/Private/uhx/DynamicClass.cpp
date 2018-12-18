@@ -93,12 +93,12 @@ class UHxBootstrap : public UObject {
 #endif
 
 #if UHX_HOTRELOAD
-  DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR_NO_VTABLE_CTOR(UHxBootstrap, UObject, 0, TEXT("/Script/HaxeRuntime"), 0, HAXERUNTIME_API)
+  DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR_NO_VTABLE_CTOR(UHxBootstrap, UObject, 0, TEXT("/Script/HaxeRuntime"), CASTCLASS_None, HAXERUNTIME_API)
 
   UHxBootstrap(FVTableHelper& Helper) : UObject(Helper) {
   }
 #else
-  DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR(UHxBootstrap, UObject, 0, HaxeRuntime, 0, HAXERUNTIME_API)
+  DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR(UHxBootstrap, UObject, 0, HaxeRuntime, CASTCLASS_None, HAXERUNTIME_API)
 #endif
   UHxBootstrap(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : UObject(ObjectInitializer) {
     static bool endLoadingDynamicCalled = false;

@@ -24,7 +24,7 @@ package unreal.moviescene;
   /**
     Serial number that is incremented every time this template is re-generated through FMovieSceneEvaluationTemplateGenerator
   **/
-  @:uproperty public var TemplateSerialNumber : unreal.moviescene.FMovieSceneEvaluationTemplateSerialNumber;
+  @:uproperty public var TemplateSerialNumber(default, never):FMovieSceneEvaluationTemplate;
   @:uproperty public var SequenceSignature : unreal.FGuid;
   
   /**
