@@ -395,7 +395,7 @@ class GlueMethod {
       return null;
     }
     switch(opt.expr) {
-    case EConst(CIdent("null")):
+    case EConst(CIdent("null" | "None")):
       switch(t.data) {
       case CStruct(_,_,info,_):
         switch(info.ueType.name) {
