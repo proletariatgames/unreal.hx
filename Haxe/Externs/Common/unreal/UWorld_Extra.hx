@@ -178,6 +178,9 @@ extern class UWorld_Extra {
   @:thisConst
   public function SweepSingleByChannel(OutHit:PRef<FHitResult>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
 
+  @:thisConst
+  public function SweepMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
+
   @:noTemplate
   @:uname("SpawnActorDeferred<AActor>")
   @:typeName public function SpawnActorDeferred<T : AActor>(
