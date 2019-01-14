@@ -126,6 +126,7 @@ public class HaxeModuleRules : BaseModuleRules {
   }
 #else
   public HaxeModuleRules(ReadOnlyTargetRules target) : base(target) {
+    PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
   }
 #endif
 

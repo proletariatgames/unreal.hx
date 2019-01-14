@@ -467,14 +467,14 @@ class UnrealInit
             unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
             unreal.Log.fatal(str);
           case _:
-            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, unreal.CoreAPI.staticName("HaxeLog"), verbosity, "%s", str);
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, unreal.CoreAPI.staticName("HaxeLog"), verbosity, str);
           }
         } else if (!cat.unrealCategory.IsSuppressed(verbosity)) {
           if (verbosity == Fatal) {
-            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, "%s", str);
-            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, "%s", 'Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, str);
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, 'Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
           }
-          unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, verbosity, "%s", str);
+          unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, verbosity, str);
         }
       }
     } else {

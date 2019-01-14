@@ -395,7 +395,7 @@ class GlueMethod {
       return null;
     }
     switch(opt.expr) {
-    case EConst(CIdent("null")):
+    case EConst(CIdent("null" | "None")):
       switch(t.data) {
       case CStruct(_,_,info,_):
         switch(info.ueType.name) {
@@ -795,7 +795,7 @@ class GlueMethod {
     if (this.headerCode != null && !meta.hasMeta(':glueHeaderCode')) {
       buf << '@:glueHeaderCode("' << new Escaped(this.headerCode) << '")' << new Newline();
     }
-    if (this.cppCode != null && !meta.hasMeta(':cppCode')) {
+    if (this.cppCode != null && !meta.hasMeta(':glueCppCode')) {
       buf << '@:glueCppCode("' << new Escaped(this.cppCode) << '")' << new Newline();
     }
     if (this.ueHeaderCode != null && !meta.hasMeta(':ueHeaderCode')) {
