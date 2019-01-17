@@ -395,7 +395,7 @@ class GlueMethod {
       return null;
     }
     switch(opt.expr) {
-    case EConst(CIdent("null")):
+    case EConst(CIdent(name = "null") | CString(name = "None")):
       switch(t.data) {
       case CStruct(_,_,info,_):
         switch(info.ueType.name) {
@@ -405,6 +405,8 @@ class GlueMethod {
           return 'unreal.FName.None';
         case _:
         }
+      case CEnum(_) if (name == "None"):
+        return '(' + name + ' : ' + t.haxeType.toString() + ')';
       case _:
       }
       return 'null';
@@ -795,7 +797,7 @@ class GlueMethod {
     if (this.headerCode != null && !meta.hasMeta(':glueHeaderCode')) {
       buf << '@:glueHeaderCode("' << new Escaped(this.headerCode) << '")' << new Newline();
     }
-    if (this.cppCode != null && !meta.hasMeta(':cppCode')) {
+    if (this.cppCode != null && !meta.hasMeta(':glueCppCode')) {
       buf << '@:glueCppCode("' << new Escaped(this.cppCode) << '")' << new Newline();
     }
     if (this.ueHeaderCode != null && !meta.hasMeta(':ueHeaderCode')) {

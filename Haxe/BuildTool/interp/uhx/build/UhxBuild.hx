@@ -430,7 +430,7 @@ class UhxBuild extends UhxBaseBuild {
     var baseManifest = findUhtManifest(target);
     if (baseManifest == null) {
       warn('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Calling UBT');
-      var ret = callUnrealBuild(target, this.data.targetName + '', this.data.targetConfiguration + '', ['-SkipBuild', '-assemble', '-NoUBTMakefiles', '-NoMutex']);
+      var ret = callUnrealBuild(target, this.data.targetName + '', this.data.targetConfiguration + '', ['-SkipBuild', '-assemble', '-NoUBTMakefiles', '-NoMutex', '-nolog']);
       if (ret != 0) {
         err('UBT call failed with return code $ret. Skipping extern generation');
         return;

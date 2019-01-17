@@ -1349,7 +1349,11 @@ class TypeConv {
           if (ctx.modf != null) {
             Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
           }
-          ret = CEnum(EAbstract, ctx.accEnumFlags | EUEnum, info);
+          var underlying = get(a.type, pos, inTypeParam, isNoTemplate);
+          var ret = new TypeConv(CEnum(EAbstract, ctx.accEnumFlags | EUEnum, info), ctx.modf, ctx.original);
+          ret.glueType = underlying.glueType;
+          ret.haxeGlueType = underlying.haxeGlueType;
+          return ret;
         } else if (hasUextern) {
           ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
         } else if (a.meta.has(':haxeCreated')) {

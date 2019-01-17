@@ -515,7 +515,7 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
     }
 
     for (propDef in meta.uclass.uprops) {
-      if (propDef.metas == null) {
+      if (propDef.metas == null || propDef.isCompiled) {
         continue;
       }
       var prop = ReflectAPI.getUPropertyFromClass(cast struct, propDef.uname);
@@ -599,7 +599,7 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         i = uprops.length;
     while (i --> 0) {
       var propDef = uprops[i];
-      if (isNative && propDef.isCompiled) {
+      if (propDef.isCompiled) {
         continue;
       }
       if (isClass && containsInstancedData(propDef)) {

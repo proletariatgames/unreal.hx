@@ -80,7 +80,7 @@ class MetaDefBuild {
     }
 
     for (field in base.fields.get()) {
-      if (field.meta.has(':uproperty') && !field.meta.has(':uexpose') && field.kind.match(FVar(_))) {
+      if (field.meta.has(':uproperty') && field.kind.match(FVar(_))) {
         var prop = TypeConv.get(field.type, field.pos).toUPropertyDef();
         if (prop == null) {
           Context.warning('This field (${field.name}) is marked as a uproperty but its type is not supported. It will be ignored', field.pos);
@@ -116,6 +116,7 @@ class MetaDefBuild {
           if (prop.metas == null) {
             prop.metas = [];
           }
+          prop.isCompiled = true;
           prop.metas.push({ name:'UnrealHxExpose', isMeta: true });
         }
       } else if (field.meta.has(':ufunction') && field.kind.match(FMethod(_))) {

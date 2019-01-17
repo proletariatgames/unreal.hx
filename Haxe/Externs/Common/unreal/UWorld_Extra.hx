@@ -256,4 +256,8 @@ extern class UWorld_Extra {
 
   /** Is level streaming currently frozen? */
   public var bIsLevelStreamingFrozen:Bool;
+
+  @:thisConst
+  public function GetStreamingLevels() : Const<PRef<TArray<ULevelStreaming>>>;
+
 }
