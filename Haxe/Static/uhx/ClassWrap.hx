@@ -9,10 +9,12 @@ import unreal.*;
 #if (!UHX_WRAP_OBJECTS && !UHX_NO_UOBJECT)
   static var wrapperArray:Array<UObject>;
   static var indexes:Array<Int>;
-  static var delegateHandle:FDelegateHandle;
+  static var delegateHandles:Array<FDelegateHandle>;
   static var nIndex:Int = 0;
 
   static var constructingObjects:Array<unreal.UObject> = [];
+
+  static var purgingObjects:Bool;
 
   public static function wrap(nativePtr:UIntPtr):UObject {
     if (nativePtr == 0) {
@@ -22,12 +24,22 @@ import unreal.*;
     if (wrapperArray == null) {
       wrapperArray = [];
       indexes = [];
+      delegateHandles = [];
 #if (UE_VER < 4.19)
-      delegateHandle = FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC);
+      delegateHandles.push(FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC));
 #else
-      delegateHandle = FCoreUObjectDelegates.GetPostGarbageCollect().AddLambda(onGC);
+      delegateHandles.push(FCoreUObjectDelegates.GetPostGarbageCollect().AddLambda(onGC));
+#end
+#if (UE_VER >= 4.21)
+      delegateHandles.push(FCoreUObjectDelegates.PreGarbageCollectConditionalBeginDestroy.AddLambda(function() {
+        purgingObjects = true;
+      }));
+      delegateHandles.push(FCoreUObjectDelegates.PostGarbageCollectConditionalBeginDestroy.AddLambda(function() {
+        purgingObjects = false;
+      }));
 #end
     }
+
     var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
     var ret = wrapperArray[index];
     var serial = ObjectArrayHelper_Glue.indexToSerialChecked(index, nativePtr);
@@ -74,7 +86,8 @@ import unreal.*;
       // if we are doing a GC, add this as a normal object and don't immediately set its wrapped as null, as we will set it
       // in the end of this GC. We may have objects that hit this point and call into Haxe code - this can happen if you
       // override BeginDestroy in Unreal.hx
-      if (!UObject.IsGarbageCollecting() && !UObject.GExitPurge)
+      var inGc = UObject.IsGarbageCollecting();
+      if (!inGc && !purgingObjects && !UObject.GExitPurge)
       {
         ret.wrapped = 0;
         // do not add the object to the array - it shouldn't be there!
