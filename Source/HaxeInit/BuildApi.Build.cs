@@ -202,9 +202,7 @@ public class HaxeModuleRules : BaseModuleRules {
   }
 
   public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules, bool forceHaxeCompilation, HaxeConfigOptions options) {
-    rules.PrivateIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Private"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
-    rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Shared"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Public"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/TemplateExport"));
 
