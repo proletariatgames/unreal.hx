@@ -60,7 +60,8 @@ extern class UObject_Extra {
    **/
   @:thisConst public function IsPostLoadThreadSafe():Bool;
 
-  public function BeginDestroy() : Void;
+  // this is final because overriding it in Haxe is not allowed
+  @:final public function BeginDestroy() : Void;
 
   public function ConditionalBeginDestroy() : Void;
 

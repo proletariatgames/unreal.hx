@@ -24,7 +24,7 @@ class ObjectArrayHelper implements uhx.NeedsGlue {
   }
 
   @:glueHeaderCode('static int indexToSerialChecked(int index, unreal::UIntPtr obj);')
-  @:glueCppCode('int uhx::internal::ObjectArrayHelper_Glue_obj::indexToSerialChecked(int index, unreal::UIntPtr obj) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || ret->Object != (UObject*) obj) return -1;\n\treturn ret->SerialNumber;\n}')
+  @:glueCppCode('int uhx::internal::ObjectArrayHelper_Glue_obj::indexToSerialChecked(int index, unreal::UIntPtr obj) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || ret->Object != (UObject*) obj || ret->IsUnreachable()) return -1;\n\treturn ret->SerialNumber;\n}')
   @:glueCppIncludes('UObject/UObjectArray.h')
   @:glueHeaderIncludes('IntPtr.h')
   public static function indexToSerialChecked(idx:Int, obj:unreal.UIntPtr):Int {
