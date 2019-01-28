@@ -663,6 +663,7 @@ class UExtensionBuild {
           var newExpr = null;
           if (isVoid) {
             newExpr = macro {
+              uhx.HaxeCodeDispatcher.ensureMainThread();
               if (uhx.HaxeCodeDispatcher.shouldWrap()) {
                 try {
                   $oldExpr;
@@ -677,6 +678,7 @@ class UExtensionBuild {
             }
           } else {
             newExpr = macro {
+              uhx.HaxeCodeDispatcher.ensureMainThread();
               if (uhx.HaxeCodeDispatcher.shouldWrap()) {
                 try {
                   var ret = $oldExpr;

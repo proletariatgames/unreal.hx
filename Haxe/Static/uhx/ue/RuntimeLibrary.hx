@@ -5,6 +5,7 @@ import unreal.*;
 @:include("uhx/ue/RuntimeLibrary.h")
 extern class RuntimeLibrary {
   public static function wrapProperty(inProp:UIntPtr, pointerIfAny:UIntPtr):VariantPtr;
+  public static function ensureMainThread():Void;
   public static function getHaxeGcRefOffset():Int;
   public static function getGcRefSize():Int;
   public static function setSuperClassConstructor(cls:UIntPtr):Void;

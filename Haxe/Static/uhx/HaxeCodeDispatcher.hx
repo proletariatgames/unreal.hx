@@ -9,7 +9,15 @@ import unreal.FPlatformMisc;
 @:keep class HaxeCodeDispatcher {
   private static var inHaxeCode = false;
 
+  @:extern inline public static function ensureMainThread()
+  {
+    #if !UHX_NO_UOBJECT
+    uhx.ue.RuntimeLibrary.ensureMainThread();
+    #end
+  }
+
   @:extern inline public static function runWithValue<T>(fn:Void->T, ?name:String):T {
+    ensureMainThread();
     #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
     return fn();
     #else
@@ -29,6 +37,7 @@ import unreal.FPlatformMisc;
   }
 
   @:extern inline public static function runVoid(fn:Void->Void, ?name:String):Void {
+    ensureMainThread();
     #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
     fn();
     #else

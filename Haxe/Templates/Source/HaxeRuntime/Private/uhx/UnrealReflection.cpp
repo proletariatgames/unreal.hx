@@ -16,6 +16,7 @@
 #include <unordered_map>
 #include <string.h>
 #include "UObject/UObjectArray.h"
+#include "HAL/PlatformTLS.h"
 // #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
 #if WITH_EDITOR // debug mode
@@ -1066,6 +1067,16 @@ void uhx::TSetReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr va
   }
 
   targetHelper.Rehash();
+}
+
+void uhx::ue::RuntimeLibrary_obj::ensureMainThread() {
+  static uint32 mainThread = FPlatformTLS::GetCurrentThreadId();
+  uint32 currentThread = FPlatformTLS::GetCurrentThreadId();
+  checkf(currentThread == mainThread,
+        TEXT("Function called on wrong thread with id '%d' but supposed to be called on main thread (id=%d)."),
+        currentThread,
+        mainThread
+    );
 }
 
 int uhx::ue::RuntimeLibrary_obj::getHaxeGcRefOffset() {
