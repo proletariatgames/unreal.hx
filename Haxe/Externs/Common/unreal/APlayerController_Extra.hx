@@ -19,6 +19,8 @@ extern class APlayerController_Extra {
   public function StartTalking() : Void;
   public function StopTalking() : Void;
 
+	public function PawnLeavingGame() : Void;
+
   @:thisConst public function GetSpawnLocation() : FVector;
   public function SetInputMode (InData:Const<PRef<FInputModeDataBase>>) : Void;
 
