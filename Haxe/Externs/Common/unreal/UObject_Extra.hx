@@ -276,4 +276,17 @@ extern class UObject_Extra {
   @:thisConst public function IsTemplate(TemplateTypes:EObjectFlags = RF_ArchetypeObject|RF_ClassDefaultObject):Bool;
 
   public function GetPrimaryAssetId() : FPrimaryAssetId;
+
+
+  /** Always called immediately before properties are received from the remote. */
+  public function PreNetReceive() : Void;
+
+  /** Always called immediately after properties are received from the remote. */
+  public function PostNetReceive() : Void;
+
+	/** Called right after calling all OnRep notifies (called even when there are no notifies) */
+	public function PostRepNotifies() : Void;
+
+	/** Called right before being marked for destruction due to network replication */
+	public function PreDestroyFromReplication() : Void;
 }

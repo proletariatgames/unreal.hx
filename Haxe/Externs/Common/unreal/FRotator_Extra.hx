@@ -201,6 +201,38 @@ extern class FRotator_Extra {
 	 */
   public static function MakeFromEuler(Euler:Const<PRef<FVector>>) : FRotator;
 
+	/**
+	 * Compresses a floating point angle into a byte.
+	 *
+	 * @param Angle The angle to compress.
+	 * @return The angle as a byte.
+	 */
+	public static function CompressAxisToByte( Angle:Float32 ) : UInt8;
+
+	/**
+	 * Decompress a word into a floating point angle.
+	 *
+	 * @param Angle The word angle.
+	 * @return The decompressed angle.
+	 */
+	public static function DecompressAxisFromByte( Angle:UInt8 ) : Float32;
+
+	/**
+	 * Compress a floating point angle into a word.
+	 *
+	 * @param Angle The angle to compress.
+	 * @return The decompressed angle.
+	 */
+	public static function CompressAxisToShort( Angle:Float32 ) : UInt16;
+
+	/**
+	 * Decompress a short into a floating point angle.
+	 *
+	 * @param Angle The word angle.
+	 * @return The decompressed angle.
+	 */
+	public static function DecompressAxisFromShort( Angle : UInt16 ) : Float32;
+
   @:expr static var ZeroRotator(get, never):FRotator;
 
   @:expr({
