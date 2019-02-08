@@ -289,4 +289,8 @@ extern class UObject_Extra {
 
 	/** Called right before being marked for destruction due to network replication */
 	public function PreDestroyFromReplication() : Void;
+
+	public function SaveConfig(Flags:Int = EPropertyFlags.CPF_Config, ?Filename:TCharStar, @:opt(unreal.FConfigCacheIni.GConfig) ?Config:PPtr<FConfigCacheIni>) : Void;
+	public function UpdateDefaultConfigFile(@:opt(new unreal.FString("")) ?SpecificFileLocation:Const<PRef<FString>>) : Void;
+	public function UpdateGlobalUserConfigFile() : Void;
 }
