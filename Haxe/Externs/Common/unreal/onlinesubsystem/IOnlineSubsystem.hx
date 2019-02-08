@@ -11,7 +11,7 @@ import unreal.*;
 	 * @param SubsystemName - Name of the requested online service
 	 * @return pointer to the appropriate online subsystem
 	 */
-  public static function Get(@:uopt(unreal.FName.None) ?subsystemName:Const<PRef<FName>>) : unreal.PPtr<IOnlineSubsystem>;
+  public static function Get(@:opt(unreal.FName.None) ?subsystemName:Const<PRef<FName>>) : unreal.PPtr<IOnlineSubsystem>;
 
   /**
 	 * Get the online subsystem based on current platform
@@ -33,14 +33,14 @@ import unreal.*;
 	 * @param SubsystemName - Name of the requested online service
 	 * @return true if instance exists, false otherwise
 	 */
-	static function DoesInstanceExist(@:uopt(unreal.FName.None) ?SubsystemName:Const<PRef<FName>>) : Bool;
+	static function DoesInstanceExist(@:opt(unreal.FName.None) ?SubsystemName:Const<PRef<FName>>) : Bool;
 
 	/**
 	 * Determine if the subsystem for a given interface is already loaded
 	 * @param SubsystemName - Name of the requested online service
 	 * @return true if module for the subsystem is loaded
 	 */
-	static function IsLoaded(@:uopt(unreal.FName.None) ?SubsystemName:Const<PRef<FName>>) : Bool;
+	static function IsLoaded(@:opt(unreal.FName.None) ?SubsystemName:Const<PRef<FName>>) : Bool;
 
 	/**
 	 * Return the name of the subsystem @see OnlineSubsystemNames.h
