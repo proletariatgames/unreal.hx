@@ -79,4 +79,6 @@ extern class UEngine_Extra {
 	/** Clear any existing debug messages */
 	public function ClearOnScreenDebugMessages():Void;
 
+	/** Updates the timer between garbage collection such that at the next opportunity garbage collection will be run. */
+	public function ForceGarbageCollection(bFullPurge:Bool=false) : Void;
 }
