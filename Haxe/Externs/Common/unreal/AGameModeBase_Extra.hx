@@ -42,6 +42,7 @@ extern class AGameModeBase_Extra {
   function PlayerCanRestart_Implementation(Player : unreal.APlayerController) : Bool;
   function ChoosePlayerStart_Implementation(player:AController) : AActor;
   function GetDefaultPawnClassForController_Implementation(inController:unreal.AController) : unreal.UClass;
+  function HandleStartingNewPlayer_Implementation(NewPlayer:unreal.APlayerController) : Void;
   @:thisConst public function MustSpectate_Implementation(NewPlayerController : unreal.APlayerController) : Bool;
 
 }
