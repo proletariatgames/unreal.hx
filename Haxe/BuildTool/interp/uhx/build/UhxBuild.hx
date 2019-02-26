@@ -1237,14 +1237,15 @@ class UhxBuild extends UhxBaseBuild {
     switch (data.targetPlatform) {
     case Win32:
       args.push('-D HXCPP_M32');
-      if (debugMode || config.debugSymbols)
-        args.push('-D HXCPP_DEBUG_LINK');
     case Win64:
       args.push('-D HXCPP_M64');
-      if (debugMode || config.debugSymbols)
-        args.push('-D HXCPP_DEBUG_LINK');
     case _:
       args.push('-D HXCPP_M64');
+    }
+
+    if (debugMode || config.debugSymbols)
+    {
+      args.push('-D HXCPP_DEBUG_LINK');
     }
 
     // set correct ABI
