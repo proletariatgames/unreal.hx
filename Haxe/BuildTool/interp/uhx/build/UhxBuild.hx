@@ -1292,9 +1292,13 @@ class UhxBuild extends UhxBaseBuild {
         ];
         var disabledWarnings =
           '-Wno-null-dereference -Wno-parentheses-equality';
-        var clangCall = (Sys.getEnv("CROSS_LINUX_SYMBOLS") == null ?
-            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
-            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"');
+        var dbg = Sys.getEnv('CROSS_LINUX_SYMBOLS') == null ? '' : '-g';
+        var clangCall = 'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu $dbg';
+        var useLibcxx = Sys.getEnv('UE4_LINUX_USE_LIBCXX');
+        if (useLibcxx == null || useLibcxx == '1')
+        {
+          clangCall += ' -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\" -nodefaultlibs';
+        }
         envs = envs.concat([
           'ThirdPartyDir=' + thirdPartyDir,
           'PATH=' + Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
