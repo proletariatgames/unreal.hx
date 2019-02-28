@@ -1292,7 +1292,7 @@ class UhxBuild extends UhxBaseBuild {
         ];
         var disabledWarnings =
           '-Wno-null-dereference -Wno-parentheses-equality';
-        var dbg = Sys.getEnv('CROSS_LINUX_SYMBOLS') == null ? '' : '-g';
+        var dbg = Sys.getEnv('CROSS_LINUX_SYMBOLS') == null && !config.debugSymbols ? '' : '-g';
         var clangCall = 'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu $dbg';
         var useLibcxx = Sys.getEnv('UE4_LINUX_USE_LIBCXX');
         if (useLibcxx == null || useLibcxx == '1')
