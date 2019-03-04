@@ -469,6 +469,16 @@ class GenerateProjectFiles extends UhxBaseBuild {
           }
         }
       }
+      if (this.config.extraVscodeSettings != null)
+      {
+        for (cfg in this.config.extraVscodeSettings)
+        {
+          for (field in Reflect.fields(cfg))
+          {
+            Reflect.setField(existing, field, Reflect.field(cfg, field));
+          }
+        }
+      }
     }
 
     var externsPath = haxe.io.Path.normalize(this.data.pluginDir + '/Haxe/Externs');
