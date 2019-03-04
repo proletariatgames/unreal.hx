@@ -23,7 +23,7 @@ class MacroHelper {
     var configs = ['UhxBuildData', 'UhxBuildConfig'];
     var args = [
       'builderPath', 'ProjectDir', 'UE_CPPIA_RECOMPILE', 'TargetPlatform', 'sys',
-      'ProjectFile', 'TargetConfiguration', 'PluginDir', 'EngineDir', 'TargetName'
+      'ProjectFile', 'TargetConfiguration', 'PluginDir', 'EngineDir', 'TargetName', 'RootDir'
     ];
     for (config in configs) {
       switch (haxe.macro.Context.follow(haxe.macro.Context.getType(config))) {

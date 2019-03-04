@@ -13,6 +13,11 @@ class UhxBaseBuild {
 
   public function new(data:UhxBuildData, ?config:UhxBuildConfig) {
     for (field in Reflect.fields(data)) {
+      if (field == 'rootDir')
+      {
+        continue;
+      }
+
       if (Reflect.field(data, field) == null) {
         var f = field.substr(0,1).toUpperCase() + field.substr(1);
         throw new BuildError('Cannot find property $f');
@@ -245,23 +250,25 @@ class UhxBaseBuild {
 
   private function getConfig():UhxBuildConfig {
     var base:UhxBuildConfig = {};
-    for (file in ['uhxconfig.json','uhxconfig-local.json','uhxconfig.local']) {
-      if (FileSystem.exists('${rootDir}/$file')) {
-        trace('Loading config from ${rootDir}/$file');
-        var cur = haxe.Json.parse(File.getContent('${rootDir}/$file'));
-        for (field in Reflect.fields(cur)) {
-          var data:Dynamic = Reflect.field(cur, field);
-          if (Std.is(data, Array)) {
+#if !cpp
+    inline function addData(data:UhxBuildConfig) {
+      if (data != null) {
+        for (field in Reflect.fields(data)) {
+          var val:Dynamic = Reflect.field(data, field);
+          if (Std.is(val, Array)) {
             var old:Array<Dynamic> = Reflect.field(base, field);
             if (old != null && Std.is(old, Array)) {
-              data = old.concat(data);
+              val = old.concat(val);
             }
           }
-          Reflect.setField(base, field, data);
+          Reflect.setField(base, field, val);
         }
       }
     }
-#if !cpp
+
+    addData(ExtJson.parseFile('uhxconfig.json'));
+    addData(ExtJson.parseFile('uhxconfig-local.json'));
+    addData(ExtJson.parseFile('uhxconfig.local'));
     if (haxe.macro.Compiler.getDefine("haxeInstallPath") != null) {
       base.haxeInstallPath = haxe.macro.Compiler.getDefine("haxeInstallPath");
     }
@@ -271,7 +278,6 @@ class UhxBaseBuild {
     if (haxe.macro.Compiler.getDefine("noDynamicObjects") != null) {
       base.noDynamicObjects = true;
     }
-#end
 
     if (Sys.getEnv('BAKE_EXTERNS') != null) {
       base.forceBakeExterns = true;
@@ -291,8 +297,25 @@ class UhxBaseBuild {
     for (fn in ConfigHelper.getConfigs()) {
       base = fn(this.data, base);
     }
+#end
 
     return base;
+  }
+
+  private function getEngineVersion(config:UhxBuildConfig):{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> } {
+    var engineDir = this.data.engineDir;
+    if (FileSystem.exists('$engineDir/Build/Build.version')) {
+      return haxe.Json.parse( sys.io.File.getContent('$engineDir/Build/Build.version') );
+    } else if (config.engineVersion != null) {
+      var vers = config.engineVersion.split('.');
+      var ret = { MajorVersion:Std.parseInt(vers[0]), MinorVersion:Std.parseInt(vers[1]), PatchVersion:Std.parseInt(vers[2]) };
+      if (ret.MajorVersion == null || ret.MinorVersion == null) {
+        throw new BuildError('The engine version is not in the right pattern (Major.Minor.Patch)');
+      }
+      return ret;
+    } else {
+      throw new BuildError('The engine build version file at $engineDir/Build/Build.version could not be found, and neither was an overridden version set on the uhxconfig.local file');
+    }
   }
 
   // adapted from hxcpp code
