@@ -108,6 +108,9 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
   @:allow(UnrealInit) static function cppiaHotReload():HotReloadStatus {
     // 1st pass - check if we need to reinstance the dll
     var needsReinstancing = false;
+    #if UHX_ALWAYS_REINSTANCE
+    needsReinstancing = true;
+    #else
     for (uclass in uclassNames) {
       if (!registry.exists(uclass)) {
         trace('Warning', 'Cannot find metadata definitions for $uclass. Perhaps it was deleted?');
@@ -140,6 +143,7 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         }
       }
     }
+    #end
     var touched = [];
     // 2nd pass - only create classes that need to be created
     var toAdd = [];
