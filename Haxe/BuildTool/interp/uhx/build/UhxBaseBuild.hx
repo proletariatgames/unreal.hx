@@ -266,9 +266,9 @@ class UhxBaseBuild {
       }
     }
 
-    addData(ExtJson.parseFile('uhxconfig.json'));
-    addData(ExtJson.parseFile('uhxconfig-local.json'));
-    addData(ExtJson.parseFile('uhxconfig.local'));
+    addData(ExtJson.parseFile('/uhxconfig.json'));
+    addData(ExtJson.parseFile('/uhxconfig-local.json'));
+    addData(ExtJson.parseFile('/uhxconfig.local'));
     if (haxe.macro.Compiler.getDefine("haxeInstallPath") != null) {
       base.haxeInstallPath = haxe.macro.Compiler.getDefine("haxeInstallPath");
     }
