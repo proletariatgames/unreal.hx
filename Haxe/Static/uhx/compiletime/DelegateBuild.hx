@@ -396,7 +396,7 @@ class DelegateBuild {
     def.isExtern = isExtern;
     def.pos = pos;
 #if bake_externs
-    meta.push({ name:':udelegate', params:[macro var _:$sup], pos:pos });
+    meta.push({ name:':udelegate', params:[macro (_:$sup)], pos:pos });
     def.kind = TDClass();
     def.isExtern = true;
 #else
