@@ -819,6 +819,8 @@ class ExternBaker {
           superStruct = TypeRef.fromType( t.toType(), pos );
         case { params: [{ expr:ECheckType(_, t)}], pos:pos }:
           superStruct = TypeRef.fromType( t.toType(), pos );
+        case { params: [{ expr:EParenthesis({ expr:ECheckType(_, t)}) }], pos:pos }:
+          superStruct = TypeRef.fromType( t.toType(), pos );
         case e:
           throw new Error('Bad @:udelegate format: $e', e.pos);
         }
