@@ -750,9 +750,26 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   // Same match UHT makes from System/CPPHeaders.cs
-  static var uhtRegExp = ~/^\s*U(CLASS|STRUCT|ENUM|INTERFACE|DELEGATE)\b/m;
+  static var uhtRegExp = ~/^\s*U(CLASS|STRUCT|ENUM|INTERFACE|DELEGATE)\b/;
   private static function isUhtHeader(path:String, file:String) {
-    return uhtRegExp.match(sys.io.File.getContent(path));
+    // for some reason in some cases, doing a multi-line regexp fails
+    var file = sys.io.File.read(path);
+    try
+    {
+      while(true)
+      {
+        if (uhtRegExp.match(file.readLine()))
+        {
+          file.close();
+          return true;
+        }
+      }
+    }
+    catch(e:haxe.io.Eof)
+    {
+    }
+    file.close();
+    return false;
   }
 
   private static function collectUhtHeaders(dir:String, arr:Array<String>, lastRun:Float):Bool {
