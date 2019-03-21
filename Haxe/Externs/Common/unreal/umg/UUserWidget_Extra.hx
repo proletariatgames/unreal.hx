@@ -27,6 +27,7 @@ extern class UUserWidget_Extra {
 	private function NativeOnMouseEnter(MyGeometry : Const<PRef<FGeometry>>, MouseEvent : Const<PRef<FPointerEvent>>) : Void;
 	private function NativeOnMouseLeave(InMouseEvent : Const<PRef<FPointerEvent>>) : Void;
 	private function NativeOnKeyDown (InGeometry : Const<PRef<FGeometry>>, InKeyEvent : Const<PRef<FKeyEvent>>) : FReply;
+	private function NativeOnKeyUp (InGeometry : Const<PRef<FGeometry>>, InKeyEvent : Const<PRef<FKeyEvent>>) : FReply;
 	private function NativeOnDragDetected(MyGeometry : Const<PRef<FGeometry>>, MouseEvent : Const<PRef<FPointerEvent>>, Operation : Ref<unreal.umg.UDragDropOperation>) : Void;
 	private function NativeOnDragCancelled(InDragDropEvent : Const<PRef<FDragDropEvent>>, InOperation : UDragDropOperation) : Void;
 	private function NativeOnDragEnter(InGeometry : Const<PRef<FGeometry>>, InDragDropEvent : Const<PRef<FDragDropEvent>>, InOperation : UDragDropOperation) : Void;

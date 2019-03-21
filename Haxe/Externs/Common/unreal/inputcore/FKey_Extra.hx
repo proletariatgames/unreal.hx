@@ -11,4 +11,5 @@ extern class FKey_Extra {
   public function ToString() : FString;
   public function IsFloatAxis() : Bool;
   public function IsVectorAxis() : Bool;
+  public function IsModifierKey() : Bool;
 }
