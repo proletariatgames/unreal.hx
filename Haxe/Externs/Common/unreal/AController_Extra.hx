@@ -15,6 +15,9 @@ extern class AController_Extra {
   @:thisConst
   public function GetStateName() : FName;
 
+  /** spawns and initializes the PlayerState for this Controller */
+  public function InitPlayerState() : Void;
+
   /**
    * Called from game mode upon end of the game, used to transition to proper state.
    * @param EndGameFocus Actor to set as the view target on end game
