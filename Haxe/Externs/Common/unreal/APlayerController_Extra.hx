@@ -24,8 +24,13 @@ extern class APlayerController_Extra {
 	 * @param ActorList (out) list of actors to maintain
 	 */
 	public function GetSeamlessTravelActorList(bToEntry:Bool, ActorList:PRef<TArray<AActor>>) : Void;
+	/**
+	 * Called after this player controller has transitioned through seamless travel, but before that player is initialized
+	 * This is called both when a new player controller is created, and when it is maintained
+	 */
+	public function PostSeamlessTravel() : Void;
 
-  public function GetNextViewablePlayer(dir:Int32) : APlayerState;
+	public function GetNextViewablePlayer(dir:Int32) : APlayerState;
 
   public function SetPause(bPause:Bool) : Bool;
 
