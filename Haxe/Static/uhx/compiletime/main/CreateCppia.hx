@@ -13,21 +13,16 @@ using Lambda;
 class CreateCppia {
   static var firstCompilation = true;
   static var hasRun = false;
-  static var compiledModules:{ stamp:Float, modules:Map<String, Bool> };
   static var externsDir:String;
 
   public static function run(staticPaths:Array<String>, scriptPaths:Array<String>, ?excludeModules:Array<String>) {
     Globals.cur.checkBuildVersionLevel();
     externsDir = Context.definedValue('UHX_BAKE_DIR');
     var target = Globals.cur.staticBaseDir;
-    compiledModules = getCompiled(target);
-    var compiled = compiledModules.modules;
-    for (c in compiled.keys()) {
-      Globals.cur.allCompiledModules[c] = true;
-    }
+    var compiled = Globals.cur.getCompiled(target).modules;
 
     registerMacroCalls(target);
-    readScriptGlues('$target/Data/scriptGlues.txt');
+    Globals.cur.readScriptGlues('$target/Data/scriptGlues.txt');
 
     var statics = [];
     for (path in staticPaths) {
@@ -152,9 +147,6 @@ class CreateCppia {
 
       if (!finalized && !Globals.cur.hasUnprocessedTypes) {
         finalized = true;
-        // create hot reload helper
-        LiveReloadBuild.bindFunctions('LiveReloadScript');
-
         var metaDefs = Globals.cur.classesToAddMetaDef;
         var cur = null;
         while ( (cur = metaDefs.pop()) != null ) {
@@ -170,6 +162,12 @@ class CreateCppia {
         var cur = null;
         while ( (cur = metaDefs.pop()) != null ) {
           MetaDefBuild.addUDelegateMetaDef(cur);
+        }
+
+        var liveFuncs = Globals.cur.explicitLiveReloadFunctions;
+        if (liveFuncs.iterator().hasNext())
+        {
+          uhx.compiletime.LiveReloadBuild.createBindFunctionsMain('uhx.LiveReloadScript');
         }
 
         MetaDefBuild.writeClassDefs();
@@ -381,6 +379,7 @@ class CreateCppia {
     Context.onAfterGenerate( function() {
       writeFileDeps(fileDeps, '$target/Data/cppiaDeps.txt');
       sys.io.File.saveContent('$target/Data/cppiaModules.txt', scripts.join('\n'));
+      uhx.compiletime.LiveReloadBuild.saveLiveHashes('cppia-live-hashes.txt');
     });
   }
 
@@ -432,45 +431,6 @@ class CreateCppia {
     if (FileSystem.exists(path)) recurse(path, '');
   }
 
-  private static function readScriptGlues(path:String):Void {
-    var scriptGlues = new Map(),
-        byName = new Map(),
-        curArr = null,
-        scriptGlueTypes = [];
-    var curBase = null;
-    var file = sys.io.File.read(path);
-    try {
-      while(true) {
-        var ln = file.readLine();
-        if (ln == '') continue;
-        switch (ln.charCodeAt(0)) {
-        case ':'.code:
-          var cur = ln.substr(1);
-          curBase = cur + ':';
-          scriptGlues[curBase] = false;
-          byName[cur] = curArr = [];
-        case '+'.code:
-          var cur = ln.substr(1);
-          scriptGlues[curBase + cur] = false;
-          curArr.push(cur);
-        case '='.code:
-          if (ln == '=script') {
-            scriptGlueTypes.push(curBase.substr(0,curBase.length-1));
-          }
-        case _:
-          throw '$path: Unknown script glue part $ln';
-        }
-      }
-    }
-    catch(e:haxe.io.Eof) {
-    }
-
-    file.close();
-    Globals.cur.setCompiledScriptGlues(scriptGlues);
-    Globals.cur.setCompiledScriptGluesByName(byName);
-    Globals.cur.compiledScriptGlueTypes = scriptGlueTypes;
-  }
-
   private static function ensureCompiled(modules:Array<Array<Type>>) {
     var ret = new Map();
     var ustruct = Context.getType('unreal.Struct');
@@ -518,35 +478,5 @@ class CreateCppia {
       });
     }
     Globals.cur.setHaxeRuntimeDir();
-  }
-
-  private static function getCompiled(target:String):{ stamp:Null<Float>, modules:Map<String, Bool> } {
-    var ret = new Map(),
-        path = '$target/Data/compiled.txt';
-    if (!FileSystem.exists(path)) {
-      return { stamp:null, modules:ret };
-    }
-    var stamp = FileSystem.stat(path).mtime.getTime(),
-        file = sys.io.File.read(path);
-    try {
-      while(true) {
-        var cur = file.readLine();
-        ret[cur] = true;
-      }
-    }
-    catch(e:haxe.io.Eof) {
-    }
-    file.close();
-
-    if (compiledModules != null) {
-      var old = compiledModules.modules;
-      for (key in old.keys()) {
-        if (!ret.exists(key)) {
-          // Compiler.define('UHX_COMPILED_${key.replace('.','_')}', '0');
-        }
-      }
-    }
-
-    return { stamp:stamp, modules:ret };
   }
 }

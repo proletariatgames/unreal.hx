@@ -170,8 +170,8 @@ class CoreAPI {
 
 #end // UHX_NO_UOBJECT
 
-  @:noUsing public static macro function staticVar(e:Expr):Expr {
-    return uhx.compiletime.CoreAPIMacros.runStaticVar(e);
+  @:noUsing public static macro function staticVar(e:Expr, ?createExpr:Expr):Expr {
+    return uhx.compiletime.CoreAPIMacros.runStaticVar(e, createExpr);
   }
 
   public static macro function staticName(e:ExprOf<String>):Expr {

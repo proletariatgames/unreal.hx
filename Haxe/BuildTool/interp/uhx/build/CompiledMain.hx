@@ -8,7 +8,7 @@ class CompiledMain {
     var ret = 0,
         data = UhxBuildData.fromArgs(args);
     try {
-      var build = new UhxBuild(data, cast args);
+      var build = new UhxBuild(data, MacroHelper.getArgs(UhxBuildConfig, args));
 
       build.run();
     }

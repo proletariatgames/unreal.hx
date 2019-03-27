@@ -6,24 +6,147 @@ import haxe.macro.Type;
 
 class CoreAPIMacros {
 
-  public static function runStaticVar(e:Expr):Expr {
-    var pos = Context.getPosInfos(e.pos),
-        curCls = Context.getLocalModule();
+  public static function runStaticVar(nameExpr:Expr, createExpr:Null<Expr>):Expr {
+    var pos = Context.getPosInfos(nameExpr.pos);
+    var ident = null;
+    switch(nameExpr.expr)
+    {
+      case EConst(CIdent(id)):
+        ident = id;
+      case _:
+        throw new Error('Error while calling staticVar: The first argument must be an identifier, like CoreAPI.staticVar(myVarName)', nameExpr.pos);
+    }
+    var module = Context.getLocalModule();
+    var cls = Context.getLocalClass().get();
+    var func = Context.getLocalMethod();
+    var moduleName = module.split('.').pop();
+    var name = '${cls.name}_${func}_$ident';
+    if (moduleName != cls.name)
+    {
+      name = moduleName + '_$name';
+    }
+    var expr = null;
+    if (Context.defined('LIVE_RELOAD_BUILD'))
+    {
+      var hash = LiveReloadBuild.getLiveHashFor(cls);
+      name += '#$hash';
+    }
 
-    var tref = TypeRef.parseClassName(curCls);
-    var name =  tref.name + '_' + pos.max + '_' + pos.min;
-    var cls = macro class {
-      public static var value;
-    };
+    try
+    {
+      Context.getType('uhx.statics.$name');
+    }
+    catch(e:Dynamic)
+    {
+      var def = null;
+      if (!Context.defined('LIVE_RELOAD_BUILD'))
+      {
+        var complex = TPath({ name:name, pack:[], });
+        def = macro class {
+          static var value;
 
-    cls.kind = TDAbstract(macro :Dynamic);
-    cls.pack = ['uhx','statics'];
-    cls.name = name;
-    Context.defineType(cls);
+          @:extern inline public static function getNull<T>(t:T):Null<T>
+          {
+            return t;
+          }
 
-    var parsed = Context.parse('uhx.statics.' + name + '.value', e.pos);
+          @:extern inline public static function getStatic(?ctor):$complex
+          {
+            if (ctor != null && value == null)
+            {
+              value = getNull(ctor());
+            }
+            return cast value;
+          }
 
-    return macro @:pos(e.pos) ($parsed != null ? $parsed : ($parsed = $e));
+          @:extern inline public function get()
+          {
+            return value;
+          }
+
+          @:extern inline public function set(val)
+          {
+            value = getNull(val);
+            return val;
+          }
+
+          @:arrayAccess @:extern inline public function arrayGet(index:Int)
+          {
+            if (index != 0)
+            {
+              throw 'Out of bounds: Only index 0 is available for static vars';
+            }
+            return get();
+          }
+
+          @:arrayAccess @:extern inline public function arraySet(index:Int, val)
+          {
+            if (index != 0)
+            {
+              throw 'Out of bounds: Only index 0 is available for static vars';
+            }
+            return set(val);
+          }
+        };
+      } else {
+        var complex = TPath({ name:name, pack:[], params:[TPType(TPath({ name:'T', pack:[] }))] });
+        var getStatic = macro @:pos(nameExpr.pos) uhx.runtime.LiveReloadFuncs.getStatics()[$v{name}];
+        def = macro class {
+          @:extern inline public static function getStatic<T>(?ctor:Void->T):$complex
+          {
+            var ret:Null<T> = $getStatic;
+            if (ctor != null && ret == null)
+            {
+              $getStatic = ret = ctor();
+            }
+            return cast ret;
+          }
+
+          @:extern inline public function get():T
+          {
+            return $getStatic;
+          }
+
+          @:extern inline public function set(val:T)
+          {
+            $getStatic = val;
+            return val;
+          }
+
+          @:arrayAccess @:extern inline public function arrayGet(index:Int):T
+          {
+            if (index != 0)
+            {
+              throw 'Out of bounds: Only index 0 is available for static vars';
+            }
+            return get();
+          }
+
+          @:arrayAccess @:extern inline public function arraySet(index:Int, val:T):T
+          {
+            if (index != 0)
+            {
+              throw 'Out of bounds: Only index 0 is available for static vars';
+            }
+            return set(val);
+          }
+        };
+      def.params = [{ name:'T' }];
+      }
+
+      def.kind = TDAbstract(macro :Dynamic);
+      def.pack = ['uhx','statics'];
+      def.name = name;
+      Context.defineType(def);
+    }
+
+    switch(createExpr)
+    {
+      case null | { expr:EConst(CIdent("null")) }:
+        return macro uhx.statics.$name.getStatic();
+      case _:
+        return macro uhx.statics.$name.getStatic(function() return $createExpr);
+    }
   }
 
   public static function runStaticName(e:Expr):Expr {

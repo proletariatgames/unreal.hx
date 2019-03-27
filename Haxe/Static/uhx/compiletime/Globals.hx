@@ -43,6 +43,8 @@ class Globals {
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
   public var allCompiledModules(default, null):Map<String, Bool> = new Map();
   public var glueManager:Null<uhx.compiletime.types.GlueManager>;
+  public var compiledModules:{ stamp:Float, modules:Map<String, Bool> };
+  public var liveReloadModules:Map<String, Bool> = new Map();
 
   var compiledScriptGlues:Map<String, Bool> = new Map();
   var compiledScriptGluesByName:Map<String, Array<String>> = new Map();
@@ -50,12 +52,68 @@ class Globals {
 
   @:isVar public var shortBuildName(get, null):String;
 
-  public function setCompiledScriptGlues(map:Map<String, Bool>) {
-    this.compiledScriptGlues = map;
+  public function readScriptGlues(path:String):Void {
+    var scriptGlues = new Map(),
+        byName = new Map(),
+        curArr = null,
+        scriptGlueTypes = [];
+    var curBase = null;
+    var file = sys.io.File.read(path);
+    try {
+      while(true) {
+        var ln = file.readLine();
+        if (ln == '') continue;
+        switch (ln.charCodeAt(0)) {
+        case ':'.code:
+          var cur = ln.substr(1);
+          curBase = cur + ':';
+          scriptGlues[curBase] = false;
+          byName[cur] = curArr = [];
+        case '+'.code:
+          var cur = ln.substr(1);
+          scriptGlues[curBase + cur] = false;
+          curArr.push(cur);
+        case '='.code:
+          if (ln == '=script') {
+            scriptGlueTypes.push(curBase.substr(0,curBase.length-1));
+          }
+        case _:
+          throw '$path: Unknown script glue part $ln';
+        }
+      }
+    }
+    catch(e:haxe.io.Eof) {
+    }
+
+    file.close();
+    this.compiledScriptGlues = scriptGlues;
+    this.compiledScriptGluesByName = byName;
+    this.compiledScriptGlueTypes = scriptGlueTypes;
   }
 
-  public function setCompiledScriptGluesByName(map:Map<String, Array<String>>) {
-    this.compiledScriptGluesByName = map;
+  public function getCompiled(target:String):{ stamp:Null<Float>, modules:Map<String, Bool> } {
+    var ret = new Map(),
+        path = '$target/Data/compiled.txt';
+    if (!FileSystem.exists(path)) {
+      return { stamp:null, modules:ret };
+    }
+    var stamp = FileSystem.stat(path).mtime.getTime(),
+        file = sys.io.File.read(path);
+    try {
+      while(true) {
+        var cur = file.readLine();
+        ret[cur] = true;
+      }
+    }
+    catch(e:haxe.io.Eof) {
+    }
+    file.close();
+
+    for (c in ret.keys()) {
+      this.allCompiledModules[c] = true;
+    }
+
+    return this.compiledModules = { stamp:stamp, modules:ret };
   }
 
   public function getScriptGluesByName(name:String) {
@@ -167,7 +225,12 @@ class Globals {
   /**
     All live reload functions that were gathered during the build
    **/
-  public var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
+  public var explicitLiveReloadFunctions:Map<String, Array<{ functionName:String }>> = new Map();
+
+  /**
+    The hashes of each live reload-enabled class
+  **/
+  public var liveHashes:Map<String, String> = new Map();
 
   /**
     A cache of TypeConv objects
@@ -304,10 +367,10 @@ class Globals {
         if (FileSystem.exists(staticBaseDir + '/Data/$name-num.txt')) {
           curNum = Std.parseInt(sys.io.File.getContent(staticBaseDir + '/Data/$name-num.txt'));
         }
-        if (curNum == null || curNum != num) {
-          trace('Disposing macro context - conflict found');
-          return false;
-        }
+        // if (curNum == null || curNum != num) {
+        //   trace('Disposing macro context - conflict found');
+        //   return false;
+        // }
         return onMacroReused();
       });
     }
