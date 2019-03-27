@@ -148,7 +148,13 @@ class UhxBaseBuild {
 
   static function makeArgsFromObj(obj:Dynamic, out:Array<String>) {
     for (field in Reflect.fields(obj)) {
-      out.push('$field=${Reflect.field(obj,field)}');
+      var arg = Reflect.field(obj, field);
+      if (Std.is(arg, String) || Std.is(arg, Float) || Std.is(arg, Bool))
+      {
+        out.push('$field=${arg}');
+      } else {
+        out.push('$field=${haxe.Json.stringify(arg)}');
+      }
     }
   }
 

@@ -5,8 +5,8 @@
 -cpp bin/dummy
 --no-output
 -D BUILDTOOL_VERSION_LEVEL=5
--D haxe_runtime_dir=bin
 -D static_link
--D dump
 -D no-copt
 -D WITH_CPPIA
+-D UHX_DISPLAY
+-main UnrealInit

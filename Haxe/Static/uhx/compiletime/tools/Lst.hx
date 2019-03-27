@@ -13,6 +13,19 @@ class Lst<T> {
     return new Lst(value, this);
   }
 
+  public function iterator():Iterator<T>
+  {
+    var cur = this;
+    return {
+      hasNext:function() return cur != null,
+      next:function() {
+        var ret = cur.value;
+        cur = cur.next;
+        return ret;
+      }
+    };
+  }
+
   public function toString() {
     var tmp = [];
     var cur = this;

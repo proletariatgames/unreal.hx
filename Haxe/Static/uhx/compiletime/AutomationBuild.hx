@@ -35,11 +35,8 @@ class AutomationBuild {
       if (f.access != null && f.access.has(AOverride)) {
         overrides[f.name] = true;
       }
-      if (f.meta.hasMeta(':live')) {
-        changed = true;
-        uhx.compiletime.LiveReloadBuild.changeField(thisType, f, toAdd);
-      }
     }
+    changed = uhx.compiletime.LiveReloadBuild.injectProloguesForFields(cls, fields) || changed;
 
     if (cls.meta.has(':abstract')) {
       if (changed || toAdd.length > 0) {

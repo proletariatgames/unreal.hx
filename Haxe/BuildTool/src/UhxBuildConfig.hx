@@ -190,6 +190,11 @@ typedef UhxBuildConfig = {
   **/
   ?alwaysBuild:BuildKind,
 
+  /**
+    When set, enables live reload code
+  **/
+  ?liveReload:Bool,
+
   //#region vscode
   /**
     Skips the vscode project generation

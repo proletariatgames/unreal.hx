@@ -230,10 +230,12 @@ class CreateGlue {
 
           // create hot reload helper
           if (Context.defined('WITH_CPPIA')) {
-            LiveReloadBuild.bindFunctions('LiveReloadStatic');
-            var lives = [ for (cls in Globals.cur.liveReloadFuncs.keys()) cls ];
+            var lives = [ for (cls in Globals.cur.explicitLiveReloadFunctions.keys()) cls ];
+            var out = Globals.cur.staticBaseDir + '/Data/livereload.txt';
             if (lives.length > 0) {
-              sys.io.File.saveContent( Globals.cur.staticBaseDir + '/Data/livereload.txt', lives.join('\n') );
+              sys.io.File.saveContent( out, lives.join('\n') );
+            } else if (sys.FileSystem.exists(out)) {
+              sys.FileSystem.deleteFile(out);
             }
           }
           Globals.cur.loadCachedTypes();
@@ -290,6 +292,7 @@ class CreateGlue {
       writeFileDeps(fileDeps, '${Globals.cur.staticBaseDir}/Data/staticDeps.txt');
       sys.io.File.saveContent('${Globals.cur.staticBaseDir}/Data/staticModules.txt', staticModules.join('\n'));
       writeScriptGlues(builtGlues, '${Globals.cur.staticBaseDir}/Data/scriptGlues.txt');
+      uhx.compiletime.LiveReloadBuild.saveLiveHashes('static-live-hashes.txt');
     });
   }
 

@@ -758,7 +758,7 @@ class ExternBaker {
     if (name == null) {
       name = typeRef.getClassPath();
     }
-    this.add('#if cppia @:build(uhx.compiletime.types.CompiledMetaCheck.build("${name}")) #end');
+    this.add('#if (cppia && !LIVE_RELOAD_BUILD) @:build(uhx.compiletime.types.CompiledMetaCheck.build("${name}")) #end');
     this.newline();
     if (c.isPrivate) {
       this.add('private ');
