@@ -284,8 +284,11 @@ package unreal;
    *
    * @return Project file path.
    */
+#if (UE_VER < 4.10)
   public static function GetProjectFilePath():Const<PRef<FString>>;
-
+#else
+  public static function GetProjectFilePath():FString;
+#end
 
   /**
    * Converts a relative path name to a fully qualified name relative to the process BaseDir().
@@ -323,4 +326,59 @@ package unreal;
   public static function DirectoryExists(InPath:Const<PRef<FString>>):Bool;
 
   public static function GetBaseFilename(InPath:Const<PRef<FString>>, bRemovePath:Bool) : FString;
+
+#if (UE_VER >= 4.19)
+  /**
+   * Returns the base directory of the current game by looking at FApp::GetGameName().
+   * This is usually a subdirectory of the installation
+   * root directory and can be overridden on the command line to allow self
+   * contained mod support.
+   *
+   * @return base directory
+   */
+  public static function ProjectDir():FString;
+
+  /**
+   * Returns the root directory for user-specific Project files.
+   *
+   * @return Project user directory
+   */
+  public static function ProjectUserDir():FString;
+
+  /**
+   * Returns the content directory of the current Project by looking at FApp::GetProjectName().
+   *
+   * @return content directory
+   */
+  public static function ProjectContentDir():FString;
+
+  /**
+   * Returns the directory the root configuration files are located.
+   *
+   * @return root config directory
+   */
+  public static function ProjectConfigDir():FString;
+
+  /**
+   * Returns the saved directory of the current Project by looking at FApp::GetProjectName().
+   *
+   * @return saved directory
+   */
+  public static function ProjectSavedDir():FString;
+
+  /**
+   * Returns the intermediate directory of the current Project by looking at FApp::GetProjectName().
+   *
+   * @return intermediate directory
+   */
+  public static function ProjectIntermediateDir():FString;
+
+  /**
+   * Returns the plugins directory of the current Project by looking at FApp::GetProjectName().
+   *
+   * @return plugins directory
+   */
+  public static function ProjectPluginsDir():FString;
+#end // (UE_VER >= 4.19)
+
 }

@@ -25,6 +25,23 @@ class CompiledMain {
       ret = 1;
     }
 
+    if (ret != 0)
+    {
+      if (Sys.systemName() == 'Windows')
+      {
+        Sys.command('Powershell', ['write-host', '-foregroundcolor', 'Red', '*** BUILD FAILED ***']);
+      } else {
+        err('\x1b[31m*** BUILD FAILED ***\x1b[0m');
+      }
+    } else {
+      if (Sys.systemName() == 'Windows')
+      {
+        Sys.command('Powershell', ['write-host', '-foregroundcolor', 'Green', '*** HAXE BUILD SUCCEEDED ***']);
+      } else {
+        err('\x1b[32m*** HAXE BUILD SUCCEEDED ***\x1b[0m');
+      }
+    }
+
     Sys.exit(ret);
   }
 

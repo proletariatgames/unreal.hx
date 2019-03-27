@@ -14,6 +14,12 @@ extern class FColor_Extra {
   public static function FromHex(HexString:Const<PRef<FString>>) : FColor;
 
   public function ToHex() : FString;
+  
+  /**
+	 *	@return a new FColor based of this color with the new alpha value.
+	 *	Usage: const FColor& MyColor = FColorList::Green.WithAlpha(128);
+	 */
+  public function WithAlpha(Alpha:UInt8) : FColor;
 
   @:thisConst
   public function ReinterpretAsLinear() : FLinearColor;

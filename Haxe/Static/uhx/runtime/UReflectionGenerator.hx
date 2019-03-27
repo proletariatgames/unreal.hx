@@ -23,6 +23,29 @@ enum HotReloadStatus {
 class UReflectionGenerator {
 #if !UHX_NO_UOBJECT
 
+public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) {
+  var cls = Type.resolveClass(clsName);
+  if (cls == null) {
+    trace('Error', 'Could not add haxe blueprint overrides for $clsName: it was not found!');
+    return;
+  }
+  var fields:haxe.DynamicAccess<Dynamic<Array<Dynamic>>> = cast haxe.rtti.Meta.getFields(cls);
+  for (field in fields.keys()) {
+    if (fields[field].uhx_OverridesNative != null) {
+      var fn = uclass.FindFunctionByName(field + '_Implementation');
+      if (fn == null) {
+        trace('Error', 'The ufunction ${field}_Implementation was not found on $clsName!');
+        continue;
+      }
+#if (UE_VER < 4.19)
+      uclass.AddFunctionToFunctionMapWithOverriddenName(fn, field);
+#else
+      uclass.AddFunctionToFunctionMap(fn, field);
+#end
+    }
+  }
+}
+
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
   private static var registry:Map<String, DynamicRegistry>;
 
@@ -35,6 +58,7 @@ class UReflectionGenerator {
   private static var customReplicationProps:Map<String, Array<{ uname:String, index:Int, funcName:String }>> = new Map();
 
   private static var haxeGcRefOffset(default, null) = RuntimeLibrary.getHaxeGcRefOffset();
+  private static var delays:Array<Void->Void> = [];
 #if DEBUG_HOTRELOAD
   public static var id:unreal.UIntPtr = untyped __cpp__("(unreal::UIntPtr) &registry");
 #end
@@ -84,6 +108,9 @@ class UReflectionGenerator {
   @:allow(UnrealInit) static function cppiaHotReload():HotReloadStatus {
     // 1st pass - check if we need to reinstance the dll
     var needsReinstancing = false;
+    #if UHX_ALWAYS_REINSTANCE
+    needsReinstancing = true;
+    #else
     for (uclass in uclassNames) {
       if (!registry.exists(uclass)) {
         trace('Warning', 'Cannot find metadata definitions for $uclass. Perhaps it was deleted?');
@@ -95,14 +122,28 @@ class UReflectionGenerator {
       if (ustruct != null) {
         var sig = ustruct.GetMetaData(CoreAPI.staticName("UHX_PropSignature"));
         if (sig.toString() != def.uclass.propSig) {
+          // if the signature is empty, it means this is compiled in C++ - so we
+          // trust that if that's the case UhxBuild would do the right thing and perform a full compilation
+          if (!(sig.IsEmpty() && (def.uclass.upropExpose || !reg.isDynamic))) {
 #if DEBUG_HOTRELOAD
-          trace('$id: Class $uclass changed its properties and needs to be reinstanced');
+            trace('$id: Class $uclass changed its properties and needs to be reinstanced ($sig != ${def.uclass.propSig})');
 #end
-          needsReinstancing = true;
-          break;
+            needsReinstancing = true;
+            break;
+          }
+        }
+        if (def.uclass.ufuncs != null) {
+          for (fn in def.uclass.ufuncs) {
+            if (fn.uname.toLowerCase().startsWith('onrep_') && ustruct.FindFunctionByName(fn.uname) == null) {
+              // if onRep is found, perform a full hot reload
+              needsReinstancing = true;
+              break;
+            }
+          }
         }
       }
     }
+    #end
     var touched = [];
     // 2nd pass - only create classes that need to be created
     var toAdd = [];
@@ -124,7 +165,13 @@ class UReflectionGenerator {
         }
         var sig = reg.getUpdated().GetMetaData(CoreAPI.staticName("UHX_PropSignature"));
         if (!reg.wasDeleted && !reg.needsToAddProperties && sig.toString() != def.uclass.propSig) {
-          throw 'assert: ${uclass}';
+          if (sig.IsEmpty() && (def.uclass.upropExpose || !reg.isDynamic)) {
+#if DEBUG_HOTRELOAD
+            trace('$id: Class $uclass is a @:upropertyExpose class / non-dynamic class. Ignoring propSig');
+#end
+          } else {
+            throw 'assert: ${uclass}';
+          }
         }
         toAdd.push(reg);
       }
@@ -172,28 +219,52 @@ class UReflectionGenerator {
       var packName = unreal.FPackageName.GetShortFName(outer.GetFName());
 
       var manager = unreal.FModuleManager.Get();
-      var info = new unreal.FModuleStatus();
-      if (!manager.QueryModule(packName, info)) {
-        trace('Error', 'Trying to hot reload, but module $packName was not found!');
-        return Failure;
-      }
-      var path = new haxe.io.Path(info.FilePath.toString());
-      var file = path.file;
-      var regex = ~/\-(\d+)$/;
-      if (regex.match(file)) {
-        file = regex.matchedLeft();
-      }
-      var add = Std.random(1000000);
-      path.file = file + '-$add';
-      while(sys.FileSystem.exists(path.toString())) {
-        add = Std.random(1000000);
+      var infos = unreal.TArray.create(new TypeParam<FModuleStatus>());
+      manager.QueryModules(infos);
+      for (info in infos) {
+        if (!info.bIsGameModule) {
+          continue;
+        }
+        var path = new haxe.io.Path(info.FilePath.toString());
+        var file = path.file;
+        var regex = ~/\-(\d+)$/;
+        if (regex.match(file)) {
+          file = regex.matchedLeft();
+        }
+        var add = Std.random(1000000);
         path.file = file + '-$add';
-      }
+        while(sys.FileSystem.exists(path.toString())) {
+          add = Std.random(1000000);
+          path.file = file + '-$add';
+        }
 
+        {
 #if DEBUG_HOTRELOAD
-      trace('$id: Copying module to $path');
+          trace('$id: Copying module to $path');
 #end
-      sys.io.File.copy(info.FilePath.toString(), path.toString());
+          var copiedModule = false;
+          var maxRetries = 10;
+          var backOffSeconds = 0.1;
+          var backOffSecondsIncr = 0.1;
+          for (numRetries in 0...maxRetries) {
+            try {
+              sys.io.File.copy(info.FilePath.toString(), path.toString());
+              copiedModule = true;
+              break;
+            } catch (e:Dynamic) {
+              trace('Warning', 'Failed to copy ${info.FilePath} -> $path, try $numRetries/$maxRetries');
+              Sys.sleep(backOffSeconds);
+              backOffSeconds += backOffSecondsIncr;
+            }
+          }
+
+          if (!copiedModule)
+          {
+            trace('Error', 'Failed to copy module in order to trigger hotreload!');
+            return Failure;
+          }
+        }
+      }
 
       if (unreal.editor.UEditorEngine.GEditor != null) {
         return WaitingRebind;
@@ -407,6 +478,7 @@ class UReflectionGenerator {
     trace('$id: Setting dynamic native $uname');
 #end
     reg.setNative(cls);
+    reg.setDynamic(true);
   }
 
   public static function updateClass(struct:UStruct, uname:String) {
@@ -447,7 +519,7 @@ class UReflectionGenerator {
     }
 
     for (propDef in meta.uclass.uprops) {
-      if (propDef.metas == null) {
+      if (propDef.metas == null || propDef.isCompiled) {
         continue;
       }
       var prop = ReflectAPI.getUPropertyFromClass(cast struct, propDef.uname);
@@ -459,6 +531,26 @@ class UReflectionGenerator {
         }
       }
     }
+  }
+
+  private static function containsInstancedData(def:UPropertyDef) : Bool {
+    if (def.metas != null) {
+      for (meta in def.metas) {
+        if (meta.name.toLowerCase() == 'instanced') {
+          return true;
+        }
+      }
+    }
+    switch (def.flags.type) {
+    case TMap | TArray | TSet:
+      for (param in def.params) {
+        if (containsInstancedData(param)) {
+          return true;
+        }
+      }
+    case _:
+    }
+    return false;
   }
 
   public static function addProperties(struct:UStruct, uname:String, isNative:Bool) {
@@ -506,9 +598,17 @@ class UReflectionGenerator {
       }
     }
 
-    for (propDef in meta.uclass.uprops) {
-      if (isNative && propDef.metas != null && propDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
+    var isClass = Std.is(struct, UClass);
+    var uprops = meta.uclass.uprops,
+        i = uprops.length;
+    while (i --> 0) {
+      var propDef = uprops[i];
+      if (propDef.isCompiled) {
         continue;
+      }
+      if (isClass && containsInstancedData(propDef)) {
+        var cls:UClass = cast struct;
+        cls.ClassFlags = cls.ClassFlags | CLASS_HasInstancedReference;
       }
       var prop = generateUProperty(struct, struct, propDef, false);
       if (prop == null) {
@@ -593,7 +693,9 @@ class UReflectionGenerator {
       if (old != null) {
         var sig = old.GetMetaData(CoreAPI.staticName('UHX_PropSignature'));
         if (sig.IsEmpty()) {
-          trace('Error', 'Trying to hot reload a function that was not created by cppia: ${funcDef.uname} on $uname');
+          if (!funcDef.isCompiled) {
+            trace('Error', 'Trying to hot reload a function that was not created by cppia: ${funcDef.uname} on $uname');
+          }
           continue;
         }
         if (sig.toString() != funcDef.propSig) {
@@ -616,11 +718,12 @@ class UReflectionGenerator {
           }
           markHotReloaded(old, uclass, funcDef.uname);
         } else {
-          // nothing has changed
+          // nothing has changed, but we need to update the ufunction native pointer
+          setupFunction(@:privateAccess uclass.wrapped,@:privateAccess old.wrapped);
           continue;
         }
       }
-      if (isNative && funcDef.metas != null && funcDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
+      if (isNative && funcDef.isCompiled) {
         continue;
       }
       var parent = sup == null ? null : sup.FindFunctionByName(funcDef.uname, ExcludeSuper);
@@ -629,8 +732,8 @@ class UReflectionGenerator {
       if (func != null) {
         // we already do this when creating the property, but we must do it again so that we catch the cases
         // where the onRep function was created after the property was already created (cppia hot reload)
-        if (funcDef.uname.startsWith('onRep_')) {
-          var propName = funcDef.uname.substr('onRep_'.length);
+        if (funcDef.uname.toLowerCase().startsWith('onrep_')) {
+          var propName = funcDef.uname.substr('onrep_'.length);
 #if DEBUG_HOTRELOAD
           trace('$id: Found onRep function for property $propName');
 #end
@@ -648,8 +751,14 @@ class UReflectionGenerator {
           }
         }
 
+#if (UE_VER < 4.19)
         uclass.AddFunctionToFunctionMap(func);
+#else
+        uclass.AddFunctionToFunctionMap(func, funcDef.uname);
+#end
+#if DEBUG_HOTRELOAD
         trace('setting func.Next from (${func.GetName()}) to ${uclass.Children == null ? null : uclass.Children.GetName().toString()}');
+#end
         func.Next = uclass.Children;
         uclass.Children = func;
       }
@@ -980,6 +1089,12 @@ class UReflectionGenerator {
         }
       }
     }
+
+    var curDelays = delays;
+    delays = [];
+    for (delay in curDelays) {
+      delay();
+    }
   }
 
   private static function refreshBlueprints(changed:Array<UClass>) {
@@ -1015,6 +1130,10 @@ class UReflectionGenerator {
         return COND_SimulatedOnlyNoReplay;
       case SimulatedOrPhysicsNoReplay:
         return COND_SimulatedOrPhysicsNoReplay;
+      #if proletariat
+      case OwnerOrSpectatingOwner:
+        return COND_OwnerOrSpectatingOwner;
+      #end
     };
   }
 
@@ -1061,7 +1180,13 @@ class UReflectionGenerator {
     var customRepls = customReplicationProps[uclass.GetName().toString()];
     if (customRepls != null) {
       for (repl in customRepls) {
-        var active = (Reflect.field(obj, repl.funcName))();
+        var customReplFunc = Reflect.field(obj, repl.funcName);
+        if (customReplFunc == null)
+        {
+          trace('Fatal', 'Custom replication function \'${repl.funcName}\' not found on ${uclass.GetName().toString()}. Function is either missing, or the replication condition was improperly referenced.');
+          return;
+        }
+        var active = customReplFunc();
         changedPropertyTracker.SetCustomIsActiveOverride(repl.index, active);
       }
     }
@@ -1158,6 +1283,10 @@ class UReflectionGenerator {
         // TODO check if there is another edit specifier while compiling
         flags |= CPF_BlueprintVisible;
       case 'config':
+        if (Std.is(ownerStruct, UClass)) {
+          var cls:UClass = cast ownerStruct;
+          cls.ClassFlags |= EClassFlags.CLASS_Config;
+        }
         flags |= CPF_Config;
       case 'const':
         flags |= CPF_ConstParm;
@@ -1359,10 +1488,14 @@ class UReflectionGenerator {
         prop = ret;
       case TEnum:
         var ret:UByteProperty = cast newProperty(outer, UByteProperty.StaticClass(), name, objFlags);
-        var cls = getUEnum(def.typeUName.substr(1));
-        ret.Enum = cls;
+        delays.push(function() {
+          var uenum = getUEnum(def.typeUName, true);
+          if (uenum == null) {
+            trace('Error', 'Could not find UENUM ${def.typeUName} while creating property $name');
+          }
+          ret.Enum = uenum;
+        });
         prop = ret;
-
       case TDynamicDelegate:
         var delDef = scriptDelegates[def.typeUName],
             sigFn = getDelegateSignature(def.typeUName.substr(1));
@@ -1395,6 +1528,33 @@ class UReflectionGenerator {
         }
         var ret:UMulticastDelegateProperty = cast newProperty(outer, UMulticastDelegateProperty.StaticClass(), name, objFlags);
         ret.SignatureFunction = sigFn;
+        prop = ret;
+
+      case TSet:
+        var ret:USetProperty = cast newProperty(outer, USetProperty.StaticClass(), name, objFlags);
+        var inner = generateUProperty(@:privateAccess ret, ownerStruct, def.params[0], false);
+        if (inner == null) {
+          ret.MarkPendingKill();
+          return null;
+        }
+        ret.ElementProp = inner;
+        prop = ret;
+
+      case TMap:
+        var ret:UMapProperty = cast newProperty(outer, UMapProperty.StaticClass(), name, objFlags);
+        var key = generateUProperty(@:privateAccess ret, ownerStruct, def.params[0], false);
+        var value = generateUProperty(@:privateAccess ret, ownerStruct, def.params[1], false);
+        if (key == null || value == null) {
+          if (key != null) {
+            key.MarkPendingKill();
+          } else if (value != null) {
+            value.MarkPendingKill();
+          }
+          ret.MarkPendingKill();
+          return null;
+        }
+        ret.KeyProp = key;
+        ret.ValueProp = value;
         prop = ret;
 
       case _:
@@ -1433,9 +1593,14 @@ class UReflectionGenerator {
     if (def.replication != null) {
       prop.PropertyFlags |= CPF_Net;
     }
-    if (def.repNotify) {
+    if (def.repNotify != null) {
       prop.PropertyFlags |= CPF_RepNotify;
-      prop.RepNotifyFunc = 'onRep_' + def.uname;
+      prop.RepNotifyFunc = def.repNotify;
+    }
+    switch(def.flags.type) {
+    case TMap|TArray|TSet if (containsInstancedData(def)):
+      prop.PropertyFlags |= CPF_ContainsInstancedReference;
+    case _:
     }
 
     if (def.hxName != null && def.hxName != def.uname) {
@@ -1449,8 +1614,18 @@ class UReflectionGenerator {
   /**
     Finds a script struct given its name (without the prefix (U,A,...))
    **/
-  public static function getUEnum(name:String):UEnum {
-    return cast UObject.StaticFindObjectFast(UEnum.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+  public static function getUEnum(name:String, force:Bool):UEnum {
+    var ret:UEnum = cast UObject.StaticFindObjectFast(UEnum.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+    if (ret == null && force) {
+      var outer = uhx.UCallHelper.StaticClass().GetOuter();
+      ret = cast UObject.StaticFindObjectFast(UEnum.StaticClass(), outer, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+    }
+#if (UE_VER >= 4.17)
+    if (ret == null && force) {
+      ret = cast UObject.ConstructDynamicType(name, OnlyAllocateClassObject);
+    }
+#end
+    return ret;
   }
 
   public static function getField(name:String):UField {
@@ -1500,6 +1675,8 @@ class DynamicRegistry {
   public var wasDeleted(default, null):Bool;
   public var needsToAddProperties(default, null):Bool;
 
+  public var isDynamic(default, null):Bool;
+
   public var bound:Bool;
 
   var updatedClass:UClass;
@@ -1517,6 +1694,10 @@ class DynamicRegistry {
     this.updatedClass = uclass;
     this.isUpdated = true;
     this.needsToAddProperties = true;
+  }
+
+  public function setDynamic(val:Bool) {
+    this.isDynamic = val;
   }
 
   public function setUpdated(uclass:UClass, needsToAddProperties:Bool = false) {

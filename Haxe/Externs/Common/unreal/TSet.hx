@@ -1,12 +1,14 @@
 package unreal;
 
 @:glueCppIncludes('Containers/Set.h')
+@:noEquals
+@:keep
 @:uextern extern class TSet<T> {
   /**
    * Removes all elements from the set, potentially leaving space allocated for an expected number of elements about to be added.
    * @param ExpectedNumElements - The number of elements about to be added to the set.
    */
-  function Empty(ExpectedNumElements:Int32 /* = 0 */):Void;
+  function Empty(ExpectedNumElements:Int32 = 0):Void;
 
   /** Shrinks the set's element storage to avoid slack. */
   function Shrink():Void;
@@ -33,7 +35,6 @@ package unreal;
    * Adds an element to the set.
    *
    * @param	InElement					Element to add to set
-   * @return	A pointer to the element stored in the set.
    */
   function Add(InElement:Const<PRef<T>>):FSetElementId;
 
@@ -42,6 +43,21 @@ package unreal;
    * @param Element - A pointer to the element in the set, as returned by Add or Find.
    */
   function Remove(ElementId:FSetElementId):Void;
+
+  @:expr({
+    var id = FindId(Element);
+    if (id.IsValidId()) {
+      Remove(id);
+      return true;
+    } else {
+      return false;
+    }
+  }) function removeElement(Element:T):Bool;
+
+  @:expr(return FindId(Key).IsValidId())
+  function Contains(Key:Const<PRef<T>>):Bool;
+
+  function FindId(Element:Const<PRef<T>>):FSetElementId;
 
   @:uname('.ctor') static function create<T>():TSet<T>;
 }

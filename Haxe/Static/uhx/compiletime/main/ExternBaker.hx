@@ -37,6 +37,21 @@ class ExternBaker {
     // parse the optional arguments
     Compiler.addGlobalMetadata("", "@:build(uhx.compiletime.types.OptionalArgsBuild.build())");
 
+    #if bake_externs
+    TypeConv.onTypeLoad = function(name:String) {
+      try {
+        var extra = Context.getType(name + '_Extra');
+        // it exists
+        if (extra != null) {
+          Context.getType(name);
+          joinMetas(name + '_Extra', name);
+        }
+      }
+      catch(e:Dynamic) {
+      }
+    };
+    #end
+
     // walk into the paths - from last to first - and if needed, create the wrapper code
     var target = Compiler.getOutput();
     target = FileSystem.fullPath(target);
@@ -97,124 +112,132 @@ class ExternBaker {
       return true;
     }
 
+    var modules = [];
     var unames = new Map();
     for (ref in filesToCompile) {
-      // trace(ref);
-      var generatedHeader = getGeneratedHeader({ srcFile: ref.file.toLowerCase(), ver:1 });
       var module = Context.getModule(ref.module);
-      var pack = ref.module.split('.'),
-          name = pack.pop();
+      modules.push({ module:module, ref: ref });
+    }
 
-      var buf = new StringBuf();
-      buf.add(generatedHeader);
-      if (pack.length != 0) {
-        buf.add('package ${pack.join('.')};\n');
-      }
-      var processor = new ExternBaker(buf);
-      for (type in module) {
-        var pos = null;
-        var uname = switch(type) {
-          case TInst(c,_):
-            var c = c.get();
-            if (c.meta.has(':haxeGenerated')) {
-              continue;
-            }
-            pos = c.pos;
-            MacroHelpers.getUName(c);
-          case TEnum(e,_):
-            var e = e.get();
-            if (e.meta.has(':haxeGenerated')) {
-              continue;
-            }
-            pos = e.pos;
-            MacroHelpers.getUName(e);
-          case TAbstract(a,_):
-            var a = a.get();
-            if (a.meta.has(':haxeGenerated')) {
-              continue;
-            }
-            pos = a.pos;
-            MacroHelpers.getUName(a);
-          case TType(t,_):
-            // force the type to be built
-            Context.follow(type);
-            // reload it - to referesh its metadata
-            var t = t.get();
-            if (!t.meta.has(':uPrimeTypedef')) {
-              continue;
-            }
-            pos = t.pos;
-            MacroHelpers.getUName(t);
-          case _:
-            null;
-        }
-        var lastPos = uname == null ? null : unames[uname];
-        if (lastPos != null) {
-          Context.warning('A class or struct with the name $uname was already defined. Please delete the one of the definitions, or change their name', pos);
-          Context.warning('$uname was defined here', lastPos);
-          hadErrors = true;
-          continue;
-        }
-        if (uname != null) {
-          unames[uname] = pos;
-        }
+    Context.onGenerate(function(_) {
+      for (m in modules) {
+        var module = m.module,
+            ref = m.ref;
+        var generatedHeader = getGeneratedHeader({ srcFile: ref.file.toLowerCase(), ver:1 });
+        var pack = ref.module.split('.'),
+            name = pack.pop();
 
-        var glueBuf = processor.processType(type, ref.localExtern ? null : 'Unreal'),
-            glue = Std.string(glueBuf);
-        hadErrors = hadErrors || processor.hadErrors;
-        if (glueBuf != null && glue != '') {
-          var glueType = processor.glueType;
-          var dir = target + '/' + glueType.pack.join('/');
-
-          if (!FileSystem.exists(dir)) {
-            try {
-              FileSystem.createDirectory(dir);
-            }
-            catch (e:Dynamic) {
-              trace('failed when creating $dir: there might be a race condition');
-            }
+        var buf = new StringBuf();
+        buf.add(generatedHeader);
+        if (pack.length != 0) {
+          buf.add('package ${pack.join('.')};\n');
+        }
+        var processor = new ExternBaker(buf);
+        for (type in module) {
+          var pos = null;
+          var uname = switch(type) {
+            case TInst(c,_):
+              var c = c.get();
+              if (c.meta.has(':haxeGenerated')) {
+                continue;
+              }
+              pos = c.pos;
+              MacroHelpers.getUName(c);
+            case TEnum(e,_):
+              var e = e.get();
+              if (e.meta.has(':haxeGenerated')) {
+                continue;
+              }
+              pos = e.pos;
+              MacroHelpers.getUName(e);
+            case TAbstract(a,_):
+              var a = a.get();
+              if (a.meta.has(':haxeGenerated')) {
+                continue;
+              }
+              pos = a.pos;
+              MacroHelpers.getUName(a);
+            case TType(t,_):
+              // force the type to be built
+              Context.follow(type);
+              // reload it - to referesh its metadata
+              var t = t.get();
+              if (!t.meta.has(':uPrimeTypedef')) {
+                continue;
+              }
+              pos = t.pos;
+              MacroHelpers.getUName(t);
+            case _:
+              null;
           }
-
-          var targetFile = '$dir/${glueType.name}.hx';
-          var info = getGeneratedInfo(targetFile);
-          if (generatedSourceIsValid(ref.file, targetFile, info)) {
-            var file = File.write(targetFile, false);
-            file.writeString(generatedHeader);
-            file.writeString(uhx.compiletime.tools.BaseWriter.prelude);
-            file.writeString('package ${glueType.pack.join('.')};\n' +
-              '@:unrealGlue extern class ${glueType.name} {\n');
-            file.writeString(glue);
-            file.writeString('}');
-            file.close();
-          } else {
+          var lastPos = uname == null ? null : unames[uname];
+          if (lastPos != null) {
+            Context.warning('A class or struct with the name $uname was already defined. Please delete the one of the definitions, or change their name', pos);
+            Context.warning('$uname was defined here', lastPos);
             hadErrors = true;
+            continue;
+          }
+          if (uname != null) {
+            unames[uname] = pos;
+          }
+
+          var glueBuf = processor.processType(type, ref.localExtern ? null : 'Unreal'),
+              glue = Std.string(glueBuf);
+          hadErrors = hadErrors || processor.hadErrors;
+          if (glueBuf != null && glue != '') {
+            var glueType = processor.glueType;
+            var dir = target + '/' + glueType.pack.join('/');
+
+            if (!FileSystem.exists(dir)) {
+              try {
+                FileSystem.createDirectory(dir);
+              }
+              catch (e:Dynamic) {
+                trace('failed when creating $dir: there might be a race condition');
+              }
+            }
+
+            var targetFile = '$dir/${glueType.name}.hx';
+            var info = getGeneratedInfo(targetFile);
+            if (generatedSourceIsValid(ref.file, targetFile, info)) {
+              var file = File.write(targetFile, false);
+              file.writeString(generatedHeader);
+              file.writeString(uhx.compiletime.tools.BaseWriter.prelude);
+              file.writeString('package ${glueType.pack.join('.')};\n' +
+                '@:unrealGlue extern class ${glueType.name} {\n');
+              file.writeString(glue);
+              file.writeString('}');
+              file.close();
+            } else {
+              hadErrors = true;
+            }
           }
         }
-      }
-      var dir = target + '/' + pack.join('/');
-      if (!FileSystem.exists(dir)) {
-        try {
-          FileSystem.createDirectory(dir);
-        } catch(e:Dynamic) {
-          trace('failed when creating $dir: there might be a race condition');
+        var dir = target + '/' + pack.join('/');
+        if (!FileSystem.exists(dir)) {
+          try {
+            FileSystem.createDirectory(dir);
+          } catch(e:Dynamic) {
+            trace('failed when creating $dir: there might be a race condition');
+          }
+        }
+
+        var targetFile = '$dir/$name.hx';
+        var info = getGeneratedInfo(targetFile);
+        if (generatedSourceIsValid(ref.file, targetFile, info)) {
+          File.saveContent(targetFile, buf.toString());
+        } else {
+          hadErrors = true;
         }
       }
-
-      var targetFile = '$dir/$name.hx';
-      var info = getGeneratedInfo(targetFile);
-      if (generatedSourceIsValid(ref.file, targetFile, info)) {
-        File.saveContent(targetFile, buf.toString());
-      } else {
-        hadErrors = true;
+      if (hadErrors) {
+        throw new Error('Extern bake finished with errors',Context.currentPos());
       }
-    }
-    if (hadErrors) {
-      throw new Error('Extern bake finished with errors',Context.currentPos());
-    }
 #if bake_externs
-    var target = Context.definedValue("UHX_STATIC_BASE_DIR");
-    deps.save(targetStamp);
+      var target = Context.definedValue("UHX_STATIC_BASE_DIR");
+      deps.save(targetStamp);
 #end
+    });
   }
 
   private static var deps:DepList = new DepList();
@@ -233,7 +256,7 @@ class ExternBaker {
         file.close();
       }
       catch(e:Dynamic) {
-        throw new Error('Error while reading generated file $generatedFile: $e', Context.makePosition({ file:generatedFile, max:0, min:0 }));
+        Context.warning('Error while reading generated file $generatedFile: $e', Context.makePosition({ file:generatedFile, max:0, min:0 }));
         return null;
       }
 
@@ -257,7 +280,16 @@ class ExternBaker {
     return '// Ver:${info.ver}\n// GeneratedBy:${info.srcFile}\n';
   }
 
+  private static var joinedMetas = new Map();
+
   private static function joinMetas(extraModuleName:String, file:String):Bool {
+    if (joinedMetas[extraModuleName]) {
+      return true;
+    }
+#if bake_externs
+    TypeConv.setTypeLoaded(extraModuleName);
+    TypeConv.setTypeLoaded(extraModuleName.substr(0,extraModuleName.length - '_Extra'.length));
+#end
     var pos = Context.makePosition({ min:0, max:0, file:file });
     var extraModule = getModule(extraModuleName, pos);
     if (extraModule == null || extraModule.length == 0) {
@@ -326,6 +358,7 @@ class ExternBaker {
     case _:
       throw new Error('Module $extraModuleName should be an extern class', Context.makePosition({ min:0, max:0, file:file }));
     }
+    joinedMetas[extraModuleName] = true;
     return true;
   }
 
@@ -519,12 +552,13 @@ class ExternBaker {
     decl << 'namespace uhx {' << new Newline()
          << 'template<';
     decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
+    var noUObject = Context.defined('UHX_NO_UOBJECT');
     decl << '>' << new Newline();
     decl << 'struct TTemplatedData<' << cppType << '>' << new Begin('{')
-          << 'typedef TStructOpsTypeTraits<$cppType> TTraits;' << new Newline()
+          << (noUObject ? '' : 'typedef TStructOpsTypeTraits<$cppType> TTraits;') << new Newline()
           << 'FORCEINLINE static const StructInfo *getInfo();' << new Newline()
           << 'private:' << new Newline()
-          << 'static void destruct(unreal::UIntPtr ptr)' << new Begin('{')
+          << 'static void destruct(const uhx::StructInfo *info, unreal::UIntPtr ptr)' << new Begin('{')
             << 'uhx::TDestruct<' << cppType << '>::doDestruct(ptr);'
           << new End('}')
         << new End('};')
@@ -543,10 +577,11 @@ class ExternBaker {
             << '/* .flags = */ UHX_Templated,' << new Newline()
             << '/* .size = */ (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
             << '/* .alignment = */ (unreal::UIntPtr) uhx::Alignment<' << cppType << '>::get(),' << new Newline()
-            << '/* .destruct = */ (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
+            << '/* .destruct = */ (${noUObject ? "" : "TTraits::WithNoDestructor || "}std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
             << '/* .equals = */ nullptr,' << new Newline()
             << '/* .genericParams = */ genericParams,' << new Newline()
-            << '/* .genericImplementation = */ &genericImplementation'
+            << '/* .genericImplementation = */ &genericImplementation,' << new Newline()
+            << '/* .contextObject  = */ nullptr'
           << new End('};')
           << 'return &info;'
       << new End('}');
@@ -564,6 +599,30 @@ class ExternBaker {
       }
     }
     return ret;
+  }
+
+  private static function getAllDefinedSuperFields(c:ClassType, fields:Map<String, Bool>):Void {
+    var sup = c.superClass;
+    if (sup == null) {
+      return;
+    }
+    var supCl = sup.t.get();
+    for (field in supCl.fields.get()) {
+      fields[field.name] = true;
+    }
+    try {
+      switch(Context.getType(sup.t.toString() + '_Extra')) {
+      case TInst(c,_):
+        for (field in c.get().fields.get()) {
+          fields[field.name] = true;
+        }
+      case _:
+      }
+    }
+    catch(e:Dynamic) {
+    }
+
+    getAllDefinedSuperFields(supCl, fields);
   }
 
   private function processClass(type:Type, c:ClassType) {
@@ -603,6 +662,7 @@ class ExternBaker {
     if (extra != null && extra.length > 0) {
       switch(extra[0]) {
       case TInst(_.get() => ecl,_):
+        getOptionals(ecl.meta.get(), this.optionals);
         var efields = ecl.fields.get();
         var estatics = ecl.statics.get();
         var ector = ecl.constructor == null ? null : ecl.constructor.get();
@@ -613,18 +673,38 @@ class ExternBaker {
           ctor = ector;
         }
         for (field in efields) {
-          var oldField = fields.find(function(f) return f.name == field.name);
-          if (oldField != null) {
-            Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}', field.pos);
+          var oldFieldIdx = -1;
+          for (i in 0...fields.length) {
+            if (fields[i].name == field.name) {
+              oldFieldIdx = i;
+              break;
+            }
+          }
+          if (oldFieldIdx >= 0) {
+            if (field.meta.has(':ureplace')) {
+              fields[oldFieldIdx] = field;
+            } else {
+              Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
+            }
           } else {
             fields.push(field);
           }
         }
 
         for (field in estatics) {
-          var oldField = statics.find(function(f) return f.name == field.name);
-          if (oldField != null) {
-            Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}', field.pos);
+          var oldFieldIdx = -1;
+          for (i in 0...statics.length) {
+            if (statics[i].name == field.name) {
+              oldFieldIdx = i;
+              break;
+            }
+          }
+          if (oldFieldIdx >= 0) {
+            if (field.meta.has(":ureplace")) {
+              statics[oldFieldIdx] = field;
+            } else {
+              Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
+            }
           } else {
             statics.push(field);
           }
@@ -671,6 +751,15 @@ class ExternBaker {
     if (c.params.length > 0 && !isNoTemplate) {
       this.add('@:ueTemplate\n');
     }
+    var name = null;
+    if (meta.hasMeta(':bake_externs_name_hack')) {
+      name = meta.extractStringsFromMetadata(':bake_externs_name_hack')[0];
+    }
+    if (name == null) {
+      name = typeRef.getClassPath();
+    }
+    this.add('#if cppia @:build(uhx.compiletime.types.CompiledMetaCheck.build("${name}")) #end');
+    this.newline();
     if (c.isPrivate) {
       this.add('private ');
     }
@@ -693,16 +782,29 @@ class ExternBaker {
       } else {
         this.add('implements unreal.IInterface ');
       }
+      var superFields = new Map();
+      getAllDefinedSuperFields(c, superFields);
+
+      function superFilter(fields:Array<ClassField>, field:ClassField) {
+        if (superFields.exists(field.name)) {
+          if (!fields.exists(function(cf) return cf != field && cf.getUName() == field.name)) {
+            Context.warning('Unreal Extern Baker: The field ${field.name} already exists in a superclass. Create a new field with another name and with the metadata @:uname("${field.name}")', field.pos);
+          }
+          return false;
+        }
+        return true;
+      }
+
+      fields = fields.filter(superFilter.bind(fields));
+      statics = statics.filter(superFilter.bind(statics));
     } else {
       isAbstract = true;
-      if (!this.thisConv.data.match(CUObject(_))) {
-        if (c.superClass == null) {
-          this.add('@:forward(dispose,isDisposed) ');
-        } else if (!isTemplateStruct && c.params.length > 0 && !isNoTemplate) {
-          this.add('@:forward(getTemplateStruct) ');
-        } else {
-          this.add('@:forward ');
-        }
+      if (c.superClass == null) {
+        this.add('@:forward(dispose,isDisposed) ');
+      } else if (!isTemplateStruct && c.params.length > 0 && !isNoTemplate) {
+        this.add('@:forward(getTemplateStruct) ');
+      } else {
+        this.add('@:forward ');
       }
       this.add('abstract ${c.name}$params(');
       if (c.superClass == null) {
@@ -714,6 +816,10 @@ class ExternBaker {
             superStruct = new TypeRef(['unreal'], 'Struct');
           }
         case { params: [macro var _:$t], pos:pos }:
+          superStruct = TypeRef.fromType( t.toType(), pos );
+        case { params: [{ expr:ECheckType(_, t)}], pos:pos }:
+          superStruct = TypeRef.fromType( t.toType(), pos );
+        case { params: [{ expr:EParenthesis({ expr:ECheckType(_, t)}) }], pos:pos }:
           superStruct = TypeRef.fromType( t.toType(), pos );
         case e:
           throw new Error('Bad @:udelegate format: $e', e.pos);
@@ -837,24 +943,39 @@ class ExternBaker {
           this.add('return cast ptr;');
         this.end('}');
 
-        if (c.meta.has(':ustruct')) {
-          var uname = switch(MacroHelpers.extractStrings(c.meta, ':uname')[0]) {
-          case null:
-            c.name;
-          case name:
-            name;
-          };
-          uname = uname.substr(1);
-          this.add('#if cppia');
+        if (c.meta.has(':ustruct') && c.params.length == 0 && !Context.defined('UHX_NO_UOBJECT')) {
+          var uname = MacroHelpers.getUName(c).substr(1);
+          if (!methods.exists(function(m) return m.uname == 'StaticStruct')) {
+            this.add('public static function StaticStruct():unreal.UScriptStruct');
+            this.begin(' {');
+              this.add('return (uhx_structData != null ? uhx_structData : (uhx_structData = uhx.runtime.UReflectionGenerator.getUStruct("$uname")));');
+            this.end('}');
+            this.newline();
+          }
+
+          this.add('private static function mkWrapper():${this.thisConv.haxeType}');
+          this.begin(' {');
+            this.add('return cast uhx.ue.RuntimeLibraryDynamic.createDynamicWrapperFromStruct(@:privateAccess StaticStruct().wrapped);');
+          this.end('}');
+
+          if (ctor == null) {
+            this.add('public function new()');
+            this.begin(' {');
+              this.add('this = mkWrapper();');
+              this.newline();
+              this.add('var ops = StaticStruct().GetCppStructOps();');
+              this.newline();
+              this.add('if (!ops.HasZeroConstructor()) ops.Construct(( ( cast this : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer());');
+            this.end('}');
+          }
+
           this.newline();
           this.add('@:noCompletion private static var uhx_structData:unreal.UScriptStruct;');
           this.newline();
           this.add('@:noCompletion private inline function get_structData():unreal.UScriptStruct');
           this.begin(' {');
-            this.add('return (uhx_structData != null ? uhx_structData : (uhx_structData = uhx.runtime.UReflectionGenerator.getUStruct("$uname")));');
+            this.add('return StaticStruct();');
           this.end('}');
-          this.add('#end');
-          this.newline();
         }
       }
 
@@ -888,17 +1009,16 @@ class ExternBaker {
             this.add('this.wrapped = 0;');
           this.end('}');
 
-          this.add('inline public function isValid(threadSafe:Bool=false):Bool');
+          this.add('inline public function isValid(checkIfReachable:Bool=false):Bool');
           this.begin(' {');
             // make an inline version that checks if `this` is null as well
-            this.add('return this != null && this.pvtIsValid(threadSafe);');
+            this.add('return this != null && this.pvtIsValid(checkIfReachable);');
           this.end('}');
 
-          this.add('@:noCompletion #if (!cppia && !debug) inline #end private function pvtIsValid(threadSafe:Bool):Bool');
+          this.add('@:noCompletion #if (!cppia && !debug) inline #end private function pvtIsValid(checkIfReachable:Bool):Bool');
           this.begin(' {');
             this.add('return this.wrapped != 0 && '
-                +' uhx.internal.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex && '
-                +' (!threadSafe || uhx.internal.ObjectArrayHelper_Glue.isValid(internalIndex, serialNumber, false));');
+                +' (!checkIfReachable || uhx.internal.ObjectArrayHelper_Glue.isValid(this.wrapped, internalIndex, serialNumber, false));');
           this.end('}');
         }
 
@@ -941,12 +1061,31 @@ class ExternBaker {
             flags: MNone,
             pos: c.pos
           });
+        } else if (meta.hasMeta(':ustruct') && !Context.defined('UHX_NO_UOBJECT')) {
+          this.add('public function copy():${this.thisConv.haxeType.toString()}');
+          this.begin(' {');
+              this.add('var ret = mkWrapper();');
+              this.newline();
+              this.add('var ops = StaticStruct().GetCppStructOps();');
+              this.newline();
+              this.add('if (!ops.HasCopy()) throw "Cannot copy ${this.thisConv.haxeType}";');
+              this.newline();
+              this.add('if (!ops.HasZeroConstructor()) ops.Construct(( ( cast ret : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer());');
+              this.newline();
+              this.add('ops.Copy(( ( cast ret : unreal.VariantPtr).getDynamic() : unreal.Wrapper).getPointer(), uhx.internal.HaxeHelpers.getUnderlyingPointer(cast this), 1);');
+              this.newline();
+              this.add('return ret;');
+          this.end('}');
+          this.add('@:deprecated("This type does not support copyNew constructors") private function copyNew():unreal.POwnedPtr<${this.thisConv.haxeType.toString()}>');
+          this.begin(' {');
+            this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
+          this.end('}');
         } else {
           this.add('@:deprecated("This type does not support copy constructors") private function copy():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
             this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
-          this.add('@:deprecated("This type does not support copy constructors") private function copyStruct():${this.thisConv.haxeType.toString()}');
+          this.add('@:deprecated("This type does not support copy constructors") private function copyNew():unreal.POwnedPtr<${this.thisConv.haxeType.toString()}>');
           this.begin(' {');
             this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
@@ -1006,7 +1145,6 @@ class ExternBaker {
     switch(field.kind) {
     case FVar(read,write):
 #if bake_externs
-      // trace(this.module,field.type);
       deps.updateDeps(this.module, field.type);
 #end
       this.addDoc(field.doc);
@@ -1047,7 +1185,7 @@ class ExternBaker {
       switch(read) {
       case AccNormal | AccCall:
         if (field.meta.has(':expr')) {
-          this.add('default,');
+          this.add(read == AccCall ? 'get,' : 'default,');
         } else {
           methods.push({
             name: 'get_' + field.name,
@@ -1066,7 +1204,7 @@ class ExternBaker {
       switch(write) {
       case AccNormal | AccCall:
         if (field.meta.has(':expr')) {
-          this.add('default):');
+          this.add(read == AccCall ? 'set):' : 'default):');
         } else {
           methods.push({
             name: 'set_' + field.name,
@@ -1079,6 +1217,8 @@ class ExternBaker {
           });
           this.add('set):');
         }
+      case AccNever:
+        this.add('never):');
       case _:
         if (field.meta.has(':expr')) {
           this.add('null):');
@@ -1087,7 +1227,7 @@ class ExternBaker {
         }
       }
       this.add(realTConv.haxeType);
-      if (field.meta.has(':expr')) {
+      if (field.meta.has(':expr') && write != AccNever) {
         var expr = field.meta.extract(':expr')[0].params[0];
         this.add(' = ');
         this.add(expr.toString());
@@ -1131,11 +1271,9 @@ class ExternBaker {
 #if bake_externs
         for (arg in args) {
           if (arg.name != 'this') {
-            // trace(this.module,arg);
             deps.updateDeps(this.module, arg.t);
           }
         }
-        // trace(this.module,ret);
         deps.updateDeps(this.module, ret);
 #end
         var cur = null;
@@ -1337,7 +1475,14 @@ class ExternBaker {
     this.begin('{');
       this.add('public static var all:Array<${e.name}>;');
       this.newline();
-      this.add('static function __init__() { uhx.EnumMap.set("$ueEnumType", all = std.Type.allEnums(${this.typeRef})); }');
+      this.add('static function __init__()');
+      this.begin('{');
+        this.add('uhx.EnumMap.set("$ueEnumType", all = std.Type.allEnums(${this.typeRef}));');
+        this.newline();
+        this.add('uhx.EnumMap.setUeToHaxe("$ueEnumType", ueToHaxe);');
+        this.newline();
+        this.add('uhx.EnumMap.setHaxeToUe("${typeRef.getClassPath(true)}", haxeToUe);');
+      this.end('}');
       this.newline();
       var ueCall = isClass ?
         uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName :
@@ -1401,6 +1546,14 @@ class ExternBaker {
         if (meta.name == ':build') {
           continue;
         }
+        #if UHX_NO_UOBJECT
+        if (meta.name == ':glueCppIncludes' && meta.params != null)
+        {
+          meta.params = meta.params.filter(function(param) {
+            return param.toString().toLowerCase().indexOf('noexporttypes.h') < 0;
+          });
+        }
+        #end
         this.add('@' + meta.name);
         if (meta.params != null && meta.params.length > 0) {
           this.add('(');

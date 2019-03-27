@@ -8,7 +8,10 @@
 #include "VariantPtr.h"
 
 #ifndef UHX_NO_UOBJECT
-#include "Engine.h"
+#include "CoreMinimal.h"
+#include "Templates/Casts.h"
+#include "Templates/PointerIsConvertibleFromTo.h"
+#include "UObject/Class.h"
 
 #endif
 
@@ -21,6 +24,7 @@ template<class ObjectType, ESPMode Mode> class TSharedPtr;
 template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
 template<class T> class TAutoWeakObjectPtr;
 template<class TClass> class TSubclassOf;
+template<class TEnum> class TEnumAsByte;
 
 namespace uhx {
 
@@ -168,6 +172,7 @@ struct TypeParamGlue<const T, EnumType> {
   static const T haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxe(const T ue);
 };
+#ifndef UHX_NO_UOBJECT
 template<typename T>
 struct TypeParamGlue<const T, ObjectType> {
   static const T haxeToUe(unreal::UIntPtr haxe);
@@ -178,6 +183,7 @@ struct TypeParamGlue<const T, InterfaceType> {
   static const T haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxe(const T ue);
 };
+#endif
 
 template<typename T>
 struct TypeParamGluePtr<const T, OtherType> {
@@ -189,6 +195,7 @@ struct TypeParamGluePtr<const T, EnumType> {
   static typename PtrMaker<const T>::Type haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxeRef(const T& ue);
 };
+#ifndef UHX_NO_UOBJECT
 template<typename T>
 struct TypeParamGluePtr<const T, ObjectType> {
   static typename PtrMaker<const T>::Type haxeToUe(unreal::UIntPtr haxe);
@@ -199,6 +206,7 @@ struct TypeParamGluePtr<const T, InterfaceType> {
   static typename PtrMaker<const T>::Type haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxeRef(const T& ue);
 };
+#endif
 
 
 
@@ -232,6 +240,11 @@ struct PtrMaker<TAutoWeakObjectPtr<T>> {
 template<class T>
 struct PtrMaker<TSubclassOf<T>> {
   typedef PtrHelper_Stack<TSubclassOf<T>> Type;
+};
+// TEnumAsByte passed by-val
+template<class T>
+struct PtrMaker<TEnumAsByte<T>> {
+  typedef PtrHelper_Stack<TEnumAsByte<T>> Type;
 };
 
 //////////////////////////////////
@@ -286,6 +299,7 @@ struct TypeParamGlue<T, EnumType> {
 };
 
 // uobject-derived types
+#ifndef UHX_NO_UOBJECT
 template<typename T>
 struct TypeParamGlue<T, ObjectType> {
   inline static T haxeToUe(unreal::UIntPtr haxe) {
@@ -354,8 +368,7 @@ struct TypeParamGlue<T&, InterfaceType> {
   }
 };
 
-#ifndef UHX_NO_UOBJECT
-// special types: TWeakObjectPtr, TAutoWeakObjectPtr, TSubclassOf
+// special types: TWeakObjectPtr, TAutoWeakObjectPtr, TSubclassOf, TEnumAsByte
 template<typename T>
 struct TypeParamGlue<TWeakObjectPtr<T>, OtherType> {
   inline static TWeakObjectPtr<T> haxeToUe(unreal::UIntPtr haxe) {
@@ -419,59 +432,80 @@ struct TypeParamGluePtr<TSubclassOf<T>, OtherType> {
   }
 };
 
-#endif
+template<typename T>
+struct TypeParamGlue<TEnumAsByte<T>, OtherType> {
+  inline static TEnumAsByte<T> haxeToUe(unreal::UIntPtr haxe) {
+    return (TEnumAsByte<T>) TypeParamGlue<T>::haxeToUe(haxe);
+  }
+
+  inline static unreal::UIntPtr ueToHaxe(TEnumAsByte<T> ue) {
+    return TypeParamGlue<T>::ueToHaxe( ue.GetValue() );
+  }
+};
+template<typename T>
+struct TypeParamGluePtr<TEnumAsByte<T>, OtherType> {
+  inline static typename PtrMaker<TEnumAsByte<T>>::Type haxeToUePtr(unreal::UIntPtr haxe) {
+    return typename PtrMaker<TEnumAsByte<T>>::Type(TypeParamGlue<TEnumAsByte<T>, OtherType>::haxeToUe(haxe));
+  }
+
+  inline static unreal::UIntPtr ueToHaxeRef(TEnumAsByte<T>& ue) {
+    return TypeParamGlue<T>::ueToHaxe( ue.GetValue() );
+  }
+};
+
+#endif // UHX_NO_UOBJECT
 
 // templated types
-template<template<typename, typename...> class T, typename First, typename... Values> 
+template<template<typename, typename...> class T, typename First, typename... Values>
 struct TTemplatedData<T<First, Values...>> {
   static const StructInfo *getInfo();
 };
 
-template<template<typename, typename...> class T, typename First, typename... Values> 
+template<template<typename, typename...> class T, typename First, typename... Values>
 struct TypeParamGlue<T<First, Values...>, OtherType> {
   inline static T<First, Values...> haxeToUe(unreal::UIntPtr haxe) {
-    return *TemplateHelper<T<First, Values...>>::getPointer(unreal::VariantPtr(haxe));
+    return *TemplateHelper<T<First, Values...>>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe));
   }
 
   inline static unreal::UIntPtr ueToHaxe(T<First, Values...> ue) {
-    return TemplateHelper<T<First, Values...>>::fromStruct(ue).raw;
+    return TemplateHelper<T<First, Values...>>::fromStruct(ue).getGcPointerUnchecked();
   }
 };
-template<template<typename, typename...> class T, typename First, typename... Values> 
+template<template<typename, typename...> class T, typename First, typename... Values>
 struct TypeParamGluePtr<T<First, Values...>, OtherType> {
   inline static typename PtrMaker<T<First, Values...>>::Type haxeToUePtr(unreal::UIntPtr haxe) {
-    return typename PtrMaker<T<First, Values...>>::Type( TemplateHelper<T<First, Values...>>::getPointer(haxe) );
+    return typename PtrMaker<T<First, Values...>>::Type( TemplateHelper<T<First, Values...>>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe)) );
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(T<First, Values...>& ue) {
-    return TemplateHelper<T<First, Values...>>::fromStruct(ue).raw;
+    return TemplateHelper<T<First, Values...>>::fromStruct(ue).getGcPointerUnchecked();
   }
 };
 
 // special case for the types that have constant values. Right now we only need this for shared pointers
-template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First>
 struct TTemplatedData<T<First, Mode>> {
   static const StructInfo *getInfo();
 };
 
-template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First>
 struct TypeParamGlue<T<First, Mode>, OtherType> {
   inline static T<First, Mode> haxeToUe(unreal::UIntPtr haxe) {
-    return *TemplateHelper<T<First, Mode>>::getPointer(unreal::VariantPtr(haxe));
+    return *TemplateHelper<T<First, Mode>>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe));
   }
 
   inline static unreal::UIntPtr ueToHaxe(T<First, Mode> ue) {
-    return TemplateHelper<T<First, Mode>>::fromStruct(ue).raw;
+    return TemplateHelper<T<First, Mode>>::fromStruct(ue).getGcPointerUnchecked();
   }
 };
-template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First>
 struct TypeParamGluePtr<T<First, Mode>, OtherType> {
   inline static typename PtrMaker<T<First, Mode>>::Type haxeToUePtr(unreal::UIntPtr haxe) {
-    return typename PtrMaker<T<First, Mode>>::Type( *TemplateHelper<T<First, Mode>>::getPointer(haxe) );
+    return typename PtrMaker<T<First, Mode>>::Type( *TemplateHelper<T<First, Mode>>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe)) );
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(T<First, Mode>& ue) {
-    return TemplateHelper<T<First, Mode>>::fromStruct(ue).raw;
+    return TemplateHelper<T<First, Mode>>::fromStruct(ue).getGcPointerUnchecked();
   }
 };
 
@@ -479,17 +513,17 @@ struct TypeParamGluePtr<T<First, Mode>, OtherType> {
 template<typename T>
 struct TypeParamGlue<T, OtherType> {
   inline static T haxeToUe(unreal::UIntPtr haxe) {
-    return *StructHelper<T>::getPointer(unreal::VariantPtr(haxe));
+    return *StructHelper<T>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe));
   }
 
   inline static unreal::UIntPtr ueToHaxe(T ue) {
-    return StructHelper<T>::fromStruct(ue).raw;
+    return StructHelper<T>::fromStruct(ue).getGcPointerUnchecked();
   }
 };
 template<typename T>
 struct TypeParamGluePtr<T, OtherType> {
   inline static typename PtrMaker<T>::Type haxeToUePtr(unreal::UIntPtr haxe) {
-    return typename PtrMaker<T>::Type( StructHelper<T>::getPointer(haxe) );
+    return typename PtrMaker<T>::Type( StructHelper<T>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe)) );
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(T& ue) {
@@ -500,11 +534,11 @@ struct TypeParamGluePtr<T, OtherType> {
 template<typename T>
 struct TypeParamGlue<T*, OtherType> {
   inline static T* haxeToUe(unreal::UIntPtr haxe) {
-    return StructHelper<T>::getPointer(unreal::VariantPtr(haxe));
+    return StructHelper<T>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe));
   }
 
   inline static unreal::UIntPtr ueToHaxe(T* ue) {
-    return uhx::expose::HxcppRuntime::boxVariantPtr(unreal::VariantPtr(ue));
+    return uhx::expose::HxcppRuntime::boxVariantPtr(unreal::VariantPtr::fromExternalPointer((unreal::UIntPtr) ue));
   }
 };
 
@@ -581,6 +615,7 @@ template<typename T>
 const T uhx::TypeParamGlue<const T, uhx::OtherType>::haxeToUe(unreal::UIntPtr haxe) {
   return uhx::TypeParamGlue<T>::haxeToUe(haxe);
 }
+#ifndef UHX_NO_UOBJECT
 template<typename T>
 const T uhx::TypeParamGlue<const T, uhx::ObjectType>::haxeToUe(unreal::UIntPtr haxe) {
   return uhx::TypeParamGlue<T>::haxeToUe(haxe);
@@ -589,6 +624,7 @@ template<typename T>
 const T uhx::TypeParamGlue<const T, uhx::InterfaceType>::haxeToUe(unreal::UIntPtr haxe) {
   return uhx::TypeParamGlue<T>::haxeToUe(haxe);
 }
+#endif
 
 template<typename T>
 unreal::UIntPtr uhx::TypeParamGlue<const T, uhx::EnumType>::ueToHaxe(const T ue) {
@@ -598,6 +634,7 @@ template<typename T>
 unreal::UIntPtr uhx::TypeParamGlue<const T, uhx::OtherType>::ueToHaxe(const T ue) {
   return uhx::TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
 }
+#ifndef UHX_NO_UOBJECT
 template<typename T>
 unreal::UIntPtr uhx::TypeParamGlue<const T, uhx::ObjectType>::ueToHaxe(const T ue) {
   return uhx::TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
@@ -606,6 +643,7 @@ template<typename T>
 unreal::UIntPtr uhx::TypeParamGlue<const T, uhx::InterfaceType>::ueToHaxe(const T ue) {
   return uhx::TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
 }
+#endif
 
 template<typename T>
 typename uhx::PtrMaker<const T>::Type uhx::TypeParamGluePtr<const T, uhx::EnumType>::haxeToUe(unreal::UIntPtr haxe) {
@@ -615,6 +653,7 @@ template<typename T>
 typename uhx::PtrMaker<const T>::Type uhx::TypeParamGluePtr<const T, uhx::OtherType>::haxeToUe(unreal::UIntPtr haxe) {
   return const_cast<typename uhx::PtrMaker<T>::Type>(uhx::TypeParamGluePtr<T, uhx::OtherType>::haxeToUe(haxe));
 }
+#ifndef UHX_NO_UOBJECT
 template<typename T>
 typename uhx::PtrMaker<const T>::Type uhx::TypeParamGluePtr<const T, uhx::ObjectType>::haxeToUe(unreal::UIntPtr haxe) {
   return const_cast<typename uhx::PtrMaker<T>::Type>(uhx::TypeParamGluePtr<T, uhx::ObjectType>::haxeToUe(haxe));
@@ -623,6 +662,7 @@ template<typename T>
 typename uhx::PtrMaker<const T>::Type uhx::TypeParamGluePtr<const T, uhx::InterfaceType>::haxeToUe(unreal::UIntPtr haxe) {
   return const_cast<typename uhx::PtrMaker<T>::Type>(uhx::TypeParamGluePtr<T, uhx::InterfaceType>::haxeToUe(haxe));
 }
+#endif
 
 template<typename T>
 unreal::UIntPtr uhx::TypeParamGluePtr<const T, uhx::EnumType>::ueToHaxeRef(const T& ue) {
@@ -632,6 +672,7 @@ template<typename T>
 unreal::UIntPtr uhx::TypeParamGluePtr<const T, uhx::OtherType>::ueToHaxeRef(const T& ue) {
   return uhx::TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
 }
+#ifndef UHX_NO_UOBJECT
 template<typename T>
 unreal::UIntPtr uhx::TypeParamGluePtr<const T, uhx::ObjectType>::ueToHaxeRef(const T& ue) {
   return uhx::TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
@@ -640,3 +681,4 @@ template<typename T>
 unreal::UIntPtr uhx::TypeParamGluePtr<const T, uhx::InterfaceType>::ueToHaxeRef(const T& ue) {
   return uhx::TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
 }
+#endif

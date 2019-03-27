@@ -11,6 +11,7 @@ typedef UClassDef = {
   superStructUName: String, // with the prefix
   isClass:Bool,
 
+  ?upropExpose: Bool, // whether the property was compiled/exposed in C++
   ?propSig:String, // the signature of all current properties. If this changed, it means we need to perform a full hot reload
   ?propCrc:Int,
 
@@ -32,6 +33,7 @@ typedef UFunctionDef = {
   args: Null<Array<UPropertyDef>>,
   ret: Null<UPropertyDef>, // is null, it means that the function is a void function
 
+  ?isCompiled: Bool, // whether the property was compiled/exposed in C++
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
   ?propSig:String, // the signature of current signature. If this changed, it means we need to perform a full hot reload
 }
@@ -40,10 +42,11 @@ typedef UPropertyDef = {
   hxName:String,
   uname: String, // with the prefix
   flags: TypeFlags,
+  ?isCompiled: Bool, // whether the property was compiled/exposed in C++
   ?typeUName: String, // with the prefix
   ?replication: UPropReplicationKind,
   ?customReplicationName: String,
-  ?repNotify: Bool,
+  ?repNotify: String,
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
   ?params: Array<UPropertyDef>,
   // ?arrayDim: Int
@@ -67,6 +70,31 @@ typedef UEnumDef = {
   var ReplayOnly = 10;
   var SimulatedOnlyNoReplay = 11;
   var SimulatedOrPhysicsNoReplay = 12;
+  #if proletariat
+  var OwnerOrSpectatingOwner = 13;
+  #end
+
+  public static function fromString(str:String):Null<UPropReplicationKind>
+  {
+    return switch (str.toLowerCase()) {
+      case 'always': Always;
+      case 'initialonly': InitialOnly;
+      case 'owneronly': OwnerOnly;
+      case 'skipowner': SkipOwner;
+      case 'simulatedonly': SimulatedOnly;
+      case 'autonomousonly': AutonomousOnly;
+      case 'simulatedorphysics': SimulatedOrPhysics;
+      case 'initialorowner': InitialOrOwner;
+      case 'replayorowner': ReplayOrOwner;
+      case 'replayonly': ReplayOnly;
+      case 'simulatedonlynoreplay': SimulatedOnlyNoReplay;
+      case 'simulatedorphysicsnoreplay': SimulatedOrPhysicsNoReplay;
+      #if proletariat
+      case 'ownerorspectatingowner': OwnerOrSpectatingOwner;
+      #end
+      case _: null;
+    };
+  }
 
   inline public function t() {
     return this;
@@ -141,6 +169,9 @@ typedef UEnumDef = {
 
   var TDynamicDelegate = 20;
   var TDynamicMulticastDelegate = 21;
+
+  var TMap = 22;
+  var TSet = 23;
 
   inline public function t():Int {
     return this;

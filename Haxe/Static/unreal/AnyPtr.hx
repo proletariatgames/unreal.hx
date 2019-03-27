@@ -68,6 +68,12 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
     return ptr.value;
   }
 
+  public function getPointer(at:Int):AnyPtr {
+    var curThis = this + at;
+    var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
+    return ptr.value;
+  }
+
   public function getFloat32(at:Int):Float32 {
     var curThis = this + at;
     var ptr:cpp.Pointer<Float32> = cpp.Pointer.fromRaw(untyped __cpp__("(cpp::Float32*){0}", curThis));
@@ -89,7 +95,11 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
   public function setUObject(at:Int, val:UObject):Void {
     var curThis = this + at;
     var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
-    ptr.ref = @:privateAccess val.wrapped;
+    if (val == null) {
+      ptr.ref = 0;
+    } else {
+      ptr.ref = @:privateAccess val.wrapped;
+    }
   }
 
   public function setInt(at:Int, val:Int):Void {
@@ -116,6 +126,12 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
     ptr.ref = val;
   }
 
+  public function setPointer(at:Int, val:AnyPtr):Void {
+    var curThis = this + at;
+    var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
+    ptr.ref = val;
+  }
+
   public function setFloat32(at:Int, val:Float32):Void {
     var curThis = this + at;
     var ptr:cpp.Pointer<Float32> = cpp.Pointer.fromRaw(untyped __cpp__("(cpp::Float32*){0}", curThis));
@@ -135,7 +151,7 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
   }
 
   public function getStruct(at:Int):Struct {
-    return cast VariantPtr.fromUIntPtr(this + at + 1);
+    return cast VariantPtr.fromExternalPointer(this + at);
   }
 
   public static function fromUObject(obj:UObject):AnyPtr {
@@ -144,11 +160,7 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
 
   public static function fromStruct(obj:Struct):AnyPtr {
     var variantPtr:VariantPtr = cast obj;
-    if (variantPtr.isObject()) {
-      return (variantPtr.getDynamic() : Wrapper).getPointer();
-    } else {
-      return variantPtr.raw - 1;
-    }
+    return variantPtr.getUnderlyingPointer();
   }
 
   public static function fromNull():AnyPtr {

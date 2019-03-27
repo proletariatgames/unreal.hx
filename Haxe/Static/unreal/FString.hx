@@ -9,6 +9,12 @@ package unreal;
     this = FStringImpl.create(str);
   }
 
+  public var length(get,never):Int;
+
+  inline private function get_length() {
+    return this.Len();
+  }
+
   inline public static function create(str:String):FString {
     return FStringImpl.create(str);
   }
@@ -23,6 +29,10 @@ package unreal;
 
   public function empty(?slack:Int32):Void {
     this.Empty(slack);
+  }
+
+  inline public function assign(str:FString):Void {
+    this.assign(str);
   }
 
   @:op(A==B) inline public function equals(other:FString) : Bool {

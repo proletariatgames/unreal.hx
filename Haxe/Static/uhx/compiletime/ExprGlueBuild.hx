@@ -58,7 +58,7 @@ class ExprGlueBuild {
         }
       } else {
         var sig = getSig();
-        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ':' +sig) && !Context.defined('display')) {
+        if (!Globals.cur.compiledScriptGluesExists(clsRef.toString() + ':' +sig) && !Context.defined('display')) {
           Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
         }
       }
@@ -141,7 +141,7 @@ class ExprGlueBuild {
     if (cls.meta.has(':uclass') && (Context.defined('cppia') || Context.defined('WITH_CPPIA'))) {
       var sig = UhxMeta.getStaticMetas(cls.meta.get()) + '@Class';
       if (Context.defined('cppia')) {
-        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ':$sig')) {
+        if (!Globals.cur.compiledScriptGluesExists(clsRef.toString() + ':$sig')) {
           Context.warning('UHXERR: The class ${clsRef} was not compiled into static, or it was compiled with different metadata', cls.pos);
         }
       } else {
@@ -165,7 +165,7 @@ class ExprGlueBuild {
         }
       }
       if (Context.defined('cppia')) {
-        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ":" + sig)) {
+        if (!Globals.cur.compiledScriptGluesExists(clsRef.toString() + ":" + sig)) {
           Context.warning('UHXERR: The function $fieldName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', pos);
         }
       } else {
@@ -179,26 +179,39 @@ class ExprGlueBuild {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
-    // make sure that the super field was not already defined in haxe code
+    inline function checkSuper(superField:ClassField) {
+      for (meta in superField.meta.extract(':ufunction')) {
+        for (meta in meta.params) {
+          if (UExtensionBuild.ufuncBlueprintOverridable(meta) && !UExtensionBuild.ufuncBlueprintNativeEvent(meta)) {
+            throw new Error('Unreal Glue Generation: This super call "$fieldName" cannot be called, since its parent function is an unimplemented BlueprintImplementableEvent', pos);
+          }
+        }
+      }
+    }
+
+    // make sure that the eluper field was not already defined in haxe code
     var sup = cls.superClass;
     while (sup != null) {
       var scls = sup.t.get();
       if (scls.meta.has(':uextern')) break;
       for (sfield in scls.fields.get()) {
         if (sfield.name == fieldName) {
+          checkSuper(sfield);
           // this field was already defined in a Haxe class; just use normal super
           return { expr:ECall(macro @:pos(pos) super.$fieldName, args), pos:pos };
         }
       }
       sup = scls.superClass;
     }
-
     var superClass = cls.superClass;
-    if (superClass == null)
+    if (superClass == null) {
       throw new Error('Unreal Glue Generation: Field calls super but no superclass was found', pos);
-    var field = findField(superClass.t.get(), fieldName, false);
-    if (field == null)
+    }
+    var field = sup == null ? null : findField(sup.t.get(), fieldName, false);
+    if (field == null) {
       throw new Error('Unreal Glue Generation: Field calls super but no field was found on super class', pos);
+    }
+    checkSuper(field);
     var fargs = null, fret = null;
     switch(Context.follow(field.type)) {
     case TFun(targs,tret):
@@ -213,7 +226,7 @@ class ExprGlueBuild {
       null;
     if (Context.defined('cppia')) {
       var sigCheck = clsRef.toString() + ':' + sig;
-      if (!Globals.cur.compiledScriptGlues.exists(sigCheck) && !Context.defined('display')) {
+      if (!Globals.cur.compiledScriptGluesExists(sigCheck) && !Context.defined('display')) {
         Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
       }
       var args = [macro this].concat(args);
@@ -334,7 +347,7 @@ class ExprGlueBuild {
           name = name.substring('_get_'.length, name.length - '_methodPtr'.length);
         }
         var sigCheck = clsRef.toString() + ':' + sig;
-        if (!Globals.cur.compiledScriptGlues.exists(sigCheck) && !Context.defined('display')) {
+        if (!Globals.cur.compiledScriptGluesExists(sigCheck) && !Context.defined('display')) {
           Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
         }
       }
@@ -542,16 +555,26 @@ class ExprGlueBuild {
     // TODO: clean up those references with a better interface
     var uprops = new Map(),
         superCalls = new Map(),
+        superCallsPos = new Map(),
         nativeCalls = new Map(),
         methodPtrs = new Map();
     for (prop in parent.meta.extractStrings(':uproperties' )) {
       uprops[prop] = null;
     }
-    for (scall in parent.meta.extractStrings(':usupercalls' )) {
-      // if the field was already overriden in a previous Haxe declaration,
-      // we should not build the super call
-      if (!ignoreSupers.exists(scall)) {
-        superCalls[scall] = null;
+    for (escall in parent.meta.extract(':usupercalls' )) {
+      for (escall in escall.params) {
+        var scall = switch(escall.expr) {
+          case EConst(CString(s) | CIdent(s)):
+            s;
+          case _:
+            throw 'assert';
+        };
+        // if the field was already overriden in a previous Haxe declaration,
+        // we should not build the super call
+        if (!ignoreSupers.exists(scall)) {
+          superCalls[scall] = null;
+          superCallsPos[scall] = escall.pos;
+        }
       }
     }
     for (ncall in parent.meta.extractStrings(':unativecalls' )) {
@@ -576,6 +599,7 @@ class ExprGlueBuild {
         methodPtrs[field.name] = field;
       }
     }
+
     for (field in cls.statics.get()) {
       var field = findField(cls, field.name, true, field);
       if (uprops.exists(field.name)) {
@@ -585,7 +609,12 @@ class ExprGlueBuild {
       }
     }
 
-    for (scall in superCalls) {
+    for (key in superCalls.keys()) {
+      var scall = superCalls[key];
+      if (scall == null) {
+        var pos = superCallsPos[key];
+        throw new Error('Unreal Glue Generation: super is called for ' + key + ' but it is not an overridden field', pos);
+      }
       // use a previous declaration to not force build typed expressions just yet
       var superField = allSuperFields[scall.name];
       if (superField == null) throw new Error('Unreal Glue Generation: super is called for ' + scall.name + ' but no superclass definition exists', scall.pos);
@@ -683,7 +712,7 @@ class ExprGlueBuild {
           throw new Error('Unreal Glue: ufunctions are not supported on ustructs', field.pos);
         }
         // we can only override non-extern functions
-        if (field.name != '_new' && supFields[field.name]) {
+        if (field.name != '_new'  && field.name != 'copy' && field.name != 'copyNew' && supFields[field.name]) {
           if (aSup.meta.has(':uextern')) {
             throw new Error('Unreal Glue: overriding an extern function (${field.name}) in a ustruct is not supported', field.pos);
           }
@@ -733,6 +762,39 @@ class ExprGlueBuild {
     if (abs.doc != null) {
       writer.buf.add('/**\n${abs.doc.replace('**/','')}\n**/\n');
     }
+    var align = abs.meta.extract(':ualign');
+    var alignment:Null<Int> = null;
+    if (align != null && align[0] != null && align[0].params != null && align[0].params.length > 0)
+    {
+      switch(align[0].params[0].expr)
+      {
+        case EConst(CInt(i)):
+          alignment = Std.parseInt(i);
+        case _:
+          throw new Error('Bad @:ualign argument: ${align[0].params[0]}', align[0].params[0].pos);
+      }
+    }
+    if (alignment == null)
+    {
+      var needsAlignmentOverride = uprops.length > 0;
+      for (prop in uprops) {
+        switch(prop.type.ueType.getCppType(null).toString())
+        {
+          case 'bool' | 'uint8' | 'int8' | 'char' | 'unsigned char':
+          case _:
+            needsAlignmentOverride = false;
+            break;
+        }
+      }
+      if (needsAlignmentOverride)
+      {
+        alignment = 8;
+      }
+    }
+    if (alignment != null)
+    {
+      writer.buf.add('#ifndef UHT_WORKAROUND\nMS_ALIGN($alignment)\n#endif\n'); // UHT doesn't like MS_ALIGN/GCC_ALIGN
+    }
     writer.buf.add('USTRUCT(');
     if (ustruct.params != null) {
       var first = true;
@@ -768,7 +830,12 @@ class ExprGlueBuild {
       }
       writer.buf.add('\t${cppType} $uname;\n\n');
     }
-    writer.buf.add('};\n');
+    writer.buf.add('}');
+    if (alignment != null)
+    {
+      writer.buf.add('\n#ifndef UHT_WORKAROUND\nGCC_ALIGN($alignment)\n#endif\n'); // UHT doesn't like MS_ALIGN/GCC_ALIGN
+    }
+    writer.buf.add(';');
 
     writer.close(Globals.cur.module);
     abs.meta.add(':ufiledependency', [macro "ExportHeader", macro $v{nameWithout}], abs.pos);
@@ -881,8 +948,11 @@ class ExprGlueBuild {
     }
     writer.buf.add(');\n\n\n');
 
-    writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
-    writer.buf.add('USTRUCT(Meta=(UHX_Internal=true)) struct F${uname}__Dummy { GENERATED_BODY() };');
+    if (!Context.defined("UHX_NO_UOBJECT"))
+    {
+      writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
+      writer.buf.add('USTRUCT(Meta=(UHX_Internal=true)) struct F${uname}__Dummy { GENERATED_BODY() };');
+    }
     writer.close(Globals.cur.module);
     abs.meta.add(':ufiledependency', [macro "ExportHeader", macro $v{nameWithout}], abs.pos);
   }
@@ -1001,6 +1071,16 @@ class ExprGlueBuild {
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
+    }
+    if (superField.meta.has(':ufunction')) {
+      for (meta in superField.meta.extract(':ufunction')) {
+        for (meta in meta.params) {
+          if (UExtensionBuild.ufuncBlueprintNativeEvent(meta)) {
+            uname = uname + '_Implementation';
+            break;
+          }
+        }
+      }
     }
     var meth = new GlueMethod({
       name: field.name,

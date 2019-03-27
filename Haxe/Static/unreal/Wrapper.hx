@@ -123,16 +123,16 @@ import uhx.StructInfo;
 
   @:final @:nonVirtual private function init() {
     var needsDestructor:Bool = untyped __cpp__("{0}->ptr->destruct != 0", m_info);
-    if (!needsDestructor && untyped __cpp__("{0}->ptr->upropertyObject != 0", m_info)) {
-#if !UHX_NO_UOBJECT
-      var flags:EPropertyFlags = uhx.glues.UProperty_Glue.get_PropertyFlags(untyped __cpp__("(unreal::UIntPtr) {0}->ptr->upropertyObject", m_info));
-      if (!flags.hasAny(EPropertyFlags.CPF_NoDestructor)) {
-        needsDestructor = true;
-      }
-#else
-      trace('Fatal', 'UProperty InlineWrapper is not supported on programs');
-#end
-    }
+//     if (!needsDestructor && untyped __cpp__("{0}->ptr->upropertyObject != 0", m_info)) {
+// #if !UHX_NO_UOBJECT
+//       var flags:EPropertyFlags = uhx.glues.UProperty_Glue.get_PropertyFlags(untyped __cpp__("(unreal::UIntPtr) {0}->ptr->upropertyObject", m_info));
+//       if (!flags.hasAny(EPropertyFlags.CPF_NoDestructor)) {
+//         needsDestructor = true;
+//       }
+// #else
+//       trace('Fatal', 'UProperty InlineWrapper is not supported on programs');
+// #end
+//     }
     if (needsDestructor) {
       m_flags = NeedsDestructor;
 #if !cppia
@@ -145,14 +145,14 @@ import uhx.StructInfo;
   private static function finalize(self:InlineWrapper) {
     if (self.m_flags.hasAny(NeedsDestructor)) {
       if (untyped __cpp__("{0}->ptr->destruct != 0", self.m_info)) {
-        var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
-        fn.call(self.getPointer());
-      } else if (untyped __cpp__('{0}->ptr->upropertyObject != 0', self.m_info)) {
-#if !UHX_NO_UOBJECT
-        uhx.glues.UProperty_Glue.DestroyValue(untyped __cpp__('(unreal::UIntPtr) {0}->ptr->upropertyObject', self.m_info), self.getPointer());
-#else
-      trace('Fatal', 'UProperty InlineWrapper is not supported on programs');
-#end
+        var fn = (cast self.m_info.ptr.destruct : cpp.Function<cpp.RawConstPointer<StructInfo>->UIntPtr->Void, cpp.abi.Abi>);
+        fn.call(self.m_info.raw, self.getPointer());
+//       } else if (untyped __cpp__('{0}->ptr->upropertyObject != 0', self.m_info)) {
+// #if !UHX_NO_UOBJECT
+//         uhx.glues.UProperty_Glue.DestroyValue(untyped __cpp__('(unreal::UIntPtr) {0}->ptr->upropertyObject', self.m_info), self.getPointer());
+// #else
+//       trace('Fatal', 'UProperty InlineWrapper is not supported on programs');
+// #end
       }
       self.m_flags = Disposed;
     }
@@ -308,7 +308,7 @@ import uhx.StructInfo;
   var m_flags:WrapperFlags;
 
   @:final @:nonVirtual private function init() {
-    if (untyped __cpp__("{0}->ptr->destruct != 0", info) || info.ptr.flags == UHXS_UPROP) {
+    if (untyped __cpp__("{0}->ptr->destruct != 0", info) || info.ptr.flags == UHXS_CUSTOM) {
       m_flags = NeedsDestructor;
 #if !cppia
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
@@ -319,8 +319,8 @@ import uhx.StructInfo;
   @:analyzer(no_fusion)
   private static function finalize(self:InlineTemplateWrapper) {
     if (self.m_flags.hasAny(NeedsDestructor)) {
-      var fn = (cast self.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
-      fn.call(self.pointer);
+      var fn = (cast self.info.ptr.destruct : cpp.Function<cpp.RawConstPointer<StructInfo>->UIntPtr->Void, cpp.abi.Abi>);
+      fn.call(self.info.raw, self.pointer);
       self.m_flags = Disposed;
     }
   }
@@ -334,8 +334,8 @@ import uhx.StructInfo;
 #if !cppia
       cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
 #end
-      var fn = (cast this.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
-      fn.call(this.pointer);
+      var fn = (cast this.info.ptr.destruct : cpp.Function<cpp.RawConstPointer<StructInfo>->UIntPtr->Void, cpp.abi.Abi>);
+      fn.call(this.info.raw, this.pointer);
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;
     } else if (m_flags.hasAny(Disposed)) {
       throw 'Cannot dispose $this: It was already disposed';

@@ -8,6 +8,7 @@ using uhx.compiletime.tools.MacroHelpers;
 
 class GlueInfo {
   public static inline var UNITY_CPP_EXT = '.uhxglue.cpp';
+  public static inline var UNITY_CPP_PREFIX = '';
 
   public static function getHeaderPath(tref:TypeRef, ?ensureExists=false):String {
     var ret = getHeaderDir(tref);
@@ -86,7 +87,7 @@ class GlueInfo {
       FileSystem.createDirectory(dir);
     }
 
-    return dir + '/' + umodule + '.' + Globals.cur.shortBuildName + UNITY_CPP_EXT;
+    return dir + '/' + UNITY_CPP_PREFIX + umodule + '.' + Globals.cur.shortBuildName + UNITY_CPP_EXT;
   }
 
   public static function getExportHeaderPath(uname:String, ?ensureExists=false):String {

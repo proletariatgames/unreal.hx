@@ -7,12 +7,12 @@ enum EStructFlags {
   UHX_None = 0,
   UHX_Templated = 1,
   UHX_POD = 2,
-  UHX_UPROP = 3, // was created through a UProperty type
+  UHX_CUSTOM = 3, // was created through a UProperty / UScriptStruct type
 };
 
 struct StructInfo;
 
-typedef void (*IntrinsicFunction)(unreal::UIntPtr);
+typedef void (*IntrinsicFunction)(const StructInfo *, unreal::UIntPtr);
 typedef bool (*EqFunction)(const StructInfo *, unreal::UIntPtr, unreal::UIntPtr);
 typedef void (*AnyFunction)();
 
@@ -63,16 +63,16 @@ struct StructInfo {
   void *genericImplementation;
 
   /**
-   * If this StructInfo was created by a UProperty, the original UProperty pointer can be found here
+   * If this StructInfo was created by a UProperty or UScriptStruct, the original UProperty pointer can be found here
    **/
-  void *upropertyObject;
+  void *contextObject;
 };
 
 #ifndef UHX_NO_UOBJECT
 /**
- * Creates a StructInfo given a UProperty
+ * Creates a StructInfo given a UScriptStruct
  **/
-StructInfo infoFromUProperty(void *inUPropertyObject);
+StructInfo infoFromUScriptStruct(void *inUScriptStruct);
 #endif
 
 }

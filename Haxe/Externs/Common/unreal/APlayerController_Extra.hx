@@ -19,6 +19,8 @@ extern class APlayerController_Extra {
   public function StartTalking() : Void;
   public function StopTalking() : Void;
 
+	public function PawnLeavingGame() : Void;
+
   @:thisConst public function GetSpawnLocation() : FVector;
   public function SetInputMode (InData:Const<PRef<FInputModeDataBase>>) : Void;
 
@@ -54,4 +56,42 @@ extern class APlayerController_Extra {
   public function PreClientTravel(PendingURL:Const<PRef<FString>>, TravelType:ETravelType, bIsSeamlessTravel:Bool):Void;
 
   public function CleanupPlayerState() : Void;
+
+  public function SetPawn(InPawn:APawn) : Void;
+
+  /** Returns the first of GetPawn() or GetSpectatorPawn() that is not nullptr, or nullptr otherwise. */
+  @:thisConst
+	public function GetPawnOrSpectator() : APawn;
+  /**
+    Retrieves the X and Y screen coordinates of the mouse cursor. Returns false if there is no associated mouse device
+  **/
+  @:ureplace @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMousePosition(LocationX : Ref<unreal.Float32>, LocationY : Ref<unreal.Float32>) : Bool;
+
+  /**
+    Helper to get the size of the HUD canvas for this player controller.  Returns 0 if there is no HUD
+  **/
+  @:ureplace @:ufunction(BlueprintCallable) @:thisConst @:final public function GetViewportSize(SizeX : Ref<unreal.Int32>, SizeY : Ref<unreal.Int32>) : Void;
+
+	/**
+	 * Mutes a remote player on the server and then tells the client to mute
+	 *
+	 * @param PlayerNetId the remote player to mute
+	 */
+	public function GameplayMutePlayer(PlayerNetId : Const<PRef<FUniqueNetIdRepl>>) : Void;
+
+	/**
+	 * Unmutes a remote player on the server and then tells the client to unmute
+	 *
+	 * @param PlayerNetId the remote player to unmute
+	 */
+	public function GameplayUnmutePlayer(PlayerNetId : Const<PRef<FUniqueNetIdRepl>>) : Void;
+
+	/**
+	 * Is the specified player muted by this controlling player
+	 * for any reason (gameplay, system, etc), check voice interface IsMuted() for system mutes
+	 *
+	 * @param PlayerId potentially muted player
+	 * @return true if player is muted, false otherwise
+	 */
+	public function IsPlayerMuted(PlayerId : Const<PRef<FUniqueNetId>>) : Bool;
 }

@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ENetDormancy")
 @:uextern extern enum ENetDormancy {
   /** This actor can never go network dormant. */

@@ -39,6 +39,13 @@ extern class UActorComponent_Extra {
   /** set value of bCanEverAffectNavigation flag and update navigation octree if needed */
   function SetCanEverAffectNavigation(bRelevant:Bool) : Void;
 
+	/**
+	 * Initializes the component.  Occurs at level startup. This is before BeginPlay (Actor or Component).
+	 * All Components in the level will be Initialized on load before any Actor/Component gets BeginPlay
+	 * Requires component to be registered, and bWantsInitializeComponent to be true.
+	 */
+  function InitializeComponent() : Void;
+
   /**
    * BeginsPlay for the component.  Occurs at level startup. This is before BeginPlay (Actor or Component).
    * All Components (that want initialization) in the level will be Initialized on load before any
@@ -60,7 +67,7 @@ extern class UActorComponent_Extra {
   function UnregisterComponent() : Void;
 
   /** Unregister the component, remove it from its outer Actor's Components array and mark for pending kill. */
-  function DestroyComponent(bPromoteChildren:Bool) : Void;
+  function DestroyComponent(bPromoteChildren:Bool = false) : Void;
 
   /** Called when a component is created (not loaded) */
   function OnComponentCreated() : Void;
@@ -76,4 +83,7 @@ extern class UActorComponent_Extra {
 
   /** Allows a component to replicate other subobject on the actor  */
   public function ReplicateSubobjects(Channel:UActorChannel, Bunch:PPtr<FOutBunch>, RepFlags:PPtr<FReplicationFlags>):Bool;
+
+  /** If true, we call the virtual InitializeComponent */
+  public var bWantsInitializeComponent:Bool;
 }

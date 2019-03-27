@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("UObject/UObject.h")
+@:glueCppIncludes("UObject/Object.h")
 @:uname("ELifetimeRepNotifyCondition")
 @:uextern extern enum ELifetimeRepNotifyCondition {
   REPNOTIFY_OnChanged;
@@ -13,7 +13,7 @@ package unreal;
  *	"check this property for replication for the life of the actor; and I don't want to think about it anymore"
  *  A secondary condition can also be used to skip replication based on the condition results
  **/
-@:glueCppIncludes("UObject/UObject.h")
+@:glueCppIncludes("UObject/Object.h")
 @:uname("FLifetimeProperty")
 @:uextern extern class FLifetimeProperty {
   public var RepIndex:UInt16;

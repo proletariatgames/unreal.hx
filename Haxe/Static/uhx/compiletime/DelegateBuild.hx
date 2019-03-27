@@ -19,6 +19,7 @@ class DelegateBuild {
       case TInst(_,[TType(t,_), TFun(a,r)]):
         tfun = TFun(a,r);
         tdef = t.get();
+        pos = tdef.pos;
         args = a;
         ret = r;
       case _:
@@ -75,9 +76,11 @@ class DelegateBuild {
           return $delayedglue.getNativeCall("IsBound", false);
         }
 
+#if !UHX_NO_UOBJECT
         @:excludeDynamic public function GetUObject():Null<unreal.UObject> {
           return $delayedglue.getNativeCall("GetUObject", false);
         }
+#end
       }
 
       var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
@@ -92,15 +95,16 @@ class DelegateBuild {
           public function BindLambda(fn:$lambdaType) : Void {
             $delayedglue.getNativeCall("BindLambda", false, fn);
           }
+
+#if !UHX_NO_UOBJECT
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
             $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
-          @:uname("BindUFunction") public function Internal_BindUFunction(obj:unreal.UObject, name:unreal.Const<unreal.PRef<unreal.FName>>) : Void {
-            $delayedglue.getNativeCall("Internal_BindUFunction", false, obj, name);
-          }
+
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
+#end
         }
 
         for (fld in dummy.fields) {
@@ -113,7 +117,7 @@ class DelegateBuild {
         names.push('ExecuteIfBound');
       for (name in names) {
         var idx = 0;
-        var expr = isExtern ? macro return cast null : {
+        var expr = isExtern ? macro cast null : {
           expr:ECall(
             macro $delayedglue.getNativeCall,
             [macro $v{name}, macro false].concat([ for (arg in args) macro $i{ 'arg_' + idx++ } ])),
@@ -142,10 +146,6 @@ class DelegateBuild {
         @:excludeDynamic public function Clear():Void {
           $delayedglue.getNativeCall("Clear", false);
         }
-      }
-      // There is no Remove for DynamicMulticastDelegate, so pull off that field
-      if (type == 'DynamicMulticastDelegate') {
-        def.fields.shift();
       }
 
       var idx = 0;
@@ -181,15 +181,16 @@ class DelegateBuild {
           public function AddLambda(fn:$lambdaType) : unreal.FDelegateHandle {
             return $delayedglue.getNativeCall("AddLambda", false, fn);
           }
+
+#if !UHX_NO_UOBJECT
           public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
             return $delayedglue.getNativeCall("AddUObject", false, obj, fn);
-          }
-          @:uname("AddUFunction") public function Internal_AddUFunction(obj:unreal.UObject, name:unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FDelegateHandle {
-            return $delayedglue.getNativeCall("Internal_AddUFunction", false, obj, name);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
+#end
+
           public function Remove(handle:unreal.FDelegateHandle) : Void {
             $delayedglue.getNativeCall("Remove", false, handle);
           }
@@ -269,7 +270,8 @@ class DelegateBuild {
 
 #if !bake_externs
     var added = macro class {
-      inline public static function fromPointer(ptr:unreal.VariantPtr):$complexThis {
+      // @:keep this field so that DCE doesn't think this Haxe-created delegate can be collected
+      @:keep inline public static function fromPointer(ptr:unreal.VariantPtr):$complexThis {
         return cast ptr;
       }
     };
@@ -334,7 +336,7 @@ class DelegateBuild {
                 macro return cast unreal.FScriptDelegate.createNew();
             case 'ExecuteIfBound':
               var arr = [ for (arg in fn.args) macro $i{arg.name} ];
-              var executeCall = { expr:ECall(macro this.Execute, arr), pos:pos };
+              var executeCall = { expr:ECall(macro Execute, arr), pos:pos };
               fn.expr = macro if (this.IsBound()) $executeCall;
             case 'Execute' | 'Broadcast':
               var arr = [ for (arg in fn.args) macro $i{arg.name} ];
@@ -392,8 +394,9 @@ class DelegateBuild {
     // def.pack = TypeRef.parse(Context.getLocalModule()).pack;
     def.pack = ['uhx','delegates'];
     def.isExtern = isExtern;
+    def.pos = pos;
 #if bake_externs
-    meta.push({ name:':udelegate', params:[macro var _:$sup], pos:pos });
+    meta.push({ name:':udelegate', params:[macro (_:$sup)], pos:pos });
     def.kind = TDClass();
     def.isExtern = true;
 #else

@@ -21,7 +21,7 @@ public:
       uhx::internal::AutomationExpose::isComplexTask(inHaxeRef))
   {
     haxeGcRef.set(inHaxeRef);
-    uhx::internal::AutomationExpose::setWrapped(inHaxeRef, unreal::VariantPtr(this));
+    uhx::internal::AutomationExpose::setWrapped(inHaxeRef, unreal::VariantPtr::fromExternalPointer(this));
   }
 
   virtual uint32 GetTestFlags() const override {
@@ -45,7 +45,7 @@ public:
   }
 
   virtual bool RunTest(const FString& params) override {
-    return uhx::internal::AutomationExpose::runTest(haxeGcRef.get(), unreal::VariantPtr(&params));
+    return uhx::internal::AutomationExpose::runTest(haxeGcRef.get(), unreal::VariantPtr::fromExternalPointer(&params));
   }
 
   virtual FString GetBeautifiedTestName() const override {

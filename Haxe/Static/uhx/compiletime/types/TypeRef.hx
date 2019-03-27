@@ -333,7 +333,7 @@ class TypeRef
     };
   }
 
-  public function getCppType(?buf:StringBuf, ?ignoreConst=false, ?ignoreParams=false):StringBuf {
+  public function getCppType(?buf:StringBuf, ?ignoreConst=false, ?ignoreParams=false, ?recursiveIgnore=false):StringBuf {
     if (buf == null)
       buf = new StringBuf();
 
@@ -371,7 +371,7 @@ class TypeRef
         var first = true;
         for (param in params) {
           if (first) first = false; else buf.add(', ');
-          param.getCppType(buf, ignoreConst);
+          param.getCppType(buf, ignoreConst && recursiveIgnore);
         }
         buf.add('>');
       }

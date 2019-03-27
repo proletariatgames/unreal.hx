@@ -5,6 +5,16 @@ private typedef NativeIterator<T> = TIndexedContainerIterator<Const<TArray<T>>,C
 @:forward abstract TConstArrayIteratorWrapper<T>(NativeIterator<T>) from NativeIterator<T> to NativeIterator<T> {
   public inline function new(native:NativeIterator<T>) this = native;
 
+  public inline function iterateAndDispose(fn:T->Void) {
+#if !bake_externs
+    for (value in iterator()) {
+      fn(value);
+    }
+    // we must dispose right after use, otherwise the destructor might assert depending on the time the GC runs
+    this.dispose();
+#end
+  }
+
   public inline function iterator() return new NativeIteratorWrapper<T>(this);
 }
 

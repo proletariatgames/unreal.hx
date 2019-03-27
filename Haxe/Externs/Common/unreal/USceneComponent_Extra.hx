@@ -22,8 +22,15 @@ extern class USceneComponent_Extra
   public function CalcBounds(LocalToWorld:Const<PRef<FTransform>>) : FBoxSphereBounds;
 
   public function SetRelativeLocation(NewLocation:FVector, bSweep:Bool /* = false */, OutSweepHitResult:PPtr<FHitResult> /* = null */, Teleport:ETeleportType /* = None */):Void;
+  public function SetWorldLocation(NewLocation:FVector, bSweep:Bool /* = false */, OutSweepHitResult:PPtr<FHitResult> /* = null */, Teleport:ETeleportType /* = None */):Void;
 
   public function GetComponentLocation():FVector;
+
+  @:thisConst
+  public function GetComponentTransform():Const<PRef<FTransform>>;
+
+  @:thisConst
+  public function GetComponentRotation():FRotator;
 
   var Bounds:FBoxSphereBounds;
 }

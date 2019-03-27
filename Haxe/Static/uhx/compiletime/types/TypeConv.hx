@@ -17,6 +17,10 @@ using StringTools;
   @see TypeConvInfo
  **/
 class TypeConv {
+#if bake_externs
+  private static var typeHasLoaded:Map<String, Bool> = new Map();
+  public static var onTypeLoad:String->Void = null;
+#end
   public var data(default, null):TypeConvData;
   public var modifiers(default, null):Null<Array<Modifier>>;
 
@@ -33,6 +37,114 @@ class TypeConv {
     this.modifiers = modifiers;
     consolidate();
   }
+
+  public function equivalentTo(other:TypeConv) {
+    if (this == other) {
+      return true;
+    }
+
+    if ((this.modifiers == null) != (other.modifiers == null)) {
+      return false;
+    }
+    if (this.modifiers != null) {
+      for (modf in this.modifiers) {
+        switch(modf) {
+          case Ptr:
+            if (!other.modifiers.has(Ptr)) {
+              return false;
+            }
+          case Ref:
+            if (!other.modifiers.has(Ref)) {
+              return false;
+            }
+          case Const:
+            if (!other.modifiers.has(Const)) {
+              return false;
+            }
+          case _:
+        }
+      }
+    }
+
+    switch [this.data, other.data] {
+    case [CBasic(infoT), CBasic(infoO)]:
+      return infoT.ueType.name == infoO.ueType.name;
+    case [CSpecial(infoT), CSpecial(infoO)]:
+      return infoT.haxeType.toString() == infoO.haxeType.toString();
+    case [CUObject(_, f1, i1), CUObject(_, f2, i2)]:
+      if (f1 != f2) {
+        return false;
+      }
+      return i1.haxeType.toString() == i2.haxeType.toString();
+    case [CEnum(_, _, i1), CEnum(_, _, i2)]:
+      return i1.haxeType.toString() == i2.haxeType.toString();
+    case [CStruct(_, f1, i1, p1), CStruct(_, f2, i2, p2)]:
+      if (f1 != f2) {
+        return false;
+      }
+      if (p1 != null) {
+        if (p2 == null) {
+          return false;
+        }
+        if (p1.length != p2.length) {
+          return false;
+        }
+        for (i in 0...p1.length) {
+          if (!p1[i].equivalentTo(p2[i])) {
+            return false;
+          }
+        }
+      }
+      return i1.ueType.withoutPointer(true).toString() == i2.ueType.withoutPointer(true).toString();
+    case [CPtr(t1, r1), CPtr(t2,r2)]:
+      if (r1 != r2) {
+        return false;
+      }
+      return t1.equivalentTo(t2);
+    case [CLambda(a1, r1), CLambda(a2,r2)]:
+      if (a1.length != a2.length) {
+        return false;
+      }
+      for (i in 0...a1.length) {
+        if (!a1[i].equivalentTo(a2[i])) {
+          return false;
+        }
+      }
+      return r1.equivalentTo(r2);
+    case [CMethodPointer(c1, a1, r1), CMethodPointer(c2, a2, r2)]:
+      if (c1 != c2) {
+        return false;
+      }
+      if (a1.length != a2.length) {
+        return false;
+      }
+      for (i in 0...a1.length) {
+        if (!a1[i].equivalentTo(a2[i])) {
+          return false;
+        }
+      }
+      return r1.equivalentTo(r2);
+    case [CTypeParam(_,k1), CTypeParam(_,k2)]:
+      return k1 == k2;
+    case _:
+      return false;
+    }
+  }
+
+  inline private static function checkTypeLoaded(name:String) {
+#if bake_externs
+    if (onTypeLoad != null && !typeHasLoaded.exists(name)) {
+      typeHasLoaded[name] = true;
+      onTypeLoad(name);
+    }
+#end
+  }
+
+#if bake_externs
+  inline public static function setTypeLoaded(name:String) {
+    typeHasLoaded[name] = true;
+  }
+#end
 
   public function toUPropertyDef():Null<UPropertyDef> {
     var name:Null<String> = null,
@@ -95,8 +207,12 @@ class TypeConv {
         case _:
           TUObject;
         }
-      case CEnum(type, info, true):
-        name = info.ueType.getCppType().toString();
+      case CEnum(type, flags, info) if (flags.hasAll(EUEnum)):
+        if ((type == EExternal || type == EAbstract) && info.ueType.pack.length > 0) {
+          name = info.ueType.pack[info.ueType.pack.length-1];
+        } else {
+          name = info.ueType.name;
+        }
         TEnum;
       case CEnum(_):
         null;
@@ -118,34 +234,48 @@ class TypeConv {
           typeFlags |= FScriptCreated;
         case _:
         }
-        if (flags.hasAny(SUStruct)) {
-          switch(info.ueType.name) {
-            case 'TArray':
-              var param = params[0].toUPropertyDef();
-              if (param == null) {
-                null;
-              } else {
-                defParams = [param];
-                TArray;
+
+        switch(info.ueType.name) {
+          case 'TArray' | 'TSet':
+            var param = params[0].toUPropertyDef();
+            if (param == null) {
+              null;
+            } else {
+              defParams = [param];
+              info.ueType.name == 'TArray' ? TArray : TSet;
+            }
+          case 'TMap':
+            var kparam = params[0].toUPropertyDef(),
+                vparam = params[1].toUPropertyDef();
+
+            if (kparam == null || vparam == null) {
+              null;
+            } else {
+              defParams = [kparam,vparam];
+              TMap;
+            }
+          case _:
+            if (flags.hasAny(SUStruct)) {
+              switch(info.ueType.name) {
+                case 'FString':
+                  TString;
+                case 'FText':
+                  TText;
+                case 'FName':
+                  TName;
+                case uname:
+                  name = uname;
+                  TStruct;
               }
-            case 'FString':
-              TString;
-            case 'FText':
-              TText;
-            case 'FName':
-              TName;
-            case uname:
-              name = uname;
-              TStruct;
-          }
-        } else if (flags.hasAny(SDynamicDelegate)) {
-          name = info.ueType.name;
-          TDynamicDelegate;
-        } else if (flags.hasAny(SDynamicMulticastDelegate)) {
-          name = info.ueType.name;
-          TDynamicMulticastDelegate;
-        } else {
-          null;
+            } else if (flags.hasAny(SDynamicDelegate)) {
+              name = info.ueType.name;
+              TDynamicDelegate;
+            } else if (flags.hasAny(SDynamicMulticastDelegate)) {
+              name = info.ueType.name;
+              TDynamicMulticastDelegate;
+            } else {
+              null;
+            }
         }
       case CLambda(_) | CMethodPointer(_) | CTypeParam(_):
         null;
@@ -318,7 +448,7 @@ class TypeConv {
         // and it's a type that both Unreal and Haxe can see (different from cpp.Pointer)
         this.glueType = uintPtr;
         this.haxeGlueType = uintPtr;
-      case CEnum(type, info, _):
+      case CEnum(type, flags, info):
         // EExternal, EAbstract, EHaxe, EScriptHaxe
         if (this.haxeType == null) {
           this.haxeType = info.haxeType;
@@ -326,20 +456,20 @@ class TypeConv {
         this.ueType = info.ueType;
         this.haxeGlueType = int32Haxe;
         this.glueType = int32Glue;
+        if (flags.hasAll(EEnumAsByte)) {
+          this.haxeType = new TypeRef(['unreal'], 'TEnumAsByte', [this.haxeType]);
+          this.ueType = new TypeRef('TEnumAsByte', [this.ueType]);
+        }
       case CPtr(type, isRef):
         this.haxeType = type.haxeType;
         this.ueType = type.ueType;
         this.haxeGlueType = uintPtr;
         this.glueType = uintPtr;
         if (isRef) {
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'Ref', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'Ref', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'Reference', [this.ueType]);
         } else {
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'Ptr', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'Ptr', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'RawPointer', [this.ueType]);
         }
       case CStruct(type, flags, info, params):
@@ -441,23 +571,17 @@ class TypeConv {
       while (i --> 0) {
         switch(modf[i]) {
         case Const:
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'Const', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'Const', [this.haxeType]);
           if (this.data.match(CUObject(_)) && !hadMarker) {
             this.ueType = this.ueType.leafWithConst(true);
           } else {
             this.ueType = this.ueType.withConst(true);
           }
         case Ref:
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'PRef', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'PRef', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'Reference', [this.ueType]);
         case Ptr:
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'PPtr', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'PPtr', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'RawPointer', [this.ueType]);
         case Marker:
           hadMarker = true;
@@ -473,7 +597,7 @@ class TypeConv {
     case CUObject(type, flags, info):
       // we only use unreal::UIntPtr on the glue code
       set.add('IntPtr.h');
-    case CEnum(type, info, _):
+    case CEnum(type, _, info):
       set.add('<hxcpp.h>');
     case CStruct(type,_,info,params):
       set.add('VariantPtr.h');
@@ -501,6 +625,7 @@ class TypeConv {
     case CUObject(type, flags, info):
       var canForwardDecl = true;
       if (flags.hasAny(OWeak)) {
+        set.add('UObject/WeakObjectPtr.h');
         set.add("UObject/WeakObjectPtrTemplates.h");
       }
       if (flags.hasAny(OSubclassOf)) {
@@ -521,7 +646,7 @@ class TypeConv {
           set.add('${info.ueType.withoutPrefix().name}.h');
         }
       }
-    case CEnum(type, info, _):
+    case CEnum(type, _, info):
       if (type == EHaxe || type == EScriptHaxe) {
         set.add('${ueType.withoutPrefix().name}.h');
       }
@@ -559,6 +684,7 @@ class TypeConv {
     case CTypeParam(name, kind):
       switch(kind) {
         case PWeak | PAutoWeak:
+          set.add('UObject/WeakObjectPtr.h');
           set.add("UObject/WeakObjectPtrTemplates.h");
         case PSubclassOf:
           set.add("CoreUObject.h");
@@ -591,13 +717,13 @@ class TypeConv {
         'uhx.internal.HaxeHelpers.getUObjectWrapped($expr)';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(EAbstract, info, _):
+      case CEnum(EAbstract, _, info):
         expr;
-      case CEnum( type = (EScriptHaxe | EHaxe), info, _):
+      case CEnum( type = (EScriptHaxe | EHaxe), _, info):
         var setType = type == EScriptHaxe ? ' : Dynamic' : '';
         var haxeType = this.haxeType;
         '{ var temp $setType = $expr; if (temp == null) { throw "null $haxeType passed to UE"; } Type.enumIndex(temp); }';
-      case CEnum(type, info, _):
+      case CEnum(type, _, info):
         var typeRef = info.haxeType,
             conv = typeRef.with(typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name);
         '${conv.getClassPath()}.unwrap($expr)';
@@ -618,7 +744,7 @@ class TypeConv {
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name, _):
-        'uhx.internal.HaxeHelpers.variantToPointer( $expr )';
+        '( cast $expr : unreal.VariantPtr ).getUIntPtrRepresentation()';
     }
   }
 
@@ -644,14 +770,14 @@ class TypeConv {
         }
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(EAbstract, info, _):
+      case CEnum(EAbstract, _, info):
         '( ($expr) : ${haxeType} )';
-      case CEnum( type = (EScriptHaxe | EHaxe), info, _):
+      case CEnum( type = (EScriptHaxe | EHaxe), _, info):
         if (type == EScriptHaxe)
           'Type.createEnumIndex(Type.resolveEnum("${this.haxeType.getClassPath(true)}"), $expr)';
         else
           'uhx.internal.UEnumHelper.createEnumIndex(${this.haxeType.getClassPath(false)}, $expr)';
-      case CEnum(type, info, _):
+      case CEnum(type, _, info):
         var typeRef = info.haxeType,
             conv = typeRef.with(typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name);
         '${conv.getClassPath()}.wrap($expr)';
@@ -704,8 +830,13 @@ class TypeConv {
         ret;
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(type, info, _):
-        '( (${ueType.getCppType()}) $expr )';
+      case CEnum(type, flags, info):
+        if (flags.hasAll(EEnumAsByte))
+        {
+          '( (${ueType.getCppType()}) (${ueType.params[0].getCppType()}) $expr )';
+        } else {
+          '( (${ueType.getCppType()}) $expr )';
+        }
 
       case CStruct(type, flags, info, params):
         var ret = null;
@@ -745,7 +876,7 @@ class TypeConv {
     }
   }
 
-  public function ueToGlueCtor(ctorArgs:String, argsTypes:Array<TypeConv>, ctx:ConvCtx) {
+  public function ueToGlueCtor(ctorArgs:String, argsTypes:Array<TypeConv>, ctx:ConvCtx, justWrapper=false) {
     if (hasModifier(Ref) || hasModifier(Ptr) || hasAnyConst()) {
       throw new Error('Invalid constructor return type: $haxeType', ctx.pos);
     }
@@ -757,7 +888,8 @@ class TypeConv {
           '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
         };
         var templ = '<' + [ for (arg in argsTypes) arg.ueType.getCppType() ].join(',') + '>';
-        return '$helper::create$templ($ctorArgs)';
+        var name = justWrapper ? 'emptyWrapper' : 'create$templ';
+        return '$helper::$name($ctorArgs)';
       case _:
         throw new Error('Invalid constructor return type: $haxeType. Expected struct', ctx.pos);
     }
@@ -808,8 +940,13 @@ class TypeConv {
         '( (unreal::UIntPtr) ($ret) )';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
-      case CEnum(type, info, _):
-        '( (int) (${ueType.getCppType()}) $expr )';
+      case CEnum(type, flags, info):
+        var type = ueType;
+        if (flags.hasAny(EEnumAsByte))
+        {
+          type = type.params[0];
+        }
+        '( (int) (${type.getCppType()}) $expr )';
 
       case CStruct(type, flags, info, params):
         if (params != null && params.length > 0) {
@@ -823,9 +960,9 @@ class TypeConv {
           }
         } else {
           if (hasModifier(Ref)) {
-            'unreal::VariantPtr( (void *) &($expr) )';
+            'unreal::VariantPtr::fromExternalPointer( (void *) &($expr) )';
           } else if (hasModifier(Ptr)) {
-            'unreal::VariantPtr( (void *) ($expr) )';
+            'unreal::VariantPtr::fromExternalPointer( (void *) ($expr) )';
           } else {
             '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>::fromStruct($expr)';
           }
@@ -974,7 +1111,7 @@ class TypeConv {
 
       var ret = cache[t];
       if (ret == null) {
-        var ctx:InfoCtx = { accFlags:ONone };
+        var ctx:InfoCtx = { accFlags:ONone, accEnumFlags: ENone };
         ret = getInfo(type, pos, ctx, inTypeParam, isNoTemplate);
         if (!ctx.disableCache) {
           cache[t] = ret;
@@ -986,7 +1123,7 @@ class TypeConv {
     else
 #end
     {
-      return getInfo(type, pos, { accFlags:ONone }, inTypeParam, isNoTemplate);
+      return getInfo(type, pos, { accFlags:ONone, accEnumFlags: ENone }, inTypeParam, isNoTemplate);
     }
   }
 
@@ -1000,6 +1137,7 @@ class TypeConv {
           ctx.disableCache = true;
         }
         var name = iref.toString();
+        checkTypeLoaded(name);
         var ret = cache[name];
         if (ret != null) {
           if (ctx.modf == null && ctx.original == null) {
@@ -1117,16 +1255,22 @@ class TypeConv {
           // Const enums work the same as non-const, so we do support them
           Context.warning('Unreal Glue: PPtr or PRef is not supported on enums', pos);
         }
+#if bake_externs
+        checkTypeLoaded(eref.toString());
+#end
         var e = eref.get(),
             ret = null,
             info = getTypeInfo(e, pos);
+        var flag = ctx.accEnumFlags;
+        if (flag == null) flag = ENone;
+        if (e.meta.has(':uenum')) flag = flag | EUEnum;
         if (e.meta.has(':uextern') && !e.meta.has(':haxeGenerated')) {
-          ret = CEnum(e.meta.has(':class') ? EExternalClass : EExternal, info, e.meta.has(':uenum'));
+          ret = CEnum(e.meta.has(':class') ? EExternalClass : EExternal, flag, info);
         } else if (e.meta.has(':uenum')) {
           if (e.meta.has(':uscript') || (Context.defined('cppia') && !Globals.cur.staticModules.exists(e.module))) {
-            ret = CEnum(EScriptHaxe, info, true);
+            ret = CEnum(EScriptHaxe, flag | EUEnum, info);
           } else {
-            ret = CEnum(EHaxe, info, true);
+            ret = CEnum(EHaxe, flag | EUEnum, info);
           }
         } else {
           Context.warning('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
@@ -1139,6 +1283,7 @@ class TypeConv {
           ctx.disableCache = true;
         }
         var name = aref.toString();
+        checkTypeLoaded(name);
         if (tl.length == 0) {
           var ret = cache[name];
           if (ret != null) {
@@ -1204,7 +1349,11 @@ class TypeConv {
           if (ctx.modf != null) {
             Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
           }
-          ret = CEnum(EAbstract, info, true);
+          var underlying = get(a.type, pos, inTypeParam, isNoTemplate);
+          var ret = new TypeConv(CEnum(EAbstract, ctx.accEnumFlags | EUEnum, info), ctx.modf, ctx.original);
+          ret.glueType = underlying.glueType;
+          ret.haxeGlueType = underlying.haxeGlueType;
+          return ret;
         } else if (hasUextern) {
           ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
         } else if (a.meta.has(':haxeCreated')) {
@@ -1230,8 +1379,38 @@ class TypeConv {
               }
               ctx.accStructFlags |= SOwnedPtr;
             }
-            if (ctx.original == null) {
-              ctx.original = TypeRef.fromBaseType(a, tl, pos);
+            switch(name)
+            {
+            case 'unreal.TEnumAsByte':
+              ctx.accEnumFlags |= EEnumAsByte;
+            case 'unreal.TWeakObjectPtr':
+              if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
+                Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
+              }
+              ctx.accFlags |= OWeak;
+              if (ctx.modf == null) ctx.modf = [];
+              ctx.modf.push(Marker);
+            case 'unreal.TAutoWeakObjectPtr':
+              if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
+                Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
+              }
+              ctx.accFlags |= OAutoWeak;
+              if (ctx.modf == null) ctx.modf = [];
+              ctx.modf.push(Marker);
+            case 'unreal.TSubclassOf':
+              if (ctx.accFlags.hasAny(OWeak | OSubclassOf)) {
+                Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
+              }
+              ctx.accFlags |= OSubclassOf;
+              type = tl[0];
+              if (ctx.modf == null) ctx.modf = [];
+              ctx.modf.push(Marker);
+              type = tl[0];
+              continue;
+            case _:
+              if (ctx.original == null) {
+                ctx.original = TypeRef.fromBaseType(a, tl, pos);
+              }
             }
             type = a.type.applyTypeParameters(a.params, tl);
           }
@@ -1286,29 +1465,6 @@ class TypeConv {
             } else {
               ctx.modf.push(Ptr);
             }
-          case 'unreal.TWeakObjectPtr':
-            if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
-              Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
-            }
-            ctx.accFlags |= OWeak;
-            if (ctx.modf == null) ctx.modf = [];
-            ctx.modf.push(Marker);
-          case 'unreal.TAutoWeakObjectPtr':
-            if (ctx.accFlags.hasAny(OAutoWeak | OSubclassOf)) {
-              Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
-            }
-            ctx.accFlags |= OAutoWeak;
-            if (ctx.modf == null) ctx.modf = [];
-            ctx.modf.push(Marker);
-          case 'unreal.TSubclassOf':
-            if (ctx.accFlags.hasAny(OWeak | OSubclassOf)) {
-              Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
-            }
-            ctx.accFlags |= OSubclassOf;
-            type = tl[0];
-            if (ctx.modf == null) ctx.modf = [];
-            ctx.modf.push(Marker);
-            continue;
           case 'unreal.TScriptInterface':
             if (ctx.accFlags.hasAny(OWeak | OSubclassOf | OAutoWeak)) {
               Context.warning('Unreal Type: Illogical type (TScriptInterface with weak / subclassOf flags', pos);
@@ -1452,7 +1608,7 @@ class TypeConv {
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
       },
       {
-        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')], Const),
+        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void', Const)]),
         glueType: new TypeRef(['unreal'],'UIntPtr'),
         haxeType: new TypeRef(['unreal'],'ConstAnyPtr'),
 
@@ -1472,6 +1628,14 @@ class TypeConv {
         haxeType: new TypeRef(['unreal'],'IntPtr'),
 
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
+      },
+      {
+        ueType: new TypeRef([],'SIZE_T'),
+        glueType: new TypeRef(['unreal'],'SizeT'),
+        haxeType: new TypeRef(['unreal'],'SizeT'),
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['HAL/Platform.h']),
       },
     ];
     infos = infos.concat([ for (key in basicConvert.keys()) {
@@ -1493,11 +1657,26 @@ class TypeConv {
         haxeGlueType: uintPtr,
         glueType: uintPtr,
 
-        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<uhx/expose/HxcppRuntime.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['CoreMinimal.h', '<uhx/expose/HxcppRuntime.h>']),
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
         ueToGlueExpr:'::uhx::expose::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( (const char *) (%) ))',
         glueToUeExpr:'UTF8_TO_TCHAR(::uhx::expose::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%)))',
+        haxeToGlueExpr:'uhx.internal.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr:'(uhx.internal.HaxeHelpers.pointerToDynamic( % ) : String)',
+      },
+      // AnsiCharStar
+      {
+        haxeType: new TypeRef(['unreal'],'AnsiCharStar'),
+        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef('ANSICHAR')]),
+        haxeGlueType: uintPtr,
+        glueType: uintPtr,
+
+        glueCppIncludes:IncludeSet.fromUniqueArray(['CoreMinimal.h', '<uhx/expose/HxcppRuntime.h>']),
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
+
+        ueToGlueExpr:'::uhx::expose::HxcppRuntime::constCharToString(TCHAR_TO_UTF8(ANSI_TO_TCHAR( (const char *) (%) )))',
+        glueToUeExpr:'TCHAR_TO_ANSI(UTF8_TO_TCHAR(::uhx::expose::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%))))',
         haxeToGlueExpr:'uhx.internal.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(uhx.internal.HaxeHelpers.pointerToDynamic( % ) : String)',
       },
@@ -1647,7 +1826,7 @@ enum TypeConvData {
    **/
   CSpecial(info:ExtTypeInfo);
   CUObject(type:UObjectType, flags:UObjectFlags, info:TypeInfo);
-  CEnum(type:EEnumType, info:TypeInfo, isUEnum:Bool);
+  CEnum(type:EEnumType, flags:EnumFlags, info:TypeInfo);
   CStruct(type:StructType, flags:StructFlags, info:TypeInfo, ?params:Array<TypeConv>);
 
   CPtr(of:TypeConv, isRef:Bool);
@@ -1704,6 +1883,28 @@ enum TypeConvData {
   var EScriptHaxe = 5;
 }
 
+@:enum abstract EnumFlags(Int) from Int {
+  var ENone = 0;
+  var EUEnum = 0x1; // is UEnum
+  var EEnumAsByte = 0x2; // TEnumAsByte<>
+
+  inline private function t() {
+    return this;
+  }
+
+  @:op(A|B) inline public function add(f:EnumFlags):EnumFlags {
+    return this | f.t();
+  }
+
+  inline public function hasAll(flag:EnumFlags):Bool {
+    return this & flag.t() == flag.t();
+  }
+
+  inline public function hasAny(flag:EnumFlags):Bool {
+    return this & flag.t() != 0;
+  }
+}
+
 @:enum abstract StructType(Int) from Int {
   var SExternal = 1;
   var SHaxe = 2;
@@ -1741,7 +1942,8 @@ private typedef InfoCtx = {
   accFlags:UObjectFlags,
   ?accStructFlags:StructFlags,
   ?modf:Array<Modifier>,
-  ?disableCache:Bool
+  ?disableCache:Bool,
+  accEnumFlags:EnumFlags
 }
 
 @:enum abstract Modifier(Int) from Int {

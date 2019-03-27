@@ -7,11 +7,17 @@ using StringTools;
 
 class UhxBaseBuild {
   public var data(default, null):UhxBuildData;
-  var config:UhxBuildConfig;
+  public var config(default, null):UhxBuildConfig;
+  public var rootDir(default, null):String;
   var hadUhxErr:Bool;
 
   public function new(data:UhxBuildData, ?config:UhxBuildConfig) {
     for (field in Reflect.fields(data)) {
+      if (field == 'rootDir')
+      {
+        continue;
+      }
+
       if (Reflect.field(data, field) == null) {
         var f = field.substr(0,1).toUpperCase() + field.substr(1);
         throw new BuildError('Cannot find property $f');
@@ -19,7 +25,24 @@ class UhxBaseBuild {
     }
 
     this.data = data;
+    if (data.targetType == Program) {
+      this.rootDir = getProgramRoot();
+    } else {
+      this.rootDir = data.projectDir;
+    }
     this.config = config == null ? getConfig() : config;
+    if (data.targetType == Program && this.config.disableUObject == null) {
+      this.config.disableUObject = true;
+    }
+  }
+
+  private function getProgramRoot() {
+    var sourceDir = this.data.projectDir + '/Source';
+    var targetSourceDir = '$sourceDir/${data.targetName}';
+    if (!FileSystem.exists(targetSourceDir)) {
+      throw new BuildError('Could not find the source directory for target ${data.targetName} (expected $targetSourceDir)');
+    }
+    return targetSourceDir;
   }
 
   public function run() {
@@ -100,6 +123,26 @@ class UhxBaseBuild {
     var args = [];
     makeArgsFromObj(this.data, args);
     makeArgsFromObj(this.config, args);
+
+    if (Sys.getEnv('UHX_DEBUG_BUILDER') == '1') {
+      if (Sys.systemName() == 'Linux') {
+        args = ['--args', path].concat(args);
+        path = 'gdb';
+      } else {
+        var tools = Sys.getEnv('VS140COMNTOOLS');
+        if (tools == null) {
+          tools = Sys.getEnv('VS130COMNTOOLS');
+        }
+        if (tools == null) {
+          tools = Sys.getEnv('VS120COMNTOOLS');
+        }
+        if (tools == null) {
+          throw 'Cannot find VSCOMNTOOLS to debug';
+        }
+        args = ['/DebugExe', path].concat(args);
+        path = '$tools/../IDE/devenv.exe';
+      }
+    }
     return this.call(path, args, true);
   }
 
@@ -114,7 +157,7 @@ class UhxBaseBuild {
     var installPath = this.config.haxeInstallPath;
     if (installPath != null) {
       if (!haxe.io.Path.isAbsolute(installPath)) {
-        installPath = this.data.projectDir + '/' + installPath;
+        installPath = this.rootDir + '/' + installPath;
       }
       if (Sys.systemName() == 'Windows') {
         cmd = '${installPath}/haxe.exe';
@@ -131,17 +174,21 @@ class UhxBaseBuild {
     var haxelibPath = this.config.haxelibPath;
     if (haxelibPath != null) {
       if (!haxe.io.Path.isAbsolute(haxelibPath)) {
-        haxelibPath = this.data.projectDir + '/' + haxelibPath;
+        haxelibPath = this.rootDir + '/' + haxelibPath;
       }
       Sys.putEnv('HAXELIB_PATH', haxelibPath);
     }
 
 #if cpp
     log('$cmd ${args.join(' ')}');
+    if (showErrors) {
+      return this.call(cmd,args,showErrors);
+    }
     try {
       var proc = new sys.io.Process(cmd, args),
           err = Sys.stderr(),
           stdout = proc.stdout;
+      var finishLock = new cpp.vm.Lock();
       cpp.vm.Thread.create(function() {
         try {
           while(true) {
@@ -150,6 +197,7 @@ class UhxBaseBuild {
         }
         catch(e:haxe.io.Eof) {
         }
+        finishLock.release();
       });
 
       var stderr = proc.stderr;
@@ -158,7 +206,7 @@ class UhxBaseBuild {
           var ln = stderr.readLine();
           if (ln.indexOf('UHXERR:') >= 0) {
             this.hadUhxErr = true;
-            if (showErrors) {
+            if (showErrors || config.verbose) {
               err.writeString(ln);
               err.writeByte('\n'.code);
             }
@@ -171,41 +219,56 @@ class UhxBaseBuild {
       catch(e:haxe.io.Eof) {
       }
 
-      return proc.exitCode();
+      finishLock.wait();
+      var ret = proc.exitCode();
+      if (ret != 0) {
+        uhx.build.Log.err(' -> returned with exit code $ret');
+      }
+      return ret;
     }
     catch(e:Dynamic) {
       return -1;
     }
 #else
-    return call(cmd, args, showErrors);
+    var ret = call(cmd, args, showErrors);
+    if (ret != 0) {
+      uhx.build.Log.err(' -> returned with exit code $ret');
+    }
+    return ret;
 #end
   }
 
   private function call(program:String, args:Array<String>, showErrors:Bool)
   {
     log('$program ${args.join(' ')}');
-    return Sys.command(program, args);
+    var ret = Sys.command(program, args);
+    if (ret != 0) {
+      err(' -> returned with exit code $ret');
+    }
+    return ret;
   }
 
   private function getConfig():UhxBuildConfig {
     var base:UhxBuildConfig = {};
-    for (file in ['uhxconfig.json','uhxconfig-local.json','uhxconfig.local']) {
-      if (FileSystem.exists('${data.projectDir}/$file')) {
-        trace('Loading config from ${data.projectDir}/$file');
-        var cur = haxe.Json.parse(File.getContent('${data.projectDir}/$file'));
-        for (field in Reflect.fields(cur)) {
-          var data:Dynamic = Reflect.field(cur, field);
-          if (Std.is(data, Array)) {
+#if !cpp
+    inline function addData(data:UhxBuildConfig) {
+      if (data != null) {
+        for (field in Reflect.fields(data)) {
+          var val:Dynamic = Reflect.field(data, field);
+          if (Std.is(val, Array)) {
             var old:Array<Dynamic> = Reflect.field(base, field);
             if (old != null && Std.is(old, Array)) {
-              data = old.concat(data);
+              val = old.concat(val);
             }
           }
-          Reflect.setField(base, field, data);
+          Reflect.setField(base, field, val);
         }
       }
     }
-#if !cpp
+
+    addData(ExtJson.parseFile('/uhxconfig.json'));
+    addData(ExtJson.parseFile('/uhxconfig-local.json'));
+    addData(ExtJson.parseFile('/uhxconfig.local'));
     if (haxe.macro.Compiler.getDefine("haxeInstallPath") != null) {
       base.haxeInstallPath = haxe.macro.Compiler.getDefine("haxeInstallPath");
     }
@@ -215,7 +278,6 @@ class UhxBaseBuild {
     if (haxe.macro.Compiler.getDefine("noDynamicObjects") != null) {
       base.noDynamicObjects = true;
     }
-#end
 
     if (Sys.getEnv('BAKE_EXTERNS') != null) {
       base.forceBakeExterns = true;
@@ -235,8 +297,25 @@ class UhxBaseBuild {
     for (fn in ConfigHelper.getConfigs()) {
       base = fn(this.data, base);
     }
+#end
 
     return base;
+  }
+
+  private function getEngineVersion(config:UhxBuildConfig):{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> } {
+    var engineDir = this.data.engineDir;
+    if (FileSystem.exists('$engineDir/Build/Build.version')) {
+      return haxe.Json.parse( sys.io.File.getContent('$engineDir/Build/Build.version') );
+    } else if (config.engineVersion != null) {
+      var vers = config.engineVersion.split('.');
+      var ret = { MajorVersion:Std.parseInt(vers[0]), MinorVersion:Std.parseInt(vers[1]), PatchVersion:Std.parseInt(vers[2]) };
+      if (ret.MajorVersion == null || ret.MinorVersion == null) {
+        throw new BuildError('The engine version is not in the right pattern (Major.Minor.Patch)');
+      }
+      return ret;
+    } else {
+      throw new BuildError('The engine build version file at $engineDir/Build/Build.version could not be found, and neither was an overridden version set on the uhxconfig.local file');
+    }
   }
 
   // adapted from hxcpp code

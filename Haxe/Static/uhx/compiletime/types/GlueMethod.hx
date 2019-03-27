@@ -96,7 +96,7 @@ class GlueMethod {
 
   private function getReflectiveCode() {
     var isStatic = meth.flags.hasAny(Static);
-    if (meth.flags.hasAny(UnrealReflective) && !isStatic) {
+    if (meth.flags.hasAny(UnrealReflective)) {
       var isProp = meth.flags.hasAny(Property);
       var isUObj = this.thisConv.data.match(CUObject(_));
       if (isProp) {
@@ -125,10 +125,11 @@ class GlueMethod {
           }
         }
       } else {
+        var thisObj = isStatic ? 'StaticClass().GetDefaultObject()' : 'this';
         var argNames = [ for (arg in meth.args) arg.name ];
         var args = argNames.length == 0 ? 'null' : ('[' + argNames.join(", ") + ']');
         var ret = [
-          'unreal.ReflectAPI.callMethod(this, "${meth.uname}", $args);'
+          'unreal.ReflectAPI.callMethod($thisObj, "${meth.uname}", $args);'
         ];
         if (!meth.ret.haxeType.isVoid()) {
           ret[0] = 'return ' + ret[0];
@@ -139,6 +140,11 @@ class GlueMethod {
       var uname = thisConv.ueType.withoutPointer(true).getCppType().toString();
       return [
         'return uhx.runtime.UReflectionGenerator.getUClass("${uname.substr(1)}");'
+      ];
+    } else if (isStatic && meth.name == 'StaticStruct') {
+      var uname = thisConv.ueType.withoutPointer(true).getCppType().toString();
+      return [
+        'return uhx.runtime.UReflectionGenerator.getUStruct("${uname.substr(1)}");'
       ];
     }
     return null;
@@ -233,13 +239,13 @@ class GlueMethod {
         } else {
           localDerivedClassBody << ', ';
         }
-        localDerivedClassBody << arg.t.ueType.getCppType();
+        localDerivedClassBody << arg.t.ueType.getCppType().toString();
       }
       localDerivedClassBody << ');\n';
       var staticCppArgDecl = [ for ( arg in this.glueArgs ) arg.t.glueType.getCppType() + ' ' + '_s_' + escapeCpp(arg.name, true) ].join(', ');
       localDerivedClassBody << '\t\tpublic:\n\t\t\tstatic ${this.glueRet.glueType.getCppType()} static_${meth.name}(${staticCppArgDecl}) {\n\t\t\t\t'
-        << staticCppVars
-        << staticCppBody
+        << staticCppVars.toString()
+        << staticCppBody.toString()
         << ';\n\t\t}\n'
         << '\t};\n'
         << "#if PLATFORM_WINDOWS\n#pragma warning( default : 4510 4610 )\n#endif // PLATFORM_WINDOWS\n\n\t";
@@ -263,7 +269,7 @@ class GlueMethod {
     } else {
       glueHeaderCode << ';';
       glueCppCode <<
-        this.glueRet.glueType.getCppType() <<
+        this.glueRet.glueType.getCppType().toString() <<
         ' ${this.glueType.getCppType()}_obj::${escapeGlue(meth.name)}(' << cppArgDecl << ') {' <<
           '\n\t' << glueCppBodyVars << ';\n}';
     }
@@ -389,7 +395,7 @@ class GlueMethod {
       return null;
     }
     switch(opt.expr) {
-    case EConst(CIdent("null")):
+    case EConst(CIdent(name = "null") | CString(name = "None")):
       switch(t.data) {
       case CStruct(_,_,info,_):
         switch(info.ueType.name) {
@@ -399,6 +405,8 @@ class GlueMethod {
           return 'unreal.FName.None';
         case _:
         }
+      case CEnum(_) if (name == "None"):
+        return '(' + name + ' : ' + t.haxeType.toString() + ')';
       case _:
       }
       return 'null';
@@ -501,6 +509,8 @@ class GlueMethod {
 
     if (this.meth.uname == '.ctor' && this.meth.flags.hasAny(Static)) {
       return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [ for (arg in cppArgs) arg.t ], this.ctx );
+    } else if (this.meth.uname == '.mkWrapper') {
+      return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [], this.ctx, true );
     } else if (this.meth.flags.hasAny(Property)) {
       if (!isGetter) {
         body += ' = ' + cppArgTypes[cppArgTypes.length-1];
@@ -515,8 +525,8 @@ class GlueMethod {
       }
     } else if (meth.uname == '.equals') {
       // these variables are guaranteed to have this name - see getCppBody
-      outVars << 'if (self.raw == other.raw) { return true; }';
-      outVars << 'if (self.raw == 0 || other.raw == 0) { return false; }';
+      outVars << 'if (self == other) { return true; }';
+      outVars << 'if (self.isNull() || other.isNull()) { return false; }';
       body += '(' + cppArgTypes.join(', ') + ')';
     } else {
       body += '(' + cppArgTypes.join(', ') + ')';
@@ -787,7 +797,7 @@ class GlueMethod {
     if (this.headerCode != null && !meta.hasMeta(':glueHeaderCode')) {
       buf << '@:glueHeaderCode("' << new Escaped(this.headerCode) << '")' << new Newline();
     }
-    if (this.cppCode != null && !meta.hasMeta(':cppCode')) {
+    if (this.cppCode != null && !meta.hasMeta(':glueCppCode')) {
       buf << '@:glueCppCode("' << new Escaped(this.cppCode) << '")' << new Newline();
     }
     if (this.ueHeaderCode != null && !meta.hasMeta(':ueHeaderCode')) {
@@ -796,7 +806,7 @@ class GlueMethod {
 
     if (this.haxeCode != null && this.cppCode != null && !meth.flags.hasAny(UnrealReflective) && meth.name != 'StaticClass') {
       var thisType = thisRef.getClassPath().replace('.','_');
-      buf << '#if (!display && cppia && !UHX_COMPILED_${thisType})' << new Newline();
+      buf << '#if (!UHX_DISPLAY && cppia)' << new Newline();
       buf << '@:deprecated("UHXERR: The field '
           << meth.name
           << ' was not compiled into the latest C++ compilation. Please perform a full C++ compilation.")' << new Newline();

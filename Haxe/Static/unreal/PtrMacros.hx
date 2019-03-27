@@ -5,6 +5,7 @@ import haxe.macro.Expr;
 import haxe.macro.Type;
 import uhx.compiletime.types.TypeConv;
 
+using haxe.macro.Tools;
 using Lambda;
 #end
 
@@ -24,10 +25,17 @@ abstract PtrMacros<T>(PtrBase<T>) {
         }
       case CUObject(_):
         var type = t.haxeType.toComplexType();
-        return macro (cast (cast $ethis : unreal.AnyPtr).getUObject(0) : $type);
+        return macro (cast ((cast $ethis : unreal.AnyPtr).getPointer(0).getUObject(0)) : $type);
       case CStruct(_):
         var type = t.haxeType.toComplexType();
-        return macro (cast (cast $ethis : unreal.AnyPtr).getStruct(0) : $type);
+        var isPointer = t.modifiers != null && (t.modifiers.has(Ref) || t.modifiers.has(Ptr));
+        if (isPointer) {
+          return macro (cast ((cast $ethis : unreal.AnyPtr).getPointer(0).getStruct(0)) : $type);
+        }
+        return macro (cast ((cast $ethis : unreal.AnyPtr).getStruct(0)) : $type);
+      case CEnum(_):
+        var strthis = ethis.toString();
+        return Context.parse(t.glueToHaxe('(cast $strthis : unreal.AnyPtr).getInt(0)', null), Context.currentPos());
       case _:
         throw new Error('PtrMacros: Type ${t.haxeType} is not supported', ethis.pos);
     }
@@ -48,13 +56,22 @@ abstract PtrMacros<T>(PtrBase<T>) {
       case CUObject(_):
         return macro (cast $ethis : unreal.AnyPtr).setUObject(0, $val);
       case CStruct(_):
+        var isPointer = t.modifiers != null && (t.modifiers.has(Ref) || t.modifiers.has(Ptr));
+        if (isPointer) {
+          return macro (cast $ethis : unreal.AnyPtr).setPointer(0, uhx.internal.HaxeHelpers.getUnderlyingPointer($val));
+        }
         var type = t.haxeType.toComplexType();
         try {
           Context.typeof(macro (null : $type).assign(null));
         } catch(e:Dynamic) {
           throw new Error('PtrMacros: Type ${t.haxeType} was not compiled with `assign` support.', ethis.pos);
         }
-        return macro (cast (cast $ethis : unreal.AnyPtr).getStruct(0) : $type).assign($val);
+        return macro (cast ((cast $ethis : unreal.AnyPtr).getStruct(0)) : $type).assign($val);
+      case CEnum(_):
+        // return macro (cast $ethis : unreal.AnyPtr).setInt(0, );
+        var strthis = ethis.toString();
+        var strval = val.toString();
+        return Context.parse('(cast $strthis : unreal.AnyPtr).setInt(0, ${t.haxeToGlue(strval, null)})', Context.currentPos());
       case _:
         throw new Error('PtrMacros: Type ${t.haxeType} is not supported', ethis.pos);
     }
@@ -111,7 +128,7 @@ abstract PtrMacros<T>(PtrBase<T>) {
             cast ret.getPointer();
           };
         } else {
-          return macro cast uhx.ue.RuntimeLibrary.alloca($size);
+          return macro cast uhx.ue.RuntimeLibrary.allocaZeroed($size);
         }
     } else {
       switch(conv.data) {
@@ -119,7 +136,7 @@ abstract PtrMacros<T>(PtrBase<T>) {
         var tpath = conv.haxeType.toTypePath();
         return macro @:mergeBlock {
           var ret = new $tpath();
-          cast uhx.runtime.Helpers.getWrapperPointer(ret);
+          cast uhx.internal.HaxeHelpers.getUnderlyingPointer(ret);
         };
       case _:
         throw new Error("PtrMacros: Unsupported type : " + t, pos);

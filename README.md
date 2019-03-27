@@ -20,8 +20,9 @@ Unreal.hx is a plugin for Unreal Engine 4 that allows you to write code in the [
 * Clone this library or add it as a submodule to your Unreal project in the `Plugins/UnrealHx` directory
 * Change your `Build.cs` file to extend `HaxeModuleRules` instead of `ModuleRules`
 * Build your project the same way you'd build it before
-* A new directory, `Haxe`, will be created at the root of your project. Add any class to be compiled to `Haxe/Static`, and you may add new compiler arguments to the `arguments.hxml` file
-* For the latest development, Haxe 3.4.2, 3.4.3, 4.0.0-preview1 are supported, and Unreal versions 4.16 and 4.17 are supported
+* A new directory, `Haxe`, will be created at the root of your project. Add any class to be compiled to `Haxe/Static` or `Haxe/Scripts`, and you may add new compiler arguments to the `arguments.hxml` file
+* After the first build, you may call `haxe gen-build-script.hxml` inside the `Haxe` directory to compile the Scripts without having to do a full C++ build (see [our wiki](https://github.com/proletariatgames/unreal.hx/wiki/Faster-compiler-iteration-with-cppia))
+* For the latest development, Haxe 3.4.x, 4.0.0-preview1 are supported, and Unreal version 4.19 is supported
 
 ### Examples
 

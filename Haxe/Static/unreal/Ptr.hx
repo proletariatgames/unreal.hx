@@ -1,14 +1,17 @@
 package unreal;
 
 /**
-  Represents a pointer (SomeType *) that can be assigned
+  Represents a pointer (SomeType *) that can be assigned by the external C++ code.
+  This is used as a `PPtr` replacement for basic types, or to represent more exotic types
+  such as `SomeType **`
 **/
 @:unrealType
 @:forward
 abstract Ptr<T>(PtrMacros<T>) {
   /**
     Creates a reference of the target type in the stack. The reference is only guaranteed to be
-    alive 
+    alive when it is used as a local variable - so be aware not to store the result in a way
+    that will outlive the stack's lifetime
   **/
   macro public static function createStack<T>():haxe.macro.Expr.ExprOf<Ref<T>> {
     return PtrMacros.createStackHelper(false);
@@ -16,12 +19,18 @@ abstract Ptr<T>(PtrMacros<T>) {
 
 #if (!macro && !bake_externs)
 
+  /**
+    Creates the equivalent of a `nullptr`
+  **/
   public static function mkNull<T>():Ptr<T> {
     return cast 0;
   }
 
+  /**
+    Creates a `Ptr<T>` from a struct
+  **/
   public static function fromStruct<T : Struct>(struct : Struct):Ptr<T> {
-    return cast uhx.internal.Helpers.getWrapperPointer(struct);
+    return cast uhx.internal.HaxeHelpers.getUnderlyingPointer(struct);
   }
 
   /**

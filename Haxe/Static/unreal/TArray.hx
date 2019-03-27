@@ -14,6 +14,7 @@ using haxe.macro.Tools;
 private typedef TArrayImpl<T> = Dynamic;
 #end
 
+@:keep
 @:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> #if !bake_externs to unreal.Struct to unreal.VariantPtr #end {
 #if (!bake_externs && !macro)
 
@@ -29,13 +30,41 @@ private typedef TArrayImpl<T> = Dynamic;
 
   @:arrayAccess
   public inline function get(index:Int) {
-    return this.get_Item(index);
+    return getChecked(index);
   }
 
   @:arrayAccess
   public inline function set(index:Int, v:T) : T {
+    return setChecked(index, v);
+  }
+
+  public inline function getChecked(index:Int) {
+    #if debug
+    if (!isValidIndex(index)) {
+      throwAssert('Index $index out of bounds (num=${this.Num()})');
+    }
+    #end
+    return this.get_Item(index);
+  }
+
+  public inline function setChecked(index:Int, v:T) : T {
+    #if debug
+    if (!isValidIndex(index)) {
+      throwAssert('Index $index out of bounds (num=${this.Num()})');
+    }
+    #end
     this.set_Item(index, v);
     return v;
+  }
+
+  inline function throwAssert(s:String) : Void
+  {
+      throw '$s\n${haxe.CallStack.toString(haxe.CallStack.callStack())}';
+  }
+
+  public inline function isValidIndex(index:Int) : Bool
+  {
+    return index >= 0 && index < this.Num();
   }
 
   public inline function iterator() return new TArrayIterator<T>(this);
@@ -47,6 +76,14 @@ private typedef TArrayImpl<T> = Dynamic;
 
   public inline function push(obj:T) : Void {
     this.Push(obj);
+  }
+
+  public inline function Append(other:TArray<T>) : Void
+  {
+    for (element in other)
+    {
+      this.Push(element);
+    }
   }
 
   public inline function addZeroed(count:Int) : Int {
@@ -68,6 +105,26 @@ private typedef TArrayImpl<T> = Dynamic;
 
   public inline function removeAt(index:Int, count:Int = 1, allowShrinking:Bool = true) : Void {
     this.RemoveAt(index, count, allowShrinking);
+  }
+
+  /** Removes any elements that pass the supplied filter, like an in-place filter().
+   *  @return The number of elements removed.
+   **/
+  public inline function removeIf(fn:T->Bool, allowShrinking:Bool = true) : Int
+  {
+    var numRemoved = 0;
+    var i = 0;
+    while (i < this.Num())
+    {
+      if (fn(get(i)))
+      {
+        removeAt(i, 1, allowShrinking);
+        ++numRemoved;
+        continue;
+      }
+      ++i;
+    }
+    return numRemoved;
   }
 
   public inline function empty() : Void {
@@ -115,12 +172,7 @@ private typedef TArrayImpl<T> = Dynamic;
       }
     } else {
       var vptr:VariantPtr = cast obj,
-          obj:UIntPtr = 0;
-      if (vptr.isObject()) {
-        obj = vptr.getDynamic().getPointer();
-      } else {
-        obj = vptr.getUIntPtr() - 1;
-      }
+          obj:UIntPtr = vptr.getUnderlyingPointer();
 
       var data = this.GetData();
       for(i in 0...len) {
@@ -176,19 +228,19 @@ private typedef TArrayImpl<T> = Dynamic;
 
   public function mapToArray<A>(funct:T->A) : Array<A> {
     var len = this.Num();
-    return [for(i in 0...len) funct(this.get_Item(i))];
+    return [for(i in 0...len) funct(getChecked(i))];
   }
 
   public function filterToArray(funct:T->Bool) : Array<T> {
     var len = this.Num();
-    return [for(i in 0...len) if (funct(this.get_Item(i))) this.get_Item(i)];
+    return [for(i in 0...len) if (funct(getChecked(i))) getChecked(i)];
   }
 
   public function count(fn:T->Bool) : Int {
     var cnt = 0;
     var len = this.Num();
     for (i in 0...len) {
-      if (fn(this.get_Item(i))) {
+      if (fn(getChecked(i))) {
         ++cnt;
       }
     }
@@ -276,9 +328,9 @@ private typedef TArrayImpl<T> = Dynamic;
   macro public function filter(eThis:Expr, funct:Expr) : Expr {
     var type = Context.typeof(funct).follow();
     var returnType =  switch(type) {
-      case TFun(_, ret):
-        if (isKnownType(ret)) {
-          ret.toComplexType();
+      case TFun([arg],_):
+        if (isKnownType(arg.t)) {
+          arg.t.toComplexType();
         } else {
           throw new Error('The return type of the function must be known. Make sure it\'s fully typed', funct.pos);
         }
@@ -359,6 +411,11 @@ class TArrayIterator<T> {
   }
 
   public inline function next() : T {
+    #if debug
+    if (this.num != this.ar.Num()) {
+      throw 'Iterator invalidated: array size changed';
+    }
+    #end
     return this.ar.get_Item(this.idx++);
   }
 }

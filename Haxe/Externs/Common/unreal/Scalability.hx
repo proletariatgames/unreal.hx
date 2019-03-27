@@ -16,6 +16,8 @@ package unreal;
     public var TextureQuality : Int32;
     public var EffectsQuality : Int32;
 
+    public function GetSingleQualityLevel() : Int32;
+
     // @param Value 0:low, 1:medium, 2:high, 3:epic
     public function SetFromSingleQualityLevel(Value:Int32) : Void;
 }

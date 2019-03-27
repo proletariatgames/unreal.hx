@@ -154,14 +154,10 @@ class GlueManager {
     }
 
     for (module in this.modules.keys()) {
-      nativeGlueCode.addProducedFile(GlueInfo.getUnityPath(module, false));
-      if (this.regenUnityFiles) {
+      var targetPath = GlueInfo.getUnityPath(module, false);
+      nativeGlueCode.addProducedFile(targetPath);
+      if (this.regenUnityFiles || !sys.FileSystem.exists(targetPath)) {
         this.modulesChanged[module] = true;
-      } else if (!this.modulesChanged.exists(module)) {
-        var target = GlueInfo.getUnityPath(module, false);
-        if (!sys.FileSystem.exists(target)) {
-          this.modulesChanged[module] = true;
-        }
       }
     }
 
@@ -178,8 +174,18 @@ class GlueManager {
       }
     }
 
+
     for (changed in this.modulesChanged.keys()) {
       var files = this.modules[changed];
+      if (files == null)
+      {
+        var target = GlueInfo.getUnityPath(changed, true);
+        if (FileSystem.exists(target))
+        {
+          FileSystem.deleteFile(target);
+        }
+        continue;
+      }
       files.sort(Reflect.compare);
       var buf = new StringBuf();
       var defines = getUniqueDefines();
@@ -213,8 +219,8 @@ class GlueManager {
     if (FileSystem.exists(dir)) {
       var suffix = '.' + Globals.cur.shortBuildName + GlueInfo.UNITY_CPP_EXT;
       for (file in FileSystem.readDirectory(dir)) {
-        if (file.endsWith(GlueInfo.UNITY_CPP_EXT)) {
-          if (!file.endsWith(suffix) || !this.modules.exists(file.substr(0, file.length - suffix.length))) {
+        if (file.endsWith('.cpp')) {
+          if (!file.endsWith(suffix) || !this.modules.exists(file.substring(GlueInfo.UNITY_CPP_PREFIX.length, file.length - suffix.length))) {
             trace('Deleting unused unity build file $dir/$file');
             FileSystem.deleteFile('$dir/$file');
           }

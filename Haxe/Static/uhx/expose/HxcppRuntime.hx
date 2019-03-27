@@ -52,8 +52,24 @@ import uhx.internal.Helpers;
   }
 
   public static function arrayIndex(array:UIntPtr, index:Int) : UIntPtr {
-    var arr:Array<Dynamic> = HaxeHelpers.pointerToDynamic(array);
+    var arr:Dynamic = HaxeHelpers.pointerToDynamic(array);
     return HaxeHelpers.dynamicToPointer(arr[index]);
+  }
+
+  public static function hxEnumToCppInt(value:UIntPtr) : Int {
+    #if !UHX_NO_UOBJECT
+    return @:privateAccess unreal.ReflectAPI.hxEnumToCppInt(HaxeHelpers.pointerToDynamic(value));
+    #else
+    return throw "Cannot access uobjects on UE programs";
+    #end
+  }
+
+  public static function cppIntToHxEnum(cppType:cpp.ConstCharStar, value:Int) : UIntPtr {
+    #if !UHX_NO_UOBJECT
+    return HaxeHelpers.dynamicToPointer(@:privateAccess unreal.ReflectAPI.cppIntToHxEnum(cppType.toString(), value));
+    #else
+    return throw "Cannot access uobjects on UE programs";
+    #end
   }
 
   public static function enumIndex(e:UIntPtr) : Int {
@@ -117,8 +133,8 @@ import uhx.internal.Helpers;
   public static function createInlinePodWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    if (ret.isExternalPointer()) {
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -127,8 +143,8 @@ import uhx.internal.Helpers;
   public static function createInlineWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlineWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    if (ret.isExternalPointer()) {
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -137,8 +153,8 @@ import uhx.internal.Helpers;
   public static function createAlignedInlineWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( AlignedInlineWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    if (ret.isExternalPointer()) {
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -147,8 +163,8 @@ import uhx.internal.Helpers;
   public static function createInlineTemplateWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlineTemplateWrapper.create(size, info) );
 #if debug
-    if (ret.raw & 1 == 1) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    if (ret.isExternalPointer()) {
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -157,8 +173,8 @@ import uhx.internal.Helpers;
   public static function createPointerTemplateWrapper(pointer:UIntPtr, info:UIntPtr, extraSize:Int) : VariantPtr {
     var ret = VariantPtr.fromDynamic( PointerTemplateWrapper.create(pointer, info, extraSize) );
 #if debug
-    if (ret.raw & 1 == 1) {
-      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    if (ret.isExternalPointer()) {
+      throw 'Assertion failed: Hxcpp allocated invalid pointer $ret';
     }
 #end
     return ret;
@@ -187,10 +203,6 @@ import uhx.internal.Helpers;
 
   public static function getInlinePodWrapperOffset() : UIntPtr {
     return unreal.Wrapper.InlinePodWrapper.getOffset();
-  }
-
-  public static function getWrapperPointer(vptr : VariantPtr) : UIntPtr {
-    return Helpers.getWrapperPointer(vptr);
   }
 
   public static function setWrapperStructInfo(wrapper : UIntPtr, info : UIntPtr) : Void {
@@ -289,9 +301,9 @@ import uhx.internal.Helpers;
 #end
   }
 
-  public static function callHaxeFunction(selfHaxe:UIntPtr, stack:VariantPtr, result:UIntPtr):Void {
+  public static function callHaxeFunction(contextObj:UIntPtr, stack:VariantPtr, result:UIntPtr):Void {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
-    HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(HaxeHelpers.pointerToDynamic(selfHaxe), cast stack, result) );
+    HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(cast UObject.wrap(contextObj), cast stack, result) );
 #else
     trace('Warning', 'Trying to call haxe function but dynamic class support was disabled');
 #end
@@ -320,5 +332,20 @@ import uhx.internal.Helpers;
 #else
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
 #end
+  }
+
+  public static function addHaxeBlueprintOverrides(hxClassName:cpp.ConstCharStar, uclass:UIntPtr):Bool {
+#if !UHX_NO_UOBJECT
+    uhx.runtime.UReflectionGenerator.addHaxeBlueprintOverrides(hxClassName.toString(), @:privateAccess new unreal.UClass(uclass));
+#end
+    return true;
+  }
+
+  public static function printCallStack():Void {
+    unreal.Log.trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
+  }
+
+  public static function printExceptionStack():Void {
+    unreal.Log.trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
   }
 }

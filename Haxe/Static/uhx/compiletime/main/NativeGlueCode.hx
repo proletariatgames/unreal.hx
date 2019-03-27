@@ -22,13 +22,16 @@ class NativeGlueCode
   private var producedFiles:Array<String>;
 
   private var stampOutput:String;
+  // This version gets bumped each time a fundamental glue generation has changed
+  // so that all previous genereated files should be considered outdated
+  private static var glueGenerationVersion = 1;
 
   public function new() {
     this.glues = new GlueManager(this);
     this.producedFiles = [];
     this.modules = new Map();
     this.glueTypes = new Map();
-    this.stampOutput = haxe.macro.Compiler.getOutput() + '/Stamps';
+    this.stampOutput = haxe.macro.Compiler.getOutput() + '/Stamps/$glueGenerationVersion';
     if (!FileSystem.exists(this.stampOutput)) {
       FileSystem.createDirectory(this.stampOutput);
     }
@@ -470,9 +473,14 @@ class NativeGlueCode
         if (typeName == 'uhx.expose.HxcppRuntime' && !cl.meta.has(':buildXml')) {
           var dir = Globals.cur.unrealSourceDir;
           cl.meta.add(':buildXml', [macro $v{
-          '<files id="haxe">
+          '
+          <files id="haxe">
             <compilerflag value="-I$targetTemplate/Shared" />
-          </files>'
+          </files>
+          <files id="cppia">
+            <compilerflag value="-I$targetTemplate/Shared" />
+          </files>
+          '
           }], cl.pos);
         }
       case TEnum(e, _):

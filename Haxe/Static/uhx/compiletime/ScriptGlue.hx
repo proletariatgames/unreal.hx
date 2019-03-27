@@ -41,6 +41,11 @@ class ScriptGlue {
 
     var toBuild = [],
         ret = [];
+    if (cl.superClass != null) {
+      // var superType = TypeRef.fromBaseType(cl.superClass.t.get(), null, cl.pos).getClassPath(true);
+      var superType = cl.superClass.t.get().getUName();
+      ret.push(macro $v{superType});
+    }
     if (cl.meta.has(UhxMeta.UCompiled)) {
       for (meta in cl.meta.extract(UhxMeta.UCompiled)) {
         ret.push(meta.params[0]);
@@ -63,13 +68,18 @@ class ScriptGlue {
 
     var scriptGlue = typeref.getScriptGlueType();
     Globals.cur.cachedBuiltTypes.push(scriptGlue.getClassPath());
+    // make sure we don't have to rebuild the .cpp files if this file has changed position
+    var curPos = Context.getPosInfos(cl.pos);
+    curPos.min = curPos.max = 0;
+    curPos.file += ' (${cl.name})';
+    var invariantPos = Context.makePosition(curPos);
 
     Globals.cur.hasUnprocessedTypes = true;
     Context.defineType({
       pack: scriptGlue.pack,
       name: scriptGlue.name,
       meta: [{ name:':static', params:[], pos:cl.pos }, {name:':scriptGlue', params:[], pos:cl.pos}],
-      pos: cl.pos,
+      pos: invariantPos,
       kind: TDClass(),
       fields: toBuild
     });

@@ -15,13 +15,24 @@ using uhx.compiletime.tools.MacroHelpers;
 /** Processes Haxe enums with :uenum metadata and creates the UENUM C++ definition */
 class UEnumBuild
 {
+  public static function getSignature(e:EnumType) {
+    if (!e.meta.has(':uenum')) {
+      return null;
+    }
+    return UhxMeta.getStaticMetas(e.meta.get()) + '@Enum{' + e.names.join(',') + '}';
+  }
+
   public static function processEnum(type:haxe.macro.Type) {
     switch (type) {
     case TEnum(enumType, params):
       var hxPath = enumType.toString();
       var enumType = enumType.get();
       enumType.meta.add(':keep', [], enumType.pos);
-      if (enumType.meta.has(':uextern') || !enumType.meta.has(':uenum')) {
+      if (enumType.meta.has(':uextern')) {
+        enumType.meta.add(':ugenerated', [macro $v{getSignature(enumType)}], enumType.pos);
+        return;
+      }
+      if (!enumType.meta.has(':uenum')) {
         return;
       }
       if (params.length > 0) {
@@ -31,6 +42,8 @@ class UEnumBuild
       if (!enumType.meta.has(':flatEnum')) {
         Context.error("Unreal Glue: uenums cannot have constructors that take parameters", enumType.pos);
       }
+
+      enumType.meta.add(':ugenerated', [macro $v{getSignature(enumType)}], enumType.pos);
 
       // Generate the enum C++ definition
       var uname = MacroHelpers.getUName(enumType);
@@ -45,7 +58,7 @@ class UEnumBuild
         public static var arr(get, null):Array<Dynamic>;
         private static function get_arr() {
           if (arr == null) {
-            return cast std.Type.allEnums(std.Type.resolveEnum($v{typeRef.withoutModule().toString()}));
+            return arr = cast std.Type.allEnums(std.Type.resolveEnum($v{typeRef.withoutModule().toString()}));
           }
           return arr;
         }

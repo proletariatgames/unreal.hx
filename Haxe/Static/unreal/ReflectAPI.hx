@@ -93,6 +93,15 @@ class ReflectAPI {
     return callUFunction(obj, func, args);
   }
 
+  public static function callSuperMethod(obj:UObject, funcName:String, args:Array<Dynamic>):Dynamic {
+    var cls = obj.GetClass().GetSuperClass();
+    var func = cls.FindFunctionByName(funcName);
+    if (func == null) {
+      throw 'Function $funcName not found as a superclass of object $obj (${cls.GetName()})';
+    }
+    return callUFunction(obj, func, args);
+  }
+
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
     if (!obj.isValid() && !uhx.ClassWrap.isConstructing(obj)) {
       var msg = 'Cannot call ${func.GetName()} in $obj: Object is invalid';
@@ -248,7 +257,7 @@ class ReflectAPI {
           } else {
             var variant : VariantPtr = curArg;
             if (!variant.isObject()) {
-              argAddr = (curArg : VariantPtr).getUIntPtr() - 1;
+              argAddr = variant.getExternalPointerUnchecked();
             } else {
               argAddr = curArg; // plain UIntPtr
             }
@@ -329,7 +338,7 @@ class ReflectAPI {
       } else {
         var e = np.GetIntPropertyEnum();
         if (e != null) {
-          i64 = cast haxe.Int64.ofInt(getEnumInt(value));
+          i64 = cast haxe.Int64.ofInt(hxEnumToCppInt(value));
         }
         np.SetIntPropertyValue(objOffset, i64);
       }
@@ -386,6 +395,8 @@ class ReflectAPI {
       } else {
         prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
       }
+    } else if (Std.is(prop, UMapProperty) || Std.is(prop, USetProperty)) {
+      prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
     } else if (Std.is(prop, UDelegateProperty) || Std.is(prop, UMulticastDelegateProperty)) {
       if (Std.is(value, unreal.Wrapper)) {
         var wrapperValue:unreal.Wrapper = value;
@@ -393,7 +404,7 @@ class ReflectAPI {
       } else {
         var variant:VariantPtr = value;
         if (!variant.isObject()) {
-          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
+          prop.CopyCompleteValue(objOffset, variant.getExternalPointerUnchecked());
         } else {
           throw 'Struct set not supported: ${prop.GetName()} for value $value' #if debug + ' ($path)' #end;
         }
@@ -403,7 +414,7 @@ class ReflectAPI {
           struct = prop.Struct;
       var variant:VariantPtr = value;
       if (!variant.isObject()) {
-          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
+          prop.CopyCompleteValue(objOffset, variant.getExternalPointerUnchecked());
       } else if (Std.is(value, unreal.Wrapper)) {
         var wrapperValue:unreal.Wrapper = value;
         prop.CopyCompleteValue(objOffset, wrapperValue.getPointer());
@@ -438,7 +449,7 @@ class ReflectAPI {
 #if (UE_VER >= 4.16)
     } else if (Std.is(prop, UEnumProperty)) {
       var prop:UEnumProperty = cast prop;
-      var i64:Int64 = cast haxe.Int64.ofInt(getEnumInt(value));
+      var i64:Int64 = cast haxe.Int64.ofInt(hxEnumToCppInt(value));
       prop.GetUnderlyingProperty().SetIntPropertyValue(objOffset, i64);
 #end
     } else {
@@ -446,21 +457,43 @@ class ReflectAPI {
     }
   }
 
-  private static function getEnumInt(value:Dynamic):Int {
+  private static function cppIntToHxEnum(cppType:String, value:Int) {
+    var array = uhx.EnumMap.get(cppType);
+
+    if (array == null) {
+      var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${cppType}_ArrCreate');
+      if (arrCreate == null) {
+        throw 'Cannot find enum implementation of ${cppType}';
+      }
+
+      array = arrCreate.get_arr();
+      if (array == null) {
+        throw 'Cannot find enum implementation function of ${cppType}';
+      }
+    }
+
+    var ueToHaxe = uhx.EnumMap.getUeToHaxe(cppType);
+    if (ueToHaxe == null) {
+      return array[value];
+    }
+
+    return array[ueToHaxe(value) - 1];
+  }
+
+  private static function hxEnumToCppInt(value:Dynamic):Int {
     // convert to ue enum value
     var etype = Type.getEnum(value);
     if (etype != null) {
       var ret = Type.enumIndex(value);
       var name = Type.getEnumName(etype);
-      // check for _EnumConv
-      var conv:Dynamic = Type.resolveClass(name + '_EnumConv');
-      if (conv != null) {
-        return conv.haxeToUe(ret + 1);
+      var hxToUe = uhx.EnumMap.getHaxeToUe(name);
+      if (hxToUe != null) {
+        return hxToUe(ret + 1);
       } else {
         return ret;
       }
     } else {
-      return value;
+      throw 'Could not find enum for value $value';
     }
   }
 
@@ -495,25 +528,7 @@ class ReflectAPI {
       var np:UNumericProperty = cast prop;
       var e = np.GetIntPropertyEnum();
       if (e != null) {
-        var array = uhx.EnumMap.get(e.CppType.toString());
-
-        if (array == null) {
-          var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${e.CppType}_ArrCreate');
-          if (arrCreate == null) {
-            throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
-          }
-
-          array = arrCreate.get_arr();
-          if (array == null) {
-            throw 'Cannot find enum implementation function of ${e.CppType} (${e.GetName()})';
-          }
-          uhx.EnumMap.set(e.CppType.toString(), array);
-        }
-        var ret = array[np.GetSignedIntPropertyValue(objPtr)];
-        if (ret == null) {
-          throw 'Cannot find enum of position ${np.GetSignedIntPropertyValue(objPtr)} (${e.GetName()})';
-        }
-        return ret;
+        return cppIntToHxEnum(e.CppType.toString(), np.GetSignedIntPropertyValue(objPtr));
       }
 
       if (np.IsFloatingPoint()) {
@@ -538,21 +553,21 @@ class ReflectAPI {
       return prop.GetObjectPropertyValue(objPtr);
     } else if (Std.is(prop, UNameProperty)) {
       if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
-        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+        return VariantPtr.fromExternalPointer(objPtr);
       }
       var value:FName = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
     } else if (Std.is(prop, UStrProperty)) {
       if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
-        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+        return VariantPtr.fromExternalPointer(objPtr);
       }
       var value:FString = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
     } else if (Std.is(prop, UTextProperty)) {
       if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
-        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+        return VariantPtr.fromExternalPointer(objPtr);
       }
       var value:FText = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
@@ -560,7 +575,7 @@ class ReflectAPI {
     } else if (Std.is(prop, UStructProperty) || Std.is(prop, UDelegateProperty) || Std.is(prop, UMulticastDelegateProperty)) {
       // structs are always just pointers, so we can just return them
       return objPtr.getStruct(0);
-    } else if (Std.is(prop, UArrayProperty)) {
+    } else if (Std.is(prop, UArrayProperty) || Std.is(prop, USetProperty) || Std.is(prop, UMapProperty)) {
       return uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess prop.wrapped, objPtr);
 #if (UE_VER >= 4.16)
     } else if (Std.is(prop, UEnumProperty)) {
@@ -569,21 +584,7 @@ class ReflectAPI {
       }
       var prop:UEnumProperty = cast prop;
       var e = prop.GetEnum();
-      var array = uhx.EnumMap.get(e.CppType.toString());
-
-      if (array == null) {
-        var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${e.CppType}_ArrCreate');
-        if (arrCreate == null) {
-          throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
-        }
-
-        array = arrCreate.get_arr();
-        if (array == null) {
-          throw 'Cannot find enum implementation function of ${e.CppType} (${e.GetName()})';
-        }
-        uhx.EnumMap.set(e.CppType.toString(), array);
-      }
-      var ret = array[prop.GetUnderlyingProperty().GetSignedIntPropertyValue(objPtr)];
+      var ret = cppIntToHxEnum(e.CppType.toString(), prop.GetUnderlyingProperty().GetSignedIntPropertyValue(objPtr));
       if (ret == null) {
         throw 'Cannot find enum of position ${prop.GetUnderlyingProperty().GetSignedIntPropertyValue(objPtr)} (${e.GetName()})';
       }

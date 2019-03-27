@@ -13,7 +13,11 @@ extern class UClass_Extra {
   public var ClassConfigName:FName;
 
   // Cast flags used to accelerate dynamic_cast<T*> on objects of this type for common T
+#if (UE_VER <= 4.19)
   public var ClassCastFlags:UInt64;
+#else
+  public var ClassCastFlags:EClassCastFlags;
+#end
 
   // Class pseudo-unique counter; used to accelerate unique instance name generation
   public var ClassUnique:Int32;
@@ -45,5 +49,10 @@ extern class UClass_Extra {
    */
   function AssembleReferenceTokenStream(bForce:Bool = false):Void;
 
+#if (UE_VER < 4.19)
   function AddFunctionToFunctionMap(fn:UFunction):Void;
+  function AddFunctionToFunctionMapWithOverriddenName(fn:UFunction, OverriddenName:FName):Void;
+#else
+  function AddFunctionToFunctionMap(fn:UFunction, FuncName:FName):Void;
+#end
 }

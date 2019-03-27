@@ -6,6 +6,10 @@ extern class APawn_Extra {
   /** Tell client that the Pawn is begin restarted. Calls Restart(). */
   public function PawnClientRestart() : Void;
 
+	/** @return	Pawn's eye location */
+  @:thisConst
+  public function GetPawnViewLocation() : FVector;
+
   /**
    * Get the view rotation of the Pawn (direction they are looking, normally Controller->ControlRotation).
    * @return The view rotation of the Pawn.

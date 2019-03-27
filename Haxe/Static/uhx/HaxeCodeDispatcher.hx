@@ -1,19 +1,30 @@
 package uhx;
+#if !macro
 import haxe.CallStack;
+import unreal.FPlatformMisc;
 
 /**
   This allows us to make all haxe code run inside a try handler so we can have better error messages
  **/
 @:keep class HaxeCodeDispatcher {
   private static var inHaxeCode = false;
-  private static var inDebugger = #if (debug && HXCPP_DEBUGGER) true; #else unreal.FPlatformMisc.IsDebuggerPresent(); #end
+
+  @:extern inline public static function ensureMainThread()
+  {
+    #if !UHX_NO_UOBJECT
+    uhx.ue.RuntimeLibrary.ensureMainThread();
+    #end
+  }
 
   @:extern inline public static function runWithValue<T>(fn:Void->T, ?name:String):T {
-    if (!inHaxeCode && !inDebugger) {
-      inHaxeCode = true;
+    ensureMainThread();
+    #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
+    return fn();
+    #else
+    if (shouldWrap()) {
       try {
         var ret = fn();
-        inHaxeCode = false;
+        endWrap();
         return ret;
       } catch(e:Dynamic) {
         showError(e, CallStack.exceptionStack(), name);
@@ -22,28 +33,37 @@ import haxe.CallStack;
     } else {
       return fn();
     }
+    #end
   }
 
   @:extern inline public static function runVoid(fn:Void->Void, ?name:String):Void {
-    if (!inHaxeCode && !inDebugger) {
-      inHaxeCode = true;
+    ensureMainThread();
+    #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
+    fn();
+    #else
+    if (shouldWrap()) {
       try {
         fn();
-        inHaxeCode = false;
+        endWrap();
       } catch(e:Dynamic) {
         showError(e, CallStack.exceptionStack(), name);
       }
     } else {
       fn();
     }
+    #end
   }
 
   public static function shouldWrap():Bool {
-    var ret = !inHaxeCode && !inDebugger;
+    #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
+    return false;
+    #else
+    var ret = !inHaxeCode;
     if (ret) {
       inHaxeCode = true;
     }
     return ret;
+    #end
   }
 
   inline public static function endWrap() {
@@ -57,14 +77,38 @@ import haxe.CallStack;
       trace('Error', exc);
     }
     trace('Error', 'Stack trace:\n' + CallStack.toString(stack));
-    inHaxeCode = false;
+
+    if (FPlatformMisc.IsDebuggerPresent()) {
+      FPlatformMisc.DebugBreak();
+    }
+#if (debug && HXCPP_DEBUGGER && hxcpp_debugger_ext)
+    debugger.Api.debugBreak();
+#end
+    endWrap();
+    var inPIE = false;
 #if WITH_EDITOR
     var world = unreal.UEngine.GWorld.GetReference();
-    if (world == null || !world.IsPlayInEditor())
+    if (world != null && world.IsPlayInEditor()) {
+      inPIE = true;
+    } else {
+      var engine = unreal.UEngine.GEngine;
+      if (engine != null) {
+        var ctxs = engine.GetWorldContexts();
+        for (i in 0...ctxs.Num()) {
+          var ctx = ctxs.get_Item(i);
+          if (ctx.WorldType.match(PIE) && ctx.World() != null) {
+            inPIE = true;
+            break;
+          }
+        }
+      }
+    }
 #end
+    if (!inPIE)
     {
       unreal.Log.fatal('Haxe run failed');
       throw 'Error';
     }
   }
 }
+#end

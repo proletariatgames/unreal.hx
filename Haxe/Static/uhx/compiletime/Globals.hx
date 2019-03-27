@@ -41,11 +41,42 @@ class Globals {
   public var targetType(default, null):String = Context.definedValue('UHX_UE_TARGET_TYPE');
   public var targetPlatform(default, null):String = Context.definedValue('UHX_UE_TARGET_PLATFORM');
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
+  public var allCompiledModules(default, null):Map<String, Bool> = new Map();
   public var glueManager:Null<uhx.compiletime.types.GlueManager>;
 
-  public var compiledScriptGlues:Map<String, Bool> = new Map();
+  var compiledScriptGlues:Map<String, Bool> = new Map();
+  var compiledScriptGluesByName:Map<String, Array<String>> = new Map();
+  public var compiledScriptGlueTypes:Array<String> = [];
 
   @:isVar public var shortBuildName(get, null):String;
+
+  public function setCompiledScriptGlues(map:Map<String, Bool>) {
+    this.compiledScriptGlues = map;
+  }
+
+  public function setCompiledScriptGluesByName(map:Map<String, Array<String>>) {
+    this.compiledScriptGluesByName = map;
+  }
+
+  public function getScriptGluesByName(name:String) {
+    var ret = this.compiledScriptGluesByName[name];
+    if (ret != null) {
+      compiledScriptGlues[name + ':'] = true;
+    }
+    return ret;
+  }
+
+  public function compiledScriptGluesExists(sig:String):Bool {
+    if (compiledScriptGlues.exists(sig)) {
+      compiledScriptGlues[sig] = true;
+      return true;
+    }
+    return false;
+  }
+
+  public function compiledScriptGlueWasTouched(sig:String):Bool {
+    return compiledScriptGlues.get(sig);
+  }
 
   private function get_unrealSourceDir() {
     if (this.unrealSourceDir == null) {
@@ -124,15 +155,19 @@ class Globals {
   public var aactor:Type;
 
   /**
+    The unreal.UActorComponent type cached
+   **/
+  public var uactorcomponent:Type;
+
+  /**
     A cache for the Void TypeConv
    **/
   @:isVar public var voidTypeConv(get,null):TypeConv;
 
   /**
     All live reload functions that were gathered during the build
-    This is static so they can survive through compilations
    **/
-  public static var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
+  public var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
 
   /**
     A cache of TypeConv objects
@@ -223,6 +258,60 @@ class Globals {
     only used when cppia is defined
    **/
   public var staticModules:Map<String, Bool> = new Map();
+
+  public static var registeredMacro:Bool;
+  public static var registeredNumPath:String;
+
+  private static var generateHooks:Map<String, Array<Type>->Void>;
+
+  public static function addGenerateHook(name:String, fn:Array<Type>->Void) {
+    if (generateHooks == null) {
+      generateHooks = new Map();
+    }
+    generateHooks[name] = fn;
+  }
+
+  public static function callGenerateHooks(types:Array<Type>) {
+    if (generateHooks != null) {
+      for (hook in generateHooks) {
+        hook(types);
+      }
+    }
+  }
+
+  public static function checkRegisteredMacro(name:String, onMacroReused:Void->Bool) {
+    if (!registeredMacro) {
+      registeredMacro = true;
+      var staticBaseDir = haxe.io.Path.normalize(
+        (Context.defined('cppia') ? Context.definedValue('UHX_STATIC_BASE_DIR') : (haxe.macro.Compiler.getOutput() + '/..'))
+      );
+      registeredNumPath = staticBaseDir + '/Data/$name-num.txt';
+      var num:Null<Int> = null;
+      if (FileSystem.exists(registeredNumPath)) {
+        num = Std.parseInt(sys.io.File.getContent(registeredNumPath));
+      }
+      if (num == null) {
+        num = Std.int(Math.random() * (1 << 30));
+      } else {
+        num++;
+      }
+      if (!sys.FileSystem.exists(staticBaseDir + '/Data')) {
+        sys.FileSystem.createDirectory(staticBaseDir + '/Data');
+      }
+      sys.io.File.saveContent(staticBaseDir + '/Data/$name-num.txt', Std.string(num));
+      Context.onMacroContextReused(function() {
+        var curNum:Null<Int> = null;
+        if (FileSystem.exists(staticBaseDir + '/Data/$name-num.txt')) {
+          curNum = Std.parseInt(sys.io.File.getContent(staticBaseDir + '/Data/$name-num.txt'));
+        }
+        if (curNum == null || curNum != num) {
+          trace('Disposing macro context - conflict found');
+          return false;
+        }
+        return onMacroReused();
+      });
+    }
+  }
 
   function new() {
     TypeConv.addSpecialTypes(this.typeConvCache);
@@ -411,20 +500,56 @@ class Globals {
   }
 
   // if you change this, don't forget to change `shouldExposeFunctionExpr` as well
-  public static function shouldExposeFunction(cf:ClassField, isDynamicUType:Bool, overridesNative:Bool) {
+  public static function shouldExposeFunction(cf:ClassField, isDynamicUType:Bool, originalNativeField:Null<ClassField>) {
     if (!cf.kind.match(FMethod(_))) {
       return false;
     }
 
-    return overridesNative || cf.meta.has(':uexpose') || (!isDynamicUType && cf.meta.has(':ufunction'));
+    if (originalNativeField != null) { // is override
+      var ufunc = originalNativeField.meta.extract(":ufunction");
+      if (ufunc != null) {
+        for (meta in ufunc) {
+          for (meta in meta.params) {
+            if (UExtensionBuild.ufuncBlueprintOverridable(meta)) {
+              if (isDynamicUType) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return true;
+    }
+
+    return cf.meta.has(':uexpose') || (!isDynamicUType && cf.meta.has(':ufunction'));
   }
 
-  public static function shouldExposeFunctionExpr(cf:Field, isDynamicUType:Bool, overridesNative:Bool) {
+  public static function shouldExposeFunctionExpr(cf:Field, isDynamicUType:Bool, originalNativeField:Null<ClassField>) {
     if (!cf.kind.match(FFun(_))) {
       return false;
     }
 
-    return overridesNative || cf.meta.hasMeta(':uexpose') || (!isDynamicUType && cf.meta.hasMeta(':ufunction'));
+    if (originalNativeField != null) {
+      var ufunc = originalNativeField.meta.extract(":ufunction");
+      if (ufunc != null) {
+        for (meta in ufunc) {
+          for (meta in meta.params) {
+            if (UExtensionBuild.ufuncBlueprintOverridable(meta)) {
+              if (isDynamicUType) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return true;
+    }
+
+    return cf.meta.hasMeta(':uexpose') || (!isDynamicUType && cf.meta.hasMeta(':ufunction'));
   }
 
   public static inline var UHX_CALL_FUNCTION = 'uhx_callFunction';

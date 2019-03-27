@@ -33,9 +33,14 @@ class UStructBuild {
     }
 
     var delayedglue = macro uhx.internal.DelayedGlue;
-    if (Context.defined('display') || (Context.defined('cppia') && Globals.cur.staticModules.exists(tdef.module))) {
+    if (Context.defined('UHX_DISPLAY') || (Context.defined('cppia') && Globals.cur.staticModules.exists(tdef.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
+    }
+
+    var abstractName = 'uhx.structs._${tdef.name}.${tdef.name}_Impl_';
+    if (Context.defined('cppia') && !Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGluesExists(abstractName + ':')) {
+      Context.warning('UHXERR: The @:ustruct ${abstractName} was never compiled into C++. It is recommended to run a full C++ compilation', tdef.pos);
     }
 
     var tref = TypeRef.fromBaseType(tdef,pos);
@@ -53,7 +58,7 @@ class UStructBuild {
       tdef.meta.add(':uscript', [], tdef.pos);
     }
 
-    tdef.meta.add(':unativecalls', [ macro "create", macro "createNew" ], tdef.pos);
+    tdef.meta.add(':unativecalls', [ macro "create", macro "createNew", macro "copy", macro "copyNew" ], tdef.pos);
     var structHeaderPath = '${ueType.withoutPrefix().name}.h';
     tdef.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], tdef.pos);
     var target = new TypeRef(['uhx','structs'],tdef.name);
@@ -67,6 +72,7 @@ class UStructBuild {
 
     var typeThis:TypePath = {pack:[], name:tdef.name};
     var complexThis = TPath(typeThis);
+    var uname = ueType.name.substr(1);
     var added = macro class {
       inline public static function fromPointer(ptr:unreal.VariantPtr):$complexThis {
         return cast ptr;
@@ -82,6 +88,23 @@ class UStructBuild {
       @:uname("new") public static function createNew():unreal.POwnedPtr<$complexThis> {
         return $delayedglue.getNativeCall("createNew", true);
       }
+
+      @:uname(".copyStruct") public function copy():$complexThis {
+        return $delayedglue.getNativeCall("copy", false);
+      }
+      @:uname(".copy") public function copyNew():unreal.POwnedPtr<$complexThis> {
+        return $delayedglue.getNativeCall("copyNew", false);
+      }
+
+      private static var uhx_structData:unreal.UScriptStruct;
+
+      public static function StaticStruct():unreal.UScriptStruct {
+        if (uhx_structData != null)
+        {
+          return uhx_structData;
+        }
+        return uhx_structData = uhx.runtime.UReflectionGenerator.getUStruct($v{uname});
+      }
     };
     for (field in added.fields) {
       fields.push(field);
@@ -91,10 +114,16 @@ class UStructBuild {
     tdef.meta.add(':keep', [], tdef.pos);
     var def = macro class {
     };
+    def.pos = tdef.pos;
     tdef.meta.add(':uownerModule',[macro $v{tdef.module}],pos);
     // TDAbstract( tthis : Null<ComplexType>, ?from : Array<ComplexType>, ?to: Array<ComplexType> );
     var structType = macro : unreal.Struct,
         ofType = sup == null ? structType : TypeRef.fromType( sup, tdef.pos ).toComplexType();
+    if (sup == null) {
+      tdef.meta.add(':forward', [macro dispose, macro isDisposed], pos);
+    } else {
+      tdef.meta.add(':forward', [], pos);
+    }
     def.kind = TDAbstract( ofType, null, [macro : unreal.VariantPtr, structType, ofType]);
     def.fields = fields;
     def.name = target.name;

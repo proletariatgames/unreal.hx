@@ -28,9 +28,10 @@ class CreateGlue {
     externsDir = Context.definedValue('UHX_BAKE_DIR');
 
     // get all types that need to be compiled recursively
-    var staticModules = [];
+    var staticModules = [],
+        staticPaths = [];
     for (path in alwaysCompilePaths) {
-      getModules(path, staticModules);
+      getModules(path, staticModules, staticPaths);
     }
     var toCompile = staticModules.concat(['UnrealInit']);
     if (!Context.defined('UHX_NO_UOBJECT')) {
@@ -53,9 +54,15 @@ class CreateGlue {
     var toGatherModules = null;
 
     var fileDeps = new Map();
-    inline function addFileDep(file:String) {
+    for (path in staticPaths) {
+      fileDeps[path] = true;
+    }
+    var cur = Globals.cur;
+    inline function addFileDep(file:String, force:Bool, direct=true) {
       if (file != null && file.endsWith('.hx')) {
-        fileDeps.set(file, true);
+        if (!cur.inScriptPass || (force || file.startsWith(externsDir))) {
+          fileDeps.set(file, direct);
+        }
       }
     }
 
@@ -72,7 +79,6 @@ class CreateGlue {
         return; // macro context
       }
       Globals.cur.hasUnprocessedTypes = false;
-      var cur = Globals.cur;
       for (type in types) {
         var str = Std.string(type);
         if (!typesTouched[str]) {
@@ -80,26 +86,38 @@ class CreateGlue {
           switch(type) {
           case TAbstract(a):
             var a = a.get();
-            if (!cur.inScriptPass) {
-              addFileDep(Context.getPosInfos(a.pos).file);
-            }
+            addFileDep(Context.getPosInfos(a.pos).file, false);
             if (a.meta.has(':ueHasGenerics')) {
               cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
             }
           case TClassDecl(c):
             var c = c.get();
-            if (!cur.inScriptPass && !c.meta.has(':scriptGlue')) {
-              addFileDep(Context.getPosInfos(c.pos).file);
+            if (!c.meta.has(':scriptGlue')) {
+              if (!cur.inScriptPass) {
+                addFileDep(Context.getPosInfos(c.pos).file, true);
+              } else if (!c.meta.has(':uextern') && c.meta.has(':uclass')) {
+                addFileDep(Context.getPosInfos(c.pos).file, true, false);
+              } else {
+                addFileDep(Context.getPosInfos(c.pos).file, false);
+              }
             }
           case TEnumDecl(e):
             var e = e.get();
             if (!cur.inScriptPass) {
-              addFileDep(Context.getPosInfos(e.pos).file);
+              addFileDep(Context.getPosInfos(e.pos).file, true);
+            } else if (!e.meta.has(':uextern') && e.meta.has(':uenum')) {
+              addFileDep(Context.getPosInfos(e.pos).file, true, false);
+            } else {
+              addFileDep(Context.getPosInfos(e.pos).file, false);
             }
           case TTypeDecl(t):
             var t = t.get();
             if (!cur.inScriptPass) {
-              addFileDep(Context.getPosInfos(t.pos).file);
+              addFileDep(Context.getPosInfos(t.pos).file, true);
+            } else if (t.meta.has(':ustruct') || t.meta.has(':udelegate')) {
+              addFileDep(Context.getPosInfos(t.pos).file, true, false);
+            } else {
+              addFileDep(Context.getPosInfos(t.pos).file, false);
             }
           case _:
           }
@@ -210,7 +228,7 @@ class CreateGlue {
           // create hot reload helper
           if (Context.defined('WITH_CPPIA')) {
             LiveReloadBuild.bindFunctions('LiveReloadStatic');
-            var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
+            var lives = [ for (cls in Globals.cur.liveReloadFuncs.keys()) cls ];
             if (lives.length > 0) {
               sys.io.File.saveContent( Globals.cur.staticBaseDir + '/Data/livereload.txt', lives.join('\n') );
             }
@@ -223,6 +241,7 @@ class CreateGlue {
 
     var builtGlues = [];
     Context.onGenerate( function(gen) {
+      Globals.callGenerateHooks(gen);
       if (Context.defined('WITH_CPPIA')) {
         MetaDefBuild.writeStaticDefs();
       }
@@ -232,17 +251,23 @@ class CreateGlue {
         case TInst(c,_):
           var meta = c.get().meta;
           if (meta.has(':ugenerated')) {
-            builtGlues.push({ path:c.toString(), glues:meta.extractStrings(':ugenerated')});
+            builtGlues.push({ path:c.toString(), glues:meta.extractStrings(':ugenerated'), isScript:meta.has(':uscript')});
           } else if (meta.has(':uclass')) {
-            builtGlues.push({ path:c.toString(), glues:[] });
+            builtGlues.push({ path:c.toString(), glues:[], isScript:meta.has(':uscript') });
           }
         case TAbstract(a,_):
           var impl = a.get().impl;
           if (impl != null) {
             var meta = impl.get().meta;
             if (meta.has(':ugenerated')) {
-              builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated')});
+              var a = a.get();
+              builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated'), isScript:a.meta.has(':uscript') && !a.meta.has(':udelegate')});
             }
+          }
+        case TEnum(e,_):
+          var meta = e.get().meta;
+          if (meta.has(':ugenerated')) {
+            builtGlues.push({ path:e.toString(), glues:meta.extractStrings(':ugenerated'), isScript:false });
           }
         case _:
         }
@@ -265,12 +290,15 @@ class CreateGlue {
     });
   }
 
-  private static function writeScriptGlues(builtGlues:Array<{ path:String, glues:Array<String> }>, file:String) {
+  private static function writeScriptGlues(builtGlues:Array<{ path:String, glues:Array<String>, isScript:Bool }>, file:String) {
     var ret = sys.io.File.write(file);
     for (glue in builtGlues) {
       ret.writeByte(':'.code);
       ret.writeString(glue.path);
       ret.writeByte('\n'.code);
+      if (glue.isScript) {
+        ret.writeString('=script\n');
+      }
       for (glue in glue.glues) {
         ret.writeByte('+'.code);
         ret.writeString(glue);
@@ -284,10 +312,14 @@ class CreateGlue {
     var ret = sys.io.File.write(target);
     for (dep in fileDeps.keys()) {
       if (dep.startsWith(externsDir)) {
-        ret.writeByte('E'.code);
-        dep = dep.substr(externsDir.length);
-      } else {
+        if (fileDeps[dep]) {
+          ret.writeByte('E'.code);
+          dep = dep.substr(externsDir.length);
+        }
+      } else if (fileDeps[dep]) {
         ret.writeByte('C'.code);
+      } else {
+        ret.writeByte('I'.code);
       }
       ret.writeString(dep);
       ret.writeByte('\n'.code);
@@ -295,16 +327,20 @@ class CreateGlue {
     ret.close();
   }
 
-  private static function getModules(path:String, modules:Array<String>)
+  private static function getModules(path:String, modules:Array<String>, ?paths:Array<String>)
   {
     function recurse(path:String, pack:String)
     {
       for (file in FileSystem.readDirectory(path))
       {
-        if (file.endsWith('.hx'))
+        if (file.endsWith('.hx')) {
           modules.push(pack + file.substr(0,-3));
-        else if (FileSystem.isDirectory('$path/$file'))
+          if (paths != null) {
+            paths.push('$path/$file');
+          }
+        } else if (FileSystem.isDirectory('$path/$file')) {
           recurse('$path/$file', pack + file + '.');
+        }
       }
     }
 
@@ -319,7 +355,7 @@ class CreateGlue {
     hasRun = true;
     if (firstCompilation) {
       firstCompilation = false;
-      Context.onMacroContextReused(function() {
+      Globals.checkRegisteredMacro('static', function() {
         // trace('macro context reused');
         hasRun = false;
         // we need to add these classpaths again
@@ -351,34 +387,44 @@ class CreateGlue {
         ustruct = Context.getType('unreal.Struct');
     for (module in modules) {
       for (type in module) {
-        switch(Context.follow(type)) {
-        case TInst(c,_):
-          var c = c.get();
-          if (c.meta.has(':ustatic')) {
+        var type = type;
+        var isTypedef = false;
+        while (type != null)
+        {
+          switch(type) {
+          case TInst(c,_):
+            if (isTypedef)
+            {
+              // typedef might point to a static target
+              break;
+            }
+            var c = c.get();
+            if (c.meta.has(':ustatic')) {
+              break;
+            }
+            c.meta.remove(':native');
+            if (Context.unify(type, uobj)) {
+              c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
+              c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
+              c.exclude();
+            } else if (c.pack[0] != "haxe" && c.pack[0] != "cpp") {
+              c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
+              c.exclude();
+            }
+          case TAbstract(a,_):
+            // it seems cppia is smart enough to replace abstract types. So we may want to not exclude them
+            // it will work either way!
+            var a = a.get();
+            if (Context.unify(type, ustruct) && a.meta.has(':uscript')) {
+              a.impl.get().exclude();
+            }
+          case TType(_):
+            isTypedef = true;
+            type = Context.follow(type, true);
             continue;
+          case _:
           }
-          c.meta.remove(':native');
-          if (Context.unify(type, uobj)) {
-            c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
-            c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
-            c.exclude();
-          } else {
-            c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
-            c.exclude();
-          }
-        // case TEnum(e,_):
-        //   var e = e.get();
-        //   e.meta.remove(':native');
-        //   e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
-        //   e.exclude();
-        case TAbstract(a,_):
-          // it seems cppia is smart enough to replace abstract types. So we may want to not exclude them
-          // it will work either way!
-          var a = a.get();
-          if (Context.unify(type, ustruct) && a.meta.has(':uscript')) {
-            a.impl.get().exclude();
-          }
-        case _:
+          break;
         }
       }
     }

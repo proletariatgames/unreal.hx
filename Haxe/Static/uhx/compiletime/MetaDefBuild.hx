@@ -7,6 +7,7 @@ import uhx.compiletime.types.*;
 import uhx.meta.MetaDef;
 
 using uhx.compiletime.tools.MacroHelpers;
+using StringTools;
 using Lambda;
 
 /**
@@ -79,7 +80,7 @@ class MetaDefBuild {
     }
 
     for (field in base.fields.get()) {
-      if (field.meta.has(':uproperty') && !field.meta.has(':uexpose') && field.kind.match(FVar(_))) {
+      if (field.meta.has(':uproperty') && field.kind.match(FVar(_))) {
         var prop = TypeConv.get(field.type, field.pos).toUPropertyDef();
         if (prop == null) {
           Context.warning('This field (${field.name}) is marked as a uproperty but its type is not supported. It will be ignored', field.pos);
@@ -88,33 +89,19 @@ class MetaDefBuild {
         prop.hxName = field.name;
         prop.uname = MacroHelpers.getUName(field);
         if (field.meta.has(':ureplicate')) {
-          var repl:UPropReplicationKind = Always;
+          var repl:Null<UPropReplicationKind> = Always;
           var kind = field.meta.extractStrings(':ureplicate')[0];
           if (kind != null) {
-            switch(kind.toLowerCase()) {
-            case 'initialonly':
-              repl = InitialOnly;
-            case 'owneronly':
-              repl = OwnerOnly;
-            case 'skipowner':
-              repl = SkipOwner;
-            case 'simulatedonly':
-              repl = SimulatedOnly;
-            case 'autonomousonly':
-              repl = AutonomousOnly;
-            case 'simulatedorphysics':
-              repl = SimulatedOrPhysics;
-            case 'initialorowner':
-              repl = InitialOrOwner;
-            case 'replayorowner':
-              repl = ReplayOrOwner;
-            case 'replayonly':
-              repl = ReplayOnly;
-            case 'simulatedonlynoreplay':
-              repl = SimulatedOnlyNoReplay;
-            case 'simulatedorphysicsnoreplay':
-              repl = SimulatedOrPhysicsNoReplay;
-            case _:
+            repl = UPropReplicationKind.fromString(kind);
+            if (repl == null)
+            {
+              repl = Always;
+              // check if the function really exists
+              var fn = haxe.macro.TypeTools.findField(base, kind);
+              if (fn == null)
+              {
+                throw new Error('The field ${field.name} defined a ureplicate function call ${kind}, but that function was not found in ${base.name}', field.pos);
+              }
               prop.customReplicationName = kind;
             }
           }
@@ -129,6 +116,7 @@ class MetaDefBuild {
           if (prop.metas == null) {
             prop.metas = [];
           }
+          prop.isCompiled = true;
           prop.metas.push({ name:'UnrealHxExpose', isMeta: true });
         }
       } else if (field.meta.has(':ufunction') && field.kind.match(FMethod(_))) {
@@ -166,6 +154,7 @@ class MetaDefBuild {
             if (func.metas == null) {
               func.metas = [];
             }
+            func.isCompiled = true;
             func.metas.push({ name:'UnrealHxExpose', isMeta: true });
           }
           var relevantMeta = null;
@@ -199,10 +188,12 @@ class MetaDefBuild {
         }
       }
     }
+    var upropExpose = base.meta.has(':upropertyExpose');
     var relevantProps = [for (prop in classDef.uprops) {
       hxName:prop.hxName,
       uname:prop.uname,
       flags:prop.flags,
+      isCompiled: upropExpose,
       typeUName:prop.typeUName,
       replication:prop.replication,
       customReplicationName:prop.customReplicationName,
@@ -217,11 +208,14 @@ class MetaDefBuild {
     }
     classDef.propCrc = crc;
     classDef.propSig = propSignature;
+    classDef.upropExpose = upropExpose;
 
     for (uprop in classDef.uprops) {
       if (uprop.replication != null || uprop.customReplicationName != null) {
-        if (classDef.ufuncs != null && classDef.ufuncs.exists(function(f) return f.uname == 'onRep_' + uprop.uname)) {
-          uprop.repNotify = true;
+        var ufunc = null;
+        if (classDef.ufuncs != null && (ufunc = classDef.ufuncs.find(function(f) return f.uname.toLowerCase().startsWith('onrep_') &&
+            f.uname.substr('onrep_'.length) == uprop.uname)) != null) {
+          uprop.repNotify = ufunc.uname;
         }
       }
     }
@@ -268,7 +262,7 @@ class MetaDefBuild {
 
   public static function writeClassDefs() {
     var outputDir = haxe.io.Path.directory(Compiler.getOutput());
-    var ntry = 0;
+    var ntry = Std.int(Math.random() * 0x7FFFFFFF);
     var file = outputDir + '/gameCrcs.data';
     if (sys.FileSystem.exists(file)) {
       try {

@@ -60,7 +60,10 @@ extern class UObject_Extra {
    **/
   @:thisConst public function IsPostLoadThreadSafe():Bool;
 
-  public function BeginDestroy() : Void;
+  // this is final because overriding it in Haxe is not allowed
+  @:final public function BeginDestroy() : Void;
+
+  public function ConditionalBeginDestroy() : Void;
 
   /**
     Add an object to the root set. This prevents the object and all
@@ -73,10 +76,26 @@ extern class UObject_Extra {
    **/
   public function RemoveFromRoot() : Void;
 
+	/**
+	 * Called after the C++ constructor and after the properties have been initialized, including those loaded from config.
+	 * mainly this is to emulate some behavior of when the constructor was called after the properties were initialized.
+	 */
+	public function PostInitProperties() : Void;
+
+
   /**
     Do any object-specific cleanup required immediately after loading an object, and immediately after any undo/redo.
    **/
   public function PostLoad():Void;
+
+	/**
+	 * Instances components for objects being loaded from disk, if necessary.  Ensures that component references
+	 * between nested components are fixed up correctly.
+	 *
+	 * @param	OuterInstanceGraph	when calling this method on subobjects, specifies the instancing graph which contains all instanced
+	 *								subobjects and components for a subobject root.
+	 */
+  public function PostLoadSubobjects(OuterInstanceGraph:PPtr<unreal.FObjectInstancingGraph>) : Void;
 
   public function ConditionalPostLoad():Void;
 
@@ -98,6 +117,12 @@ extern class UObject_Extra {
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function IsGarbageCollecting():Bool;
+
+  @:glueCppIncludes("CoreGlobals.h")
+  @:global public static var GExitPurge:Bool;
+
+  @:glueCppIncludes("CoreGlobals.h")
+  @:global public static var GIsRequestingExit:Bool;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function CollectGarbage(keepFlags:EObjectFlags, performFullPurge:Bool):Void;
@@ -220,6 +245,17 @@ extern class UObject_Extra {
   public function HasAnyFlags(flags:EObjectFlags):Bool;
   public function HasAllFlags(flags:EObjectFlags):Bool;
 
+  /**
+	 * Note that the object will be modified.  If we are currently recording into the
+	 * transaction buffer (undo/redo), save a copy of this object into the buffer and
+	 * marks the package as needing to be saved.
+	 *
+	 * @param	bAlwaysMarkDirty	if true, marks the package dirty even if we aren't
+	 *								currently recording an active undo/redo transaction
+	 * @return true if the object was saved to the transaction buffer
+	 */
+	public function Modify(bAlwaysMarkDirty:Bool=true):Bool;
+
 #if WITH_EDITOR
   public function PreEditChange(PropertyAboutToChange:UProperty) : Void;
   public function PostEditChangeProperty( PropertyChangedEvent:PRef<FPropertyChangedEvent>) : Void;
@@ -228,4 +264,36 @@ extern class UObject_Extra {
   public function MarkPendingKill():Void;
 
   @:thisConst private function IsSupportedForNetworking():Bool;
+
+  /** IsNameStableForNetworking means an object can be referred to its path name (relative to outer) over the network */
+  @:thisConst public function IsNameStableForNetworking() : Bool;
+
+#if (UE_VER >= 4.17)
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function ConstructDynamicType(TypePathName:FName, ConstructionSpecifier:EConstructDynamicType):UObject;
+#end
+
+  @:glueCppIncludes("Misc/CoreMisc.h")
+  @:global public static function IsRunningDedicatedServer():Bool;
+
+  @:thisConst public function IsTemplate(TemplateTypes:EObjectFlags = RF_ArchetypeObject|RF_ClassDefaultObject):Bool;
+
+  public function GetPrimaryAssetId() : FPrimaryAssetId;
+
+
+  /** Always called immediately before properties are received from the remote. */
+  public function PreNetReceive() : Void;
+
+  /** Always called immediately after properties are received from the remote. */
+  public function PostNetReceive() : Void;
+
+	/** Called right after calling all OnRep notifies (called even when there are no notifies) */
+	public function PostRepNotifies() : Void;
+
+	/** Called right before being marked for destruction due to network replication */
+	public function PreDestroyFromReplication() : Void;
+
+	public function SaveConfig(Flags:Int = EPropertyFlags.CPF_Config, ?Filename:TCharStar, @:opt(unreal.FConfigCacheIni.GConfig) ?Config:PPtr<FConfigCacheIni>) : Void;
+	public function UpdateDefaultConfigFile(@:opt(new unreal.FString("")) ?SpecificFileLocation:Const<PRef<FString>>) : Void;
+	public function UpdateGlobalUserConfigFile() : Void;
 }

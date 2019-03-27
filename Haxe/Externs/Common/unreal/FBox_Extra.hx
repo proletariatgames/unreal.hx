@@ -20,4 +20,10 @@ extern class FBox_Extra
 
   @:thisConst
   public function GetCenter() : FVector;
+
+  @:thisConst
+  public function GetExtent() : FVector;
+
+  @:thisConst
+  public function ExpandBy(V:Const<PRef<FVector>>) : FBox;
 }

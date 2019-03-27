@@ -6,6 +6,11 @@ extern class UWorld_Extra {
 
   public var Scene : PPtr<FSceneInterface>;
 
+  public var URL : FURL;
+
+  @:thisConst
+  public function GetNetMode() : ENetMode;
+
   @:thisConst
   public function GetGameState() : AGameStateBase;
 
@@ -18,14 +23,40 @@ extern class UWorld_Extra {
   @:thisConst
   public function IsPlayInEditor() : Bool;
 
+  /** @return true if this level is a client */
+  @:thisConst
+  public function IsClient() : Bool;
+
+  /** @return true if this level is a server */
+  @:thisConst
+  public function IsServer() : Bool;
+
+  /** @return true if the world is in the paused state */
+  @:thisConst
+  public function IsPaused() : Bool;
+
+  /** @return true if the camera is in a moveable state (taking pausedness into account) */
+  @:thisConst
+  public function IsCameraMoveable() : Bool;
+
+#if (UE_VER < 4.19)
   @:thisConst
   public function GetControllerIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<AController>>;
+#else
+  @:thisConst
+  public function GetControllerIterator() : TConstArrayIteratorWrapper<TWeakObjectPtr<AController>>;
+#end
 
   @:thisConst
   public function GetFirstPlayerController() : APlayerController;
 
+#if (UE_VER < 4.19)
   @:thisConst
   public function GetPawnIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<APawn>>;
+#else
+  @:thisConst
+  public function GetPawnIterator() : TConstArrayIteratorWrapper<TWeakObjectPtr<APawn>>;
+#end
 
   /** Returns a pointer to the physics scene for this world. */
   @:thisConst
@@ -44,10 +75,10 @@ extern class UWorld_Extra {
    * @param	bShouldModifyLevel		[opt] If true, Modify() the level before removing the actor.  Default is true.
    * @return							true if destroyed or already marked for destruction, false if actor couldn't be destroyed.
    */
-  public function DestroyActor(actor:AActor, bNetForce:Bool, bShouldModifyLevel:Bool) : Bool;
+  public function DestroyActor(actor:AActor, bNetForce:Bool=false, bShouldModifyLevel:Bool=true) : Bool;
 
   @:thisConst
-  public function GetAuthGameMode() : AGameMode;
+  public function GetAuthGameMode() : AGameModeBase;
 
   /**
    * Returns time in seconds since world was brought up for play, IS stopped when game pauses, IS dilated/clamped
@@ -127,7 +158,7 @@ extern class UWorld_Extra {
    *  @return TRUE if a blocking hit is found
    */
   @:thisConst
-  public function LineTraceSingleByChannel(OutHit:PRef<FHitResult>,Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
+  public function LineTraceSingleByChannel(OutHit:PRef<FHitResult>,Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
 
 	/**
 	 *  Trace a ray against the world using a specific channel and return overlapping hits and then first blocking hit
@@ -142,10 +173,13 @@ extern class UWorld_Extra {
 	 *  @return TRUE if OutHits contains any blocking hit entries
 	 */
   @:thisConst
-  public function LineTraceMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
+  public function LineTraceMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
 
   @:thisConst
-  public function SweepSingleByChannel(OutHit:PRef<FHitResult>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
+  public function SweepSingleByChannel(OutHit:PRef<FHitResult>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
+
+  @:thisConst
+  public function SweepMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
 
   @:noTemplate
   @:uname("SpawnActorDeferred<AActor>")
@@ -198,4 +232,32 @@ extern class UWorld_Extra {
   function GetParameterCollectionInstance(Collection:Const<UMaterialParameterCollection>) : UMaterialParameterCollectionInstance;
 
   function AreActorsInitialized():Bool;
+
+  /** View locations rendered in the previous frame, if any. **/
+  public var ViewLocationsRenderedLastFrame:TArray<FVector>;
+
+	/** Try to find an acceptable position to place TestActor as close to possible to PlaceLocation.  Expects PlaceLocation to be a valid location inside the level. */
+	public function FindTeleportSpot( TestActor:AActor, PlaceLocation:PRef<FVector>, PlaceRotation:FRotator ) : Bool;
+
+  /**
+	 * Returns the Z component of the current world gravity.
+	 *
+	 * @return Z component of current world gravity.
+	*/
+  function GetGravityZ():Float32;
+
+  /** @return whether there is at least one level with a pending visibility request */
+  public function IsVisibilityRequestPending():Bool;
+
+  /**
+  * Updates sub-levels (load/unload/show/hide) using streaming levels current state
+  */
+  public function UpdateLevelStreaming():Void;
+
+  /** Is level streaming currently frozen? */
+  public var bIsLevelStreamingFrozen:Bool;
+
+  @:thisConst
+  public function GetStreamingLevels() : Const<PRef<TArray<ULevelStreaming>>>;
+
 }

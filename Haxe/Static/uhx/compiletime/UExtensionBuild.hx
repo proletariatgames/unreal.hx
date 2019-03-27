@@ -109,6 +109,36 @@ class UExtensionBuild {
     }
   }
 
+  public static function ufuncBlueprintOverridable(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c.toLowerCase();
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "blueprintimplementableevent" | "blueprintnativeevent":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
+  public static function ufuncBlueprintNativeEvent(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c.toLowerCase();
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "blueprintnativeevent":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
@@ -130,8 +160,8 @@ class UExtensionBuild {
       for (field in clt.statics.get()) {
         if ( field.kind.match(FVar(_)) && Globals.shouldExposeProperty(field, isDynamicClass) ) {
           uprops.push({ field:field, isStatic: true });
-        } else if (Globals.shouldExposeFunction(field, isDynamicClass, false)) {
-          toExpose[field.name] = getMethodDef(field, Static);
+        } else if (Globals.shouldExposeFunction(field, isDynamicClass, null)) {
+          toExpose[field.name] = getMethodDef(field, null, Static);
         }
       }
 
@@ -148,7 +178,7 @@ class UExtensionBuild {
             if (fnField == null) {
               throw new Error('Unreal Extension: Custom replication function not found: $repType', field.pos);
             }
-            toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(repType) ? Override : Member);
+            toExpose[field.name] = getMethodDef(fnField, null, nativeMethods.exists(repType) && field.meta.has('uhx_OverridesNative') ? Override : Member);
           }
 
           continue;
@@ -161,8 +191,8 @@ class UExtensionBuild {
 
         switch (field.kind) {
         case FMethod(_):
-          if (field.name.startsWith('onRep_')) {
-            var propName = field.name.substr('onRep_'.length);
+          if (field.meta.has(':ufunction') && field.name.toLowerCase().startsWith('onrep_')) {
+            var propName = field.name.substr('onrep_'.length);
             // ensure that the variable this replication function is for exists.
             // Can match the field uname or, if none exists, the field name
             var prop = clt.fields.get().find(function(t){
@@ -175,8 +205,12 @@ class UExtensionBuild {
         default:
         }
 
-        if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride)) {
-          toExpose[field.name] = getMethodDef(field, isOverride ? Override : Member);
+        if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride ? nativeMethods[field.name] : null)) {
+          toExpose[field.name] = getMethodDef(field, isOverride ? nativeMethods[field.name] : null, isOverride && !field.meta.has('uhx_OverridesNative') ? Override : Member);
+          // if (isOverride) {
+          //   var sig = UhxMeta.getStaticMetas(field.meta.get()) + field.name;
+          //   clt.meta.add(':ugenerated', [macro $v{sig}], field.pos);
+          // }
         }
       }
 
@@ -225,8 +259,9 @@ class UExtensionBuild {
           [ for (arg in field.args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ];
         if (!field.type.isStatic())
           fnArgs.unshift({ name: 'self', type: thisConv.haxeGlueType.toComplexType() });
-        var headerDef = new HelperBuf(),
-            cppDef = new HelperBuf();
+        var headerDef = new CodeFormatter(),
+            cppDef = new CodeFormatter();
+        headerDef.begin('').begin('');
         var ret = field.ret.ueType.getCppType().toString();
 
         var implementCpp = true,
@@ -237,11 +272,12 @@ class UExtensionBuild {
         // Can't mark it as private here, but then you can't legitimately
         // extern a private field anyway.
         if (field.cf.isPublic) {
-          headerDef << 'public:\n\t\t';
+          headerDef << 'public:' << new Newline();
         } else {
-          headerDef << 'protected:\n\t\t';
+          headerDef << 'protected:' << new Newline();
         }
 
+        var isBlueprintOverridable = false;
         var ufunc = field.cf.meta.extract(UhxMeta.UFunction);
         if (ufunc != null && ufunc[0] != null) {
           if (field.cf.doc != null) {
@@ -257,16 +293,19 @@ class UExtensionBuild {
                 if (ufuncMetaNoImpl(param)) {
                   implementCpp = false;
                 }
+                if (ufuncBlueprintOverridable(param)) {
+                  isBlueprintOverridable = true;
+                }
               }
             }
           }
-          headerDef << ')\n\t\t';
+          headerDef << ')' << new Newline();
         }
 
         cppDef << ret << ' ' << nativeUe.getCppClass() << '::' << cppName << '(';
         var modifier = if (field.type.isStatic())
           'static ';
-        else if (!field.cf.meta.has(UhxMeta.Final))
+        else if (!isBlueprintOverridable && !field.cf.meta.has(UhxMeta.Final))
           'virtual ';
         else
           '';
@@ -285,23 +324,26 @@ class UExtensionBuild {
         if (field.type == Override) {
           headerDef << ' override';
         }
-        headerDef << ';\n';
+        headerDef << ';' << new Newline();
 
         if (!field.type.isStatic()) {
-          headerDef << 'public:\n\t\t';
-          headerDef << 'typedef $ret (${nativeUe.getCppClass()}::*_${field.cf.name}_methodPtr_T)(' << args << (thisConst ? ' const' : '') << ';\n\t\t';
-          headerDef << 'static const _${field.cf.name}_methodPtr_T& _get_${field.cf.name}_methodPtr() { static auto Fn = &${nativeUe.getCppClass()}::$name; return Fn; }\n';
+          headerDef << 'public:' << new Newline();
+          headerDef << 'typedef $ret (${nativeUe.getCppClass()}::*_${field.cf.name}_methodPtr_T)(' << args << (thisConst ? ' const' : '') << ';' << new Newline();
+          headerDef << 'static const _${field.cf.name}_methodPtr_T& _get_${field.cf.name}_methodPtr()' << new Begin(' {')
+            << 'static auto Fn = &${nativeUe.getCppClass()}::$name;' << new Newline()
+            << 'return Fn;' << new End('}') << new Newline();
         }
 
-        cppDef << '{\n\t';
+        cppDef << new Begin(' {');
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name , ctx) ];
         if (!field.type.isStatic())
           args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this', ctx) );
         var cppBody = expose.getCppClass() + '::' + field.cf.name + '(' +
           args.join(', ') + ')';
-        if (!field.ret.haxeType.isVoid())
+        if (!field.ret.haxeType.isVoid()) {
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
-        cppDef << cppBody << ';\n}\n';
+        }
+        cppDef << cppBody << ';' << new End('}') << new Newline();
 
         var allTypes = [ for (arg in field.args) arg.type ];
         if (!field.type.isStatic())
@@ -316,7 +358,7 @@ class UExtensionBuild {
           t.collectUeIncludes(headerIncludes, headerForwards, cppIncludes);
         }
 
-        if (!implementCpp) cppDef = new HelperBuf();
+        if (!implementCpp) cppDef = new CodeFormatter();
         var metas:Metadata = [
           { name: ':glueHeaderCode', params:[macro $v{headerDef.toString()}], pos: field.cf.pos },
           { name: ':glueCppCode', params:[macro $v{cppDef.toString()}], pos: field.cf.pos },
@@ -385,24 +427,24 @@ class UExtensionBuild {
                   data.add(param.toString().replace('[','(').replace(']',')'));
                 }
               }
+              break;
             }
 
             if (uprop.meta.has(UhxMeta.UReplicate)) {
               if (first) first = false; else data.add(', ');
 
-              var fnName = 'onRep_$uname';
               var replicateFn = clt.fields.get().find(function(fld) {
                 return switch (fld.type) {
-                  case TFun(_): fld.name == fnName;
+                  case TFun(_): fld.name.toLowerCase().startsWith("onrep_") && fld.name.substr("onrep_".length) == uname;
                   default: false;
                 }
               });
 
               if (replicateFn != null) {
                 if (!replicateFn.meta.has(UhxMeta.UFunction)) {
-                  throw new Error('$fnName must be a ufunction to use ReplicatedUsing', uprop.pos);
+                  throw new Error('${replicateFn.name} must be a ufunction to use ReplicatedUsing', uprop.pos);
                 }
-                data.add('ReplicatedUsing=$fnName');
+                data.add('ReplicatedUsing=${replicateFn.name}');
               } else {
                 data.add('Replicated');
               }
@@ -447,31 +489,35 @@ class UExtensionBuild {
         if (aactor == null) {
           Globals.cur.aactor = aactor = Context.getType('unreal.AActor');
         }
+        var uactorcomponent = Globals.cur.uactorcomponent;
+        if (uactorcomponent == null) {
+          Globals.cur.uactorcomponent = uactorcomponent = Context.getType('unreal.UActorComponent');
+        }
         if (isDynamicClass) {
-          if (Context.unify(t, aactor)) {
-            glueCppIncs.add('VariantPtr.h');
-            glueCppIncs.add('IntPtr.h');
-            glueCppIncs.add('CoreMinimal.h');
-            glueCppIncs.add('uhx/expose/HxcppRuntime.h');
-            glueCppIncs.add('uhx/Wrapper.h');
-            glueCppIncs.add('UnrealNetwork.h');
+          glueCppIncs.add('VariantPtr.h');
+          glueCppIncs.add('IntPtr.h');
+          glueCppIncs.add('CoreMinimal.h');
+          glueCppIncs.add('uhx/expose/HxcppRuntime.h');
+          glueCppIncs.add('uhx/Wrapper.h');
+          glueCppIncs.add('UnrealNetwork.h');
 
-            headerCode += 'virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;\n\n\t\t';
-            cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
-            cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
-            cppCode += '\tuhx::expose::HxcppRuntime::setLifetimeProperties(' +
-                '(unreal::UIntPtr) this->GetClass(), ' +
-                '"${nativeUe.getCppClass()}", ' +
-                'uhx::TemplateHelper<TArray<FLifetimeProperty>>::fromPointer(&OutLifetimeProps));\n';
-            cppCode += '}\n\n';
+          headerCode += 'virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;\n\n\t\t';
+          cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
+          cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
+          cppCode += '\tuhx::expose::HxcppRuntime::setLifetimeProperties(' +
+              '(unreal::UIntPtr) this->GetClass(), ' +
+              '"${nativeUe.getCppClass()}", ' +
+              'uhx::TemplateHelper<TArray<FLifetimeProperty>>::fromPointer(&OutLifetimeProps));\n';
+          cppCode += '}\n\n';
 
+          if (Context.unify(t, aactor) || Context.unify(t, uactorcomponent)) {
             headerCode += 'virtual void PreReplication( IRepChangedPropertyTracker & ChangedPropertyTracker ) override;\n\n\t\t';
 
             cppCode += 'void ${nativeUe.getCppClass()}::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) {\n';
             cppCode += '\tSuper::PreReplication(ChangedPropertyTracker);\n';
             cppCode += '\tuhx::expose::HxcppRuntime::instancePreReplication(' +
                 '(unreal::UIntPtr) this, ' +
-                'unreal::VariantPtr(&ChangedPropertyTracker));\n';
+                'unreal::VariantPtr::fromExternalPointer(&ChangedPropertyTracker));\n';
             cppCode += '}\n\n';
           }
         } else if (hasReplicatedProperties) {
@@ -591,13 +637,33 @@ class UExtensionBuild {
       for (field in buildFields) {
         switch(field.kind) {
         case FFun(fn):
-          var isVoid = fn.ret.match(TPath({ name:'Void' }));
-          var nullExpr = macro untyped __cpp__('0');
+          var fnRet = fn.ret;
+          var isVoid = fnRet.match(TPath({ name:'Void' }));
+          var nullExpr = macro cast null;
           var nameVal = typeRef.name + '.' + field.name;
           var oldExpr = fn.expr;
+          if (hasReturn(oldExpr)) {
+            if (isVoid) {
+              oldExpr = macro {
+                function uhx_run() {
+                  $oldExpr;
+                }
+                uhx_run();
+              };
+            } else {
+              oldExpr = macro {
+                function uhx_run():$fnRet {
+                  var ret = $oldExpr;
+                  @:pos(field.pos) return ret;
+                }
+                uhx_run();
+              };
+            }
+          }
           var newExpr = null;
           if (isVoid) {
             newExpr = macro {
+              uhx.HaxeCodeDispatcher.ensureMainThread();
               if (uhx.HaxeCodeDispatcher.shouldWrap()) {
                 try {
                   $oldExpr;
@@ -612,6 +678,7 @@ class UExtensionBuild {
             }
           } else {
             newExpr = macro {
+              uhx.HaxeCodeDispatcher.ensureMainThread();
               if (uhx.HaxeCodeDispatcher.shouldWrap()) {
                 try {
                   var ret = $oldExpr;
@@ -642,7 +709,11 @@ class UExtensionBuild {
         meta: metas,
         kind: TDClass(),
         fields: buildFields
-      });
+      }
+#if (haxe_ver >= 4)
+      , clt.module // make sure that the class module is added as a dependency
+#end
+      );
       return Context.getType(expose.getClassPath());
     case _:
       throw new Error('Unreal Haxe Glue: Type $t not supported', Context.currentPos());
@@ -701,7 +772,7 @@ class UExtensionBuild {
       cppDef.add('DEFINE_UHX_DYNAMIC_UCLASS(${ueName});\n');
     }
     if (clt.doc != null) {
-      headerDef.add('/**\n${clt.doc.replace('**/','')}\n**/\n');
+      headerDef << new Comment(clt.doc);
     }
     if (uclass != null) {
       headerDef.add('UCLASS(');
@@ -713,30 +784,29 @@ class UExtensionBuild {
           headerDef.add(param.toString().replace('[','(').replace(']',')'));
         }
       }
-      headerDef.add(')\n');
+      headerDef.add(')') << new Newline();
     }
     headerDef.add('class ${targetModule.toUpperCase()}_API ${ueName} ');
     if (extendsAndImplements.length > 0) {
       headerDef.add(' : ');
       headerDef.add(extendsAndImplements.join(', '));
     }
+    headerDef << new Begin(' {');
     if (uclass != null) {
-      headerDef.add(' {\n\tGENERATED_BODY()\n\n');
-    } else {
-      headerDef.add(' {\n\n');
+      headerDef << 'GENERATED_BODY()' << new Newline();
     }
     var superConv = TypeConv.get( TInst(clt.superClass.t, clt.superClass.params), clt.pos);
     var superName = superConv.ueType.getCppClass();
 
-    headerDef.add('private:\n\t\tstatic FName uhx_className;\n');
+    headerDef << 'private:' << new Newline() << 'static FName uhx_className;' << new Newline();
     if (cppDef == null) {
       cppDef = new StringBuf();
     }
-    headerDef.add('public:\n');
+    headerDef << 'public:' << new Newline();
     // include class map
     includes.add('uhx/ue/ClassMap.h');
-    headerDef.add('\t\tstatic unreal::UIntPtr getHaxePointer(unreal::UIntPtr inUObject) {\n');
-      headerDef.add('\t\t\treturn (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
+    headerDef << 'static unreal::UIntPtr getHaxePointer(unreal::UIntPtr inUObject)' << new Begin(' {')
+      << 'return (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();' << new End('}') << new Newline();
 
     var objectInit = new HelperBuf() << 'ObjectInitializer';
     var useObjInitializer = clt.meta.has(UhxMeta.NoDefaultConstructor) || (clt.superClass != null && clt.superClass.t.get().meta.has(UhxMeta.NoDefaultConstructor));
@@ -763,30 +833,39 @@ class UExtensionBuild {
     includes.add('uhx/UEHelpers.h');
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
-    ctorBody << '\n\t\t\tstatic bool addToMap = ::uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
-      << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
-      << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(uhx_className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
+    ctorBody << 'static bool addToMap = ::uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n'
+      << 'static bool addFunctions = ::uhx::expose::HxcppRuntime::addHaxeBlueprintOverrides("${typeRef.getClassPath(true)}", (unreal::UIntPtr) $ueName::StaticClass());\n'
+      << 'UClass *curClass = ObjectInitializer.GetClass();\n'
+      << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(uhx_className,curClass,this->haxeGcRef,this,&createHaxeWrapper);';
 
     if (!hasHaxeSuper) {
-      headerDef.add('\t\t::uhx::GcRef haxeGcRef;\n');
+      headerDef << '::uhx::GcRef haxeGcRef;' << new Newline();
       if (useObjInitializer) {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
+        headerDef.add('${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit)');
       } else {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) {$ctorBody}\n');
+        headerDef.add('${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get())');
       }
     } else {
-      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
+      headerDef.add('${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit)');
     }
+    headerDef << new Begin(' {');
+      headerDef.addNewlines(ctorBody.toString());
+    headerDef << new End('}') << new Newline();
     if (!hasHaxeSuper) {
       includes.add('uhx/ThreadAttach.h');
-      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tuhx::ThreadAttach threadAttach(true);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
+      headerDef << 'void Serialize( FArchive& Ar ) override' << new Begin(' {')
+        << 'Super::Serialize(Ar);' << new Newline()
+        << 'uhx::ThreadAttach threadAttach(true);' << new Newline()
+        << 'if (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());'
+      << new End('}') << new Newline();
     }
 
     if (Globals.isDynamicUType(clt) && (clt.superClass == null || !Globals.isDynamicUType(clt.superClass.t.get()))) {
       includes.add('UObject/Stack.h');
-      headerDef << 'public: void ${Globals.UHX_CALL_FUNCTION}( FFrame& Stack, RESULT_DECL )' << new Begin("{") <<
-        '::uhx::expose::HxcppRuntime::callHaxeFunction(this->haxeGcRef.get(), unreal::VariantPtr(&Stack), (unreal::UIntPtr) RESULT_PARAM);' << new Newline() <<
-      new End('}');
+      headerDef << 'public:' << new Newline()
+        << 'static void ${Globals.UHX_CALL_FUNCTION}( UObject* Context, FFrame& Stack, RESULT_DECL ) ' << new Begin(" {")
+          << '::uhx::expose::HxcppRuntime::callHaxeFunction(reinterpret_cast<unreal::UIntPtr>(Context), unreal::VariantPtr::fromExternalPointer(&Stack), reinterpret_cast<unreal::UIntPtr>(RESULT_PARAM));'
+        << new End('}') << new Newline();
     }
 
     // metas.push({ name: ':haxeGenerated', params:[], pos: clt.pos });
@@ -800,7 +879,36 @@ class UExtensionBuild {
     return { hasHaxeSuper: hasHaxeSuper };
   }
 
-  private static function getMethodDef(field:ClassField, fieldType:FieldType) {
+  private static function getMethodDef(field:ClassField, overriddenField:ClassField, fieldType:FieldType) {
+    if (overriddenField != null && !field.meta.has(':supressOverrideCheck')) {
+      var reason = [];
+      switch [Context.follow(field.type), Context.follow(overriddenField.type)] {
+      case [TFun(a1,r1), TFun(a2,r2)]:
+        if (a1.length != a2.length) {
+          reason.push('different number of arguments');
+        } else {
+          for (i in 0...a1.length) {
+            var t2 = TypeConv.get(a2[i].t, field.pos);
+            if (!TypeConv.get(a1[i].t, field.pos).equivalentTo(t2) && t2.ueType.withoutPointer(true).name != 'FString') {
+              reason.push('the type of the argument ${a1[i].name} should be ${t2.haxeType}');
+            }
+          }
+          var r2 = TypeConv.get(r2, field.pos);
+          if (!TypeConv.get(r1, field.pos).equivalentTo(r2)) {
+            reason.push('the return type should be ${r2.haxeType}');
+          }
+        }
+      case _:
+        throw 'assert';
+      }
+      if (reason.length > 0) {
+        var msg = 'Unreal.hx: The function ${field.name} override has invalid argument issues:\n'
+                  + reason.join('\n') + '\n'
+                  + 'If this is intentional, you can add a @:supressOverrideCheck metadata to your function definition';
+        Context.warning(msg, field.pos);
+      }
+    }
+
     var args = null, ret = null;
     switch(Context.follow(field.type)) {
       case TFun(a,r):
@@ -873,10 +981,28 @@ class UExtensionBuild {
     }
 
     return switch(repType) {
-      case 'InitialOnly', 'OwnerOnly', 'SkipOwner', 'SimulatedOnly',
-           'AutonomousOnly', 'SimulatedOrPhysics', 'InitialOrOwner': false;
+      case 'InitialOnly', 'OwnerOnly',
+      #if proletariat
+      'OwnerOrSpectatingOwner',
+      #end
+      'SkipOwner', 'SimulatedOnly', 'AutonomousOnly', 'SimulatedOrPhysics', 'InitialOrOwner': false;
       default: true;
     }
+  }
+
+  private static function hasReturn(e:Expr) {
+    var ret = false;
+    function check(e:Expr) {
+      switch(e.expr) {
+      case EReturn(_): ret = true;
+      case _:
+        if (!ret){
+          e.iter(check);
+        }
+      }
+    }
+    check(e);
+    return ret;
   }
 }
 
@@ -889,4 +1015,3 @@ class UExtensionBuild {
     return this == Static;
   }
 }
-

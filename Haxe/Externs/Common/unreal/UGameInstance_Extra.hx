@@ -8,6 +8,9 @@ extern class UGameInstance_Extra {
   /** virtual function to allow custom GameInstances an opportunity to do cleanup when shutting down */
   public function Shutdown() : Void;
 
+  /** Starts the GameInstance state machine running */
+  public function StartGameInstance() : Void;
+
   @:thisConst
   public function GetFirstLocalPlayerController() : Const<APlayerController>;
 

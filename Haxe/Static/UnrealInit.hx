@@ -1,29 +1,63 @@
+#if !UHX_NO_UOBJECT
+import unreal.TMap;
+import unreal.TArray;
+import unreal.TSet;
+#end
+import unreal.*;
+
 #if WITH_EDITOR
 import uhx.expose.HxcppRuntime;
 import uhx.HaxeCodeDispatcher;
-import unreal.*;
 import unreal.developer.directorywatcher.*;
 import unreal.developer.hotreload.IHotReloadModule;
 import unreal.editor.*;
 import unreal.editor.UEditorEngine;
 import unreal.FTimerManager;
 import sys.FileSystem;
+
+using Lambda;
+using StringTools;
 #end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
 @:cppFileCode("#ifndef environ\n#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n#endif\n")
+@:buildXml("<compilerflag value=\"/bigobj\" if=\"windows\" /><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <files id=\"cppia\"><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <compilerflag value=\"/bigobj\" if=\"windows\" /> </files>")
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
+#if (debug && HXCPP_DEBUGGER)
+  static var debugTick:Dynamic;
+#end
+
   static function main()
   {
+    #if !UHX_NO_CUSTOM_TRACE
     haxe.Log.trace = customTrace;
+    #end
     trace("initializing unreal haxe");
 
 #if (debug && HXCPP_DEBUGGER)
+#if hxcpp_debugger_ext
+    // debugger.Api.addRuntimeClassData();
+    debugger.Api.setMyClassPaths();
+    var ping = debugger.VSCodeRemote.start('localhost');
+    if (!ping.isConnected) {
+      debugTick = FTickerDelegate.create();
+      var lastCheckTime = 3.0;
+      (debugTick : FTickerDelegate).BindLambda(function(deltaTime) {
+        if (!ping.isConnected && (lastCheckTime += deltaTime) >= 3 ) {
+          lastCheckTime = .0;
+          ping.attemptToConnect();
+        }
+        return true;
+      });
+      FTicker.GetCoreTicker().AddTicker((debugTick : FTickerDelegate), 3);
+    }
+#else
     if (Sys.getEnv("HXCPP_DEBUG") != null) {
       new debugger.HaxeRemote(true, "localhost");
     }
+#end
 #end // (debug && HXCPP_DEBUGGER)
 
 #if WITH_EDITOR
@@ -52,14 +86,16 @@ class UnrealInit
       }
     }
 
+#if !UHX_NO_UOBJECT
     uhx.ue.ClassMap.runInits();
+#end
   }
 
 #if WITH_EDITOR
 
   static function editorSetup() {
     // get game path
-    var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()).toString();
+    var gameDir = FPaths.ConvertRelativePathToFull(FPaths.ProjectDir()).toString();
     var target = '$gameDir/Binaries/Haxe/game.cppia';
     var stamp = .0;
     var internalStamp = .0;
@@ -84,10 +120,27 @@ class UnrealInit
 #end // DEBUG_HOTRELOAD
       var success = false,
           contents = null,
-          loadPrevious = false;
+          loadPrevious = false,
+          errorContents = null;
       try {
+        var oldData = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
+        if (oldData.length > 0) {
+          oldData = oldData.split('\n').filter(function(v) return v.indexOf('Get static field not found') < 0 && v.trim() != '').join('\n');
+        }
+        if (oldData.length > 0) {
+          trace('printf buffer: $oldData');
+        }
+
         contents = sys.io.File.getContent(target);
         untyped __global__.__scriptable_load_cppia(contents);
+#if (debug && HXCPP_DEBUGGER && hxcpp_debugger_ext)
+        debugger.Api.refreshCppiaDefinitions();
+#end
+        errorContents = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
+        if (errorContents.length > 0) {
+          trace('Warning', 'Warnings while loading cppia:\n$errorContents');
+        }
+
         var cls:Dynamic = Type.resolveClass('uhx.LiveReloadScript');
         if (cls != null) {
           trace('Setting cppia live reload types');
@@ -175,9 +228,13 @@ class UnrealInit
           }
         }
       } catch(e:Dynamic) {
-        FMessageDialog.Open(Ok, 'Error while loading cppia: $e', 'Unreal.hx cppia error');
-        trace('Error', 'Error while loading cppia: $e');
+        if (errorContents == null) {
+          errorContents = uhx.ue.RuntimeLibraryDynamic.getAndFlushPrintf();
+        }
+
+        trace('Error', 'Error while loading cppia: $e\nError details: $errorContents');
         trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+        FMessageDialog.Open(Ok, 'Error while loading cppia: $e\n$errorContents', 'Unreal.hx cppia error');
         loadPrevious = true;
         success = false;
       }
@@ -256,6 +313,15 @@ class UnrealInit
           dirWatchHandle = null;
         }
 #end // WITH_CPPIA
+
+#if (debug && HXCPP_DEBUGGER)
+        if (debugTick != null) {
+          (debugTick : FTickerDelegate).Unbind();
+          (debugTick : FTickerDelegate).dispose();
+          debugTick = null;
+        }
+#end // debug && HXCPP_DEBUGGER
+
         if (hotReloadHandle != null) {
           IHotReloadModule.Get().OnHotReload().Remove(hotReloadHandle);
           hotReloadHandle = null;
@@ -344,23 +410,72 @@ class UnrealInit
     var str:String = null;
     if (infos != null) {
       str = infos.fileName + ":" + infos.lineNumber + ": ";
-      if (infos.customParams != null && infos.customParams.length > 0) {
-        switch (Std.string(v).toUpperCase()) {
-        case "LOG":
-          unreal.Log.trace(str + infos.customParams.join(','));
-        case "WARNING":
-          unreal.Log.warning(str + infos.customParams.join(','));
-        case "ERROR":
-          unreal.Log.error(str + infos.customParams.join(','));
-        case "FATAL":
-          unreal.Log.error(str + infos.customParams.join(','));
-          unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
-          unreal.Log.fatal(str + infos.customParams.join(','));
-        case _:
-          unreal.Log.trace(str + v + ',' + infos.customParams.join(','));
-        }
-      } else {
+      if (infos.customParams == null) {
+        // fast path
         unreal.Log.trace(str + v);
+      } else {
+        var idx = -1;
+        var cat:unreal.LogCategory = null;
+        if (Std.is(v, unreal.LogCategory)) {
+          cat = v;
+          idx++;
+        }
+        var verbosity = unreal.ELogVerbosity.Log;
+        var val:Dynamic = idx < 0 ? v : infos.customParams[0];
+        if (Std.is(val, unreal.ELogVerbosity)) {
+          verbosity = val;
+          idx++;
+        } else {
+          switch (Std.string(val).toUpperCase()) {
+          case "LOG":
+            verbosity = Log;
+            idx++;
+          case "WARNING":
+            verbosity = Warning;
+            idx++;
+          case "ERROR":
+            verbosity = Error;
+            idx++;
+          case "FATAL":
+            verbosity = Fatal;
+            idx++;
+          case "DISPLAY":
+            verbosity = Display;
+            idx++;
+          case "VERBOSE":
+            verbosity = Verbose;
+            idx++;
+          case "VERYVERBOSE":
+            verbosity = VeryVerbose;
+            idx++;
+          case _:
+          }
+        }
+
+        if (idx < 0) {
+          str += v + ',' + infos.customParams.join(',');
+        } else if (idx == 0) {
+          str += infos.customParams.join(',');
+        } else {
+          str += infos.customParams.slice(idx, null).join(',');
+        }
+
+        if (cat == null) {
+          switch(verbosity) {
+          case Fatal:
+            unreal.Log.error(str);
+            unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
+            unreal.Log.fatal(str);
+          case _:
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, unreal.CoreAPI.staticName("HaxeLog"), verbosity, str);
+          }
+        } else if (!cat.unrealCategory.IsSuppressed(verbosity)) {
+          if (verbosity == Fatal) {
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, str);
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, 'Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
+          }
+          unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, verbosity, str);
+        }
       }
     } else {
       unreal.Log.trace(Std.string(v));

@@ -1,182 +1,246 @@
 package unreal;
 
 extern class AActor_Extra {
-  /** Dormancy setting for actor to take itself off of the replication list without being destroyed on clients. */
-  public var NetDormancy:ENetDormancy;
 
-  public function Tick(DeltaSeconds:Float32) : Void;
+	/** Set of replicated components, stored as an array to save space as this is generally not very large */
+	private var ReplicatedComponents:TArray<UActorComponent>;
 
-  public function Reset() : Void;
+	public function Tick(DeltaSeconds:Float32) : Void;
 
-  /** Event when play begins for this actor. */
+	public function Reset() : Void;
+
+	/** Called to finish the spawning process, generally in the case of deferred spawning */
+	public function FinishSpawning(Transform:Const<PRef<FTransform>>, bIsDefaultTransform:Bool = false) : Void;
+
+	/** Event when play begins for this actor. */
 #if (UE_VER < 4.16)
-  public
+	public
 #else
-  private
+	private
 #end
-  function BeginPlay() : Void;
+	function BeginPlay() : Void;
 
-  /** Overridable function called whenever this actor is being removed from a level */
-  public function EndPlay(Reason:EEndPlayReason) : Void;
+	/** Overridable function called whenever this actor is being removed from a level */
+	public function EndPlay(Reason:EEndPlayReason) : Void;
 
-  /** Puts actor in dormant networking state */
-  public function SetNetDormancy(NewDormancy:ENetDormancy) : Void;
+	/**
+	 * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
+	 * Destruction is latent. It occurs at the end of the tick.
+	 * @param bNetForce			 [opt] Ignored unless called during play.	Default is false.
+	 * @param bShouldModifyLevel		[opt] If true, Modify() the level before removing the actor.	Default is true.
+	 * returns	true if destroyed or already marked for destruction, false if indestructible.
+	 */
+	public function Destroy(bNetForce:Bool = false, bShouldModifyLevel:Bool = true) : Void;
 
-  /**
-   * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
-   * Destruction is latent. It occurs at the end of the tick.
-   * @param bNetForce       [opt] Ignored unless called during play.  Default is false.
-   * @param bShouldModifyLevel    [opt] If true, Modify() the level before removing the actor.  Default is true.
-   * returns  true if destroyed or already marked for destruction, false if indestructible.
-   */
-  public function Destroy(bNetForce:Bool = false, bShouldModifyLevel:Bool = true) : Void;
+	/** Called once this actor has been deleted */
+	public function Destroyed() : Void;
 
-  /** Called once this actor has been deleted */
-  public function Destroyed() : Void;
+	/** Apply damage to this actor.
+	 * @see https://www.unrealengine.com/blog/damage-in-ue4
+	 * @param DamageAmount		How much damage to apply
+	 * @param DamageEvent	 Data package that fully describes the damage received.
+	 * @param EventInstigator The Controller responsible for the damage.
+	 * @param DamageCauser		The Actor that directly caused the damage (e.g. the projectile that exploded, the rock that landed on you)
+	 * @return					The amount of damage actually applied.
+	 */
+	public function TakeDamage(DamageAmount:Float32, DamageEvent:Const<PRef<FDamageEvent>>,EventInstigator:AController, DamageCauser:AActor) : Float32;
 
-  /** Apply damage to this actor.
-   * @see https://www.unrealengine.com/blog/damage-in-ue4
-   * @param DamageAmount    How much damage to apply
-   * @param DamageEvent   Data package that fully describes the damage received.
-   * @param EventInstigator The Controller responsible for the damage.
-   * @param DamageCauser    The Actor that directly caused the damage (e.g. the projectile that exploded, the rock that landed on you)
-   * @return          The amount of damage actually applied.
-   */
-  public function TakeDamage(DamageAmount:Float32, DamageEvent:Const<PRef<FDamageEvent>>,EventInstigator:AController, DamageCauser:AActor) : Float32;
+	/** Returns this actor's root component. */
+	@:thisConst
+	public function GetRootComponent() : USceneComponent;
 
-  /** Returns this actor's root component. */
-  @:thisConst
-  public function GetRootComponent() : USceneComponent;
+#if (UE_VER < 4.19)
+	@:thisConst
+	public function GetRootPrimitiveComponent() : UPrimitiveComponent;
+#end
 
-  @:thisConst
-  public function GetActorLocation() : FVector;
+	@:thisConst
+	public function GetActorLocation() : FVector;
 
-  public function SetActorLocation(vec:Const<PRef<FVector>>, bSweep:Bool, outSweepResult:PPtr<FHitResult>) : Bool;
+	public function SetActorLocation(vec:Const<PRef<FVector>>, bSweep:Bool, outSweepResult:PPtr<FHitResult>) : Bool;
 
-  @:thisConst
-  public function GetActorRotation() : FRotator;
+	@:thisConst
+	public function GetActorRotation() : FRotator;
 
-  @:thisConst
-  public function GetActorQuat() : FQuat;
+	@:thisConst
+	public function GetActorQuat() : FQuat;
 
-  /** Called immediately before gameplay begins. */
-  public function PreInitializeComponents() : Void;
+	/** Called immediately before gameplay begins. */
+	public function PreInitializeComponents() : Void;
 
-  // Allow actors to initialize themselves on the C++ side
-  public function PostInitializeComponents() : Void;
-  public function GetWorldSettings() : AWorldSettings;
+	// Allow actors to initialize themselves on the C++ side
+	public function PostInitializeComponents() : Void;
+	public function GetWorldSettings() : AWorldSettings;
 
-  /** Get the timer instance from the actors world */
-  @:thisConst
-  public function GetWorldTimerManager() : PRef<FTimerManager>;
+	/**
+	 * Called when an actor is done spawning into the world (from UWorld::SpawnActor).
+	 * For actors with a root component, the location and rotation will have already been set.
+	 * Takes place after any construction scripts have been called
+	 */
+	public function PostActorCreated() : Void;
 
-  /**
-   *	Event when this actor overlaps another actor, for example a player walking into a trigger.
-   *	For events when objects have a blocking collision, for example a player hitting a wall, see 'Hit' events.
-   *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
-   */
-  public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
+	/** Called when the lifespan of an actor expires (if he has one). */
+	public function LifeSpanExpired() : Void;
 
-  /**
-   *	Event when an actor no longer overlaps another actor, and they have separated.
-   *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
-   */
-  public function NotifyActorEndOverlap(OtherActor:AActor) : Void;
+	/** Always called immediately after a new Role is received from the remote. */
+	public function PostNetReceiveRole() : Void;
 
-  public function TornOff() : Void;
+	/** Get the timer instance from the actors world */
+	@:thisConst
+	public function GetWorldTimerManager() : PRef<FTimerManager>;
 
-  /**
-   * Called when an instance of this class is placed (in editor) or spawned.
-   * @param	Transform			The transform the actor was constructed at.
-   */
-  public function OnConstruction(Transform:Const<PRef<FTransform>>) : Void;
+	/**
+	 *	Event when this actor overlaps another actor, for example a player walking into a trigger.
+	 *	For events when objects have a blocking collision, for example a player hitting a wall, see 'Hit' events.
+	 *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
+	 */
+	public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
+
+	/**
+	 *	Event when an actor no longer overlaps another actor, and they have separated.
+	 *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
+	 */
+	public function NotifyActorEndOverlap(OtherActor:AActor) : Void;
 
 
-  // TODO glue when we can properly handle const UDamageType& extern.
-  /** called when the actor falls out of the world 'safely' (below KillZ and such) */
-  // public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
+	/** Event when this actor is clicked by the mouse when using the clickable interface. */
+	public function NotifyActorOnClicked(?ButtonPressed:unreal.inputcore.FKey = unreal.inputcore.EKeys.LeftMouseButton) : Void;
 
-  /**
-   * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
-   * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or physics simulation.
-   * For events when objects overlap (e.g. walking into a trigger) see the 'Overlap' event.
-   *
-   * @note For collisions during physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
-   * @note When receiving a hit from another object's movement (bSelfMoved is false), the directions of 'Hit.Normal' and 'Hit.ImpactNormal'
-   * will be adjusted to indicate force from the other object against this object.
-   */
-  public function NotifyHit(MyComp:UPrimitiveComponent,
-    Other:AActor,
-    OtherComp:UPrimitiveComponent,
-    bSelfMoved:Bool,
-    HitLocation:FVector,
-    HitNormal:FVector,
-    NormalImpulse:FVector,
-    Hit:Const<PRef<FHitResult>>) : Void;
+	public function TornOff() : Void;
 
-  public function GetNetMode() : ENetMode;
+	/** Rerun construction scripts, destroying all autogenerated components; will attempt to preserve the root component location. */
+	public function RerunConstructionScripts() : Void;
 
-  /** Get the local-to-world transform of the RootComponent. Identical to GetTransform(). */
-  @:thisConst
-  public function ActorToWorld() : FTransform;
+	/**
+	 * Called when an instance of this class is placed (in editor) or spawned.
+	 * @param	Transform			The transform the actor was constructed at.
+	 */
+	public function OnConstruction(Transform:Const<PRef<FTransform>>) : Void;
 
-  public static function GetDebugName(actor:Const<AActor>) : FString;
 
-  @:thisConst
-  public function ShouldTickIfViewportsOnly() : Bool;
+	/** called when the actor falls out of the world 'safely' (below KillZ and such) */
+	 public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
 
-  #if WITH_EDITOR
-  public function PostEditMove(bFinished:Bool) : Void;
+	/**
+	 * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
+	 * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or physics simulation.
+	 * For events when objects overlap (e.g. walking into a trigger) see the 'Overlap' event.
+	 *
+	 * @note For collisions during physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
+	 * @note When receiving a hit from another object's movement (bSelfMoved is false), the directions of 'Hit.Normal' and 'Hit.ImpactNormal'
+	 * will be adjusted to indicate force from the other object against this object.
+	 */
+	public function NotifyHit(MyComp:UPrimitiveComponent,
+		Other:AActor,
+		OtherComp:UPrimitiveComponent,
+		bSelfMoved:Bool,
+		HitLocation:FVector,
+		HitNormal:FVector,
+		NormalImpulse:FVector,
+		Hit:Const<PRef<FHitResult>>) : Void;
+
+	public function GetNetMode() : ENetMode;
+
+	/** Get the local-to-world transform of the RootComponent. Identical to GetTransform(). */
+	@:thisConst
+	public function ActorToWorld() : FTransform;
+
+	public static function GetDebugName(actor:Const<AActor>) : FString;
+
+	@:thisConst
+	public function ShouldTickIfViewportsOnly() : Bool;
+
+	#if WITH_EDITOR
+	public function PostEditMove(bFinished:Bool) : Void;
 	public function EditorApplyScale(DeltaScale:Const<PRef<FVector>>, PivotLocation:PPtr<Const<FVector>>, bAltDown:Bool, bShiftDown:Bool, bCtrlDown:Bool) : Void;
-  @:thisConst
-  public function GetReferencedContentObjects(Objects:PRef<TArray<UObject>>) : Bool;
-  #end
+	@:thisConst
+	public function GetReferencedContentObjects(Objects:PRef<TArray<UObject>>) : Bool;
+	#end
 
-  function TeleportTo(destLocation:Const<PRef<FVector>>, destRotation:Const<PRef<FRotator>>, bIsATest:Bool /* = false */, bNoCheck:Bool /* = false */):Bool;
+	function TeleportTo(destLocation:Const<PRef<FVector>>, destRotation:Const<PRef<FRotator>>, bIsATest:Bool /* = false */, bNoCheck:Bool /* = false */):Bool;
 
-  /** Returns true if this actor has begun the destruction process.
-   *  This is set to true in UWorld::DestroyActor, after the network connection has been closed but before any other shutdown has been performed.
-   *	@return true if this actor has begun destruction, or if this actor has been destroyed already.
-   **/
-  @:thisConst
-  function IsPendingKillPending() : Bool;
+	/** Returns true if this actor has begun the destruction process.
+	 *	This is set to true in UWorld::DestroyActor, after the network connection has been closed but before any other shutdown has been performed.
+	 *	@return true if this actor has begun destruction, or if this actor has been destroyed already.
+	 **/
+	@:thisConst
+	function IsPendingKillPending() : Bool;
 
-  /* Called when this actor becomes the given PlayerController's ViewTarget. Triggers the Blueprint event K2_OnBecomeViewTarget. */
-  function BecomeViewTarget( PC:APlayerController ) : Void;
+	/* Called when this actor becomes the given PlayerController's ViewTarget. Triggers the Blueprint event K2_OnBecomeViewTarget. */
+	function BecomeViewTarget( PC:APlayerController ) : Void;
 
-  /* Called when this actor is no longer the given PlayerController's ViewTarget. Also triggers the Blueprint event K2_OnEndViewTarget. */
-  function EndViewTarget( PC:APlayerController ) : Void;
+	/* Called when this actor is no longer the given PlayerController's ViewTarget. Also triggers the Blueprint event K2_OnEndViewTarget. */
+	function EndViewTarget( PC:APlayerController ) : Void;
 
-  /** Removes a component from the OwnedComponents array of the Actor.
-   *  In general this should not need to be called directly by anything other than UActorComponent functions
-   */
-  public function RemoveOwnedComponent(Component:UActorComponent) : Void;
+	/** Removes a component from the OwnedComponents array of the Actor.
+	 *	In general this should not need to be called directly by anything other than UActorComponent functions
+	 */
+	public function RemoveOwnedComponent(Component:UActorComponent) : Void;
 
-  /**
-   * Set the Actor's rotation instantly to the specified rotation.
-   *
-   * @param	NewRotation	The new rotation for the Actor.
-   * @param	Teleport	How we teleport the physics state (if physics collision is enabled for this object).
-   *						If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-   *						If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
-   * @return	Whether the rotation was successfully set.
-   */
-  function SetActorRotation(NewRotation:FRotator, Teleport:ETeleportType) : Bool;
+	/**
+	 * Set the Actor's rotation instantly to the specified rotation.
+	 *
+	 * @param	NewRotation	The new rotation for the Actor.
+	 * @param	Teleport	How we teleport the physics state (if physics collision is enabled for this object).
+	 *						If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	 *						If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	 * @return	Whether the rotation was successfully set.
+	 */
+	function SetActorRotation(NewRotation:FRotator, Teleport:ETeleportType) : Bool;
 
-  /** Returns whether an actor has been initialized */
-  @:thisConst
-  public function IsActorInitialized() : Bool;
+	/** Returns whether an actor has been initialized */
+	@:thisConst
+	public function IsActorInitialized() : Bool;
 
-  /** Returns whether an actor is in the process of beginning play */
-  @:thisConst
-  public function IsActorBeginningPlay() : Bool;
+	/** Returns whether an actor is in the process of beginning play */
+	@:thisConst
+	public function IsActorBeginningPlay() : Bool;
 
-  /** Returns whether an actor has had BeginPlay called on it (and not subsequently had EndPlay called) */
-  @:thisConst
-  public function HasActorBegunPlay() : Bool;
+	/** Returns whether an actor has had BeginPlay called on it (and not subsequently had EndPlay called) */
+	@:thisConst
+	public function HasActorBegunPlay() : Bool;
 
-  @:noTemplate
-  @:typeName public function FindComponentByClass<T : UActorComponent>( cls:TSubclassOf<UActorComponent> ) : T;
+	@:noTemplate
+	@:typeName public function FindComponentByClass<T : UActorComponent>( cls:TSubclassOf<UActorComponent> ) : T;
 
-  @:uproperty private var bReplicates:Bool;
+	@:uproperty private var bReplicates:Bool;
+
+	public function GetIsReplicated():Bool;
+
+	/** The time this actor was created, relative to World->GetTimeSeconds().
+	@see UWorld::GetTimeSeconds()
+	*/
+	public var CreationTime:Float32;
+
+	/** Called on the actor when a new subobject is dynamically created via replication */
+	public function OnSubobjectCreatedFromReplication(NewSubobject:UObject) : Void;
+
+	/** Called on the actor when a subobject is dynamically destroyed via replication */
+	public function OnSubobjectDestroyFromReplication(Subobject:UObject) : Void;
+
+	private function InternalTakeRadialDamage(Damage:Float32, RadialDamageEvent:Const<PRef<FRadialDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
+	private function InternalTakePointDamage(Damage:Float32,	PointDamageEvent:Const<PRef<FPointDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
+
+	/**
+		* @param RealViewer - is the "controlling net object" associated with the client for which network relevancy is being checked (typically player controller)
+		* @param ViewTarget - is the Actor being used as the point of view for the RealViewer
+		* @param SrcLocation - is the viewing location
+		*
+		* @return bool - true if this actor is network relevant to the client associated with RealViewer
+		*/
+	@:thisConst
+	public function IsNetRelevantFor(RealViewer:Const<AActor>, ViewTarget:Const<AActor>, SrcLocation:Const<PRef<FVector>>) : Bool;
+
+	/** Return the ULevel that this Actor is part of. */
+	@:thisConst
+	public function GetLevel(): ULevel;
+
+	/**
+	 * Called on the actor right before replication occurs.
+	 * Only called on Server, and for autonomous proxies if recording a Client Replay.
+	 */
+	public function PreReplication(ChangedPropertyTracker:PRef<IRepChangedPropertyTracker>) : Void;
+
+	/** Fills ReplicatedMovement property */
+	public function GatherCurrentMovement() : Void;
 }

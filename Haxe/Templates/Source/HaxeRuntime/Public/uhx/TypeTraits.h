@@ -1,6 +1,8 @@
 #pragma once
 #include "uhx/expose/HxcppRuntime.h"
+#ifndef UHX_NO_UOBJECT
 #include "UObject/Class.h"
+#endif
 enum class ESPMode;
 
 namespace uhx {
@@ -11,13 +13,8 @@ namespace Check {
   template<typename U> static char eqTest(decltype( std::declval<U>() == std::declval<U>() ));
   template<typename U> static int eqTest(...);
 
-  // template<typename U> static char destructTest(decltype( (delete std::declval<U *>(), true) ));
   template<typename U> static char destructTest(decltype( (std::declval<U *>()->~U(), true) ));
   template<typename U> static int destructTest(...);
-
-  // template<typename U> static char assignTest(decltype(std::declval<U>().operator=(std::declval<U>()), void()) );
-  // template<typename U> static char assignTest(decltype(std::declval<U> = std::declval<U>()) );
-  // template<typename U> static int assignTest(...);
 }
 
 template<typename T>
@@ -34,17 +31,15 @@ struct TDestructExists {
   enum { Value = sizeof(::uhx::TypeTraits::Check::destructTest<T>(0)) == sizeof(char) };
 };
 
-// template<typename T>
-// struct TAssignExists {
-//   enum { Value = sizeof(::uhx::TypeTraits::Check::assignTest<T>(0)) == sizeof(char) };
-//   // enum { Value = TStructOpsTypeTraits<T>::WithCopy };
-// };
-  
 template<typename T, bool hasEq = uhx::TypeTraits::TEqualsExists<T>::Value>
 struct Equals {
   inline static bool isEq(T const& t1, T const& t2) {
     bool ret;
+#ifndef UHX_NO_UOBJECT
     IdenticalOrNot(&t1, &t2, 0, ret);
+#else
+    ret = false;
+#endif
     return ret;
   }
 };
@@ -56,13 +51,6 @@ struct Equals<T, true> {
   }
 };
 
-// template<typename T, bool hasAssign = TAssignExists<T>::Value>
-// struct Assign {
-//   inline static void doAssign(T& t1, T const& t2) {
-//     uhx::expose::HxcppRuntime::throwString("Trying to assign an unassignable value");
-//   }
-// };
-
 template<typename T>
 struct Assign {
   inline static void doAssign(T& t1, T const& t2) {
@@ -70,14 +58,14 @@ struct Assign {
   }
 };
 
-template<template<typename, typename...> class T, typename First, typename... Values> 
+template<template<typename, typename...> class T, typename First, typename... Values>
 struct Equals<T<First, Values...>, true> {
   inline static bool isEq(T<First, Values...> const& t1, T<First, Values...> const& t2) {
     return false; // don't check equals on type parameters
   }
 };
 
-template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First>
 struct Equals<T<First, Mode>, true> {
   inline static bool isEq(T<First, Mode> const& t1, T<First, Mode> const& t2) {
     return false; // don't check equals on type parameters

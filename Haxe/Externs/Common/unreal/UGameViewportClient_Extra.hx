@@ -16,4 +16,8 @@ package unreal;
     Controls suppression of the blue transition text messages
    **/
   public function SetSuppressTransitionMessage( suppress:Bool ) : Void;
+
+  public function IsFocused(Viewport:PPtr<FViewport>) : Bool;
+  public function ReceivedFocus(Viewport:PPtr<FViewport>) : Void;
+  public function LostFocus(Viewport:PPtr<FViewport>) : Void;
 }

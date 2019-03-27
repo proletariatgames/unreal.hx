@@ -13,4 +13,10 @@ package unreal.umg;
   public function SynchronizeProperties() : Void;
 
   public function AddBinding(DelegateProperty:UDelegateProperty, SourceObject:UObject, BindingPath:Const<PRef<FDynamicPropertyPath>>) : Bool;
+
+  @:thisConst
+  public function IsDesignTime() : Bool;
+
+	/** Function called after the underlying SWidget is constructed. */
+	private function OnWidgetRebuilt() : Void;
 }

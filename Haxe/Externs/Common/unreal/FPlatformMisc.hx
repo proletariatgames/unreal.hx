@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("HAL/PlatformMisc.h")
 @:noEquals @:noCopy @:uextern extern class FPlatformMisc {
   /**
    * Retrieve the Mac address of the current adapter.
@@ -33,6 +33,8 @@ package unreal;
   /** Return true if a debugger is present */
   static function IsDebuggerPresent():Bool;
 
+  static function DebugBreak():Void;
+
   /**
    * Requests application exit.
    *
@@ -49,11 +51,13 @@ package unreal;
   /** Pastes in text from the operating system clipboard. */
   static function ClipboardPaste(dest:PRef<FString>):Void;
 
+#if (UE_VER < 4.19)
   /**
    * Prevents screen-saver from kicking in by moving the mouse by 0 pixels. This works even on
    * Vista in the presence of a group policy for password protected screen saver.
    */
   static function PreventScreenSaver():Void;
+#end
 
   /**
    * return the number of hardware CPU cores
@@ -72,10 +76,12 @@ package unreal;
   /** Function to store the current working directory for use with LaunchDir() */
   static function CacheLaunchDir():Void;
 
+#if (UE_VER < 4.19)
   /**
    *	Return the GameDir
    */
   static function GameDir():TCharStar;
+#end
 
   /**
    * Show a message box if possible, otherwise print a message and return the default
@@ -87,4 +93,16 @@ package unreal;
   static function MessageBoxExt(msgType:EAppMsgType, text:TCharStar, caption:TCharStar):EAppReturnType;
 
   static function GetUBTPlatform():TCharStar;
+
+  /**
+  * Generates the SHA256 signature of the given data.
+  *
+  *
+  * @param Data Pointer to the beginning of the data to hash
+  * @param Bytesize Size of the data to has, in bytes.
+  * @param OutSignature Output Structure to hold the computed signature.
+  *
+  * @return whether the hash was computed successfully
+  */
+  static function GetSHA256Signature(Data:ConstAnyPtr, ByteSize:UInt32, OutSignature:PRef<FSHA256Signature>):Bool;
 }

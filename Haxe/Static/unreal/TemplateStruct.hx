@@ -8,6 +8,6 @@ abstract TemplateStruct(Struct) to Struct to VariantPtr {
       trace('Fatal', 'Assert failure: `this` is not a TemplateWrapper: $this');
     }
 #end
-    return untyped __cpp__('::hx::ObjectPtr< ::unreal::TemplateWrapper_obj >( (::unreal::TemplateWrapper_obj *) {0}.raw )', this);
+    return untyped __cpp__('::hx::ObjectPtr< ::unreal::TemplateWrapper_obj >( (::unreal::TemplateWrapper_obj *) {0}.getGcPointerUnchecked() )', this);
   }
 }

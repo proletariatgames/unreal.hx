@@ -1,4 +1,32 @@
 ????-??-??: 1.0.0
+  New Features:
+
+  added UE 4.19 support
+
+    New Features:
+
+    `isValid` speedup
+    added dynamic property support for TWeakObjectPtr
+    taken off all Engine.h includes, making Unreal.hx strictly IWYU
+    added `@:ualign` to allow custom alignment setting for an Unreal.hx-generated struct
+    allow `OnRep_` functions to work just as `onRep_`
+
+    Bugfixes:
+
+    fixed a crash if trying to access unaligned pointers
+    fixed a crash if a dynamic wrapper is being finalized when its originated uproperty was gc'd
+    fixed FVector_NetQuantize access
+    fixed TEnumAsByte TWeakObjectPtr and TSubclassOf issues when they are used as type parameters
+    fixed DCE collecting unused Haxe-generated delegates
+    fixed multiple compilation detection issues
+    fixed `Ref<UObject>` / `Ref<PPtr<FStruct>>`
+
+
+  Deprecation:
+
+  all pre-4.19 unreal version support have been dropped
+
+2018-03-26: 0.4.0
   Bugfixes:
 
   fixed DCE issues

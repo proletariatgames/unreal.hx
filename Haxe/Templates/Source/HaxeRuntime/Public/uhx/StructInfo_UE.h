@@ -11,8 +11,11 @@
 #include "Core.h"
 
 #ifndef UHX_NO_UOBJECT
-#include "Engine.h"
+#include "CoreMinimal.h"
+#include "Templates/IsPODType.h"
+#include "Templates/Casts.h"
 #include "UObject/Class.h"
+
 #endif
 
 #ifdef _MSC_VER
@@ -25,6 +28,7 @@ enum class ESPMode;
 template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
 template<class T> class TAutoWeakObjectPtr;
 template<class TClass> class TSubclassOf;
+template<class TClass> class TEnumAsByte;
 
 namespace uhx {
 
@@ -102,21 +106,21 @@ struct TAnyData {
 
 #endif
 
-template<class T, bool destructible = uhx::TypeTraits::TDestructExists<T>::Value>
+template<class T, bool destructible = !TIsPODType<T>::Value && uhx::TypeTraits::TDestructExists<T>::Value>
 struct TDestruct {
   FORCEINLINE static void doDestruct(unreal::UIntPtr ptr);
 };
 
 template<class T>
 struct TDestruct<T, true> {
-  FORCEINLINE static void doDestruct(unreal::UIntPtr ptr) { 
+  FORCEINLINE static void doDestruct(unreal::UIntPtr ptr) {
     ((T*)ptr)->~T();
   }
 };
 
 template<class T>
 struct TDestruct<T, false> {
-  FORCEINLINE static void doDestruct(unreal::UIntPtr ptr) { 
+  FORCEINLINE static void doDestruct(unreal::UIntPtr ptr) {
     // we cannot destruct this type
     check(false);
   }
@@ -140,7 +144,7 @@ struct TEqualsKind { enum { Value = TStructOpsTypeTraits<T>::WithIdentical || TS
 #endif
 
 #define SET_CPP_EQ(TYPE) \
-  template<> struct TEqualsKind<TYPE> { enum { Value = uhx::CppEquals }; }; 
+  template<> struct TEqualsKind<TYPE> { enum { Value = uhx::CppEquals }; };
 SET_CPP_EQ(FName);
 SET_CPP_EQ(FString);
 SET_CPP_EQ(FText);
@@ -193,7 +197,8 @@ struct TStructData<T, true> {
       /* .destruct = */ nullptr,
       /* .equals = */ (uhx::TEqualsKind<T>::Value != uhx::NoEquals) ? &doEquals : nullptr,
       /* .genericParams = */ nullptr,
-      /* .genericImplementation = */ nullptr
+      /* .genericImplementation = */ nullptr,
+      /* .contextObject = */ nullptr
     };
     return &info;
   }
@@ -209,7 +214,7 @@ struct TStructData<T, false> {
 #ifdef UHX_NO_UOBJECT
   #define CHECK_DESTRUCTOR(T) (std::is_trivially_destructible<T>::value)
 #else
-  #define CHECK_DESTRUCTOR(T) (TStructOpsTypeTraits<T>::WithNoDestructor || std::is_trivially_destructible<T>::value)
+  #define CHECK_DESTRUCTOR(T) (TIsPODType<T>::Value || TStructOpsTypeTraits<T>::WithNoDestructor || std::is_trivially_destructible<T>::value)
 #endif
   typedef TStructData<T, false> TSelf;
 
@@ -222,13 +227,14 @@ struct TStructData<T, false> {
       /* .destruct = */ (CHECK_DESTRUCTOR(T) ? nullptr : &TSelf::destruct),
       /* .equals = */ (uhx::TEqualsKind<T>::Value != uhx::NoEquals) ? &doEquals : nullptr,
       /* .genericParams = */ nullptr,
-      /* .genericImplementation = */ nullptr
+      /* .genericImplementation = */ nullptr,
+      /* .contextObject = */ nullptr
     };
     return &info;
   }
 private:
 
-  static void destruct(unreal::UIntPtr ptr) {
+  static void destruct(const uhx::StructInfo* info, unreal::UIntPtr ptr) {
     TDestruct<T>::doDestruct(ptr);
   }
 
@@ -266,7 +272,8 @@ struct TSimpleStructData<T, false> {
       /* .destruct = */ nullptr,
       /* .equals = */ (uhx::TEqualsKind<T>::Value != uhx::NoEquals) ? &doEquals : nullptr,
       /* .genericParams = */ nullptr,
-      /* .genericImplementation = */ nullptr
+      /* .genericImplementation = */ nullptr,
+      /* .contextObject = */ nullptr
     };
     return &info;
   }
@@ -284,21 +291,24 @@ struct TAnyData<TAutoWeakObjectPtr<T>, false> { FORCEINLINE static const StructI
 template<class T>
 struct TAnyData<TSubclassOf<T>, false> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
 
-template<template<typename, typename...> class T, typename First, typename... Values> 
+template<class T>
+struct TTemplatedData<TEnumAsByte<T>> { FORCEINLINE static const StructInfo *getInfo() { return TAnyData<T, false>::getInfo(); } };
+
+template<template<typename, typename...> class T, typename First, typename... Values>
 struct TAnyData<T<First, Values...>, false> {
   FORCEINLINE static const StructInfo *getInfo() {
     return TTemplatedData<T<First, Values...>>::getInfo();
   }
 };
 
-template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First>
 struct TAnyData<T<First, Mode>, false> {
   FORCEINLINE static const StructInfo *getInfo() {
     return TTemplatedData<T<First, Mode>>::getInfo();
   }
 };
 
-template<class T> 
+template<class T>
 struct TAnyData<T, false> {
   FORCEINLINE static const StructInfo *getInfo() {
     return TSimpleStructData<T>::getInfo();

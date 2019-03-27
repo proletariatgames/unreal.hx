@@ -17,14 +17,51 @@ class NeedsGlueBuild
     #if bake_externs
     return null;
     #end
+    var localClass = Context.getLocalClass(),
+        cls:ClassType = localClass.get();
+    if (Context.defined('UHX_DISPLAY')) {
+      if (cls.isInterface || cls.isExtern) {
+        return null;
+      }
+      var displayPos = haxe.macro.Compiler.getDisplayPos();
+      if (displayPos == null ||
+          sys.FileSystem.fullPath(displayPos.file).toLowerCase() != sys.FileSystem.fullPath(Context.getPosInfos(cls.pos).file).toLowerCase()
+         )
+      {
+        return null;
+      }
+
+      var fields:Array<Field> = Context.getBuildFields(),
+          needsUpdate = false;
+      for (field in fields) {
+        switch (field.kind) {
+        case FFun(fn):
+          if (fn.expr == null) {
+            fn.expr = macro {throw "Not Implemented";};
+            needsUpdate = true;
+          }
+        case _:
+        }
+      }
+      if (needsUpdate) {
+        return fields;
+      } else {
+        return null;
+      }
+    }
+
     // check version level
     if (!checkedVersion) {
       Globals.cur.checkBuildVersionLevel();
       checkedVersion = true;
     }
-    var localClass = Context.getLocalClass(),
-        cls = localClass.get(),
-        thisType = TypeRef.fromBaseType(cls, cls.pos);
+    var thisType = TypeRef.fromBaseType(cls, cls.pos);
+
+    if (Globals.registeredNumPath == null) {
+      trace('Internal error: Registered num path is null (compilation server related?)');
+    } else {
+      Context.registerModuleDependency(cls.module, Globals.registeredNumPath);
+    }
 
     var disableUObject = Context.defined('UHX_NO_UOBJECT');
     if (disableUObject) {
@@ -101,7 +138,7 @@ class NeedsGlueBuild
     var hadErrors = false,
         toAdd:Array<Field> = [];
     var delayedglue = macro uhx.internal.DelayedGlue;
-    if (Context.defined('display') || (Context.defined('cppia') && Globals.cur.staticModules.exists(type.module))) {
+    if (Context.defined('UHX_DISPLAY') || (Context.defined('cppia') && Globals.cur.staticModules.exists(type.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }
@@ -111,8 +148,8 @@ class NeedsGlueBuild
         firstExternSuper = null,
         hasNativeInterfaces = false,
         nonNativeFunctions = new Map();
+    var parent = (cast type : ClassType).superClass;
     {
-      var parent = (cast type : ClassType).superClass;
       if (parent != null) {
         superClass = parent.t.get();
         var cur = superClass;
@@ -183,16 +220,23 @@ class NeedsGlueBuild
     }
 
     var methodPtrs = new Map();
+    var usesCppia = Context.defined('cppia') || Context.defined("WITH_CPPIA");
     for (field in fields) {
-      if (field.kind.match(FFun(_)) && (Context.defined('cppia') || Context.defined("WITH_CPPIA")) && field.meta.hasMeta(':uexpose')) {
-        var dummy = macro class {
-          @:noUsing @:noCompletion private function dummy() {
-            $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
-          }
-        };
-        var cur = dummy.fields[0];
-        cur.name = 'uhx_dummy_check_' + field.name;
-        toAdd.push(cur);
+      if (field.kind.match(FFun(_)) && usesCppia) {
+        var needsStatic = field.meta.hasMeta(':uexpose');
+        if (!needsStatic && isDynamicUType) {
+          needsStatic = field.access != null && field.access.has(AOverride) && !nonNativeFunctions.exists(field.name);
+        }
+        if (needsStatic) {
+          var dummy = macro class {
+            @:extern @:noUsing @:noCompletion inline private function dummy() {
+              $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
+            }
+          };
+          var cur = dummy.fields[0];
+          cur.name = 'uhx_dummy_check_' + field.name;
+          toAdd.push(cur);
+        }
       }
 
       if (field.access != null && field.access.has(AOverride)) {
@@ -205,7 +249,7 @@ class NeedsGlueBuild
           function map(e:Expr) {
             return switch (e.expr) {
             case ECall(macro super.$sfield, args):
-              superCalls[sfield] = sfield;
+              superCalls[sfield] = { expr: EConst(CString(sfield)), pos:e.pos };
               var args = [ for (arg in args) map(arg) ];
               changed = true;
               var ret = null;
@@ -247,7 +291,8 @@ class NeedsGlueBuild
               e.map(map);
             }
           }
-          if (!Context.defined('cppia') || Globals.cur.inScriptPass || !Globals.cur.staticModules.exists(type.module)) {
+          var shouldMap = !Context.defined('cppia') || Globals.cur.inScriptPass || !Globals.cur.staticModules.exists(type.module);
+          if (shouldMap) {
             fn.expr = map(fn.expr);
           }
         case _:
@@ -334,10 +379,11 @@ class NeedsGlueBuild
       // add the methodPtr accessor for any functions that are exposed/implemented in C++
       var overridesNative = field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic &&
                             firstExternSuper != null && !nonNativeFunctions.exists(field.name);
+      var originalNativeField = overridesNative && firstExternSuper != null ? firstExternSuper.findField(field.name, false) : null;
       var shouldExposeFn = Globals.shouldExposeFunctionExpr(
           field,
           isDynamicUType,
-          overridesNative);
+          originalNativeField);
       if (!isStatic && shouldExposeFn) {
         field.meta.push({ name:':keep', pos:field.pos });
         switch (field.kind) {
@@ -362,6 +408,30 @@ class NeedsGlueBuild
           methodPtrs[field.name] = field.name;
           toAdd.push(dummy.fields[0]);
         case _:
+        }
+      }
+      var parentField = originalNativeField != null || parent == null || (field.access != null && field.access.has(AStatic)) ?
+          originalNativeField :
+          parent.t.get().findField(field.name, false);
+      if (parentField != null && parentField.meta.has(':ufunction')) {
+        var ufunc = parentField.meta.extract(":ufunction");
+        for (meta in ufunc) {
+          for (meta in meta.params) {
+            if (UExtensionBuild.ufuncBlueprintOverridable(meta)) {
+              if (isDynamicUType) {
+                field.meta.push({name:':ufunction', params:[], pos:field.pos});
+                changed = true;
+              } else {
+                field.meta.push({name:':uname', params:[macro $v{field.name + '_Implementation'}], pos:field.pos});
+                if (!UExtensionBuild.ufuncBlueprintNativeEvent(meta)) {
+                  field.meta.push({name:':ufunction', params:[], pos:field.pos});
+                  field.meta.push({name:'uhx_OverridesNative', params:[macro $v{field.name}], pos:field.pos});
+                }
+                changed = true;
+              }
+              break;
+            }
+          }
         }
       }
 
@@ -395,19 +465,7 @@ class NeedsGlueBuild
                   pos: field.pos
                 };
               } else {
-                var funcName = 'uhx__func_${field.name}';
-                var funcNameSet = 'uhx__func_${field.name}_set';
-                var dummy = macro class {
-                  @:noCompletion private var $funcName:unreal.UFunction;
-                  @:noCompletion private var $funcNameSet:Bool;
-                };
-
                 var uname = field.name;
-                var unameMeta = MacroHelpers.extractMeta(field.meta, ':uname');
-                for (field in dummy.fields) {
-                  toAdd.push(field);
-                }
-
                 var callArgs = [ for (arg in fn.args) macro $i{arg.name} ];
                 var exprCall = macro unreal.ReflectAPI.callUFunction(this, fn, $a{callArgs});
                 var implCheck = macro { },
@@ -445,12 +503,9 @@ class NeedsGlueBuild
                 }
 
                 call = macro {
-                  var fn = $i{funcName};
-                  if (fn == null && !$i{funcNameSet}) {
-                    $i{funcName} = fn = unreal.ReflectAPI.getUFunctionFromObject(this, $v{uname});
-                    $implCheck;
-                    $i{funcNameSet} = true;
-                  }
+                  var fn = null;
+                  fn = unreal.ReflectAPI.getUFunctionFromObject(this, $v{uname});
+                  $implCheck;
                   $exprCall;
                 };
               }
@@ -462,7 +517,9 @@ class NeedsGlueBuild
                 fn.expr = macro { return cast $call; };
               }
               changed = true;
-              field.meta.push({ name:':final', params:[], pos:field.pos });
+              if (!meta.params.exists(function(meta) return UExtensionBuild.ufuncBlueprintOverridable(meta) && !UExtensionBuild.ufuncBlueprintNativeEvent(meta))) {
+                field.meta.push({ name:':final', params:[], pos:field.pos });
+              }
             }
 
             if (UExtensionBuild.ufuncMetaNeedsImpl(param) || UExtensionBuild.ufuncNeedsValidation(param)) {
@@ -570,7 +627,7 @@ class NeedsGlueBuild
       };
       if (Context.defined('cppia')) {
         staticClassDef.fields[0].access.push(ADynamic);
-        if (!Context.defined('display') && !Globals.cur.compiledScriptGlues.exists(thisClassName + ':')) {
+        if (!Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGluesExists(thisClassName + ':')) {
           Context.warning('UHXERR: The @:uclass ${thisClassName} was never compiled into C++. It is recommended to run a full C++ compilation', type.pos);
         }
       }
@@ -583,10 +640,10 @@ class NeedsGlueBuild
       if (isDynamicUType && (superClass == null || !Globals.isDynamicUType(superClass))) {
         var ufuncCallDef = macro class {
           @:ifFeature($v{thisClassName})
-          @:glueCppIncludes("IntPtr.h", "Engine.h")
+          @:glueCppIncludes("IntPtr.h", "CoreMinimal.h","UObject/Class.h")
           @:glueCppBody($v{'{
             UFunction *realFn = ((UFunction*)fn);
-            Native native = (Native)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ';
+            FNativeFuncPtr native = (FNativeFuncPtr)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ';
             ((UClass *) cls)->AddNativeFunction(*realFn->GetName(), native);
             ((UFunction*) fn)->SetNativeFunc(native);
           }'})
@@ -619,7 +676,7 @@ class NeedsGlueBuild
 
     if (uprops.length > 0)
       type.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], type.pos);
-    type.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], type.pos);
+    type.meta.add(':usupercalls', [ for (call in superCalls) call ], type.pos);
     type.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], type.pos);
     type.meta.add(':umethodptrs', [ for(call in methodPtrs) macro $v{call} ], type.pos);
 
@@ -643,7 +700,7 @@ class NeedsGlueBuild
           case FFun(fn) if (fn.params == null || fn.params.length == 0):
             if (!created) {
               created = true;
-              Globals.liveReloadFuncs[thisType.getClassPath()] = new Map();
+              Globals.cur.liveReloadFuncs[thisType.getClassPath()] = new Map();
             }
             var name = thisType.getClassPath() + '::' + field.name;
             var isStatic = field.access != null ? field.access.has(AStatic) : false;

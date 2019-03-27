@@ -7,38 +7,57 @@ import unreal.*;
 @:access(unreal.UObject)
 @:keep class ClassWrap {
 #if (!UHX_WRAP_OBJECTS && !UHX_NO_UOBJECT)
-  static var wrappers:Map<Int, UObject>;
   static var wrapperArray:Array<UObject>;
   static var indexes:Array<Int>;
-  static var delegateHandle:FDelegateHandle;
+  static var delegateHandles:Array<FDelegateHandle>;
   static var nIndex:Int = 0;
 
   static var constructingObjects:Array<unreal.UObject> = [];
+
+  static var purgingObjects:Bool;
 
   public static function wrap(nativePtr:UIntPtr):UObject {
     if (nativePtr == 0) {
       return null;
     }
 
-    if (wrappers == null) {
-      wrappers = new Map();
+    if (wrapperArray == null) {
       wrapperArray = [];
       indexes = [];
-      delegateHandle = FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC);
+      delegateHandles = [];
+#if (UE_VER < 4.19)
+      delegateHandles.push(FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC));
+#else
+      delegateHandles.push(FCoreUObjectDelegates.GetPostGarbageCollect().AddLambda(onGC));
+#end
+#if (UE_VER >= 4.21)
+      delegateHandles.push(FCoreUObjectDelegates.PreGarbageCollectConditionalBeginDestroy.AddLambda(function() {
+        purgingObjects = true;
+      }));
+      delegateHandles.push(FCoreUObjectDelegates.PostGarbageCollectConditionalBeginDestroy.AddLambda(function() {
+        purgingObjects = false;
+      }));
+#end
     }
+
     var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
     var ret = wrapperArray[index];
-    var serial = ObjectArrayHelper_Glue.indexToSerial(index);
+    var serial = ObjectArrayHelper_Glue.indexToSerialChecked(index, nativePtr);
+    if (serial == -1 && ObjectArrayHelper_Glue.indexToSerial(index) != -1)
+    {
+      trace('Warning', 'Trying to wrap an invalid/unreachable pointer', {obj:ret, serial:serial, index:index, ptr:nativePtr});
+      return null;
+    }
     if (ret != null) {
       if (ret.serialNumber == serial) {
 #if debug
         if (ret.wrapped != nativePtr) {
-          throw 'assert: ${ret.wrapped} != ${nativePtr}';
+          throw 'assert: ${ret.wrapped} != ${nativePtr} (index=$index serial=$serial)';
         }
 #end
         return ret;
       } else {
-        ret.invalidate();
+        throw 'The object at index $index ($ret) had incompatible serial numbers: ${ret.serialNumber} != $serial';
       }
     }
 
@@ -60,7 +79,21 @@ import unreal.*;
     }
     ret.serialNumber = serial;
     ret.internalIndex = index;
-    wrappers[index] = ret;
+    // if this object is no longer reachable, it must be set accordingly
+    // this can happen if the object was never referenced in Unreal.hx code - only after it was already unreachable
+    if (ObjectArrayHelper_Glue.indexToSerialReachable(index, nativePtr) != serial)
+    {
+      // if we are doing a GC, add this as a normal object and don't immediately set its wrapped as null, as we will set it
+      // in the end of this GC. We may have objects that hit this point and call into Haxe code - this can happen if you
+      // override BeginDestroy in Unreal.hx
+      var inGc = UObject.IsGarbageCollecting();
+      if (!inGc && !purgingObjects && !UObject.GExitPurge)
+      {
+        ret.wrapped = 0;
+        // do not add the object to the array - it shouldn't be there!
+        return ret;
+      }
+    }
     wrapperArray[index] = ret;
     indexes[nIndex++] = index;
     return ret;
@@ -93,26 +126,23 @@ import unreal.*;
   }
 
   static function onGC() {
-    var wrappers = wrappers,
-        wrapperArray = wrapperArray,
+    var wrapperArray = wrapperArray,
         inds = indexes,
         len = nIndex;
     var nidx = 0;
     for (i in 0...len) {
       var index = inds[i],
           obj = wrapperArray[index];
-      var ptr = ObjectArrayHelper_Glue.indexToObject(index);
-      if (obj != null && ptr == obj.wrapped && ObjectArrayHelper_Glue.indexToSerialPendingKill(index) == obj.serialNumber) {
+      if (obj != null && obj.serialNumber != 0 && ObjectArrayHelper_Glue.indexToSerialReachable(index, obj.wrapped) == obj.serialNumber) {
         inds[nidx++] = index;
       } else {
         if (obj != null) {
           obj.invalidate();
         }
-        wrappers.remove(index);
         wrapperArray[index] = null;
       }
     }
-    nIndex = nidx;
+    nIndex = nidx + 1;
   }
 
 #else
