@@ -74,7 +74,11 @@ import uhx.StructInfo;
     return untyped __cpp__('(((unreal::UIntPtr) (this + 1)) + sizeof(void*) -1) & ~(sizeof(void*)-1)');
   }
 
+  #if haxe4
+  extern public static function create(extraSize:Int, info:UIntPtr):InlinePodWrapper;
+  #else
   @:extern public static function create(extraSize:Int, info:UIntPtr):InlinePodWrapper { return null; }
+  #end
 
   override public function toString():String {
 #if UHX_EXTRA_DEBUG
@@ -184,7 +188,11 @@ import uhx.StructInfo;
     }
   }
 
+  #if haxe4
+  extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper;
+  #else
   @:extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper { return null; }
+  #end
 
   override public function toString():String {
     var name = m_info.ptr.name.toString();
@@ -214,7 +222,11 @@ import uhx.StructInfo;
   }
 ')
 @:keep class AlignedInlineWrapper extends InlineWrapper {
+  #if haxe4
+  extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper;
+  #else
   @:extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper { return null; }
+  #end
 
   override public function getPointer():UIntPtr {
     var align = m_info.ptr.alignment - 1;
@@ -274,7 +286,11 @@ import uhx.StructInfo;
 ')
 @:keep class PointerTemplateWrapper extends TemplateWrapper {
 
+  #if haxe4
+  extern public static function create(ptr:UIntPtr, info:UIntPtr, extraSize:Int):PointerTemplateWrapper;
+  #else
   @:extern public static function create(ptr:UIntPtr, info:UIntPtr, extraSize:Int):PointerTemplateWrapper { return null; }
+  #end
   // public function new(ptr, info:UIntPtr) {
   //   this.pointer = ptr;
   //   this.info =  untyped __cpp__('(uhx::StructInfo *) {0}', info);
@@ -344,5 +360,9 @@ import uhx.StructInfo;
     }
   }
 
+  #if haxe4
+  extern public static function create(extraSize:Int, info:UIntPtr):InlineTemplateWrapper;
+  #else
   @:extern public static function create(extraSize:Int, info:UIntPtr):InlineTemplateWrapper { return null; }
+  #end
 }

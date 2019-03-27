@@ -1,4 +1,5 @@
 package uhx.compiletime;
+import haxe.CallStack;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
@@ -19,6 +20,7 @@ class Globals {
 
   public static var cur(default,null):Globals = new Globals();
 
+  public var id = Std.random(65535);
   /**
     The target unreal source dir
     e.g. {projectDir}/Source/{project}
@@ -260,7 +262,6 @@ class Globals {
   public var staticModules:Map<String, Bool> = new Map();
 
   public static var registeredMacro:Bool;
-  public static var registeredNumPath:String;
 
   private static var generateHooks:Map<String, Array<Type>->Void>;
 
@@ -276,40 +277,6 @@ class Globals {
       for (hook in generateHooks) {
         hook(types);
       }
-    }
-  }
-
-  public static function checkRegisteredMacro(name:String, onMacroReused:Void->Bool) {
-    if (!registeredMacro) {
-      registeredMacro = true;
-      var staticBaseDir = haxe.io.Path.normalize(
-        (Context.defined('cppia') ? Context.definedValue('UHX_STATIC_BASE_DIR') : (haxe.macro.Compiler.getOutput() + '/..'))
-      );
-      registeredNumPath = staticBaseDir + '/Data/$name-num.txt';
-      var num:Null<Int> = null;
-      if (FileSystem.exists(registeredNumPath)) {
-        num = Std.parseInt(sys.io.File.getContent(registeredNumPath));
-      }
-      if (num == null) {
-        num = Std.int(Math.random() * (1 << 30));
-      } else {
-        num++;
-      }
-      if (!sys.FileSystem.exists(staticBaseDir + '/Data')) {
-        sys.FileSystem.createDirectory(staticBaseDir + '/Data');
-      }
-      sys.io.File.saveContent(staticBaseDir + '/Data/$name-num.txt', Std.string(num));
-      Context.onMacroContextReused(function() {
-        var curNum:Null<Int> = null;
-        if (FileSystem.exists(staticBaseDir + '/Data/$name-num.txt')) {
-          curNum = Std.parseInt(sys.io.File.getContent(staticBaseDir + '/Data/$name-num.txt'));
-        }
-        if (curNum == null || curNum != num) {
-          trace('Disposing macro context - conflict found');
-          return false;
-        }
-        return onMacroReused();
-      });
     }
   }
 

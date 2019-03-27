@@ -2,6 +2,8 @@
   New Features:
 
   added UE 4.19 support
+  added UE 4.21 support
+  added Haxe 4 support
 
     New Features:
 
@@ -20,6 +22,7 @@
     fixed DCE collecting unused Haxe-generated delegates
     fixed multiple compilation detection issues
     fixed `Ref<UObject>` / `Ref<PPtr<FStruct>>`
+    `compilationServer` now uses two sequential ports - the first for the hxcpp build, and the second for cppia
 
 
   Deprecation:

@@ -26,7 +26,7 @@ class UhxBuild extends UhxBaseBuild {
   var buildName:String;
   var shortBuildName:String;
   var debugMode:Bool;
-  var compserver:String;
+  var compserver:Null<Int>;
   var externsFolder:String;
   var cppiaEnabled:Bool;
 
@@ -1143,7 +1143,7 @@ class UhxBuild extends UhxBaseBuild {
 
     var extraArgs = ['-D use-rrti-doc'];
     if (this.compserver != null) {
-      extraArgs.push('--connect ${this.compserver}');
+      extraArgs.push('--connect ${this.compserver + 1}');
     }
     var tcppia = timer('Cppia compilation');
     args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
@@ -1485,16 +1485,14 @@ class UhxBuild extends UhxBaseBuild {
     this.outputStatic = getLibLocation();
     this.debugMode = data.targetConfiguration != Shipping || config.forceDebug;
     if (config.compilationServer != null) {
-      this.compserver = Std.string(config.compilationServer);
+      // TODO this works around an issue that is fixed in another branch
+      this.compserver = Std.parseInt(config.compilationServer + '');
     }
     if (this.compserver == null) {
-      this.compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
+      this.compserver = Std.parseInt(Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER"));
     }
-    if (this.compserver == null || this.compserver == '') {
-      this.compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
-    }
-    if (this.compserver == '') {
-      this.compserver = null;
+    if (this.compserver == null) {
+      this.compserver = Std.parseInt(Sys.getEnv("HAXE_COMPILATION_SERVER"));
     }
 
     this.externsFolder = shouldBuildEditor() ? 'Externs_Editor' : 'Externs';

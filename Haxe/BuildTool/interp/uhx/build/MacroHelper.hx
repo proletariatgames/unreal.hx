@@ -13,7 +13,10 @@ class MacroHelper {
         'haxe3' | 'haxe4' | 'true':
         // ignore
         case _:
-          exprs.push(macro $v{key} => $v{defines[key]});
+          if (key.indexOf('target.') != 0)
+          {
+            exprs.push(macro $v{key} => $v{defines[key]});
+          }
       }
     }
     return { expr:EArrayDecl(exprs), pos:haxe.macro.Context.currentPos() };

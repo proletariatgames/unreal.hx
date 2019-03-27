@@ -15,6 +15,9 @@ using uhx.compiletime.tools.MacroHelpers;
   It should be called as a `--macro` command-line option.
  **/
 class CreateGlue {
+  #if haxe4
+  @:persistent
+  #end
   static var firstCompilation = true;
   static var hasRun = false;
   static var lastScriptPaths:Array<String>;
@@ -355,7 +358,8 @@ class CreateGlue {
     hasRun = true;
     if (firstCompilation) {
       firstCompilation = false;
-      Globals.checkRegisteredMacro('static', function() {
+      #if !haxe4
+      Context.onMacroContextReused(function() {
         // trace('macro context reused');
         hasRun = false;
         // we need to add these classpaths again
@@ -369,6 +373,7 @@ class CreateGlue {
         Globals.reset();
         return true;
       });
+      #end
 
       if (Context.defined('WITH_CPPIA')) {
         var clsDef = macro class StaticMetaData {};

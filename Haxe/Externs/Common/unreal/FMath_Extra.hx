@@ -160,7 +160,7 @@ extern class FMath_Extra {
 	 * @param ErrorTolerance Maximum allowed difference for considering them as 'nearly equal'
 	 * @return true if A and B are nearly equal
 	 */
-	public static function IsNearlyEqual(A:Float32, B:Float32, ErrorTolerance:Float32 = SMALL_NUMBER) : Bool;
+	public static function IsNearlyEqual(A:Float32, B:Float32, @:opt(SMALL_NUMBER) ?ErrorTolerance:Float32) : Bool;
 
 	/**
 	 * Given a direction vector and a surface normal, returns the vector reflected across the surface normal.

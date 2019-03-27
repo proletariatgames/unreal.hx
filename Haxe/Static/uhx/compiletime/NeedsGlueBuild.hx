@@ -57,12 +57,6 @@ class NeedsGlueBuild
     }
     var thisType = TypeRef.fromBaseType(cls, cls.pos);
 
-    if (Globals.registeredNumPath == null) {
-      trace('Internal error: Registered num path is null (compilation server related?)');
-    } else {
-      Context.registerModuleDependency(cls.module, Globals.registeredNumPath);
-    }
-
     var disableUObject = Context.defined('UHX_NO_UOBJECT');
     if (disableUObject) {
       var cur = cls;
@@ -229,7 +223,7 @@ class NeedsGlueBuild
         }
         if (needsStatic) {
           var dummy = macro class {
-            @:extern @:noUsing @:noCompletion inline private function dummy() {
+            #if !haxe4 @:extern #end @:noUsing @:noCompletion inline private function dummy() {
               $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
             }
           };
@@ -589,7 +583,7 @@ class NeedsGlueBuild
                     macro @:pos(fn.pos) $i{fieldName} = $i{right}() :
                     macro @:pos(fn.pos) $i{right}($i{fieldName});
                   var dummy = macro class {
-                    @:noCompletion @:extern private function dummy() {
+                    #if !haxe4 @:extern #end @:noCompletion private function dummy() {
                       $expr;
                     }
                   };

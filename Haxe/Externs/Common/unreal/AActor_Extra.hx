@@ -104,7 +104,7 @@ extern class AActor_Extra {
 
 
 	/** Event when this actor is clicked by the mouse when using the clickable interface. */
-	public function NotifyActorOnClicked(?ButtonPressed:unreal.inputcore.FKey = unreal.inputcore.EKeys.LeftMouseButton) : Void;
+	public function NotifyActorOnClicked(@:opt(unreal.inputcore.EKeys.LeftMouseButton) ?ButtonPressed:unreal.inputcore.FKey) : Void;
 
 	public function TornOff() : Void;
 

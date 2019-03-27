@@ -507,9 +507,10 @@ class CreateCppia {
   private static function registerMacroCalls(target:String) {
     if (hasRun) return;
     hasRun = true;
+    #if !haxe4
     if (firstCompilation) {
       firstCompilation = false;
-      Globals.checkRegisteredMacro('script', function() {
+      Context.onMacroContextReused(function() {
         hasRun = false;
 
         trace('macro context reused');
@@ -517,6 +518,7 @@ class CreateCppia {
         return true;
       });
     }
+    #end
     Globals.cur.setHaxeRuntimeDir();
   }
 
