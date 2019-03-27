@@ -188,6 +188,7 @@ class CreateCppia {
     }
     Context.onGenerate(function(types) {
       Globals.callGenerateHooks(types);
+      LiveReloadBuild.onGenerate(gen);
       var metaDefs = Globals.cur.classesToAddMetaDef;
       if (metaDefs.length != 0) {
         throw 'assert: sanity check failed. there are still classesToAddMetaDef';

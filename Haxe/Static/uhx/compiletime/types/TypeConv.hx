@@ -1508,6 +1508,7 @@ class TypeConv {
 
       case t:
         trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
+        trace('Invalid type $t');
         throw new Error('Unreal Type: Invalid type $t', pos);
       }
     }

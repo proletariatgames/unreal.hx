@@ -247,6 +247,7 @@ class CreateGlue {
     var builtGlues = [];
     Context.onGenerate( function(gen) {
       Globals.callGenerateHooks(gen);
+      LiveReloadBuild.onGenerate(gen);
       if (Context.defined('WITH_CPPIA')) {
         MetaDefBuild.writeStaticDefs();
       }
@@ -439,13 +440,15 @@ class CreateGlue {
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {
+    return;
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
-          for (field in cl.fields.get())
+          for (field in cl.fields.get()) {
             Context.follow(field.type);
+          }
           for (field in cl.statics.get())
             Context.follow(field.type);
           var ctor = cl.constructor;
