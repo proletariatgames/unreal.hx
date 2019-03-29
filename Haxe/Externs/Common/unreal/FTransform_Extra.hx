@@ -38,6 +38,13 @@ extern class FTransform_Extra {
   public static function createNewWithValues(InRotation:FRotator, InTranslation:FVector) : POwnedPtr<FTransform>;
 
   @:thisConst
+  public function TransformVector(V:PRef<Const<FVector>>) : FVector;
+  @:thisConst
+  public function TransformVectorNoScale(V:PRef<Const<FVector>>) : FVector;
+
+  @:thisConst
+  public function InverseTransformVector(v:Const<PRef<FVector>>) : FVector;
+  @:thisConst
   public function InverseTransformVectorNoScale(v:Const<PRef<FVector>>) : FVector;
 
   @:thisConst
