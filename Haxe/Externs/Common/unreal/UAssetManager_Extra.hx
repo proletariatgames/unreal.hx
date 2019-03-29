@@ -8,4 +8,5 @@ extern class UAssetManager_Extra {
 	public function GetPrimaryAssetIdList(PrimaryAssetType:FPrimaryAssetType, PrimaryAssetIdList:PRef<TArray<FPrimaryAssetId>>) : Bool;
 	public function GetPrimaryAssetDataList(PrimaryAssetType:FPrimaryAssetType, PrimaryAssetList:PRef<TArray<unreal.assetregistry.FAssetData>>) : Bool;
 	@:thisConst public function GetPrimaryAssetIdForObject(Object:UObject) : FPrimaryAssetId;
+	@:typeName public function GetPrimaryAssetObjectClass<T : UObject>(PrimaryAssetId:Const<PRef<FPrimaryAssetId>>) : TSubclassOf<T>;
 }
