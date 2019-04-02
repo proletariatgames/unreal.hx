@@ -77,9 +77,8 @@ class ExternBaker {
                 if (joinMetas(module, target)) {
                   deps.setExtraFile(module.substr(0, module.length - '_Extra'.length));
                 }
-              } else {
-                filesToCompile[target.toLowerCase()] = { module:module, file:target, localExtern:first };
               }
+              filesToCompile[target.toLowerCase()] = { module:module, file:target, localExtern:first };
               break;
             }
             first = false;
@@ -138,7 +137,7 @@ class ExternBaker {
           var uname = switch(type) {
             case TInst(c,_):
               var c = c.get();
-              if (c.meta.has(':haxeGenerated')) {
+              if (c.meta.has(':haxeGenerated') || c.name.endsWith('_Extra')) {
                 continue;
               }
               pos = c.pos;
@@ -295,11 +294,12 @@ class ExternBaker {
     if (extraModule == null || extraModule.length == 0) {
       return false;
     }
-    if (extraModule.length > 1) {
-      throw new Error('The `_Extra` file should not declare any other type', pos);
+    var module = extraModule.find(function(m) return switch(m) { case TInst(_.get() => c, _): c.name.endsWith('_Extra'); case _: false; });
+    if (module == null) {
+      throw new Error('No `_Extra` class is defined in this module', pos);
     }
 
-    switch(Context.follow(extraModule[0])) {
+    switch(Context.follow(module)) {
     case TInst(_.get() => cextra,_):
       var moduleName = extraModuleName.substr(0,extraModuleName.length - '_Extra'.length);
       var modules = getModule(moduleName, pos);
@@ -660,7 +660,9 @@ class ExternBaker {
     var extraName = c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra';
     var extra = getModule(extraName, c.pos);
     if (extra != null && extra.length > 0) {
-      switch(extra[0]) {
+      var name = c.name + '_Extra';
+      var module = extra.find(function(m) return switch(m) { case TInst(_.get() => c, _): c.name == name; case _: false; });
+      switch(module) {
       case TInst(_.get() => ecl,_):
         getOptionals(ecl.meta.get(), this.optionals);
         var efields = ecl.fields.get();

@@ -821,7 +821,7 @@ unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal:
 
 				localKeyProp->CopySingleValueToScriptVM(NewElementKey, keyPtr);
 			},
-			[localValueProp, result, localMapLayout](void* NewElementValue)
+			[localValueProp, result, localMapLayout](void* NewElementValue) mutable
 			{
 				if (localValueProp->PropertyFlags & CPF_ZeroConstructor)
 				{
@@ -832,11 +832,11 @@ unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal:
 					localValueProp->InitializeValue(NewElementValue);
 				}
 
-				localValueProp->CopySingleValueToScriptVM(NewElementValue, result);
+        result = NewElementValue;
 			},
-			[localValueProp, result](void* ExistingElementValue)
+			[localValueProp, result](void* ExistingElementValue) mutable
 			{
-				localValueProp->CopySingleValueToScriptVM(ExistingElementValue, result);
+        result = ExistingElementValue;
 			},
 			[localKeyProp](void* ElementKey)
 			{
@@ -855,7 +855,7 @@ unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal:
 		);
   }
 
-  return getValueWithProperty(localValueProp, result);
+  return result != nullptr ? getValueWithProperty(localValueProp, result) : 0;
 }
 
 void uhx::TMapReflect_obj::set_Item(unreal::VariantPtr self, unreal::UIntPtr key, unreal::UIntPtr val) {
