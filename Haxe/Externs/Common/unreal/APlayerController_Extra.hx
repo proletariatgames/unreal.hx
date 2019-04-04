@@ -6,6 +6,9 @@ import unreal.inputcore.FKey;
 
 extern class APlayerController_Extra {
 
+	/** Input axes values, accumulated each tick. */
+	public var RotationInput:FRotator;
+
   public function InitInputSystem() : Void;
 	public function InputKey(Key:FKey, EventType:EInputEvent, AmountDepressed:Float32, bGamepad:Bool) : Bool;
 	public function InputTouch(Handle:FakeUInt32, Type:ETouchType, TouchLocation:Const<PRef<FVector2D>>, DeviceTimestamp:FDateTime, TouchpadIndex:FakeUInt32) : Bool;
@@ -112,4 +115,10 @@ extern class APlayerController_Extra {
 	 * @return true if player is muted, false otherwise
 	 */
 	public function IsPlayerMuted(PlayerId : Const<PRef<FUniqueNetId>>) : Bool;
+
+	/**
+	 * Updates the rotation of player, based on ControlRotation after RotationInput has been applied.
+	 * This may then be modified by the PlayerCamera, and is passed to Pawn->FaceRotation().
+	 */
+	public function UpdateRotation(DeltaTime:Float32) : Void;
 }
