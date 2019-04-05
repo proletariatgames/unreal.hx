@@ -1,7 +1,8 @@
 package uhx.expose;
 import unreal.*;
 
-@:uexpose @:keep class GcRefStatic {
+@:uexpose @:keep class GcRefStatic implements uhx.UExpose
+{
 
   public static function init():UIntPtr {
     return uhx.internal.HaxeHelpers.dynamicToPointer( uhx.internal.GcRoot.create(null) );

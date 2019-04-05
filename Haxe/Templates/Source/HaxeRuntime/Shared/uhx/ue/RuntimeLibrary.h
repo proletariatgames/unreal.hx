@@ -39,11 +39,6 @@ public:
   static int getHaxeGcRefOffset();
 
   /**
-   * Ensures that the code is called from the main thread
-   **/
-  static void ensureMainThread();
-
-  /**
    * Gets the GcRef size
    **/
   static int getGcRefSize();

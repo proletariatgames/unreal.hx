@@ -17,7 +17,7 @@ import uhx.internal.Helpers;
   inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5, unreal::UIntPtr arg6) { return callFunction7(ptr, arg0, arg1, arg2, arg3, arg4, arg5, arg6); }
   inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5, unreal::UIntPtr arg6, unreal::UIntPtr arg7) { return callFunction8(ptr, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
 ')
-@:uexpose @:keep class HxcppRuntime
+@:uexpose @:keep class HxcppRuntime implements uhx.UExpose
 {
   @:extern static inline function toDyn(ptr:UIntPtr) return HaxeHelpers.pointerToDynamic(ptr);
   @:extern static inline function toPtr(dyn:Dynamic) return HaxeHelpers.dynamicToPointer(dyn);
