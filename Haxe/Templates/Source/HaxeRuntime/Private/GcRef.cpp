@@ -1,13 +1,13 @@
 #include "HaxeRuntime.h"
 #include "CoreMinimal.h"
 #include "IntPtr.h"
-#include "HaxeInit.h"
+#include "uhx/AutoHaxeInit.h"
 #include "uhx/GcRef.h"
 #include "CoreGlobals.h"
 
 ::uhx::GcRef::GcRef() {
   if (!GIsRetrievingVTablePtr) {
-    check_hx_init();
+    AutoHaxeInit uhx_init;
     this->ref = ::uhx::expose::GcRefStatic::init();
   } else {
     this->ref = 0;
@@ -30,8 +30,8 @@
 }
 
 void ::uhx::GcRef::set(unreal::UIntPtr val) {
+  AutoHaxeInit uhx_init;
   if (this->ref == 0) {
-    check_hx_init();
     this->ref = ::uhx::expose::GcRefStatic::init();
   }
   ::uhx::expose::GcRefStatic::set(this->ref, val);

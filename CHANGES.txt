@@ -10,6 +10,7 @@
     taken off all Engine.h includes, making Unreal.hx strictly IWYU
     added `@:ualign` to allow custom alignment setting for an Unreal.hx-generated struct
     allow `OnRep_` functions to work just as `onRep_`
+    stacks are now registered and unregistered as needed, allowing foreign threads to call Haxe functions
 
     Bugfixes:
 

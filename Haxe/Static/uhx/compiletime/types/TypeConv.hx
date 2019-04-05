@@ -38,6 +38,32 @@ class TypeConv {
     consolidate();
   }
 
+  public static function changeCppName(name:String)
+  {
+    switch(name)
+    {
+      case 'asm' | 'else' | 'new' | 'this' |
+      'auto' | 'enum' | 'operator' | 'throw' |
+      'bool' | 'explicit' | 'private' | 'true' |
+      'break' | 'export' | 'protected' | 'try' |
+      'case' | 'extern' | 'public' | 'typedef' |
+      'catch' | 'false' | 'register' | 'typeid' |
+      'char' | 'float' | 'reinterpret_cast' | 'typename' |
+      'class' | 'for' | 'return' | 'union' |
+      'const' | 'friend' | 'short' | 'unsigned' |
+      'const_cast' | 'goto' | 'signed' | 'using' |
+      'continue' | 'if' | 'sizeof' | 'virtual' |
+      'default' | 'inline' | 'static' | 'void' |
+      'delete' | 'int' | 'static_cast' | 'volatile' |
+      'do' | 'long' | 'struct' | 'wchar_t' |
+      'double' | 'mutable' | 'switch' | 'while' |
+      'dynamic_cast' | 'namespace' | 'template':
+        return 'uhx_' + name;
+      case _:
+        return name;
+    }
+  }
+
   public function equivalentTo(other:TypeConv) {
     if (this == other) {
       return true;
@@ -1363,7 +1389,8 @@ class TypeConv {
             ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           }
         } else if (a.meta.has(':coreType')) {
-          Context.warning('Unreal Glue: Basic type $name is not supported', pos);
+          trace(isNoTemplate, cache[name], tl);
+          throw new Error('Unreal Glue: Basic type $name is not supported', pos);
         } else {
           switch(name) {
           case 'unreal.MethodPointer':
@@ -1550,6 +1577,7 @@ class TypeConv {
       "Float" => "double",
       "cpp.Int16" => "int16",
       "cpp.Int32" => "int32",
+      "cpp.Int64" => "int64",
       "cpp.Int8" => "int8",
       "cpp.UInt16" => "uint16",
       "cpp.UInt8" => "uint8",
@@ -1656,6 +1684,7 @@ class TypeConv {
     for (info in infos) {
       to[info.haxeType.toString()] = new TypeConv(CBasic(info));
     }
+    var charStar = new TypeRef(['cpp'], 'RawPointer', [new TypeRef('char', Const)]);
 
     infos = [
       // TCharStar
@@ -1672,6 +1701,29 @@ class TypeConv {
         glueToUeExpr:'UTF8_TO_TCHAR(::uhx::expose::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%)))',
         haxeToGlueExpr:'uhx.internal.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(uhx.internal.HaxeHelpers.pointerToDynamic( % ) : String)',
+      },
+      // cpp.ConstCharStar
+      {
+        haxeType: new TypeRef(['cpp'],'ConstCharStar'),
+        ueType: charStar,
+        glueType: charStar,
+      },
+      // VariantPtr
+      {
+        haxeType: variantPtr,
+        ueType: variantPtr,
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['VariantPtr.h']),
+      },
+      // UIntPtr
+      {
+        haxeType: uintPtr,
+        ueType: uintPtr,
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['IntPtr.h']),
+      },
+      {
+        haxeType: new TypeRef(['unreal'], 'IntPtr'),
+        ueType: new TypeRef(['unreal'], 'IntPtr'),
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['IntPtr.h']),
       },
       // AnsiCharStar
       {

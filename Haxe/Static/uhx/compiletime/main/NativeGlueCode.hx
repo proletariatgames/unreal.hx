@@ -336,6 +336,68 @@ class NativeGlueCode
     }
   }
 
+  public function prepareUExposeClass(cl:ClassType)
+  {
+    if (!cl.meta.has(':ifFeature')) {
+      cl.meta.add(':keep', [], cl.pos);
+    }
+    cl.meta.add(':nativeGen', [], cl.pos);
+    if (!cl.meta.has(':skipUExternCheck'))
+    {
+      throw new Error('The @:uexpose class ${cl.name} must implement uhx.UExpose', cl.pos);
+    }
+    var allClassCodes = new StringBuf();
+    var oldCode = cl.meta.extractStrings(':headerClassCode')[0];
+    if (oldCode != null)
+    {
+      cl.meta.remove(':headerClassCode');
+      oldCode += '\n';
+      allClassCodes.add(oldCode);
+    }
+    for (field in cl.statics.get())
+    {
+      if (field.meta.has(':extern'))
+      {
+        continue;
+      }
+      switch(Context.follow(field.type))
+      {
+      case TFun(args,ret):
+        var name = field.name;
+        var args = [ for (arg in args) { name:TypeConv.changeCppName(arg.name), t:TypeConv.get(arg.t, field.pos) }];
+        var ret = TypeConv.get(ret, field.pos);
+        allClassCodes.add('\t\tinline static ${ret.glueType.getCppType()} $name(');
+        var first = true;
+        args.pop(); // UExposeBuild will add a new argument so we are sure that C++ code will call our version
+        for (arg in args)
+        {
+          if (first)
+          {
+            first = false;
+          } else {
+            allClassCodes.add(', ');
+          }
+          allClassCodes.add(arg.t.glueType.getCppType() + ' ' + arg.name);
+        }
+        allClassCodes.add(') {\n\t\t\tAutoHaxeInit uhx_auto_init;\n\t\t\t');
+        if (!ret.ueType.isVoid())
+        {
+          allClassCodes.add('return ');
+        }
+        allClassCodes.add('$name(');
+        for (arg in args)
+        {
+          allClassCodes.add(arg.name);
+          allClassCodes.add(', ');
+        }
+        allClassCodes.add('true);\n\t\t}\n');
+      case _:
+      }
+    }
+    cl.meta.add(':headerInclude', [macro $v{'uhx/AutoHaxeInit.h'}], cl.pos);
+    cl.meta.add(':headerClassCode', [macro $v{allClassCodes.toString()}], cl.pos);
+  }
+
   public function onAfterGenerate() {
     if (Globals.cur.unrealSourceDir == null) return;
     var staticBaseDir:String = Globals.cur.staticBaseDir,
@@ -459,11 +521,8 @@ class NativeGlueCode
         }
         var hadGlue = glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath());
         if (cl.meta.has(':uexpose')) {
-          if (!cl.meta.has(':ifFeature')) {
-            cl.meta.add(':keep', [], cl.pos);
-          }
-          cl.meta.add(':nativeGen', [], cl.pos);
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
+          prepareUExposeClass(cl);
         }
         if (cl.meta.has(':ueGluePath') && !hadGlue ) {
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
