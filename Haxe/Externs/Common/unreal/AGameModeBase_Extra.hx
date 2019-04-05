@@ -44,5 +44,6 @@ extern class AGameModeBase_Extra {
   function GetDefaultPawnClassForController_Implementation(inController:unreal.AController) : unreal.UClass;
   function HandleStartingNewPlayer_Implementation(NewPlayer:unreal.APlayerController) : Void;
   @:thisConst public function MustSpectate_Implementation(NewPlayerController : unreal.APlayerController) : Bool;
+	private function FinishRestartPlayer(NewPlayer:unreal.AController, StartRotation:Const<PRef<unreal.FRotator>>) : Void;
 
 }
