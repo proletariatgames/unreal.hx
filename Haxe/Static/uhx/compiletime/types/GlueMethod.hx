@@ -748,13 +748,19 @@ class GlueMethod {
     if (meth.uname == '.equals')
       return [ { name:this.haxeArgs[0].name, type: this.thisConv.haxeType } ];
     var args:Array<MethodArg> = [ for (arg in this.haxeArgs) { name:arg.name, type: arg.t.haxeType, opt:arg.opt != null } ];
-    if (meth.params != null && meth.specialization == null) {
+    if (meth.params != null) {
       var helpers:Array<MethodArg> = [];
       for (param in meth.params) {
         var name = param.name + '_TP';
         helpers.push({ name:name, opt:true, type: new TypeRef(['unreal'], 'TypeParam', [new TypeRef(param.name)]) });
       }
-      args = helpers.concat(args);
+      if (helpers.length > 0 && meth.specialization != null && this.haxeArgs.length > 0 && this.haxeArgs[0].name == 'self' && this.haxeArgs[0].t == this.thisConv)
+      {
+        helpers.unshift(args[0]);
+        args = helpers.concat(args.slice(1));
+      } else if (helpers.length > 0) {
+        args = helpers.concat(args);
+      }
     }
     return args;
   }
