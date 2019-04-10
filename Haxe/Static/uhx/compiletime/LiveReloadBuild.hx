@@ -180,7 +180,7 @@ class LiveReloadBuild
         case t:
           throw 'assert: unexpected type $t for live class $clsPath';
       };
-      var hash = Globals.cur.liveHashes[clsPath];
+      var hash = getLiveHashFor(cls);
       if (hash == null)
       {
         throw 'assert: Class $clsPath is a live class but no hash was computed for it';

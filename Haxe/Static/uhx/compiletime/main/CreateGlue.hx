@@ -431,7 +431,6 @@ class CreateGlue {
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {
-    return;
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
