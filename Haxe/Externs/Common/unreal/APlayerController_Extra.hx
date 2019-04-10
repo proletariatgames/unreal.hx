@@ -6,13 +6,34 @@ import unreal.inputcore.FKey;
 
 extern class APlayerController_Extra {
 
+	/** Input axes values, accumulated each tick. */
+	public var RotationInput:FRotator;
+
   public function InitInputSystem() : Void;
 	public function InputKey(Key:FKey, EventType:EInputEvent, AmountDepressed:Float32, bGamepad:Bool) : Bool;
 	public function InputTouch(Handle:FakeUInt32, Type:ETouchType, TouchLocation:Const<PRef<FVector2D>>, DeviceTimestamp:FDateTime, TouchpadIndex:FakeUInt32) : Bool;
 	public function InputAxis(Key:FKey, Delta:Float32, DeltaTime:Float32, NumSamples:Int32, bGamepad:Bool) : Bool;
 	public function InputMotion(Tilt:Const<PRef<FVector>>, RotationRate:Const<PRef<FVector>>, Gravity:Const<PRef<FVector>>, Acceleration:Const<PRef<FVector>>) : Bool;
 
-  public function GetNextViewablePlayer(dir:Int32) : APlayerState;
+	/**
+	 * Called on client during seamless level transitions to get the list of Actors that should be moved into the new level
+	 * PlayerControllers, Role < ROLE_Authority Actors, and any non-Actors that are inside an Actor that is in the list
+	 * (i.e. Object.Outer == Actor in the list)
+	 * are all automatically moved regardless of whether they're included here
+	 * only dynamic actors in the PersistentLevel may be moved (this includes all actors spawned during gameplay)
+	 * this is called for both parts of the transition because actors might change while in the middle (e.g. players might join or leave the game)
+	 * @see also GameModeBase::GetSeamlessTravelActorList() (the function that's called on servers)
+	 * @param bToEntry true if we are going from old level -> entry, false if we are going from entry -> new level
+	 * @param ActorList (out) list of actors to maintain
+	 */
+	public function GetSeamlessTravelActorList(bToEntry:Bool, ActorList:PRef<TArray<AActor>>) : Void;
+	/**
+	 * Called after this player controller has transitioned through seamless travel, but before that player is initialized
+	 * This is called both when a new player controller is created, and when it is maintained
+	 */
+	public function PostSeamlessTravel() : Void;
+
+	public function GetNextViewablePlayer(dir:Int32) : APlayerState;
 
   public function SetPause(bPause:Bool) : Bool;
 
@@ -94,4 +115,10 @@ extern class APlayerController_Extra {
 	 * @return true if player is muted, false otherwise
 	 */
 	public function IsPlayerMuted(PlayerId : Const<PRef<FUniqueNetId>>) : Bool;
+
+	/**
+	 * Updates the rotation of player, based on ControlRotation after RotationInput has been applied.
+	 * This may then be modified by the PlayerCamera, and is passed to Pawn->FaceRotation().
+	 */
+	public function UpdateRotation(DeltaTime:Float32) : Void;
 }

@@ -95,55 +95,12 @@ class CreateCppia {
       Context.getType('uhx.meta.MetaDataHelper');
     }
 
-    var compiledGenerics = new Map(),
-        finalized = false;
+    var finalized = false;
     Context.onAfterTyping(function(types) {
       if (types.exists(function(t) return Std.string(t) == 'TClassDecl(uhx.compiletime.main.CreateCppia)')) {
         return; // macro context
       }
       Globals.cur.hasUnprocessedTypes = false;
-      for (t in types) {
-        var genericType = null,
-            pos = null,
-            name = null;
-
-        switch(t) {
-        case TClassDecl(cl):
-          var c = cl.get();
-          pos = c.pos;
-          if (c.meta.has(':ueHasGenerics')) {
-            name = cl.toString();
-            genericType = TInst(cl, [ for (param in c.params) param.t ]);
-          }
-        case TAbstract(at):
-          var a = at.get();
-          pos = a.pos;
-          if (a.meta.has(':ueHasGenerics')) {
-            name = a.impl.toString();
-            genericType = TAbstract(at, [ for (param in a.params) param.t ]);
-          }
-        case _:
-        }
-        if (genericType != null) {
-          var glueGeneric = TypeRef.fromType(genericType, pos).getGlueHelperType().getClassPath();
-          glueGeneric += 'Generic';
-          var ret = new Map();
-          try {
-            switch(Context.getType(glueGeneric)) {
-            case TInst(c,_):
-              for (field in c.get().statics.get()) {
-                ret[field.name] = true;
-              }
-            case _:
-            }
-
-          }
-          catch(e:Dynamic) {
-          }
-
-          compiledGenerics[name] = ret;
-        }
-      }
 
       if (!finalized && !Globals.cur.hasUnprocessedTypes) {
         finalized = true;
@@ -250,18 +207,6 @@ class CreateCppia {
               }
             }
             addFileDep(Context.getPosInfos(c.pos).file);
-            if (!Context.defined('UHX_DISPLAY')) {
-              var genericFields = compiledGenerics[name];
-              for (field in c.fields.get().concat(c.statics.get())) {
-                if (field.meta.has(':genericInstance')) {
-                  if (genericFields == null || !genericFields.exists(field.name)) {
-                    Context.warning('UHXERR: The generic field implementation ${field.name} was not ' +
-                        'compiled into the latest C++ compilation. Please perform a full C++ compilation - ' +
-                        'otherwise this call will fail', field.pos);
-                  }
-                }
-              }
-            }
             if (isExtern) {
               var name = TypeRef.fastClassPath(c);
               if (c.isInterface || compiled.exists(name)) {

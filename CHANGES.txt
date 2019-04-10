@@ -10,6 +10,7 @@
     taken off all Engine.h includes, making Unreal.hx strictly IWYU
     added `@:ualign` to allow custom alignment setting for an Unreal.hx-generated struct
     allow `OnRep_` functions to work just as `onRep_`
+    stacks are now registered and unregistered as needed, allowing foreign threads to call Haxe functions
 
     Bugfixes:
 
@@ -20,6 +21,7 @@
     fixed DCE collecting unused Haxe-generated delegates
     fixed multiple compilation detection issues
     fixed `Ref<UObject>` / `Ref<PPtr<FStruct>>`
+    reworked the template system to not use @:generic anymore, which stabilizes the dependency chain - so any change doesn't trigger a full haxe build
 
 
   Deprecation:

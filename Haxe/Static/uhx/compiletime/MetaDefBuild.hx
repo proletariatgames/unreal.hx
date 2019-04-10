@@ -157,6 +157,9 @@ class MetaDefBuild {
             func.isCompiled = true;
             func.metas.push({ name:'UnrealHxExpose', isMeta: true });
           }
+          if (field.meta.has(':thisConst') && func.metas != null && func.metas.exists(function(meta) return meta.name.toLowerCase() == 'blueprintcallable')) {
+            func.metas.push({ name: 'BlueprintPure', isMeta: false });
+          }
           var relevantMeta = null;
           if (metas.length > 0) {
             relevantMeta = [for (meta in metas) if (!meta.isMeta) meta];

@@ -5,8 +5,6 @@ import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
 using haxe.macro.Tools;
-
-class UObject {} // trick to avoid triggering build macros
 #else
 import unreal.UObject;
 import unreal.Wrapper;

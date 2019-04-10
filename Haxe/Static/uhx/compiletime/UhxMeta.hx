@@ -62,6 +62,12 @@ package uhx.compiletime;
   **/
   var UCompiled = ':ucompiled';
 
+  /**
+    A list of generated signatures inside a statically-compiled class. It defines these signatures so they can be checked
+    when compiling cppia through `compiledScriptGluesExists`
+  **/
+  var UGenerated = ":ugenerated";
+
 
   /**
     Returns whether the metadata changes how a class/property/function is compiled in C++

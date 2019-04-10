@@ -38,6 +38,32 @@ class TypeConv {
     consolidate();
   }
 
+  public static function changeCppName(name:String)
+  {
+    switch(name)
+    {
+      case 'asm' | 'else' | 'new' | 'this' |
+      'auto' | 'enum' | 'operator' | 'throw' |
+      'bool' | 'explicit' | 'private' | 'true' |
+      'break' | 'export' | 'protected' | 'try' |
+      'case' | 'extern' | 'public' | 'typedef' |
+      'catch' | 'false' | 'register' | 'typeid' |
+      'char' | 'float' | 'reinterpret_cast' | 'typename' |
+      'class' | 'for' | 'return' | 'union' |
+      'const' | 'friend' | 'short' | 'unsigned' |
+      'const_cast' | 'goto' | 'signed' | 'using' |
+      'continue' | 'if' | 'sizeof' | 'virtual' |
+      'default' | 'inline' | 'static' | 'void' |
+      'delete' | 'int' | 'static_cast' | 'volatile' |
+      'do' | 'long' | 'struct' | 'wchar_t' |
+      'double' | 'mutable' | 'switch' | 'while' |
+      'dynamic_cast' | 'namespace' | 'template':
+        return 'uhx_' + name;
+      case _:
+        return name;
+    }
+  }
+
   public function equivalentTo(other:TypeConv) {
     if (this == other) {
       return true;
@@ -145,6 +171,119 @@ class TypeConv {
     typeHasLoaded[name] = true;
   }
 #end
+
+  private static function dataToShortString(data:TypeConvData):String
+  {
+    switch(data)
+    {
+    case CBasic(info):
+      var ret = switch(info.ueType.name) {
+        case 'bool':
+          'B';
+        case 'int8':
+          'I8';
+        case 'uint8':
+          'U8';
+        case 'int16':
+          'I16';
+        case 'uint16':
+          'U16';
+        case 'int32':
+          'I32';
+        case 'uint32':
+          'U32';
+        case 'int64':
+          'I64';
+        case 'uint64':
+          'U64';
+        case 'float':
+          'F';
+        case 'double':
+          'FD';
+        case 'void':
+          'V';
+        case _:
+          'B' + info.ueType.name;
+      }
+      if (ret == null)
+      {
+        ret = 'B' + info.ueType.name;
+      }
+      return ret;
+    case CSpecial(info):
+      return 'S' + info.haxeType.name;
+    case CUObject(_, flags, info):
+      var ret = 'U';
+      if (flags.hasAny(OWeak))
+      {
+        ret += 'w';
+      }
+      if (flags.hasAny(OAutoWeak))
+      {
+        ret += 'a';
+      }
+      if (flags.hasAny(OSubclassOf))
+      {
+        ret += 's';
+      }
+      if (flags.hasAny(OScriptInterface))
+      {
+        ret += 'i';
+      }
+      return ret + info.ueType.name;
+    case CEnum(_, flags, info):
+      if (flags.hasAny(EEnumAsByte))
+      {
+        return 'BE' + info.ueType.name;
+      }
+      return 'E' + info.ueType.name;
+    case CStruct(_, _, info, params):
+      var p = params == null ? '' : ('_' + params.map(function(p) return p.toShortString()).join('a'));
+      return 'S' + info.ueType.name + p;
+    case CPtr(of, isRef):
+      return (isRef ? 'R' : 'P') + of.toShortString();
+    case CLambda(args, ret):
+      return 'L' + [for (arg in args) arg.toShortString()].join('_') + 'r' + ret.toShortString();
+    case CMethodPointer(cls, args, ret):
+      return 'M' + cls + [for (arg in args) arg.toShortString()].join('_') + 'r' + ret.toShortString();
+    case CTypeParam(name,kind):
+      var ret = 'T';
+      switch(kind)
+      {
+        case PSubclassOf:
+          ret += 's';
+        case PWeak:
+          ret += 'w';
+        case PAutoWeak:
+          ret += 'a';
+        case PNone:
+      }
+      return ret + name;
+    }
+  }
+
+  public function toShortString():String
+  {
+    var ret = dataToShortString(this.data).replace('__', '_');
+    if (this.modifiers != null)
+    {
+      for (modf in this.modifiers)
+      {
+        switch(modf)
+        {
+          case Ptr:
+            ret = 'p' + ret;
+          case Ref:
+            ret = 'r' + ret;
+          case Const:
+            ret = 'c' + ret;
+          case Marker:
+            ret = 'm' + ret;
+        }
+      }
+    }
+    return ret;
+  }
 
   public function toUPropertyDef():Null<UPropertyDef> {
     var name:Null<String> = null,
@@ -1363,7 +1502,8 @@ class TypeConv {
             ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           }
         } else if (a.meta.has(':coreType')) {
-          Context.warning('Unreal Glue: Basic type $name is not supported', pos);
+          trace(isNoTemplate, cache[name], tl);
+          throw new Error('Unreal Glue: Basic type $name is not supported', pos);
         } else {
           switch(name) {
           case 'unreal.MethodPointer':
@@ -1550,6 +1690,7 @@ class TypeConv {
       "Float" => "double",
       "cpp.Int16" => "int16",
       "cpp.Int32" => "int32",
+      "cpp.Int64" => "int64",
       "cpp.Int8" => "int8",
       "cpp.UInt16" => "uint16",
       "cpp.UInt8" => "uint8",
@@ -1656,6 +1797,7 @@ class TypeConv {
     for (info in infos) {
       to[info.haxeType.toString()] = new TypeConv(CBasic(info));
     }
+    var charStar = new TypeRef(['cpp'], 'RawPointer', [new TypeRef('char', Const)]);
 
     infos = [
       // TCharStar
@@ -1672,6 +1814,29 @@ class TypeConv {
         glueToUeExpr:'UTF8_TO_TCHAR(::uhx::expose::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%)))',
         haxeToGlueExpr:'uhx.internal.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(uhx.internal.HaxeHelpers.pointerToDynamic( % ) : String)',
+      },
+      // cpp.ConstCharStar
+      {
+        haxeType: new TypeRef(['cpp'],'ConstCharStar'),
+        ueType: charStar,
+        glueType: charStar,
+      },
+      // VariantPtr
+      {
+        haxeType: variantPtr,
+        ueType: variantPtr,
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['VariantPtr.h']),
+      },
+      // UIntPtr
+      {
+        haxeType: uintPtr,
+        ueType: uintPtr,
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['IntPtr.h']),
+      },
+      {
+        haxeType: new TypeRef(['unreal'], 'IntPtr'),
+        ueType: new TypeRef(['unreal'], 'IntPtr'),
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['IntPtr.h']),
       },
       // AnsiCharStar
       {

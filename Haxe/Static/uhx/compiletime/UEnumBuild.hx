@@ -71,7 +71,6 @@ class UEnumBuild
           return uhx.internal.HaxeHelpers.dynamicToPointer( $i{arrCreateName}.arr );
         }
       };
-      expose.meta.push({ name:':uexpose', pos:enumType.pos });
       var ifFeature:MetadataEntry = { name:':ifFeature', params:[macro $v{typeRef.getClassPath(true) + '.*'}], pos:enumType.pos };
       expose.meta.push(ifFeature);
       createArr.meta.push(ifFeature);
@@ -80,6 +79,9 @@ class UEnumBuild
       expose.pack = ['uhx','enums'];
       Globals.cur.hasUnprocessedTypes = true;
       Context.defineType(createArr);
+      expose.meta.push({ name:':uexpose', pos:enumType.pos });
+      expose.meta.push({ name:':skipUExternCheck', pos:enumType.pos });
+      UExposeBuild.changeFields(null, expose.fields);
       Context.defineType(expose);
 
       var writer = new HeaderWriter(headerPath);

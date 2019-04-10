@@ -178,7 +178,7 @@ import uhx.StructInfo;
       finalize(this);
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;
     } else if (m_flags.hasAny(Disposed)) {
-      throw 'Cannot dispose $this: It was already disposed';
+      trace('Error', 'Cannot dispose $this: It was already disposed');
     } else {
       m_flags |= Disposed;
     }

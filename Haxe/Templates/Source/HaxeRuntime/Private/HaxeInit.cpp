@@ -1,5 +1,6 @@
 #include "HaxeRuntime.h"
 #include "HaxeInit.h"
+#include "IntPtr.h"
 #include "Core.h"
 #include "HAL/PlatformAtomics.h"
 #include <cstdio>
@@ -24,7 +25,7 @@
 
 #define UHX_CAS(Dest, Exchange, Comparand) FPlatformAtomics::InterlockedCompareExchange((volatile int32*) Dest, Exchange, Comparand)
 
-extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
+extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inPush);
 extern "C" const char *hxRunLibrary();
 // void __scriptable_load_cppia(String inCode);
 
@@ -41,6 +42,19 @@ extern "C" const char *hxRunLibrary();
   #define GET_TLS_VALUE(name) FPlatformTLS::GetTlsValue(name)
   #define SET_TLS_VALUE(name, value) FPlatformTLS::SetTlsValue(name, value)
 #endif
+
+namespace TlsRegisterEnum
+{
+  enum Value {
+    NotRegistered = 0,
+    RegLocally,
+    RegLocallyAndWrapped,
+    #if WITH_EDITOR
+    RegGlobally,
+    RegGloballyAndWrapped,
+    #endif
+  };
+}
 
 static void *get_top_of_stack(void)
 {
@@ -67,44 +81,101 @@ static void *get_top_of_stack(void)
 }
 
 static volatile uint32 gDidInit = 0;
-DECLARE_FAST_TLS(tlsDidInit);
+DECLARE_FAST_TLS(tlsRegistered);
 
-void check_hx_init()
+static bool uhx_init_if_needed(void *top_of_stack)
 {
-  bool firstInit = true;
   if (gDidInit || UHX_CAS(&gDidInit, 1, 0) != 0) {
-    // check if the thread was registered
-    if (!GET_TLS_VALUE(tlsDidInit)) {
-      SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
-    } else {
-      return;
+    if (GET_TLS_VALUE(tlsRegistered)) {
+      // we are currently initializing in the main thread
+      return false;
     }
-    while (gDidInit == 1) {
+
+    while (gDidInit != 2) {
       // spin while waiting for the initialization to finish
       FPlatformProcess::Sleep(0.01f);
     }
-
-    firstInit = false;
-  } else {
-    // main thread needs TLS too
-    SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
+    return false;
   }
 
   // This code will execute after your module is loaded into memory (but after global variables are initialized, of course.)
-  int x;
-  void *top_of_stack = get_top_of_stack();
-  if (NULL == top_of_stack)
-  {
-    UE_LOG(HaxeLog, Error, TEXT("Currently unsupported Haxe runtime platform. Trying to get approximate stack size"));
-    top_of_stack = &x;
-  }
 
 #ifdef WITH_HAXE
+  #if WITH_EDITOR
+  SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegGlobally);
+  top_of_stack = get_top_of_stack();
+  #else
+  SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocally);
+  #endif
+
   gc_set_top_of_stack((int *)top_of_stack, false);
-  if (firstInit) {
-    const char *error = hxRunLibrary();
-    if (error) { UE_LOG(HaxeLog, Fatal, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
-  }
+  const char *error = hxRunLibrary();
+  if (error) { UE_LOG(HaxeLog, Fatal, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
 #endif
   gDidInit = 2;
+  return true;
+}
+
+bool uhx_start_stack(void *top_of_stack)
+{
+  if (gDidInit != 2 && uhx_init_if_needed(top_of_stack))
+  {
+    #if WITH_EDITOR
+    return false; // it was registered globally
+    #else
+    return true;
+    #endif
+  }
+
+  if (!GET_TLS_VALUE(tlsRegistered))
+  {
+    #ifdef WITH_HAXE
+    gc_set_top_of_stack((int*) top_of_stack, false);
+    #endif
+    SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocally);
+
+    return true;
+  }
+
+  return false;
+}
+
+bool uhx_needs_wrap()
+{
+  unreal::IntPtr reg = (unreal::IntPtr) GET_TLS_VALUE(tlsRegistered);
+  switch(reg)
+  {
+    case TlsRegisterEnum::RegLocallyAndWrapped:
+    #if WITH_EDITOR
+    case TlsRegisterEnum::RegGloballyAndWrapped:
+    #endif
+      return false;
+    case TlsRegisterEnum::RegLocally:
+      SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocallyAndWrapped);
+      return true;
+    #if WITH_EDITOR
+    case TlsRegisterEnum::RegGlobally:
+      SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegGloballyAndWrapped);
+      return true;
+    #endif
+    default:
+      UE_LOG(HaxeLog, Fatal, TEXT("uhx_needs_wrap was called before Haxe stack was registered (value %d)"), (int) reg);
+      return true;
+  }
+}
+
+void uhx_end_stack()
+{
+  #if WITH_EDITOR
+  if (GET_TLS_VALUE(tlsRegistered) >= (void*) (unreal::IntPtr) TlsRegisterEnum::RegGlobally)
+  {
+    UE_LOG(HaxeLog, Fatal, TEXT("uhx_end_stack called on a global stack"));
+  }
+  #endif
+
+  #ifdef WITH_HAXE
+  gc_set_top_of_stack(0, false);
+  #endif
+
+  SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::NotRegistered);
 }

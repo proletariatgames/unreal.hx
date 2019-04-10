@@ -7,17 +7,7 @@ import unreal.FPlatformMisc;
   This allows us to make all haxe code run inside a try handler so we can have better error messages
  **/
 @:keep class HaxeCodeDispatcher {
-  private static var inHaxeCode = false;
-
-  @:extern inline public static function ensureMainThread()
-  {
-    #if !UHX_NO_UOBJECT
-    uhx.ue.RuntimeLibrary.ensureMainThread();
-    #end
-  }
-
   @:extern inline public static function runWithValue<T>(fn:Void->T, ?name:String):T {
-    ensureMainThread();
     #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
     return fn();
     #else
@@ -37,7 +27,6 @@ import unreal.FPlatformMisc;
   }
 
   @:extern inline public static function runVoid(fn:Void->Void, ?name:String):Void {
-    ensureMainThread();
     #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
     fn();
     #else
@@ -54,20 +43,15 @@ import unreal.FPlatformMisc;
     #end
   }
 
-  public static function shouldWrap():Bool {
+  private static function shouldWrap():Bool {
     #if (UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
     return false;
     #else
-    var ret = !inHaxeCode;
-    if (ret) {
-      inHaxeCode = true;
-    }
-    return ret;
+    return uhx.ue.HaxeInit.needsWrap();
     #end
   }
 
-  inline public static function endWrap() {
-    inHaxeCode = false;
+  inline private static function endWrap() {
   }
 
   public static function showError(exc:Dynamic, stack:Array<StackItem>, name:String) {
