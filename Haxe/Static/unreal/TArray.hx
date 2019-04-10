@@ -10,12 +10,10 @@ import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
 using haxe.macro.Tools;
-
-private typedef TArrayImpl<T> = Dynamic;
 #end
 
 @:keep
-@:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> #if !bake_externs to unreal.Struct to unreal.VariantPtr #end {
+@:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> #if (!bake_externs && !macro) to unreal.Struct to unreal.VariantPtr #end {
 #if (!bake_externs && !macro)
 
   public var length(get,never):Int;
@@ -290,18 +288,26 @@ private typedef TArrayImpl<T> = Dynamic;
       quicksort( arr, i, hi, f, isRef );
     }
   }
+
+  /**
+    Returns a copy of the current TArray
+  **/
+  inline public function copy():TArray<T>
+  {
+    return cast this.copy();
+  }
 #end
 
   macro public static function create(?tParam:Expr) : Expr {
-    return macro unreal.TArrayImpl.create($tParam);
+    return macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.create($tParam);
   }
 
   macro public static function createNew(?tParam:Expr) : Expr {
-    return macro unreal.TArrayImpl.createNew($tParam);
+    return macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.createNew($tParam);
   }
 
   macro public function copyCreate(self:Expr, ?tParam:Expr) : Expr {
-    return macro unreal.TArrayImpl.copyCreate($tParam, $self);
+    return macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.copyCreate($tParam, $self);
   }
 
   macro public function map(eThis:Expr, funct:Expr) : Expr {
@@ -337,7 +343,7 @@ private typedef TArrayImpl<T> = Dynamic;
       default: throw new Error('funct must be a function', funct.pos);
     }
 
-    return macro {
+    return macro @:pos(haxe.macro.Context.currentPos()) {
       var tmp:unreal.TArray<$returnType> = unreal.TArrayImpl.create();
       for (value in $eThis) {
         if ($funct(value)) {
@@ -364,9 +370,9 @@ private typedef TArrayImpl<T> = Dynamic;
           throw new Error('The full type of the iterable must be known. Make sure it\'s fully typed', array.pos);
         }
         var tparam = type.toComplexType();
-        macro unreal.TArrayImpl.create(new unreal.TypeParam<$tparam>());
+        macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.create(new unreal.TypeParam<$tparam>());
       case _:
-        macro unreal.TArrayImpl.create($tparam);
+        macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.create($tparam);
     };
     return macro @:pos(array.pos) {
       var ret = $createStatement;
@@ -396,6 +402,7 @@ private typedef TArrayImpl<T> = Dynamic;
 #end
 }
 
+#if !macro
 class TArrayIterator<T> {
   public var ar:TArray<T>;
   public var idx:Int;
@@ -419,3 +426,4 @@ class TArrayIterator<T> {
     return this.ar.get_Item(this.idx++);
   }
 }
+#end

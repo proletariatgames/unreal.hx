@@ -87,9 +87,6 @@ class CreateGlue {
           case TAbstract(a):
             var a = a.get();
             addFileDep(Context.getPosInfos(a.pos).file, false);
-            if (a.meta.has(':ueHasGenerics')) {
-              cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
-            }
           case TClassDecl(c):
             var c = c.get();
             if (!c.meta.has(':scriptGlue')) {
@@ -186,15 +183,9 @@ class CreateGlue {
               switch(type) {
               case TInst(c,_):
                 var cl = c.get();
-                if (cl.meta.has(':ueHasGenerics')) {
-                  GenericFuncBuild.buildFunctions(c);
-                }
               case TAbstract(a,_):
                 var a = a.get();
                 var cl = a.impl.get();
-                if (a.meta.has(':ueHasGenerics')) {
-                  GenericFuncBuild.buildFunctions(a.impl);
-                }
               case _:
                 throw 'assert';
               }
