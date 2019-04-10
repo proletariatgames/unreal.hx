@@ -15,6 +15,9 @@ using uhx.compiletime.tools.MacroHelpers;
   It should be called as a `--macro` command-line option.
  **/
 class CreateGlue {
+  #if haxe4
+  @:persistent
+  #end
   static var firstCompilation = true;
   static var hasRun = false;
   static var lastScriptPaths:Array<String>;
@@ -235,6 +238,7 @@ class CreateGlue {
     var builtGlues = [];
     Context.onGenerate( function(gen) {
       Globals.callGenerateHooks(gen);
+      LiveReloadBuild.onGenerate(gen);
       if (Context.defined('WITH_CPPIA')) {
         MetaDefBuild.writeStaticDefs();
       }
@@ -349,7 +353,8 @@ class CreateGlue {
     hasRun = true;
     if (firstCompilation) {
       firstCompilation = false;
-      Globals.checkRegisteredMacro('static', function() {
+      #if !haxe4
+      Context.onMacroContextReused(function() {
         // trace('macro context reused');
         hasRun = false;
         // we need to add these classpaths again
@@ -363,6 +368,7 @@ class CreateGlue {
         Globals.reset();
         return true;
       });
+      #end
 
       if (Context.defined('WITH_CPPIA')) {
         var clsDef = macro class StaticMetaData {};
@@ -430,8 +436,9 @@ class CreateGlue {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
-          for (field in cl.fields.get())
+          for (field in cl.fields.get()) {
             Context.follow(field.type);
+          }
           for (field in cl.statics.get())
             Context.follow(field.type);
           var ctor = cl.constructor;

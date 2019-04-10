@@ -47,7 +47,7 @@ package unreal;
    * @param InExtension Package extension.
    * @return Package filename.
    */
-  static function TryConvertLongPackageNameToFilename(InLongPackageName:Const<PRef<FString>>, OutFilename:PRef<FString>, InExtension:Const<PRef<FString>> = ""):Bool;
+  static function TryConvertLongPackageNameToFilename(InLongPackageName:Const<PRef<FString>>, OutFilename:PRef<FString>, @:opt("") ?InExtension:Const<PRef<FString>>):Bool;
   /**
    * Converts a long package name to a file name with the supplied extension.
    *
@@ -55,7 +55,7 @@ package unreal;
    * @param InExtension Package extension.
    * @return Package filename.
    */
-  static function LongPackageNameToFilename(InLongPackageName:Const<PRef<FString>>, InExtension:Const<PRef<FString>> = ""):FString;
+  static function LongPackageNameToFilename(InLongPackageName:Const<PRef<FString>>, @:opt("") ?InExtension:Const<PRef<FString>>):FString;
   /**
    * Returns the path to the specified package, excluding the short package name
    *

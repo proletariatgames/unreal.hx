@@ -145,6 +145,7 @@ class CreateCppia {
     }
     Context.onGenerate(function(types) {
       Globals.callGenerateHooks(types);
+      LiveReloadBuild.onGenerate(types);
       var metaDefs = Globals.cur.classesToAddMetaDef;
       if (metaDefs.length != 0) {
         throw 'assert: sanity check failed. there are still classesToAddMetaDef';
@@ -412,9 +413,10 @@ class CreateCppia {
   private static function registerMacroCalls(target:String) {
     if (hasRun) return;
     hasRun = true;
+    #if !haxe4
     if (firstCompilation) {
       firstCompilation = false;
-      Globals.checkRegisteredMacro('script', function() {
+      Context.onMacroContextReused(function() {
         hasRun = false;
 
         trace('macro context reused');
@@ -422,6 +424,7 @@ class CreateCppia {
         return true;
       });
     }
+    #end
     Globals.cur.setHaxeRuntimeDir();
   }
 }

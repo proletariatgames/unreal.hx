@@ -29,6 +29,7 @@ class UStructBuild {
         expr = e;
         sup = superType;
       case _:
+        trace('Unreal Struct Build: Invalid format for UnrealStruct: SelfType must be the typedef that defines it, and a type definition must be specified');
         throw new Error('Unreal Struct Build: Invalid format for UnrealStruct: SelfType must be the typedef that defines it, and a type definition must be specified', pos);
     }
 

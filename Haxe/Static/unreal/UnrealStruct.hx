@@ -25,5 +25,5 @@ package unreal;
   ```
  **/
 @:genericBuild(uhx.compiletime.UStructBuild.build())
-class UnrealStruct<Rest> {
+class UnrealStruct<@:rest Rest> {
 }

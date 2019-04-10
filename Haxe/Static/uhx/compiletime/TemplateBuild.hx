@@ -95,7 +95,7 @@ class TemplateBuild
         case TFun(args,ret):
           for (arg in args.slice(cf.params.length))
           {
-            fargs.push({ name:arg.name, t:TypeConv.get(arg.t, pos), opt:null });
+            fargs.push({ name:arg.name, t:TypeConv.get(arg.t, pos), opt:arg.opt ? macro null : null });
           }
           fret = TypeConv.get(ret, pos);
         case _:
@@ -174,6 +174,7 @@ class TemplateBuild
             glueCls.fields.push(field.glue);
             Context.defineType(glueCls);
           }
+          Globals.cur.hasUnprocessedTypes = true;
           Context.defineType(cls);
         } else {
           if (!Globals.cur.compiledScriptGluesExists(target.toString() + ":" + sig)) {
@@ -181,14 +182,24 @@ class TemplateBuild
             Context.warning('UHXERR: The templated function $functionName<$tparamsString> from $target was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', pos);
           }
           // cppia just needs to check the types
+          var args:Array<FunctionArg> = [];
           if (!isStatic)
           {
-            fargs.unshift({ name:'uhx_this', t:TypeConv.get(et_this.t, pos), opt:null });
+            args.push({ name:'uhx_this', type:TypeConv.get(et_this.t, pos).haxeType.toComplexType(), opt:false });
+          }
+          for (i in 0...tparams.length)
+          {
+            var tparam = tparams[i];
+            args.push({ name:'TP_$i', type:new TypeRef(['unreal'], 'TypeParam', [tparam.haxeType]).toComplexType(), opt: true });
+          }
+          for (arg in fargs)
+          {
+            args.push({ name:arg.name, type:arg.t.haxeType.toComplexType() });
           }
           var field:Field = {
             name:"run",
             kind: FFun({
-              args:[ for (arg in fargs) { name:arg.name, type:arg.t.haxeType.toComplexType() }],
+              args:args,
               ret: fret.haxeType.toComplexType(),
               expr:null
             }),
@@ -200,6 +211,7 @@ class TemplateBuild
           cls.pack = target.pack;
           cls.name = target.name;
           cls.isExtern = true;
+          Globals.cur.hasUnprocessedTypes = true;
           Context.defineType(cls);
         }
         type = Context.getType(target.toString());
@@ -210,9 +222,9 @@ class TemplateBuild
       {
         callArgs.push(ethis);
       }
-      for (targ in targs.slice(cf.params.length))
+      for (arg in args)
       {
-        callArgs.push(Context.storeTypedExpr(targ));
+        callArgs.push(arg);
       }
       return { expr:ECall(field, callArgs), pos:pos };
     case r:

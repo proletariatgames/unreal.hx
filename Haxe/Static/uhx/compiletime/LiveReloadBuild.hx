@@ -50,9 +50,22 @@ class LiveReloadBuild
     if (hadChanges)
     {
       var cls = macro class {
-        @:compilerGenerated @:noCompletion static var uhx_live_hash(default, null) = uhx.compiletime.LiveReloadBuild.getLiveHash();
+        @:compilerGenerated @:noCompletion static var uhx_live_hash(get, null):String;
+
+        @:compilerGenerated @:noCompletion inline static function get_uhx_live_hash():String
+        {
+          if (uhx_live_hash != null)
+          {
+            return uhx_live_hash;
+          } else {
+            return uhx_live_hash = haxe.rtti.Meta.getType($i{base.name}).uhxLiveHash[0];
+          }
+        }
       };
-      fields.push(cls.fields[0]);
+      for (field in cls.fields)
+      {
+        fields.push(field);
+      }
       return true;
     } else {
       return false;
@@ -133,6 +146,25 @@ class LiveReloadBuild
     }
   }
 
+  public static function onGenerate(types:Array<Type>)
+  {
+    for (t in types)
+    {
+      var cls = switch(t) {
+        case TInst(c,_): c.get();
+        case TAbstract(a,_):
+          var impl = a.get().impl;
+          impl != null ? impl.get() : null;
+        case _: null;
+      };
+      if (cls != null && cls.meta.has(':hasLiveReload'))
+      {
+        // ensure it's built
+        getLiveHashFor(cls);
+      }
+    }
+  }
+
   public static function createBindFunctionsMain(mainPath:String)
   {
     var block = [];
@@ -148,7 +180,7 @@ class LiveReloadBuild
         case t:
           throw 'assert: unexpected type $t for live class $clsPath';
       };
-      var hash = Globals.cur.liveHashes[clsPath];
+      var hash = getLiveHashFor(cls);
       if (hash == null)
       {
         throw 'assert: Class $clsPath is a live class but no hash was computed for it';
@@ -335,7 +367,7 @@ class LiveReloadBuild
 
   public static function getLiveHashFor(cls:ClassType)
   {
-    var ret = cls.meta.extractStrings(':liveHash');
+    var ret = cls.meta.extractStrings('uhxLiveHash');
     if (ret != null && ret[0] != null)
     {
       return ret[0];
@@ -346,7 +378,6 @@ class LiveReloadBuild
     {
       if (!field.kind.match(FMethod(MethInline)) && !field.meta.has(':compilerGenerated'))
       {
-        // fields.push({ name:field.name, isStatic:isStatic, type:typeStr(field.type) });
         fields.push('${isStatic ? "static " : ""}${field.name}:${typeStr(field.type)}');
       }
     }
@@ -361,7 +392,7 @@ class LiveReloadBuild
     fields.sort(function(v1, v2) return Reflect.compare(v1, v2));
 
     var ret = Context.signature(fields);
-    cls.meta.add(':liveHash', [macro $v{ret}], cls.pos);
+    cls.meta.add('uhxLiveHash', [macro $v{ret}], cls.pos);
     return ret;
   }
 #end
