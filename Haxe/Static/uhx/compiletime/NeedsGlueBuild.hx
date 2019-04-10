@@ -57,12 +57,6 @@ class NeedsGlueBuild
     }
     var thisType = TypeRef.fromBaseType(cls, cls.pos);
 
-    if (Globals.registeredNumPath == null) {
-      trace('Internal error: Registered num path is null (compilation server related?)');
-    } else {
-      Context.registerModuleDependency(cls.module, Globals.registeredNumPath);
-    }
-
     var disableUObject = Context.defined('UHX_NO_UOBJECT');
     if (disableUObject) {
       var cur = cls;
@@ -221,6 +215,7 @@ class NeedsGlueBuild
 
     var methodPtrs = new Map();
     var usesCppia = Context.defined('cppia') || Context.defined("WITH_CPPIA");
+    var clsName = type.pack.join('_') + '_' + type.name;
     for (field in fields) {
       if (field.kind.match(FFun(_)) && usesCppia) {
         var needsStatic = field.meta.hasMeta(':uexpose');
@@ -229,7 +224,7 @@ class NeedsGlueBuild
         }
         if (needsStatic) {
           var dummy = macro class {
-            @:extern @:noUsing @:noCompletion inline private function dummy() {
+            #if !haxe4 @:extern #end @:noUsing @:noCompletion inline private function dummy() {
               $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
             }
           };
@@ -239,54 +234,26 @@ class NeedsGlueBuild
         }
       }
 
-      if (field.access != null && field.access.has(AOverride)) {
+      if (field.access != null && (field.access.has(AOverride) || field.meta.hasMeta(':hasSuper'))) {
         field.meta.push({ name:':keep', pos:field.pos });
         // TODO: should we check for non-override fields as well? This would
         //       add some overhead for all override fields, which is something I'd like to avoid for now
         //       specially since super calling in other fields doesn't seem particularly useful
         switch (field.kind) {
         case FFun(fn) if (fn.expr != null):
+          var fnName = field.name;
+
+          var hasSuper = false;
           function map(e:Expr) {
             return switch (e.expr) {
             case ECall(macro super.$sfield, args):
               superCalls[sfield] = { expr: EConst(CString(sfield)), pos:e.pos };
               var args = [ for (arg in args) map(arg) ];
               changed = true;
-              var ret = null;
-              if (field.meta.hasMeta(':live') && Globals.cur.staticModules.exists(type.module) && !Context.defined('cppia')) {
-                // regardless if the super points to a haxe superclass or not,
-                // we will need to be able to call it through a static function
-                var fn = findSuperField(sfield);
-                // get function arguments
-                if (fn == null) {
-                  Context.warning('Field calls super but no super field with name $sfield', e.pos);
-                  hadErrors = true;
-                } else {
-                  switch(Context.follow(fn.type)) {
-                  case TFun(fnargs,fnret):
-                    var name = field.name + '__supercall_' + type.name;
-                    var isVoid = fnret.match(TAbstract(_.get() => { name:'Void', pack:[] }, _));
-                    var expr = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{name}].concat([for (arg in fnargs) macro $i{arg.name}])), pos:e.pos };
-                    toAdd.push({
-                      name: name,
-                      kind: FFun({
-                        args: [ for (arg in fnargs) { name: arg.name, opt: arg.opt, type: arg.t.toComplexType() } ],
-                        ret: fnret.toComplexType(),
-                        expr: isVoid ? expr : macro return $expr,
-                      }),
-                      pos: e.pos
-                    });
-                    ret = { expr:ECall(macro @:pos(e.pos) this.$name, args), pos:e.pos };
-                  case _:
-                    Context.warning('Super cannot be called on non-method members', e.pos);
-                    hadErrors = true;
-                  }
-                }
-              }
-              if (ret == null) {
-                ret = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{sfield}].concat(args)), pos:e.pos };
-              }
-              ret;
+              var name = field.name + '_super_' + clsName;
+              hasSuper = true;
+              // { expr:ECall(macro @:pos(e.pos) $i{name}, args), pos:field.pos };
+              { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{sfield}].concat(args)), pos:e.pos };
             case _:
               e.map(map);
             }
@@ -294,6 +261,28 @@ class NeedsGlueBuild
           var shouldMap = !Context.defined('cppia') || Globals.cur.inScriptPass || !Globals.cur.staticModules.exists(type.module);
           if (shouldMap) {
             fn.expr = map(fn.expr);
+          }
+          if (false)
+          {
+            superCalls[fnName] = { expr: EConst(CString(fnName)), pos:field.pos };
+            var args = [ for (i in 0...fn.args.length) macro @:pos(field.pos) $i{'arg$i'} ];
+            var superCall = { expr:ECall(macro @:pos(field.pos) $delayedglue.getSuperExpr, [macro $v{fnName}, macro $v{fnName + '_super_' + clsName}].concat(args)), pos:field.pos };
+            toAdd.push({
+              name: field.name + '_super_' + clsName,
+              pos: field.pos,
+              access: [APrivate],
+              meta: [{ name:':noCompletion', pos:field.pos }],
+              kind: FFun({
+                args: [for (i in 0...fn.args.length) {
+                  name: 'arg$i',
+                  opt: fn.args[i].opt,
+                  type: null
+                }],
+                ret: fn.ret,
+
+                expr: superCall
+              })
+            });
           }
         case _:
         }
@@ -589,7 +578,7 @@ class NeedsGlueBuild
                     macro @:pos(fn.pos) $i{fieldName} = $i{right}() :
                     macro @:pos(fn.pos) $i{right}($i{fieldName});
                   var dummy = macro class {
-                    @:noCompletion @:extern private function dummy() {
+                    #if !haxe4 @:extern #end @:noCompletion private function dummy() {
                       $expr;
                     }
                   };
@@ -658,7 +647,7 @@ class NeedsGlueBuild
         nativeCalls.set('setupFunction', 'setupFunction');
       }
     }
-    if (Context.defined('cppia')) {
+    if (Context.defined('cppia') && !Context.defined('LIVE_RELOAD_BUILD')) {
       var def = macro class {
         @:noCompletion static var uhx_glueScript(get,null):Dynamic;
         @:noCompletion static function get_uhx_glueScript():Dynamic {
@@ -687,39 +676,22 @@ class NeedsGlueBuild
       // Haxe-defined USTRUCTs are handled specially in DelayedGlue
     }
 
+    if (hadErrors)
+      Context.error('Unreal Glue Extension: Build failed', type.pos);
+    changed = uhx.compiletime.LiveReloadBuild.injectProloguesForFields(type, fields) || changed;
+    var meta = { name:':compilerGenerated', params:[], pos:type.pos };
+
     // add the glueRef definition if needed
     for (field in toAdd) {
+      if (field.meta == null)
+      {
+        field.meta = [meta];
+      } else {
+        field.meta.push(meta);
+      }
       fields.push(field);
     }
 
-    var created = false;
-    if (Context.defined('cppia') || Context.defined('WITH_CPPIA')) {
-      for (field in fields) {
-        if (field.meta.hasMeta(':live')) {
-          switch(field.kind) {
-          case FFun(fn) if (fn.params == null || fn.params.length == 0):
-            if (!created) {
-              created = true;
-              Globals.cur.liveReloadFuncs[thisType.getClassPath()] = new Map();
-            }
-            var name = thisType.getClassPath() + '::' + field.name;
-            var isStatic = field.access != null ? field.access.has(AStatic) : false;
-            var retfn:Function = {
-              args: isStatic ? fn.args : [{ name:'_self', type: TPath({ pack:[], name:type.name }) }].concat(fn.args),
-              ret: fn.ret,
-              expr: fn.expr
-            };
-            var expr = { expr:EFunction(null, retfn), pos:field.pos};
-            fn.expr = macro uhx.internal.LiveReload.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
-            changed = true;
-          case _:
-          }
-        }
-      }
-    }
-
-    if (hadErrors)
-      Context.error('Unreal Glue Extension: Build failed', type.pos);
     if (toAdd.length > 0 || changed)
       return fields;
     return null;

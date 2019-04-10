@@ -120,7 +120,11 @@ typedef UhxBuildConfig = {
   ?noGlueUnityBuild:Bool,
 
   /**
-    The port which the compilation server must use
+    The port which the compilation server must use. Note that due to issues of reusing the same
+    compilation server for both C++ and Cppia builds, setting this will make Unreal.hx use it
+    for the hxcpp compilation; For cppia, it will use instead `compilationServer + 1`.
+
+    So make sure that both servers are on and waiting if cppia is being used!
    **/
   ?compilationServer:Null<Int>,
 
@@ -185,6 +189,11 @@ typedef UhxBuildConfig = {
     Ignores the static/cppia build checks and always build them
   **/
   ?alwaysBuild:BuildKind,
+
+  /**
+    When set, enables live reload code
+  **/
+  ?liveReload:Bool,
 
   //#region vscode
   /**

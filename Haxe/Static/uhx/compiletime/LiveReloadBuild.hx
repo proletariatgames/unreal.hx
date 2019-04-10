@@ -1,200 +1,407 @@
 package uhx.compiletime;
+#if macro
+import uhx.compiletime.types.TypeRef;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
-import uhx.compiletime.types.TypeRef;
-
+using uhx.compiletime.tools.MacroHelpers;
 using haxe.macro.Tools;
 using Lambda;
+#end
 
-/**
-  Build live reload functions. This is done by storing the typed expression of the function to a big map,
-  and change each function body to instead access that map, and call the function directly
- **/
-class LiveReloadBuild {
-  public static function build(expr:Expr, cls:String, fn:String, isStatic:Bool):Expr {
-    trace('Registering module dependency ${Context.getLocalModule()}');
-    Context.registerModuleDependency(Context.getLocalModule(), 
-      "this file is not expected to exist, and is only in here to 
-      guarantee that this is rebuilt every compilation because of 
-      live reload");
-
-    var path = '$cls::$fn';
-    // get typed expr
-    if (!isStatic) {
-      switch(expr.expr) {
-      case EFunction(_,fn):
-        fn.expr = macro { var __this_var = this; ${fn.expr} };
-      case _:
-        throw new Error('assert: should be function (hot reload)', expr.pos);
-      }
-    }
-    var texpr = Context.typeExpr(expr);
-    var args = null, ret = null;
-    switch(texpr.expr) {
-      case TFunction(fn):
-        args = fn.args;
-        ret = fn.t;
-      case _:
-        throw 'assert';
+class LiveReloadBuild
+{
+#if macro
+  public static function injectPrologues():Array<Field>
+  {
+    var cur:BaseType = switch(Context.follow(Context.getLocalType())) {
+      case TInst(c,_): c.get();
+      case TAbstract(a,_): a.get();
+      case _: return null;
     };
-    if (!isStatic) {
-      var _self = args[0].v;
-      var thisVar = null;
-      // change all this reference to '_self'
-      function map(texpr:TypedExpr):TypedExpr {
-        return switch(texpr.expr) {
-        case TVar(v, { expr:TLocal(local) }) if(v.name == '__this_var' && thisVar == null):
-          thisVar = local;
-          texpr.expr = TVar(v, null);
-          texpr;
-        case TConst(TThis):
-          { expr:TLocal(_self), pos:texpr.pos, t:_self.t };
-        case TLocal(v) if (thisVar != null && v.id == thisVar.id):
-          { expr:TLocal(_self), pos:texpr.pos, t:_self.t };
-        case _:
-          texpr.map(map);
-        }
-      }
-      texpr = map(texpr);
-    }
-    // store this so it can be later built into LiveReload
-    var clst = Context.getLocalClass().get();
-    var base:BaseType = clst;
-    switch(clst.kind) {
-    case KAbstractImpl(a):
-      base = a.get();
-    case _:
-    }
-    if (!(base.meta.has(':uscript') && base.meta.has(':ustruct') && !Context.defined('cppia') && Context.defined('WITH_CPPIA'))) {
-      // if this is a ustruct, we don't want to set its contents on non-cppia context
-      Globals.cur.liveReloadFuncs[cls][fn] = texpr;
-    }
-    // change all expression to call LiveReload with the correct types
-    switch(Context.follow(texpr.t)) {
-    case TFun(args,ret):
-      var livereload = macro uhx.LiveReload.reloadableFuncs[$v{path}];
-      var callArgs = args;
-      if (!isStatic) {
-        args[0].name = 'this';
-      }
-      var call = { expr:ECall(livereload, [ for (arg in args) macro $i{arg.name} ]), pos:texpr.pos };
-      var block = null;
-      if (!Context.follow(ret).match(TAbstract(_.get() => { name:'Void', pack:[] },_))) {
-        // is not void
-        var type = ret.toComplexType();
-        block = macro {
-          var ret : $type = $call;
-          return ret;
-        };
+    var fields = Context.getBuildFields();
+    return injectProloguesForFields(cur, fields) ? fields : null;
+  }
+
+  public static function injectProloguesForFields(base:BaseType, fields:Array<Field>):Bool
+  {
+    var onlyLive = false;
+    base.meta.add(':hasLiveReload', [], base.pos);
+    if (!(Context.defined('WITH_LIVE_RELOAD') && !Context.defined('LIVE_RELOAD_BUILD')))
+    {
+      if (Context.defined('WITH_CPPIA') || Context.defined('cppia'))
+      {
+        onlyLive = true;
       } else {
-        block = call;
+        return false;
       }
-      return block;
-    case _:
-      throw 'assert'; // error early on
+    }
+
+    var hadChanges = false;
+    for (field in fields)
+    {
+      if (onlyLive && !field.meta.hasMeta(':live'))
+      {
+        continue;
+      }
+
+      hadChanges = injectPrologue(base, field) || hadChanges;
+    }
+    if (hadChanges)
+    {
+      var cls = macro class {
+        @:compilerGenerated @:noCompletion static var uhx_live_hash(get, null):String;
+
+        @:compilerGenerated @:noCompletion inline static function get_uhx_live_hash():String
+        {
+          if (uhx_live_hash != null)
+          {
+            return uhx_live_hash;
+          } else {
+            return uhx_live_hash = haxe.rtti.Meta.getType($i{base.name}).uhxLiveHash[0];
+          }
+        }
+      };
+      for (field in cls.fields)
+      {
+        fields.push(field);
+      }
+      return true;
+    } else {
+      return false;
     }
   }
 
-  public static function bindFunctions(clname:String) {
-    var expr = [];
-    var map = Globals.cur.liveReloadFuncs;
-    var toDelete = [];
-    for (cls in map.keys()) {
-      var exists = false;
-      try {
-        // test if the type exists first - otherwise it was deleted and we shouldn't add it
-        switch(Context.follow(Context.getType(cls))) {
-        case TInst(c,_):
-          var c = c.get();
-          if (!Context.defined('cppia') && c.meta.has(':uscript')) {
-            continue;
-          }
-        case _:
+  static function injectPrologue(base:BaseType, field:Field):Bool
+  {
+    switch(field.kind)
+    {
+    case FFun(fn) if (fn.expr != null && (field.access == null || !field.access.has(AInline))):
+      if (field.meta.hasMeta(':live'))
+      {
+        // this meta means that this function will be reloaded even in a normal cppia build
+        var name = TypeRef.fastClassPath(base);
+        var funcs = Globals.cur.explicitLiveReloadFunctions[name];
+        if (funcs == null)
+        {
+          Globals.cur.explicitLiveReloadFunctions[name] = funcs = [];
         }
-        exists = true;
-      } catch(e:Dynamic) {
-        trace('Type was deleted: $cls');
-        toDelete.push(cls);
+        funcs.push({ functionName: field.name });
       }
-      if (exists) {
-        var curMap = map[cls];
-        for (fn in curMap.keys()) {
-          var key = '$cls::$fn';
-          var texpr = Context.storeTypedExpr(curMap[fn]);
-          expr.push(macro uhx.LiveReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
+      var fieldName = field.name;
+      var name = base.pack.join('.') + '.' + base.name + '::' + fieldName;
+      var isStatic = field.access != null && field.access.has(AStatic);
+      var expr = macro uhx__live;
+      var start = [];
+      if (!isStatic)
+      {
+        start.push(macro this);
+      }
+      expr = { expr:ECall(expr, start.concat([for (param in fn.args) macro $i{param.name}])), pos:expr.pos };
+      var hasReturnType = switch(fn.ret) {
+        case null:
+          var found = false;
+          var result = false;
+          function iter(e:Expr)
+          {
+            switch(e.expr)
+            {
+              case EReturn(v):
+                found = true;
+                result = v != null;
+              case EFunction(_):
+                // dont look here, that's another function!
+              case _:
+                if (!found)
+                {
+                  e.iter(iter);
+                }
+            }
+          }
+          iter(fn.expr);
+          result;
+        case TPath({ pack:[], name:'Void' }):
+          false;
+        case _:
+          true;
+      }
+      if (hasReturnType)
+      {
+        expr = { expr:EReturn(expr), pos:expr.pos };
+      }
+      var curClass = base.name;
+      var ret = macro {
+        var uhx__live = uhx.runtime.LiveReloadFuncs.getReloadableFunction($v{name}, $i{curClass}.uhx_live_hash);
+        if (uhx__live != null)
+        {
+          $expr;
+        } else {
+          ${fn.expr};
         }
+      };
+      fn.expr = ret;
+      return true;
+    case _:
+      return false;
+    }
+  }
+
+  public static function onGenerate(types:Array<Type>)
+  {
+    for (t in types)
+    {
+      var cls = switch(t) {
+        case TInst(c,_): c.get();
+        case TAbstract(a,_):
+          var impl = a.get().impl;
+          impl != null ? impl.get() : null;
+        case _: null;
+      };
+      if (cls != null && cls.meta.has(':hasLiveReload'))
+      {
+        // ensure it's built
+        getLiveHashFor(cls);
       }
     }
-    for (del in toDelete) {
-      map.remove(del);
+  }
+
+  public static function createBindFunctionsMain(mainPath:String)
+  {
+    var block = [];
+    var liveReloadFuncs = Globals.cur.explicitLiveReloadFunctions;
+    for (clsPath in liveReloadFuncs.keys())
+    {
+      var type = Context.getType(clsPath);
+      var cls:ClassType = switch(type) {
+        case TInst(c,_):
+          c.get();
+        case TAbstract(a,_):
+          a.get().impl.get();
+        case t:
+          throw 'assert: unexpected type $t for live class $clsPath';
+      };
+      var hash = Globals.cur.liveHashes[clsPath];
+      if (hash == null)
+      {
+        throw 'assert: Class $clsPath is a live class but no hash was computed for it';
+      }
+      var funcs = [ for (func in liveReloadFuncs[clsPath]) func.functionName => true ];
+      for (field in cls.fields.get())
+      {
+        if (funcs.exists(field.name))
+        {
+          createFunctionBinding(block, field, false, cls, clsPath, hash);
+        }
+      }
+      for (field in cls.statics.get())
+      {
+        if (funcs.exists(field.name))
+        {
+          createFunctionBinding(block, field, true, cls, clsPath, hash);
+        }
+      }
     }
 
-    var expr = { expr:EBlock(expr), pos: Context.currentPos() };
     var cls = macro class {
-      @:keep public static function bindFunctions() {
-        $expr;
+      public static function bindFunctions()
+      {
+        $b{block};
       }
     };
-    cls.name = clname;
-    cls.pack = ['uhx'];
-    Globals.cur.hasUnprocessedTypes = true;
+    var path = mainPath.split('.');
+    cls.name = path.pop();
+    cls.pack = path;
     Context.defineType(cls);
   }
 
-  public static function changeField(thisType:TypeRef, field:Field, toAdd:Array<Field>) {
-    switch(field.kind) {
-    case FFun(fn) if (fn.params == null || fn.params.length == 0):
-      if (field.access != null && field.access.has(AOverride)) {
-        var added = false;
-        function mapExpr(e:Expr) {
-          switch(e.expr) {
-          case ECall(macro super.$fieldName, args):
-            var name = 'uhx_super_${field.name}_${thisType.name}';
-            if (!added) {
-              added = true;
-              var i = 0,
-                  j = 0;
-              toAdd.push({
-                name: name,
-                doc: null,
-                kind: FFun({
-                  args: [for (_ in args) { name:'uhx_arg_${i++}', type:null }],
-                  ret: null,
-                  expr: {
-                    expr:EReturn({
-                      expr: ECall(macro super.$fieldName, [for (_ in args) { expr:EConst(CIdent('uhx_arg_${j++}')), pos:e.pos }]),
-                      pos: e.pos
-                    }),
-                    pos: e.pos
-                  }
-                }),
-                pos:e.pos,
-              });
-            }
-            return { expr:ECall(macro this.$name, args), pos:e.pos };
-          case _:
-            return e.map(mapExpr);
+  public static function createFunctionBinding(intoBlock:Array<Expr>, field:ClassField, isStatic:Bool, cls:BaseType, clsPath:String, hash:String)
+  {
+    switch(field.kind)
+    {
+      case FMethod(MethInline):
+        return;
+      case FVar(_):
+        return;
+      case FMethod(_):
+    }
+    if (field.meta.has(':compilerGenerated'))
+    {
+      return;
+    }
+    var expr = Context.storeTypedExpr(changeTypedExpr(field.expr(), isStatic ? null : clsPath));
+    var funcName = cls.pack.join('.') + '.' + cls.name + '::' + field.name;
+    intoBlock.push(macro uhx.runtime.LiveReloadFuncs.registerFunction($v{funcName}, $v{hash}, $expr));
+  }
+
+  private static function changeTypedExpr(expr:TypedExpr, thisClass:String)
+  {
+    var v = null;
+    if (thisClass != null)
+    {
+      v = switch(Context.typeExpr(Context.parse('var uhx__live_this:$thisClass', expr.pos)).expr) {
+        case TVar(v, _):
+          v;
+        case e:
+          throw 'assert $e';
+      };
+    }
+    switch(expr.expr)
+    {
+      case TFunction(tf):
+        if (thisClass != null)
+        {
+          tf.args.unshift({ v: v, value:null });
+          switch(Context.follow(expr.t))
+          {
+            case TFun(a,ret):
+              a.unshift({ t:v.t, opt:false, name:'uhx__live_this' });
+              expr.t = TFun(a, ret);
+            case _:
+              throw 'assert';
           }
         }
-        fn.expr = mapExpr(fn.expr);
-      }
-
-      var map = Globals.cur.liveReloadFuncs[thisType.getClassPath()];
-      if (map == null) {
-        map = new Map();
-        Globals.cur.liveReloadFuncs[thisType.getClassPath()] = map;
-      }
-      var name = thisType.getClassPath() + '::' + field.name;
-      var isStatic = field.access != null ? field.access.has(AStatic) : false;
-      var retfn:Function = {
-        args: isStatic ? fn.args : [{ name:'_self', type: TPath({ pack:[], name:thisType.name }) }].concat(fn.args),
-        ret: fn.ret,
-        expr: fn.expr
-      };
-      var expr = { expr:EFunction(null, retfn), pos:field.pos};
-      fn.expr = macro uhx.internal.LiveReload.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
-    case _:
+        var local = TLocal(v);
+        function map(e:TypedExpr)
+        {
+          return switch(e.expr)
+          {
+            case TConst(TThis):
+              if (thisClass == null)
+              {
+                throw 'Found a `this` on a static function $thisClass';
+              }
+              e.expr = local;
+              e;
+            case TVar(v, _) if (v.name == 'uhx__live'):
+              { expr:TBlock([]), t:e.t, pos:e.pos };
+            case TIf({ expr:TBinop(OpNotEq, { expr:TLocal({ name:"uhx__live"})}, { expr:TConst(TNull) })}, eif, eelse):
+              map(eelse);
+            case _:
+              e.map(map);
+          }
+        }
+        tf.expr = map(tf.expr);
+      case e:
+        throw new Error('Unexpected expression $e when changing live function. Function expected', expr.pos);
     }
+    return expr;
+  }
+
+  public static function saveLiveHashes(name:String)
+  {
+    var out = Globals.cur.staticBaseDir + '/Data/$name';
+    var liveHashes = Globals.cur.liveHashes;
+    var buf = new StringBuf();
+    for (cls in liveHashes.keys())
+    {
+      var hash = liveHashes[cls];
+      buf.add('$cls=$hash\n');
+    }
+    sys.io.File.saveContent(out, buf.toString());
+  }
+
+  public static function loadLiveHashes(name:String, intoMap:Map<String, String>)
+  {
+    var out = Globals.cur.staticBaseDir + '/Data/$name';
+    if (!sys.FileSystem.exists(out))
+    {
+      trace('The live hash file $out was not found. No compile-time live function checks will be made');
+      return;
+    }
+
+    for (kv in sys.io.File.getContent(out).split('\n'))
+    {
+      if (kv.length == 0)
+      {
+        continue;
+      }
+      var idx = kv.indexOf('=');
+      var cls = kv.substr(0, idx);
+      var hash = kv.substr(idx + 1);
+      intoMap[cls] = hash;
+    }
+  }
+
+  private static function typeStr(t:Type)
+  {
+    var fieldStr = null;
+    while (t != null && fieldStr == null)
+    {
+      switch(t)
+      {
+      case TInst(c,[]):
+        fieldStr = c.toString();
+      case TEnum(e,[]):
+        fieldStr = e.toString();
+      case TAbstract(a,[]):
+        fieldStr = a.toString();
+      case TType(t,[]):
+        fieldStr = t.toString();
+      case TInst(c,tl):
+        fieldStr = c.toString() + '<' + tl.map(typeStr).join(',') + '>';
+      case TEnum(e,tl):
+        fieldStr = e.toString() + '<' + tl.map(typeStr).join(',') + '>';
+      case TAbstract(a,tl):
+        fieldStr = a.toString() + '<' + tl.map(typeStr).join(',') + '>';
+      case TType(t,tl):
+        fieldStr = t.toString() + '<' + tl.map(typeStr).join(',') + '>';
+      case TAnonymous(anon):
+        fieldStr = anon.toString();
+      case TFun(a,ret):
+        fieldStr = Std.string([ for (arg in a) typeStr(arg.t) ]) + '->' + typeStr(ret);
+      case TDynamic(_):
+        fieldStr = 'Dynamic';
+      case TMono(mono):
+        t = mono.get();
+      case TLazy(lazy):
+        t = lazy();
+      }
+    }
+    if (fieldStr == 'Void')
+    {
+      // coalesce some TMono differences on cppia / non-cppia builds
+      return null;
+    }
+    return fieldStr;
+  }
+
+  public static function getLiveHashFor(cls:ClassType)
+  {
+    var ret = cls.meta.extractStrings('uhxLiveHash');
+    if (ret != null && ret[0] != null)
+    {
+      return ret[0];
+    }
+
+    var fields = [];
+    inline function handleField(isStatic:Bool, field:ClassField)
+    {
+      if (!field.kind.match(FMethod(MethInline)) && !field.meta.has(':compilerGenerated'))
+      {
+        fields.push('${isStatic ? "static " : ""}${field.name}:${typeStr(field.type)}');
+      }
+    }
+    for (field in cls.fields.get())
+    {
+      handleField(false, field);
+    }
+    for (field in cls.statics.get())
+    {
+      handleField(true, field);
+    }
+    fields.sort(function(v1, v2) return Reflect.compare(v1, v2));
+
+    var ret = Context.signature(fields);
+    cls.meta.add('uhxLiveHash', [macro $v{ret}], cls.pos);
+    return ret;
+  }
+#end
+
+  macro public static function getLiveHash()
+  {
+    var cls = Context.getLocalClass().get();
+    var hash = getLiveHashFor(cls);
+    Globals.cur.liveHashes[TypeRef.fastClassPath(cls)] = hash;
+    return macro $v{hash};
   }
 }

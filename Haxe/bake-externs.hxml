@@ -1,8 +1,0 @@
-# this file is only here to provide IDE completion information
-# to the extern processor
--cp Static
--cpp bin/externs
---no-output
-
--D use_rtti_doc
--D bake_externs

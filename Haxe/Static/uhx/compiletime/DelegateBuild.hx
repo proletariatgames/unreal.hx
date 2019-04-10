@@ -55,13 +55,8 @@ class DelegateBuild {
     var isExtern = false;
     var delayedglue = macro @:pos(pos) uhx.internal.DelayedGlue;
     if (Context.defined('cppia')) {
-      if (Globals.cur.staticModules.exists(Context.getLocalModule())) {
-        delayedglue = macro cast null;
-        isExtern = true;
-      } else if (type != 'DynamicDelegate' && type != 'DynamicMulticastDelegate') {
-        delayedglue = macro cast null;
-        isExtern = true;
-      }
+      delayedglue = macro cast null;
+      isExtern = true;
     }
 
     var def = null;
@@ -395,9 +390,24 @@ class DelegateBuild {
     def.pack = ['uhx','delegates'];
     def.isExtern = isExtern;
     def.pos = pos;
+    var f:Field = null;
 #if bake_externs
     meta.push({ name:':udelegate', params:[macro (_:$sup)], pos:pos });
     def.kind = TDClass();
+    #if haxe4
+    for (field in def.fields)
+    {
+      switch(field.kind)
+      {
+        case FFun(fn):
+          if (field.access == null || !field.access.has(AInline))
+          {
+            fn.expr = null;
+          }
+        case _:
+      }
+    }
+    #end
     def.isExtern = true;
 #else
     var parents =[macro : unreal.VariantPtr, macro : unreal.Struct, sup];

@@ -209,7 +209,7 @@ class ExprGlueBuild {
     }
     var field = sup == null ? null : findField(sup.t.get(), fieldName, false);
     if (field == null) {
-      throw new Error('Unreal Glue Generation: Field calls super but no field was found on super class', pos);
+      throw new Error('Unreal Glue Generation: Field "$fieldName" calls super but no field was found on super class', pos);
     }
     checkSuper(field);
     var fargs = null, fret = null;
@@ -295,7 +295,7 @@ class ExprGlueBuild {
     case _:
     }
     if (meta.has(':uscript') && !script) {
-      var expr = getSuperExpr(fieldName, targetFieldName, [for (arg in origArgs) macro $i{arg.name} ], true);
+      var expr = getSuperExpr(fieldName, targetFieldName, args, true);
       flagCurrentField(targetFieldName, cls, false, expr, sig);
     }
     return ret;

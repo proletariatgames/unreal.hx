@@ -1,4 +1,9 @@
 package uhx.build;
+#if macro
+import haxe.macro.Context;
+import haxe.macro.Expr;
+using haxe.macro.Tools;
+#end
 
 class MacroHelper {
   macro public static function getDefines() {
@@ -13,10 +18,57 @@ class MacroHelper {
         'haxe3' | 'haxe4' | 'true':
         // ignore
         case _:
-          exprs.push(macro $v{key} => $v{defines[key]});
+          if (key.indexOf('target.') != 0)
+          {
+            exprs.push(macro $v{key} => $v{defines[key]});
+          }
       }
     }
     return { expr:EArrayDecl(exprs), pos:haxe.macro.Context.currentPos() };
+  }
+
+  macro public static function getArgs(type:haxe.macro.Expr, args:ExprOf<haxe.DynamicAccess<String>>)
+  {
+    var t = type.toString();
+    var block = [];
+    block.push(Context.parse('var ret:$t = cast {}', Context.currentPos()));
+    switch (Context.followWithAbstracts(Context.getType(t)))
+    {
+      case TAnonymous(fields):
+        for (field in fields.get().fields)
+        {
+          var expr = null;
+          var name = switch(Context.followWithAbstracts(field.type))
+          {
+            case TAbstract(a, _):
+              a.toString();
+            case TInst(c,_):
+              c.toString();
+            case _:
+              'unsupported';
+          }
+          var arg = macro $args[$v{field.name}];
+          switch(name)
+          {
+            case 'Bool':
+              expr = macro $arg == 'true' || $arg == '1';
+            case 'Int':
+              expr = macro Std.parseInt($arg);
+            case 'Float':
+              expr = macro Std.parseFloat($arg);
+            case 'String':
+              expr = macro $arg;
+            case _:
+              expr = macro try haxe.Json.parse($arg) catch(e:Dynamic) { trace('Error while parsing "' + $v{field.name} + '" ' + $arg + ' : ' + e ); null; };
+          }
+          var fieldName = field.name;
+          block.push(macro if ($args.exists($v{fieldName})) { ret.$fieldName = $expr; });
+        }
+      case type:
+        throw new Error('Invalid type $type for $t', Context.currentPos());
+    }
+    block.push(macro ret);
+    return macro $b{block};
   }
 
   macro public static function getIgnoreArgs() {

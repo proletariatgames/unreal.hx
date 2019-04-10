@@ -20,7 +20,7 @@ class GenerateProjectFiles extends UhxBaseBuild {
       log('Skipping vscode project generation');
       return;
     }
-    var vscodeDir = data.rootDir + '/.vscode';
+    var vscodeDir = data.projectDir + '/.vscode';
     if (!FileSystem.exists(vscodeDir)) {
       FileSystem.createDirectory(vscodeDir);
     }

@@ -15,6 +15,9 @@ using uhx.compiletime.tools.MacroHelpers;
   It should be called as a `--macro` command-line option.
  **/
 class CreateGlue {
+  #if haxe4
+  @:persistent
+  #end
   static var firstCompilation = true;
   static var hasRun = false;
   static var lastScriptPaths:Array<String>;
@@ -218,10 +221,12 @@ class CreateGlue {
 
           // create hot reload helper
           if (Context.defined('WITH_CPPIA')) {
-            LiveReloadBuild.bindFunctions('LiveReloadStatic');
-            var lives = [ for (cls in Globals.cur.liveReloadFuncs.keys()) cls ];
+            var lives = [ for (cls in Globals.cur.explicitLiveReloadFunctions.keys()) cls ];
+            var out = Globals.cur.staticBaseDir + '/Data/livereload.txt';
             if (lives.length > 0) {
-              sys.io.File.saveContent( Globals.cur.staticBaseDir + '/Data/livereload.txt', lives.join('\n') );
+              sys.io.File.saveContent( out, lives.join('\n') );
+            } else if (sys.FileSystem.exists(out)) {
+              sys.FileSystem.deleteFile(out);
             }
           }
           Globals.cur.loadCachedTypes();
@@ -233,6 +238,7 @@ class CreateGlue {
     var builtGlues = [];
     Context.onGenerate( function(gen) {
       Globals.callGenerateHooks(gen);
+      LiveReloadBuild.onGenerate(gen);
       if (Context.defined('WITH_CPPIA')) {
         MetaDefBuild.writeStaticDefs();
       }
@@ -278,6 +284,7 @@ class CreateGlue {
       writeFileDeps(fileDeps, '${Globals.cur.staticBaseDir}/Data/staticDeps.txt');
       sys.io.File.saveContent('${Globals.cur.staticBaseDir}/Data/staticModules.txt', staticModules.join('\n'));
       writeScriptGlues(builtGlues, '${Globals.cur.staticBaseDir}/Data/scriptGlues.txt');
+      uhx.compiletime.LiveReloadBuild.saveLiveHashes('static-live-hashes.txt');
     });
   }
 
@@ -346,7 +353,8 @@ class CreateGlue {
     hasRun = true;
     if (firstCompilation) {
       firstCompilation = false;
-      Globals.checkRegisteredMacro('static', function() {
+      #if !haxe4
+      Context.onMacroContextReused(function() {
         // trace('macro context reused');
         hasRun = false;
         // we need to add these classpaths again
@@ -360,6 +368,7 @@ class CreateGlue {
         Globals.reset();
         return true;
       });
+      #end
 
       if (Context.defined('WITH_CPPIA')) {
         var clsDef = macro class StaticMetaData {};
@@ -422,13 +431,15 @@ class CreateGlue {
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {
+    return;
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
-          for (field in cl.fields.get())
+          for (field in cl.fields.get()) {
             Context.follow(field.type);
+          }
           for (field in cl.statics.get())
             Context.follow(field.type);
           var ctor = cl.constructor;

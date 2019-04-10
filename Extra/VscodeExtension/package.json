@@ -1,0 +1,87 @@
+{
+	"name": "unrealhx",
+	"publisher": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.4.0"
+	},
+	"activationEvents": [
+		"onCommand:unrealhx.enableLiveReload",
+		"onCommand:unrealhx.cppiaBuild",
+		"onCommand:unrealhx.cppBuild",
+		"onCommand:unrealhx.build"
+	],
+	"main": "./Binaries/uhx",
+	"contributes": {
+    "configuration": {
+      "title": "Unreal.hx",
+      "properties": {
+        "unrealhx.liveReload.priority": {
+          "type": "number",
+          "description": "The priority of the live reload status bar. Higher value means the item should be shown more to the left",
+          "default": 1
+        },
+        "unrealhx.liveReload.alignment": {
+          "type": "string",
+          "description": "Should the status bar item be placed to the left or right?",
+          "default": "left"
+        },
+        "unrealhx.liveReload.notificationLocation": {
+          "type": "string",
+          "description": "The location where the live compilation progress will be shown. Can be either 'notification', or 'window'",
+          "default": "window"
+        },
+        "unrealhx.liveReload.showErrors": {
+          "type": "boolean",
+          "description": "Whether the extension should display errors in the problems window associated with live reload issues",
+          "default": true
+        },
+        "unrealhx.liveReload.useCompilationServer": {
+          "type": "boolean",
+          "description": "Indicates whether we should use the compilation server specified in unrealhx.compilationServer",
+          "default": true
+        },
+        "unrealhx.haxeProjectDir": {
+          "type": "string",
+          "description": "The path to the Unreal.hx `Haxe` directory, where the projects' `Static`, and `Scripts` directories are located"
+        },
+        "unrealhx.compilationServer": {
+          "type": "string",
+          "description": "Specifies the configuration to be used for the display server",
+          "enum": [
+            "auto",
+            "external",
+            "disabled"
+          ],
+          "default": "auto"
+        }
+      }
+    },
+		"commands": [
+			{
+				"command": "unrealhx.enableLiveReload",
+				"title": "Unreal.hx: Enable live reload"
+			},
+			{
+				"command": "unrealhx.disableLiveReload",
+				"title": "Unreal.hx: Disable live reload"
+			},
+			{
+				"command": "unrealhx.restartServer",
+				"title": "Unreal.hx: Restarts the compilation server"
+			},
+			{
+				"command": "unrealhx.cppiaBuild",
+				"title": "Unreal.hx: Performs a cppia build"
+			},
+			{
+				"command": "unrealhx.cppBuild",
+				"title": "Unreal.hx: Performs a full C++ build"
+			},
+			{
+				"command": "unrealhx.build",
+				"title": "Unreal.hx: Performs a C++ or a cppia build if needed"
+			}
+		]
+	}
+}

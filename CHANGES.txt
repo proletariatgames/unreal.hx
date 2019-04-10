@@ -2,6 +2,8 @@
   New Features:
 
   added UE 4.19 support
+  added UE 4.21 support
+  added Haxe 4 support
 
     New Features:
 
@@ -22,6 +24,7 @@
     fixed multiple compilation detection issues
     fixed `Ref<UObject>` / `Ref<PPtr<FStruct>>`
     reworked the template system to not use @:generic anymore, which stabilizes the dependency chain - so any change doesn't trigger a full haxe build
+    `compilationServer` now uses two sequential ports - the first for the hxcpp build, and the second for cppia
 
 
   Deprecation:

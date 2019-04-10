@@ -23,5 +23,5 @@ import unreal.*;
 	 *
 	 * @return true if it was able to show the UI, false if it failed
 	 */
-	public function ShowInviteUI(LocalUserNum:unreal.Int32, ?SessionName:FName = UnrealName.NAME_GameSession) : Bool;
+	public function ShowInviteUI(LocalUserNum:unreal.Int32, @:opt(UnrealName.NAME_GameSession) ?SessionName:FName) : Bool;
 }

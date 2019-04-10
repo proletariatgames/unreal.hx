@@ -104,7 +104,6 @@ abstract EPropertyFlags(UInt64) from UInt64 to UInt64 {
     return Int64Helpers.makeUnsigned(0x00000000, 0x00000800);
   }
 
-
   /**
     Property is transient: shouldn't be saved, zero-filled at load time.
    **/
