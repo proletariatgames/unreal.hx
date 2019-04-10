@@ -225,9 +225,9 @@ class UhxBuild extends UhxBaseBuild {
               shouldCompile = false;
           if (stamp <= 0) {
             shouldCompile = true;
-          } else if (!FileSystem.exists('${buildVars.outputDir}/$dir/$targetFile')) {
+          } else if (!FileSystem.exists('${outputDir}/$dir/$targetFile')) {
             shouldCompile = true;
-            reason = 'target file does not exist';
+            reason = 'target file does not exist (${outputDir}/$dir/$targetFile)';
           } else if (FileSystem.stat('$path/$file').mtime.getTime() >= stamp) {
             shouldCompile = true;
             reason = 'it is out of date';
