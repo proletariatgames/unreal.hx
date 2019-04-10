@@ -1,15 +1,13 @@
 package unreal;
-
 #if macro
 import haxe.macro.Expr;
-
-// avoid recursive build macros
-typedef TActorIteratorImpl<T> = Dynamic;
 #end
 
 @:forward abstract TActorIterator<T>(TActorIteratorImpl<T>) from TActorIteratorImpl<T> to TActorIteratorImpl<T> {
+  #if !macro
   public inline function new(native:TActorIteratorImpl<T>) this = native;
   public inline function iterator() return new TActorIteratorWrapper<T>(this);
+  #end
 
   macro public static function create(?tParam:Expr, world:Expr) : Expr {
     return macro unreal.TActorIteratorImpl.create($tParam, $world);
@@ -75,6 +73,7 @@ typedef TActorIteratorImpl<T> = Dynamic;
   }
 }
 
+#if !macro
 private class TActorIteratorWrapper<T> {
   var it:TActorIterator<T>;
   public inline function new(it:TActorIterator<T>) {
@@ -88,3 +87,4 @@ private class TActorIteratorWrapper<T> {
     return val;
   }
 }
+#end
