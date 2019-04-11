@@ -4,7 +4,7 @@ import unreal.automation.AutomationTest;
 
 // this is not on the expose package because we don't want to automatically expose this,
 // and only ever use it if needed
-@:uexpose @:ifFeature("unreal.automation.AutomationTest.*") class AutomationExpose implements uhx.UExpose
+@:uexpose @:ifFeature("unreal.automation.AutomationTest.*") class AutomationExpose
 {
   public static function createAutomation(name:cpp.ConstCharStar) {
     return HaxeCodeDispatcher.runWithValue( function():UIntPtr {

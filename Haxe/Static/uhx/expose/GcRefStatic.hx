@@ -1,7 +1,7 @@
 package uhx.expose;
 import unreal.*;
 
-@:uexpose @:keep class GcRefStatic implements uhx.UExpose
+@:uexpose @:keep class GcRefStatic
 {
 
   public static function init():UIntPtr {
