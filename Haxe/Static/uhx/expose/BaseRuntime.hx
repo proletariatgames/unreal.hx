@@ -4,7 +4,7 @@ import unreal.UIntPtr;
 /**
   This is just like `HxcppRuntime`, but provides a minimal API for the VariantPtr implementation
 **/
-@:uexpose @:keep class BaseRuntime implements uhx.UExpose
+@:uexpose @:keep class BaseRuntime
 {
   @:void public static function throwString(str:cpp.ConstCharStar) : Void {
     throw str.toString();

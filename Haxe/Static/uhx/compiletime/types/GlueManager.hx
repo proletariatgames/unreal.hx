@@ -61,13 +61,17 @@ class GlueManager {
     if (Globals.cur.glueUnityBuild) {
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Private', TPrivateCpp, TPrivateHeader, touchedFiles);
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Public', TNone, TPublicHeader, touchedFiles);
+      cleanDir(Globals.cur.staticBaseDir + '/Generated/Shared', TNone, TSharedHeader, touchedFiles);
       cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TExportHeader, touchedFiles);
       cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp, TNone, touchedFiles);
+      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Shared', TNone, TNone, touchedFiles);
     } else {
       cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TPublicHeader | TExportHeader, touchedFiles);
+      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Shared', TNone, TSharedHeader, touchedFiles);
       cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp | TPrivateCpp, TPrivateHeader, touchedFiles);
       // delete static base directory if it exists
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Public', TNone, TNone, touchedFiles);
+      cleanDir(Globals.cur.staticBaseDir + '/Generated/Shared', TNone, TNone, touchedFiles);
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Private', TNone, TNone, touchedFiles);
     }
   }
@@ -239,6 +243,13 @@ class GlueManager {
         pluginPath = cur.pluginDir,
         mod = cur.module,
         isProgram = Context.defined('UE_PROGRAM');
+
+    FileSystem.createDirectory(Globals.cur.staticBaseDir + '/Generated/Private');
+    FileSystem.createDirectory(Globals.cur.staticBaseDir + '/Generated/Public');
+    FileSystem.createDirectory(Globals.cur.staticBaseDir + '/Generated/Shared');
+    FileSystem.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Public');
+    FileSystem.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Private');
+    FileSystem.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Shared');
 
     // update templates that need to be updated
     function recurse(templatePath:String, toPath:String)

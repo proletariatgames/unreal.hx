@@ -81,7 +81,6 @@ class UEnumBuild
       Context.defineType(createArr);
       expose.meta.push({ name:':uexpose', pos:enumType.pos });
       expose.meta.push({ name:':skipUExternCheck', pos:enumType.pos });
-      UExposeBuild.changeFields(null, expose.fields);
       Context.defineType(expose);
 
       var writer = new HeaderWriter(headerPath);

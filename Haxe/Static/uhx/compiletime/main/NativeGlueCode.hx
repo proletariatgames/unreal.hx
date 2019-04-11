@@ -338,22 +338,51 @@ class NativeGlueCode
 
   public function prepareUExposeClass(cl:ClassType)
   {
-    if (!cl.meta.has(':ifFeature')) {
+    var wrapperPath = TypeRef.fromBaseType(cl, cl.pos);
+    var originalPath = wrapperPath.with(wrapperPath.name + '_Haxe');
+    if (!cl.meta.has(':native'))
+    {
+      cl.meta.add(':native', [macro $v{originalPath.getClassPath()}], cl.pos);
+    }
+    if (!cl.meta.has(':ifFeature') && !cl.meta.has(':keep')) {
       cl.meta.add(':keep', [], cl.pos);
     }
-    cl.meta.add(':nativeGen', [], cl.pos);
-    if (!cl.meta.has(':skipUExternCheck'))
+    if (!cl.meta.has(':nativeGen'))
     {
-      throw new Error('The @:uexpose class ${cl.name} must implement uhx.UExpose', cl.pos);
+      cl.meta.add(':nativeGen', [], cl.pos);
     }
-    var allClassCodes = new StringBuf();
-    var oldCode = cl.meta.extractStrings(':headerClassCode')[0];
-    if (oldCode != null)
+
+    var kind:TouchKind = TSharedHeader;
+    var targetPath = GlueInfo.getSharedHeaderPath(TypeRef.parseClassName( wrapperPath.getClassPath() ), true);
+
+    var stampPath = '$stampOutput/$wrapperPath-expose.h.stamp',
+        shouldGenerate = checkShouldGenerate(stampPath, targetPath, cl);
+    glues.touch(kind, wrapperPath.getClassPath());
+
+    if (!shouldGenerate)
     {
-      cl.meta.remove(':headerClassCode');
-      oldCode += '\n';
-      allClassCodes.add(oldCode);
+      return;
     }
+
+    var header = new uhx.compiletime.tools.HeaderWriter(targetPath);
+    var incs = new uhx.compiletime.tools.IncludeSet();
+    header.include(originalPath.getClassPath().replace('.','/') + '.h');
+    header.include('uhx/AutoHaxeInit.h');
+    var buf = header.buf;
+
+    for (pack in cl.pack)
+    {
+      buf << 'namespace $pack {\n';
+    }
+
+    buf << 'class ${cl.name} {\npublic:';
+
+    var extraCode = cl.meta.extractStrings(':wrapperClassCode')[0];
+    if (extraCode != null)
+    {
+      buf << extraCode;
+    }
+    var originalClass = originalPath.getCppClass();
     for (field in cl.statics.get())
     {
       if (field.meta.has(':extern'))
@@ -366,36 +395,40 @@ class NativeGlueCode
         var name = field.name;
         var args = [ for (arg in args) { name:TypeConv.changeCppName(arg.name), t:TypeConv.get(arg.t, field.pos) }];
         var ret = TypeConv.get(ret, field.pos);
-        allClassCodes.add('\t\tinline static ${ret.glueType.getCppType()} $name(');
+        buf.add('\tinline static ${ret.glueType.getCppType()} $name(');
         var first = true;
-        args.pop(); // UExposeBuild will add a new argument so we are sure that C++ code will call our version
         for (arg in args)
         {
           if (first)
           {
             first = false;
           } else {
-            allClassCodes.add(', ');
+            buf.add(', ');
           }
-          allClassCodes.add(arg.t.glueType.getCppType() + ' ' + arg.name);
+          arg.t.collectUeIncludes(incs);
+          buf.add(arg.t.glueType.getCppType() + ' ' + arg.name);
         }
-        allClassCodes.add(') {\n\t\t\tAutoHaxeInit uhx_auto_init;\n\t\t\t');
+        buf.add(') {\n\t\tAutoHaxeInit uhx_auto_init;\n\t\t');
         if (!ret.ueType.isVoid())
         {
-          allClassCodes.add('return ');
+          buf.add('return ');
         }
-        allClassCodes.add('$name(');
-        for (arg in args)
-        {
-          allClassCodes.add(arg.name);
-          allClassCodes.add(', ');
-        }
-        allClassCodes.add('true);\n\t\t}\n');
+        buf.add('$originalClass::$name(');
+        buf.mapJoin(args, function(arg) return arg.name);
+        buf.add(');\n\t}\n');
       case _:
       }
     }
-    cl.meta.add(':headerInclude', [macro $v{'uhx/AutoHaxeInit.h'}], cl.pos);
-    cl.meta.add(':headerClassCode', [macro $v{allClassCodes.toString()}], cl.pos);
+    for (inc in incs)
+    {
+      header.include(inc);
+    }
+    buf << '};\n';
+    for (pack in cl.pack)
+    {
+      buf << '}\n';
+    }
+    header.close(null);
   }
 
   public function onAfterGenerate() {
@@ -414,8 +447,9 @@ class NativeGlueCode
         writeGlueCpp(cl);
       }
       if (!cl.isExtern && cl.meta.has(':uexpose')) {
+        cpath = cl.meta.extractStrings(':native')[0];
         // copy the header to the generated folder
-        glues.touch(TPublicHeader, cpath);
+        glues.touch(TSharedHeader, cpath);
         var path = cpath.replace('.','/');
 
         var headerPath = '$cppTarget/include/${path}.h';
@@ -423,7 +457,7 @@ class NativeGlueCode
           trace('The uexpose header at path $headerPath does not exist. Skipping');
           continue;
         }
-        var targetPath = GlueInfo.getPublicHeaderPath(TypeRef.parseClassName( cpath ), true);
+        var targetPath = GlueInfo.getSharedHeaderPath(TypeRef.parseClassName( cpath ), true);
         var stampPath = '$stampOutput/$cpath.h.stamp';
         this.producedFiles.push(targetPath);
         var shouldCopy = checkShouldGenerate(stampPath, targetPath, cl);
@@ -531,10 +565,12 @@ class NativeGlueCode
         // add only once - we'll select a type that is always compiled
         if (typeName == 'uhx.expose.HxcppRuntime' && !cl.meta.has(':buildXml')) {
           var dir = Globals.cur.unrealSourceDir;
+          var sharedDir = GlueInfo.getSharedHeaderDir(null);
           cl.meta.add(':buildXml', [macro $v{
           '
           <files id="haxe">
             <compilerflag value="-I$targetTemplate/Shared" />
+            <compilerflag value="-I$sharedDir" />
           </files>
           <files id="cppia">
             <compilerflag value="-I$targetTemplate/Shared" />

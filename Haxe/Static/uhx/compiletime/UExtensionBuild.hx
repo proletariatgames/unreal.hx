@@ -679,7 +679,6 @@ class UExtensionBuild {
       Globals.cur.cachedBuiltTypes.push(expose.getClassPath());
       Globals.cur.hasUnprocessedTypes = true;
       metas.push({ name:':skipUExternCheck', params:[], pos:clt.pos });
-      UExposeBuild.changeFields(null, buildFields);
       Context.defineType({
         pack: expose.pack,
         name: expose.name,

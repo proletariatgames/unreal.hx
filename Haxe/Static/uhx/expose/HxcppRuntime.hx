@@ -6,18 +6,18 @@ import uhx.HaxeCodeDispatcher;
 import uhx.internal.HaxeHelpers;
 import uhx.internal.Helpers;
 
-@:headerClassCode('
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr) { return callFunction0(ptr); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0) { return callFunction1(ptr, arg0); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1) { return callFunction2(ptr, arg0, arg1); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2) { return callFunction3(ptr, arg0, arg1, arg2); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3) { return callFunction4(ptr, arg0, arg1, arg2, arg3); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4) { return callFunction5(ptr, arg0, arg1, arg2, arg3, arg4); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5) { return callFunction6(ptr, arg0, arg1, arg2, arg3, arg4, arg5); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5, unreal::UIntPtr arg6) { return callFunction7(ptr, arg0, arg1, arg2, arg3, arg4, arg5, arg6); }
-  inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5, unreal::UIntPtr arg6, unreal::UIntPtr arg7) { return callFunction8(ptr, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
+@:wrapperClassCode('
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr) { return callFunction0(ptr); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0) { return callFunction1(ptr, arg0); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1) { return callFunction2(ptr, arg0, arg1); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2) { return callFunction3(ptr, arg0, arg1, arg2); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3) { return callFunction4(ptr, arg0, arg1, arg2, arg3); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4) { return callFunction5(ptr, arg0, arg1, arg2, arg3, arg4); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5) { return callFunction6(ptr, arg0, arg1, arg2, arg3, arg4, arg5); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5, unreal::UIntPtr arg6) { return callFunction7(ptr, arg0, arg1, arg2, arg3, arg4, arg5, arg6); }
+\tinline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr, unreal::UIntPtr arg0, unreal::UIntPtr arg1, unreal::UIntPtr arg2, unreal::UIntPtr arg3, unreal::UIntPtr arg4, unreal::UIntPtr arg5, unreal::UIntPtr arg6, unreal::UIntPtr arg7) { return callFunction8(ptr, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
 ')
-@:uexpose @:keep class HxcppRuntime implements uhx.UExpose
+@:uexpose @:keep class HxcppRuntime
 {
   @:extern static inline function toDyn(ptr:UIntPtr) return HaxeHelpers.pointerToDynamic(ptr);
   @:extern static inline function toPtr(dyn:Dynamic) return HaxeHelpers.dynamicToPointer(dyn);
