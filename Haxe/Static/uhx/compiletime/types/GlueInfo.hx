@@ -48,6 +48,29 @@ class GlueInfo {
     return ret + '/Public/${tref.pack.join("/")}';
   }
 
+  public static function getSharedHeaderPath(tref:TypeRef, ?ensureExists=false):String {
+    var ret = getSharedHeaderDir(tref);
+    if (ensureExists && !FileSystem.exists(ret)) {
+      FileSystem.createDirectory(ret);
+    }
+    return ret + '/' + tref.name + '.h';
+  }
+
+  public static function getSharedHeaderDir(tref:TypeRef):String {
+    var cur = Globals.cur,
+        ret = null;
+    if (cur.glueUnityBuild) {
+      ret = cur.staticBaseDir + '/Generated';
+    } else {
+      ret = cur.unrealSourceDir + '/Generated';
+    }
+    if (tref == null)
+    {
+      return ret + '/Shared';
+    }
+    return ret + '/Shared/${tref.pack.join("/")}';
+  }
+
   public static function getCppPath(tref:TypeRef, ?ensureExists=false):String {
     var ret = getCppDir(tref);
     if (ensureExists && !FileSystem.exists(ret)) {

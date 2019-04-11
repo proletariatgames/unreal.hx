@@ -171,10 +171,12 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Public"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/TemplateExport"));
+    rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Shared"));
 
     HaxeCompilationInfo info = new HaxeCompilationInfo(rules);
     rules.PublicAdditionalLibraries.Add(info.libPath);
     rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Generated/Public"));
+    rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Generated/Shared"));
     rules.PrivateIncludePaths.Add(Path.Combine(info.outputDir, "Generated/Private"));
     rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Template/Shared"));
     rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Template/Public"));

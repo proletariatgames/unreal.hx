@@ -8,7 +8,7 @@ using Lambda;
 using StringTools;
 
 class UhxBuild extends UhxBaseBuild {
-  private static var VERSION_LEVEL = 6;
+  private static var VERSION_LEVEL = 7;
   private static inline var PARALLEL_DEP_CHECK = true;
 
   var haxeDir:String;
@@ -48,6 +48,17 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   private function getStampOverride() {
+    var ver = this.buildVars.outputDir + '/Data/uhxver.txt';
+    if (!FileSystem.exists(ver) || Std.parseInt(File.getContent(ver)) != VERSION_LEVEL)
+    {
+      if (FileSystem.exists(this.buildVars.outputDir + '/Static'))
+      {
+        trace('Deleting old static dir since it was previously built with an incompatible build tool');
+        InitPlugin.deleteRecursive(this.buildVars.outputDir + '/Static',true);
+      }
+      return Date.now().getTime();
+    }
+
     var stamp = getNewerStampRec([data.pluginDir + '/Haxe/Static/uhx/compiletime',
       data.pluginDir + '/Haxe/BuildTool/interp/'
     ]);
@@ -1376,6 +1387,8 @@ class UhxBuild extends UhxBaseBuild {
       var complArgs = ['--cwd $haxeDir', '--no-output', '-D UHX_DISPLAY'].concat(args);
       this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
     }
+
+    File.saveContent(this.buildVars.outputDir + '/Data/uhxver.txt', VERSION_LEVEL + '');
 
     if (ret == 0 && isCrossCompiling) {
       // somehow -D destination doesn't do anything when cross compiling
