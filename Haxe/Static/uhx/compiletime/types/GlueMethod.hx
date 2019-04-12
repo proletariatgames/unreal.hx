@@ -70,6 +70,23 @@ class GlueMethod {
       this.meth.ret = this.thisConv;
     }
 
+    if (meth.flags.hasAny(Static) && meth.specialization != null && meth.specialization.types.length > 0) {
+      switch(meth.uname) {
+        case 'new' | '.ctor':
+        case _:
+          switch(thisConv.data) {
+          case CStruct(type,flags,info,params):
+            if (params != null && params.length > 0) {
+              var sParams = meth.specialization.types.slice(0,params.length),
+                  methParams = meth.specialization.types.slice(params.length);
+              this.thisConv = thisConv.withData(CStruct(type,flags,info,sParams));
+              meth.specialization = { types:methParams, genericFunction:meth.specialization.genericFunction };
+            }
+          case _:
+          }
+      }
+    }
+
     this.process();
   }
 
@@ -531,7 +548,7 @@ class GlueMethod {
       params << '<';
       params.mapJoin(meth.params, function(param) return param.t.tparamName != null ? (param.t.tparamName + ' : ' + param.t.haxeType) : param.name);
       params << '>';
-    } else if (this.meth.specialization != null && !this.isTemplatedThis) {
+    } else if (this.meth.specialization != null && !this.isTemplatedThis && this.meth.specialization.types.length > 0) {
       var useTypeName = this.meth.meta != null && this.meth.meta.hasMeta(':typeName');
       params << '<';
       params.mapJoin(this.meth.specialization.types, function (tconv) return {
@@ -733,7 +750,14 @@ class GlueMethod {
       pos: meth.pos,
       meta: meta,
       kind: FFun({
-        args: [ for (arg in args) { name:arg.name, opt:arg.opt, type:arg.type.toComplexType() } ],
+        args: [ for (arg in args) {
+          var complex = arg.type.toComplexType();
+          if (arg.opt != null)
+          {
+            complex = macro : Null<$complex>;
+          }
+          { name:arg.name, opt:arg.opt, type:complex };
+        } ],
         ret: this.retHaxeType.toComplexType(),
         expr: expr,
         params: (meth.params != null ? [ for (param in meth.params) { name: param.name, constraints: param.t.tparamName != null ? [param.t.haxeType.toComplexType()] : null } ] : null)

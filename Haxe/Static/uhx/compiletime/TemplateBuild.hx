@@ -44,10 +44,11 @@ class TemplateBuild
       return typeExpr;
     }
     // type it. If the expression can't be typed, this will bubble the typing error
-    var typed = getCall(Context.typeExpr(typeExpr));
+    var expr = Context.typeExpr(typeExpr);
+    var typed = getCall(expr);
     switch(typed.expr)
     {
-    case TCall({ expr:TField(et_this, fa), t:funcType }, targs):
+    case TCall({ expr:TField(et_this, fa) }, targs):
       var tparams = [];
       var cf:ClassField = null;
       switch(fa)
@@ -65,12 +66,26 @@ class TemplateBuild
       // get function type params
       var monos = [for (param in cf.params) Context.typeof(macro null)];
       var typeWithMonos = cf.type.applyTypeParameters(cf.params, monos);
-      if (!Context.unify(typeWithMonos, funcType)) {
-        throw new Error('TemplateBuild: Assertion failed: ${functionName} doesn\'t unify with its generic type', pos);
+      switch(Context.follow(typeWithMonos))
+      {
+        case TFun(args, ret):
+          if (!Context.unify(ret, typed.t)) {
+            throw new Error('TemplateBuild: Assertion failed: ${functionName} doesn\'t unify with its generic return type', pos);
+          }
+          for (i in 0...args.length)
+          {
+            var arg = args[i];
+            var targ = targs[i];
+            if (!Context.unify(targ.t, arg.t)) {
+              throw new Error('TemplateBuild: Assertion failed: ${functionName} doesn\'t unify with its generic argument ${targ.t} (original ${arg.t})', pos);
+            }
+          }
+        case _:
       }
       for (mono in monos)
       {
-        tparams.push(TypeConv.get(mono, pos));
+        var t = Context.follow(mono, true);
+        tparams.push(TypeConv.get(t, pos));
       }
       if (tparams.length == 0)
       {
@@ -87,17 +102,32 @@ class TemplateBuild
       }
       catch(e:Dynamic)
       {
+        if (Sys.getEnv('UHX_DEBUG_TEMPLATE_CALLSITES') == '1')
+        {
+          Context.warning('Creating $target', pos);
+        }
         // create the type if it doesn't exist
         var fargs = [];
         var fret = null;
-        switch(Context.follow(funcType))
+        var values = getOptionalValues(cf.meta);
+        switch(Context.follow(typeWithMonos))
         {
         case TFun(args,ret):
-          for (arg in args.slice(cf.params.length))
+          var argsToSkip = cf.params.length;
+          if (args[0].name == 'this')
           {
-            fargs.push({ name:arg.name, t:TypeConv.get(arg.t, pos), opt:arg.opt ? macro null : null });
+            argsToSkip++;
           }
-          fret = TypeConv.get(ret, pos);
+          for (arg in args.slice(argsToSkip))
+          {
+            var opt = null;
+            if (arg.opt)
+            {
+              opt = values[arg.name];
+            }
+            fargs.push({ name:arg.name, t:TypeConv.get(arg.t, pos, true), opt:opt });
+          }
+          fret = TypeConv.get(ret, pos, true);
         case _:
           throw 'assert';
         }
@@ -185,7 +215,21 @@ class TemplateBuild
           var args:Array<FunctionArg> = [];
           if (!isStatic)
           {
-            args.push({ name:'uhx_this', type:TypeConv.get(et_this.t, pos).haxeType.toComplexType(), opt:false });
+            var t_this = Context.follow(et_this.t);
+            switch(t_this)
+            {
+              case TAnonymous(anon):
+                switch(anon.get().status)
+                {
+                  case AClassStatics(t):
+                    t_this = TInst(t, [ for (param in t.get().params) param.t ]);
+                  case AAbstractStatics(t):
+                    t_this = TAbstract(t, [ for (param in t.get().params) param.t ]);
+                  case _:
+                }
+              case _:
+            }
+            args.push({ name:'uhx_this', type:TypeConv.get(t_this, pos).haxeType.toComplexType(), opt:false });
           }
           for (i in 0...tparams.length)
           {
@@ -194,7 +238,7 @@ class TemplateBuild
           }
           for (arg in fargs)
           {
-            args.push({ name:arg.name, type:arg.t.haxeType.toComplexType() });
+            args.push({ name:arg.name, type:arg.t.haxeType.toComplexType(), opt: arg.opt != null });
           }
           var field:Field = {
             name:"run",
@@ -236,6 +280,25 @@ class TemplateBuild
   private static function getSuffixForTypes(params:Array<TypeConv>, pos:Position)
   {
     return [for (p in params) p.toShortString()].join('__');
+  }
+
+  private static function getOptionalValues(meta:MetaAccess):Map<String, Expr>
+  {
+    var ret = new Map();
+    var values = meta.extract(':value');
+    if (values != null && values[0] != null && values[0].params != null && values[0].params[0] != null)
+    {
+      switch (values[0].params[0].expr)
+      {
+        case EObjectDecl(decl):
+          for (field in decl)
+          {
+            ret[field.field] = field.expr;
+          }
+        case _:
+      }
+    }
+    return ret;
   }
 
   private static function getCall(t:TypedExpr):TypedExpr
