@@ -41,7 +41,7 @@ class Main
 				{
 					trace('Error while reconnecting the compilation server: $err');
 				}
-			})
+			});
 		}));
 		context.subscriptions.push(Vscode.commands.registerCommand("unrealhx.cppiaBuild", function() {
 			liveReload.buildCppia();

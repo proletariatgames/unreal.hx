@@ -1168,7 +1168,6 @@ class UhxBuild extends UhxBaseBuild {
       {
         var liveArgs = ['--cwd ${rootDir}/Haxe', '-D LIVE_RELOAD_BUILD'].concat(args.filter(function(v) return !v.startsWith('--macro') && !v.startsWith('-cppia')));
         liveArgs.push('# make sure we do not spend time checking dependencies since we know what has changed');
-        // liveArgs.push('--macro haxe.macro.CompilationServer.setModuleCheckPolicy([""], [NoCheckDependencies,NoCheckShadowing,NoCheckFileTimeModification], true, NormalContext)');
         liveArgs.push('--macro uhx.compiletime.main.LiveReload.run(${haxe.Json.stringify(this.buildVars.outputDir + '/Data/live-modules.txt')})');
         liveArgs.push('-cppia ${data.projectDir}/Binaries/Haxe/live.cppia');
         this.createHxml('build-live', liveArgs);
