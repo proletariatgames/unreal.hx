@@ -25,5 +25,10 @@ package unreal;
   public function toString():String {
     return this.ToString().toString();
   }
+
+	inline public static function Format(Fmt:unreal.FTextFormat, InArguments:Const<PRef<unreal.FFormatNamedArguments>>) : FText
+	{
+		return FTextImpl.Format(Fmt, InArguments);
+	}
 #end
 }

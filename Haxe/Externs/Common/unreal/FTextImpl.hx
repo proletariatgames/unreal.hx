@@ -10,6 +10,8 @@ package unreal;
   static function AsNumber(Val:Float32, Options:PPtr<Const<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl;
 
   @:expr(return ToString().op_Dereference()) public function toString():String;
+
+	static function Format(Fmt:unreal.FTextFormat, InArguments:Const<PRef<unreal.FFormatNamedArguments>>) : FTextImpl;
 }
 
 
