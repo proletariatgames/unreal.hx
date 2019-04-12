@@ -60,13 +60,13 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   private function getStampOverride() {
-    var ver = this.buildVars.outputDir + '/Data/uhxver.txt';
+    var ver = this.outputDir + '/Data/uhxver.txt';
     if (!FileSystem.exists(ver) || Std.parseInt(File.getContent(ver)) != VERSION_LEVEL)
     {
-      if (FileSystem.exists(this.buildVars.outputDir + '/Static'))
+      if (FileSystem.exists(this.outputDir + '/Static'))
       {
         trace('Deleting old static dir since it was previously built with an incompatible build tool');
-        InitPlugin.deleteRecursive(this.buildVars.outputDir + '/Static',true);
+        InitPlugin.deleteRecursive(this.outputDir + '/Static',true);
       }
       return Date.now().getTime();
     }
@@ -1397,7 +1397,7 @@ class UhxBuild extends UhxBaseBuild {
       this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
     }
 
-    File.saveContent(this.buildVars.outputDir + '/Data/uhxver.txt', VERSION_LEVEL + '');
+    File.saveContent(this.outputDir + '/Data/uhxver.txt', VERSION_LEVEL + '');
 
     if (ret == 0 && isCrossCompiling) {
       // somehow -D destination doesn't do anything when cross compiling
