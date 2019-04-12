@@ -1502,7 +1502,6 @@ class TypeConv {
             ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           }
         } else if (a.meta.has(':coreType')) {
-          trace(isNoTemplate, cache[name], tl);
           throw new Error('Unreal Glue: Basic type $name is not supported', pos);
         } else {
           switch(name) {
@@ -1655,6 +1654,7 @@ class TypeConv {
         type = mono.get();
 
       case t:
+        trace('Invalid type $t');
         trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
         throw new Error('Unreal Type: Invalid type $t', pos);
       }

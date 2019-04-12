@@ -9,6 +9,7 @@ using unreal.CoreAPI;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
+using Lambda;
 using haxe.macro.Tools;
 #end
 
@@ -369,8 +370,14 @@ using haxe.macro.Tools;
         if (!isKnownType(type)) {
           throw new Error('The full type of the iterable must be known. Make sure it\'s fully typed', array.pos);
         }
-        var tparam = type.toComplexType();
-        macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.create(new unreal.TypeParam<$tparam>());
+        var tparam = uhx.compiletime.types.TypeConv.get(type, Context.currentPos(), true);
+        // TArray<PRef<>> is not allowed, so make sure we drop it
+        if (tparam.modifiers != null && tparam.modifiers.has(Ref))
+        {
+          tparam = tparam.withModifiers(tparam.modifiers.filter(function(mod) return mod != Ref));
+        }
+        var complex = tparam.haxeType.toComplexType();
+        macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.create(new unreal.TypeParam<$complex>());
       case _:
         macro @:pos(haxe.macro.Context.currentPos()) unreal.TArrayImpl.create($tparam);
     };
