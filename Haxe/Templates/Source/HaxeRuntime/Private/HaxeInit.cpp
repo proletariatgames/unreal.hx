@@ -49,10 +49,8 @@ namespace TlsRegisterEnum
     NotRegistered = 0,
     RegLocally,
     RegLocallyAndWrapped,
-    #if WITH_EDITOR
     RegGlobally,
     RegGloballyAndWrapped,
-    #endif
   };
 }
 
@@ -101,12 +99,8 @@ static bool uhx_init_if_needed(void *top_of_stack)
   // This code will execute after your module is loaded into memory (but after global variables are initialized, of course.)
 
 #ifdef WITH_HAXE
-  #if WITH_EDITOR
   SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegGlobally);
   top_of_stack = get_top_of_stack();
-  #else
-  SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocally);
-  #endif
 
   gc_set_top_of_stack((int *)top_of_stack, false);
   const char *error = hxRunLibrary();
@@ -120,11 +114,7 @@ bool uhx_start_stack(void *top_of_stack)
 {
   if (gDidInit != 2 && uhx_init_if_needed(top_of_stack))
   {
-    #if WITH_EDITOR
     return false; // it was registered globally
-    #else
-    return true;
-    #endif
   }
 
   if (!GET_TLS_VALUE(tlsRegistered))
@@ -146,18 +136,14 @@ bool uhx_needs_wrap()
   switch(reg)
   {
     case TlsRegisterEnum::RegLocallyAndWrapped:
-    #if WITH_EDITOR
     case TlsRegisterEnum::RegGloballyAndWrapped:
-    #endif
       return false;
     case TlsRegisterEnum::RegLocally:
       SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocallyAndWrapped);
       return true;
-    #if WITH_EDITOR
     case TlsRegisterEnum::RegGlobally:
       SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegGloballyAndWrapped);
       return true;
-    #endif
     default:
       UE_LOG(HaxeLog, Fatal, TEXT("uhx_needs_wrap was called before Haxe stack was registered (value %d)"), (int) reg);
       return true;
@@ -166,12 +152,10 @@ bool uhx_needs_wrap()
 
 void uhx_end_stack()
 {
-  #if WITH_EDITOR
   if (GET_TLS_VALUE(tlsRegistered) >= (void*) (unreal::IntPtr) TlsRegisterEnum::RegGlobally)
   {
     UE_LOG(HaxeLog, Fatal, TEXT("uhx_end_stack called on a global stack"));
   }
-  #endif
 
   #ifdef WITH_HAXE
   gc_set_top_of_stack(0, false);
