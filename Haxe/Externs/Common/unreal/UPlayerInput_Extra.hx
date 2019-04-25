@@ -17,6 +17,12 @@ extern class UPlayerInput_Extra {
    **/
   public function ForceRebuildingKeyMaps(?bRestoreDefaults:Bool = false) : Void;
 
+  /** Gets the axis properties for a given AxisKey.  Returns if true if AxisKey was found in the AxisConfig array. */
+  public function GetAxisProperties(AxisKey:unreal.inputcore.FKey, AxisProperties:PRef<FInputAxisProperties>) : Bool;
+
+  /** Gets the axis properties for a given AxisKey.  Returns if true if AxisKey was found in the AxisConfig array. */
+  public function SetAxisProperties(AxisKey:unreal.inputcore.FKey, AxisProperties:Const<PRef<FInputAxisProperties>>) : Void;
+
   /**
     Returns whether an Axis Mapping is inverted
    **/
