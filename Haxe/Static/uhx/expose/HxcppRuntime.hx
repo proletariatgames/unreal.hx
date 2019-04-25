@@ -51,6 +51,11 @@ import uhx.internal.Helpers;
 #end
   }
 
+  public static function createArray() : UIntPtr {
+    var arr = new Array();
+    return HaxeHelpers.dynamicToPointer(arr);
+  }
+
   public static function arrayIndex(array:UIntPtr, index:Int) : UIntPtr {
     var arr:Dynamic = HaxeHelpers.pointerToDynamic(array);
     return HaxeHelpers.dynamicToPointer(arr[index]);

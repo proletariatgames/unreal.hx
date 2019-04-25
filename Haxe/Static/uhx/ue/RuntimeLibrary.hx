@@ -4,6 +4,8 @@ import unreal.*;
 #if !UHX_NO_UOBJECT
 @:include("uhx/ue/RuntimeLibrary.h")
 extern class RuntimeLibrary {
+  public static function getTlsObj():UIntPtr;
+  public static function allocTlsSlot():Int;
   public static function wrapProperty(inProp:UIntPtr, pointerIfAny:UIntPtr):VariantPtr;
   public static function getHaxeGcRefOffset():Int;
   public static function getGcRefSize():Int;
