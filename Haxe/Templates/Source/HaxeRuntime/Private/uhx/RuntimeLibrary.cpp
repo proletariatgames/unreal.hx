@@ -5,8 +5,10 @@
 
 static int uhx_tls_slot = 0;
 
-#if defined(_MSC_VER) || defined(__GNUC__)
+#if defined(_MSC_VER)
 unreal::UIntPtr *uhx::ue::RuntimeLibrary_obj::tlsObj = nullptr;
+#elif defined(__GNUC__)
+thread_local unreal::UIntPtr *uhx::ue::RuntimeLibrary_obj::tlsObj = nullptr;
 #else
 static int uhx_tls_obj = FPlatformTLS::AllocTlsSlot();
 
