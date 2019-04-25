@@ -1,3 +1,5 @@
+#ifndef UHX_NO_UOBJECT
+
 #include "Core.h"
 #include "IntPtr.h"
 #include "uhx/ue/RuntimeLibrary.h"
@@ -26,3 +28,5 @@ unreal::UIntPtr uhx::ue::RuntimeLibrary_obj::getTlsObj() {
 int uhx::ue::RuntimeLibrary_obj::allocTlsSlot() {
   return FPlatformAtomics::InterlockedIncrement(&uhx_tls_slot);
 }
+
+#endif
