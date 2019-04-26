@@ -22,6 +22,8 @@ package unreal;
 
   function Compare(Other:Const<PRef<FString>>, SearchCase:ESearchCase) : Int32;
 
+  function RemoveFromStart(str:Const<PRef<FString>>, SearchCase:ESearchCase) : Bool;
+
   function ToLowerInline():Void;
   function ToUpperInline():Void;
   @:expr(return op_Dereference()) public function toString():String;
