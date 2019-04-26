@@ -1605,7 +1605,11 @@ class UhxBuild extends UhxBaseBuild {
         }
         if (ret == 0) {
           // build succeeded
-          sys.io.File.copy('${data.projectDir}/Binaries/Haxe/game-recompile.cppia', '${data.projectDir}/Binaries/Haxe/game.cppia');
+          var target = '${data.projectDir}/Binaries/Haxe/game.cppia';
+          if (FileSystem.exists(target)) {
+            FileSystem.deleteFile(target);
+          }
+          FileSystem.rename('${data.projectDir}/Binaries/Haxe/game-recompile.cppia', target);
         } else {
           throw new BuildError('Cppia compilation failed');
         }
