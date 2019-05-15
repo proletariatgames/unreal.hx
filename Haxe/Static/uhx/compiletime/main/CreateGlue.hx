@@ -254,6 +254,15 @@ class CreateGlue {
             builtGlues.push({ path:c.toString(), glues:meta.extractStrings(':ugenerated'), isScript:meta.has(':uscript')});
           } else if (meta.has(':uclass')) {
             builtGlues.push({ path:c.toString(), glues:[], isScript:meta.has(':uscript') });
+          } else if (meta.has(':buildXml')) {
+            // sys.FileSystem has an uneeded @:buildXml call that ensures that the std library gets built, even if
+            // we have overridden all the needed cpp.Native* classes
+            switch(c.toString())
+            {
+              case 'sys.FileSystem':
+                meta.remove(':buildXml');
+              case _:
+            }
           }
         case TAbstract(a,_):
           var impl = a.get().impl;

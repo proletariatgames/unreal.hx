@@ -18,4 +18,6 @@ package unreal;
 	public static function GetModulesDirectory():Const<FString>;
 	public static function CanLaunchURL(URL:Const<TCharStar>):Bool;
 	public static function LaunchURL(URL:Const<TCharStar>, Parms:Const<TCharStar>, Error:PPtr<FString>):Void;
+	@:ublocking public static function Sleep(Seconds:Float32):Void;
+	public static function GetCurrentProcessId():Int;
 }

@@ -20,6 +20,20 @@ abstract Ptr<T>(PtrMacros<T>) {
 #if (!macro && !bake_externs)
 
   /**
+    Casts an `AnyPtr` object to `Ptr`
+  **/
+  inline public static function fromAnyPtr<T>(ptr:AnyPtr):Ptr<T> {
+    return cast ptr;
+  }
+
+  /**
+    Casts to `AnyPtr`
+  **/
+  inline public function toAnyPtr():AnyPtr {
+    return cast this;
+  }
+
+  /**
     Creates the equivalent of a `nullptr`
   **/
   public static function mkNull<T>():Ptr<T> {

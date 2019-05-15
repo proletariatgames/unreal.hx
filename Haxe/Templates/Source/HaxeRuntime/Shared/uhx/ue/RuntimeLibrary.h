@@ -8,8 +8,10 @@
 
 #ifdef _MSC_VER
   #include <malloc.h>
-#else
+#elif defined(HX_LINUX)
   #include <alloca.h>
+#else
+  #include <stdlib.h>
 #endif
 #include <string.h>
 

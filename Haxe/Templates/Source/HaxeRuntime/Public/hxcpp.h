@@ -39,8 +39,10 @@
 
 typedef char HX_CHAR;
 
+#if defined(_MSC_VER)
 #pragma warning(disable:4251)
 #pragma warning(disable:4800)
+#endif
 
 #if defined(_MSC_VER) && _MSC_VER < 1201
 #error MSVC 7.1 does not support template specialization and is not supported by HXCPP

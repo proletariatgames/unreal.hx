@@ -222,6 +222,10 @@ class GlueMethod {
     }
 
     var glueCppBodyVars = new HelperBuf();
+    if (meth.meta.hasMeta(':ublocking')) {
+      glueCppBodyVars << '\t\tAutoHaxeBlocking uhx_auto_gc_blocking;\n';
+      this.cppIncludes.add('uhx/AutoHaxeBlocking.h');
+    }
     if (meth.flags.hasAny(CppPrivate)) {
       var staticCppVars = new HelperBuf(),
           staticCppBody = genCppCall(glueCppBody.toString(), '_s_', staticCppVars);

@@ -25,6 +25,11 @@ import haxe.io.BytesData;
     return new ByteArray(ptr.reinterpret(), size, bytes);
   }
 
+  public static function fromBytesData(bytes:BytesData) {
+    var ptr = Pointer.arrayElem(bytes, 0);
+    return new ByteArray(ptr.reinterpret(), bytes.length, bytes);
+  }
+
   public function asAnyPtr():AnyPtr {
     return untyped __cpp__('( (unreal::UIntPtr) {0} )', this.ptr.raw);
   }

@@ -1228,6 +1228,11 @@ class UhxBuild extends UhxBaseBuild {
     for (file in FileSystem.readDirectory('${data.pluginDir}/Haxe/BuildTool/toolchain')) {
       File.saveBytes('$outputDir/Static/toolchain/$file', File.getBytes('${data.pluginDir}/Haxe/BuildTool/toolchain/$file'));
     }
+    if (FileSystem.exists(this.haxeDir + '/BuildTool/toolchain')) {
+      for (file in FileSystem.readDirectory('${this.haxeDir}/BuildTool/toolchain')) {
+        File.saveBytes('$outputDir/Static/toolchain/$file', File.getBytes('${this.haxeDir}/BuildTool/toolchain/$file'));
+      }
+    }
 
     addTargetDefines(args, data.targetType);
     addConfigurationDefines(args, data.targetConfiguration);
@@ -1340,6 +1345,10 @@ class UhxBuild extends UhxBaseBuild {
     case "Mac":
       extraArgs = [
         '-D toolchain=mac-libc'
+      ];
+    case 'PS4':
+      extraArgs = [
+        '-D toolchain=ps4',
       ];
     }
 
