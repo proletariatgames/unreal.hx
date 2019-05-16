@@ -1,5 +1,4 @@
 #pragma once
-#ifndef UHX_NO_UOBJECT
 
 #include "IntPtr.h"
 #include "VariantPtr.h"
@@ -55,6 +54,7 @@ public:
 
   static int allocTlsSlot();
 
+#ifndef UHX_NO_UOBJECT
   /**
    * Creates a dynamic wrapper (unreal.Wrapper) that is empty but compatible with `inProp UProperty`
    **/
@@ -96,6 +96,7 @@ public:
    * Sets up the class constructor as the super class' constructor
    **/
   static void setSuperClassConstructor(unreal::UIntPtr inDynamicClass);
+#endif
 
   static unreal::UIntPtr setZero(unreal::UIntPtr inPtr, int inSize)
   {
@@ -114,4 +115,3 @@ public:
 }
 }
 
-#endif
