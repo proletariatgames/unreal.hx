@@ -525,20 +525,20 @@ class GlueMethod {
     }
     var blocking = this.meth.meta.hasMeta(':ublocking');
     if (blocking) {
-      // glueCppBodyVars << '\t\tAutoHaxeBlocking uhx_auto_gc_blocking;\n';
       this.cppIncludes.add('uhx/AutoHaxeBlocking.h');
-      outVars << '::hx::EnterGCFreeZone();\n';
     }
     if (!this.glueRet.haxeType.isVoid()) {
       if (blocking) {
-        outVars << '\t\t' + meth.ret.ueType.getCppType() + ' uhx_gc_free_ret = $body;\n';
-        outVars << '\t\t::hx::ExitGCFreeZone();\n';
-        body = '\t\treturn ' + this.glueRet.ueToGlue('uhx_gc_free_ret', this.ctx);
+        outVars << '\t' + meth.ret.ueType.getCppType() + ' uhx_gc_free_ret ;\n';
+        outVars << '\t{\n\t\tAutoHaxeBlocking uhx_auto_gc_blocking;\n';
+        outVars << '\t\tuhx_gc_free_ret = $body;\n';
+        outVars << '\t}\n';
+        body = '\treturn ' + this.glueRet.ueToGlue('uhx_gc_free_ret', this.ctx);
       } else {
         body = 'return ' + this.glueRet.ueToGlue(body, this.ctx);
       }
     } else if (blocking) {
-      body = '($body, ::hx::ExitGCFreeZone())';
+      outVars << 'AutoHaxeBlocking uhx_auto_gc_blocking;\n\t';
     }
     return body;
   }
