@@ -346,7 +346,7 @@ public class HaxeCompilationInfo {
   static List<FileReference> FilterGameProjects(bool bOnlyCodeProjects, string GameNameFilter)
   {
     List<FileReference> Filtered = new List<FileReference>();
-    foreach (FileReference ProjectFile in UProjectInfo.AllProjectFiles)
+    foreach (FileReference ProjectFile in NativeProjects.EnumerateProjectFiles())
     {
       if (!bOnlyCodeProjects || IsCodeProject(ProjectFile))
       {

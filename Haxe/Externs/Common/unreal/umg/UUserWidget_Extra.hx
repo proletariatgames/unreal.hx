@@ -37,8 +37,8 @@ extern class UUserWidget_Extra {
 	private function NativeOnFocusReceived (InGeometry : Const<PRef<FGeometry>>, InFocusEvent : Const<PRef<FFocusEvent>>) : FReply;
  	private function NativeOnFocusLost(InFocusEvent : Const<PRef<FFocusEvent>>) : Void;
 
-	public function OnAnimationFinished_Implementation (Animation:Const<UWidgetAnimation>):Void;
-	public function OnAnimationStarted_Implementation (Animation:Const<UWidgetAnimation>):Void;
+	private function OnAnimationFinished_Implementation (Animation:Const<UWidgetAnimation>):Void;
+	private function OnAnimationStarted_Implementation (Animation:Const<UWidgetAnimation>):Void;
 
 	private function OnLevelRemovedFromWorld(InLevel:ULevel, InWorld:UWorld) : Void;
 

@@ -39,4 +39,9 @@ extern class UPlayerInput_Extra {
 
 	/** Remove a player specific axis mapping. */
 	public function RemoveAxisMapping(KeyMapping : Const<PRef<FInputAxisKeyMapping>>) : Void;
+
+#if (UE_VER >= 4.22)
+  @:uname('SetMouseSensitivity')
+  public function SetMouseSensitivityPerAxis(SensitivityX:Float32, SensitivityY:Float32) : Void;
+#end
 }
