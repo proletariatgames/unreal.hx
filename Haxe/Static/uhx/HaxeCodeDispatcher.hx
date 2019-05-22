@@ -52,6 +52,9 @@ import unreal.FPlatformMisc;
   }
 
   inline private static function endWrap() {
+    #if !(UE_BUILD_SHIPPING && !debug && !HXCPP_STACK_TRACE)
+    uhx.ue.HaxeInit.endWrap();
+    #end
   }
 
   public static function showError(exc:Dynamic, stack:Array<StackItem>, name:String) {

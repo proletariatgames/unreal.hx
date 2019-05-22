@@ -1,13 +1,16 @@
 #pragma once
-#ifndef UHX_NO_UOBJECT
 
 #include "IntPtr.h"
 #include "VariantPtr.h"
+#include "uhx/expose/HxcppRuntime.h"
+#include "uhx/GcRef.h"
 
 #ifdef _MSC_VER
   #include <malloc.h>
-#else
+#elif defined(HX_LINUX)
   #include <alloca.h>
+#else
+  #include <stdlib.h>
 #endif
 #include <string.h>
 
@@ -27,7 +30,31 @@ namespace uhx {
 namespace ue {
 
 class RuntimeLibrary_obj {
+private:
+  #if defined(_MSC_VER)
+  static _declspec( thread ) unreal::UIntPtr *tlsObj;
+  #elif defined(__GNUC__)
+  static thread_local unreal::UIntPtr *tlsObj;
+  #endif
+
 public:
+  #if defined(_MSC_VER) || defined(__GNUC__)
+  static inline unreal::UIntPtr getTlsObj()
+  {
+    unreal::UIntPtr *ret = tlsObj;
+    if (!ret) {
+      tlsObj = ret = (unreal::UIntPtr *) uhx::GcRef::createRoot();
+      return *ret = uhx::expose::HxcppRuntime::createArray();
+    }
+    return *ret;
+  }
+  #else
+  static unreal::UIntPtr getTlsObj();
+  #endif
+
+  static int allocTlsSlot();
+
+#ifndef UHX_NO_UOBJECT
   /**
    * Creates a dynamic wrapper (unreal.Wrapper) that is empty but compatible with `inProp UProperty`
    **/
@@ -69,6 +96,7 @@ public:
    * Sets up the class constructor as the super class' constructor
    **/
   static void setSuperClassConstructor(unreal::UIntPtr inDynamicClass);
+#endif
 
   static unreal::UIntPtr setZero(unreal::UIntPtr inPtr, int inSize)
   {
@@ -87,4 +115,3 @@ public:
 }
 }
 
-#endif

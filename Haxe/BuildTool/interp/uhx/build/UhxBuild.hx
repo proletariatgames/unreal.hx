@@ -1225,6 +1225,11 @@ class UhxBuild extends UhxBaseBuild {
     for (file in FileSystem.readDirectory('${data.pluginDir}/Haxe/BuildTool/toolchain')) {
       File.saveBytes('${buildVars.outputDir}/Static/toolchain/$file', File.getBytes('${data.pluginDir}/Haxe/BuildTool/toolchain/$file'));
     }
+    if (FileSystem.exists(this.haxeDir + '/BuildTool/toolchain')) {
+      for (file in FileSystem.readDirectory('${this.haxeDir}/BuildTool/toolchain')) {
+        File.saveBytes('${buildVars.outputDir}/Static/toolchain/$file', File.getBytes('${this.haxeDir}/BuildTool/toolchain/$file'));
+      }
+    }
 
     addTargetDefines(args, data.targetType);
     addConfigurationDefines(args, data.targetConfiguration);
@@ -1341,6 +1346,10 @@ class UhxBuild extends UhxBaseBuild {
     case "Mac":
       extraArgs = [
         '-D toolchain=mac-libc'
+      ];
+    case 'PS4':
+      extraArgs = [
+        '-D toolchain=ps4',
       ];
     }
 
@@ -1606,7 +1615,11 @@ class UhxBuild extends UhxBaseBuild {
         }
         if (ret == 0) {
           // build succeeded
-          sys.io.File.copy('${data.projectDir}/Binaries/Haxe/game-recompile.cppia', '${data.projectDir}/Binaries/Haxe/game.cppia');
+          var target = '${data.projectDir}/Binaries/Haxe/game.cppia';
+          if (FileSystem.exists(target)) {
+            FileSystem.deleteFile(target);
+          }
+          FileSystem.rename('${data.projectDir}/Binaries/Haxe/game-recompile.cppia', target);
         } else {
           throw new BuildError('Cppia compilation failed');
         }

@@ -7,4 +7,5 @@ extern "C" {
   bool uhx_start_stack(void *topOfStack);
   void uhx_end_stack();
   bool uhx_needs_wrap();
+  void uhx_end_wrap();
 }

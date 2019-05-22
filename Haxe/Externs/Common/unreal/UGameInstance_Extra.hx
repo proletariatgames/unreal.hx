@@ -19,4 +19,12 @@ extern class UGameInstance_Extra {
 
   @:thisConst
   public function GetTimerManager() : PRef<FTimerManager>;
+
+  @:thisConst
+  public function GetWorldContext() : PPtr<FWorldContext>;
+
+	/** return true to delay an otherwise ready-to-join PendingNetGame performing LoadMap() and finishing up
+	 * useful to wait for content downloads, etc
+	 */
+  public function DelayPendingNetGameTravel() : Bool;
 }

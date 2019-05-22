@@ -13,8 +13,10 @@ package unreal;
   /** Tag used to indicate an owner for this trace */
   public var OwnerTag : FName;
 
+#if (UE_VER <= 4.21)
   /** Whether we should perform the trace in the asynchronous scene.  Default is false. */
   public var bTraceAsyncScene : Bool;
+#end
 
   /** Whether we should trace against complex collision */
   public var bTraceComplex : Bool;

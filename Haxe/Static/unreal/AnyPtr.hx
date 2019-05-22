@@ -14,11 +14,27 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
     return this;
   }
 
-#if (!bake_externs && cpp && !UHX_NO_UOBJECT)
+#if (!bake_externs && cpp)
+  #if !UHX_NO_UOBJECT
   public function getUObject(at:Int):UObject {
     var ptr = this + at;
     return UObject.wrap(ptr);
   }
+
+  public function setUObject(at:Int, val:UObject):Void {
+    var curThis = this + at;
+    var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
+    if (val == null) {
+      ptr.ref = 0;
+    } else {
+      ptr.ref = @:privateAccess val.wrapped;
+    }
+  }
+
+  public static function fromUObject(obj:UObject):AnyPtr {
+    return @:privateAccess obj.wrapped;
+  }
+  #end
 
   public function getInt(at:Int):Int {
     var curThis = this + at;
@@ -92,16 +108,6 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
     return ptr.value;
   }
 
-  public function setUObject(at:Int, val:UObject):Void {
-    var curThis = this + at;
-    var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__("(unreal::UIntPtr*){0}", curThis));
-    if (val == null) {
-      ptr.ref = 0;
-    } else {
-      ptr.ref = @:privateAccess val.wrapped;
-    }
-  }
-
   public function setInt(at:Int, val:Int):Void {
     var curThis = this + at;
     var ptr:cpp.Pointer<Int> = cpp.Pointer.fromRaw(untyped __cpp__("(int*){0}", curThis));
@@ -111,6 +117,12 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
   public function setInt8(at:Int, val:Int):Void {
     var curThis = this + at;
     var ptr:cpp.Pointer<Int8> = cpp.Pointer.fromRaw(untyped __cpp__("(cpp::Int8*){0}", curThis));
+    ptr.ref = val;
+  }
+
+  public function setUInt8(at:Int, val:Int):Void {
+    var curThis = this + at;
+    var ptr:cpp.Pointer<UInt8> = cpp.Pointer.fromRaw(untyped __cpp__("(cpp::UInt8*){0}", curThis));
     ptr.ref = val;
   }
 
@@ -154,13 +166,18 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
     return cast VariantPtr.fromExternalPointer(this + at);
   }
 
-  public static function fromUObject(obj:UObject):AnyPtr {
-    return @:privateAccess obj.wrapped;
-  }
-
   public static function fromStruct(obj:Struct):AnyPtr {
     var variantPtr:VariantPtr = cast obj;
     return variantPtr.getUnderlyingPointer();
+  }
+
+  public static function fromPointer(ptr:cpp.Pointer<UInt8>):AnyPtr {
+    return untyped __cpp__('( (unreal::UIntPtr) {0} )', ptr.raw);
+  }
+
+  public static function fromBytesData(bytes:haxe.io.BytesData):AnyPtr {
+    var ptr = cpp.Pointer.arrayElem(bytes, 0);
+    return fromPointer(ptr);
   }
 
   public static function fromNull():AnyPtr {

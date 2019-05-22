@@ -43,6 +43,8 @@ extern "C" const char *hxRunLibrary();
   #define SET_TLS_VALUE(name, value) FPlatformTLS::SetTlsValue(name, value)
 #endif
 
+int __hxcpp_GetCurrentThreadNumber();
+
 namespace TlsRegisterEnum
 {
   enum Value {
@@ -53,6 +55,8 @@ namespace TlsRegisterEnum
     RegGlobally,
     RegGloballyAndWrapped,
     #endif
+    HaxeThread,
+    HaxeThreadWrapped,
   };
 }
 
@@ -74,7 +78,7 @@ static void *get_top_of_stack(void)
   pthread_attr_getstack(&attr, &addr, &size);
   pthread_attr_destroy(&attr);
 
-  return (void *) (((intptr_t)addr) + size);
+  return (void *) (((unreal::IntPtr)addr) + size);
 #else //PLATFORM_PS4, PLATFORM_HTML5
   return NULL;
 #endif
@@ -102,10 +106,10 @@ static bool uhx_init_if_needed(void *top_of_stack)
 
 #ifdef WITH_HAXE
   #if WITH_EDITOR
-  SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegGlobally);
+  SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::RegGlobally);
   top_of_stack = get_top_of_stack();
   #else
-  SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocally);
+  SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::RegLocally);
   #endif
 
   gc_set_top_of_stack((int *)top_of_stack, false);
@@ -126,13 +130,22 @@ bool uhx_start_stack(void *top_of_stack)
     return true;
     #endif
   }
+  unreal::IntPtr reg = (unreal::IntPtr) GET_TLS_VALUE(tlsRegistered);
 
-  if (!GET_TLS_VALUE(tlsRegistered))
+  if (!reg)
   {
-    #ifdef WITH_HAXE
-    gc_set_top_of_stack((int*) top_of_stack, false);
-    #endif
-    SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocally);
+    int threadNum = __hxcpp_GetCurrentThreadNumber();
+    if (threadNum == 0)
+    {
+      #ifdef WITH_HAXE
+      gc_set_top_of_stack((int*) top_of_stack, false);
+      #endif
+      SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::RegLocally);
+    } else {
+      // this is a haxe thread, so it's already registered
+      SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::HaxeThread);
+      return false;
+    }
 
     return true;
   }
@@ -146,36 +159,74 @@ bool uhx_needs_wrap()
   switch(reg)
   {
     case TlsRegisterEnum::RegLocallyAndWrapped:
+    case TlsRegisterEnum::HaxeThreadWrapped:
     #if WITH_EDITOR
     case TlsRegisterEnum::RegGloballyAndWrapped:
     #endif
       return false;
     case TlsRegisterEnum::RegLocally:
-      SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegLocallyAndWrapped);
+      SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::RegLocallyAndWrapped);
       return true;
     #if WITH_EDITOR
     case TlsRegisterEnum::RegGlobally:
-      SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::RegGloballyAndWrapped);
+      SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::RegGloballyAndWrapped);
       return true;
     #endif
+    case TlsRegisterEnum::HaxeThread:
+      SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::HaxeThreadWrapped);
+      return true;
     default:
       UE_LOG(HaxeLog, Fatal, TEXT("uhx_needs_wrap was called before Haxe stack was registered (value %d)"), (int) reg);
       return true;
   }
 }
 
+void uhx_end_wrap()
+{
+  unreal::IntPtr reg = (unreal::IntPtr) GET_TLS_VALUE(tlsRegistered);
+  switch(reg)
+  {
+    case TlsRegisterEnum::RegLocallyAndWrapped:
+      reg = TlsRegisterEnum::RegLocally;
+      break;
+    case TlsRegisterEnum::HaxeThreadWrapped:
+      reg = TlsRegisterEnum::HaxeThread;
+      break;
+    #if WITH_EDITOR
+    case TlsRegisterEnum::RegGloballyAndWrapped:
+      reg = TlsRegisterEnum::RegGlobally;
+      break;
+    #endif
+    case TlsRegisterEnum::RegLocally:
+    #if WITH_EDITOR
+    case TlsRegisterEnum::RegGlobally:
+    #endif
+    case TlsRegisterEnum::HaxeThread:
+    default:
+      #if UE_BUILD_SHIPPING
+      UE_LOG(HaxeLog, Error, TEXT("uhx_end_wrap was called in a thread that is not wrapped (current value %d)"), (int) reg);
+      return;
+      #else
+      UE_LOG(HaxeLog, Fatal, TEXT("uhx_end_wrap was called in a thread that is not wrapped (current value %d)"), (int) reg);
+      #endif
+  }
+  SET_TLS_VALUE(tlsRegistered, (void *) reg);
+}
+
 void uhx_end_stack()
 {
-  #if WITH_EDITOR
-  if (GET_TLS_VALUE(tlsRegistered) >= (void*) (unreal::IntPtr) TlsRegisterEnum::RegGlobally)
+  if (GET_TLS_VALUE(tlsRegistered) > (void*) (unreal::IntPtr) TlsRegisterEnum::RegLocallyAndWrapped)
   {
-    UE_LOG(HaxeLog, Fatal, TEXT("uhx_end_stack called on a global stack"));
+    #if UE_BUILD_SHIPPING
+    UE_LOG(HaxeLog, Error, TEXT("uhx_end_stack called on a haxe/global stack"));
+    #else
+    UE_LOG(HaxeLog, Fatal, TEXT("uhx_end_stack called on a haxe/global stack"));
+    #endif
   }
-  #endif
 
   #ifdef WITH_HAXE
   gc_set_top_of_stack(0, false);
   #endif
 
-  SET_TLS_VALUE(tlsRegistered, (void *) (intptr_t) TlsRegisterEnum::NotRegistered);
+  SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::NotRegistered);
 }

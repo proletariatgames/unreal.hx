@@ -2,13 +2,14 @@
 #ifndef HXCPP_H
 #include <hxcpp.h>
 #endif
-#include <uhx/expose/GcRefStatic.h>
 #include "IntPtr.h"
 
 namespace uhx {
 
 class HXCPP_CLASS_ATTRIBUTES GcRef {
 public:
+  static unreal::UIntPtr createRoot();
+  static void deleteRoot(unreal::UIntPtr ptr);
 
   GcRef();
   ~GcRef();

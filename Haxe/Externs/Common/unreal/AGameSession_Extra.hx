@@ -25,4 +25,6 @@ extern class AGameSession_Extra
 	 */
 	public function RegisterPlayer(NewPlayer:APlayerController, UniqueId:Const<PRef<TSharedPtr<Const<FUniqueNetId>>>>, bWasFromInvite:Bool) : Void;
 
+	/** @return true if there is no room on the server for an additional player */
+	public function AtCapacity(bSpectator:Bool):Bool;
 }
