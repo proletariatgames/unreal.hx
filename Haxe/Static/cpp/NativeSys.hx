@@ -150,7 +150,7 @@ class NativeSys
     }
 
     var files:TArray<FString> = TArray.create();
-    platform.FindFiles(files, p, "");
+    unreal.hal.IFileManager.Get().FindFiles(files, p + '/*.*', true, true);
     return [ for (file in files) file.toString() ];
   }
 
