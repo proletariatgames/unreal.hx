@@ -88,13 +88,13 @@ package unreal.developer.sourcecontrol;
 	@:thisConst function IsCheckedOutOther(Who:PPtr<FString> = null) : Bool;
 
 	/** Get whether this file is checked out in a different branch, if no branch is specified defaults to FEngineVerion current branch */
-	@:thisConst function IsCheckedOutInOtherBranch(CurrentBranch:Const<PRef<FString>> = "") : Bool;
+	@:thisConst function IsCheckedOutInOtherBranch(@:opt("") ?CurrentBranch:Const<PRef<FString>>) : Bool;
 
 	/** Get whether this file is modified in a different branch, if no branch is specified defaults to FEngineVerion current branch */
-	@:thisConst function IsModifiedInOtherBranch(CurrentBranch:Const<PRef<FString>> = "") : Bool;
+	@:thisConst function IsModifiedInOtherBranch(@:opt("") ?CurrentBranch:Const<PRef<FString>> ) : Bool;
 
 	/** Get whether this file is checked out or modified in a different branch, if no branch is specified defaults to FEngineVerion current branch */
-	@:thisConst function IsCheckedOutOrModifiedInOtherBranch(CurrentBranch:Const<PRef<FString>> = "") : Bool;
+	@:thisConst function IsCheckedOutOrModifiedInOtherBranch(@:opt("") ?CurrentBranch:Const<PRef<FString>> ) : Bool;
 
 	/** Get the other branches this file is checked out in */
 	@:thisConst function GetCheckedOutBranches() : TArray<FString>;

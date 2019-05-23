@@ -170,7 +170,7 @@ extern class UObject_Extra {
   @:global public static function LoadPackage(inOuter:UPackage, packageLongName:TCharStar, loadFlags:Int):UPackage;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:global public static function LoadPackageAsync(InName:PRef<Const<FString>>, InGuid:PPtr<Const<FGuid>>=null, InPackageToLoadFrom:Const<TCharStar>=null, InCompletionDelegate:FLoadPackageAsyncDelegate=new FLoadPackageAsyncDelegate(), InFlags:EPackageFlags=PKG_None, InPIEInstanceID:Int32=-1, InPackagePriority:Int32=0) : Int32;
+  @:global public static function LoadPackageAsync(InName:PRef<Const<FString>>, InGuid:PPtr<Const<FGuid>>=null, InPackageToLoadFrom:Const<TCharStar>=null, @:opt(new FLoadPackageAsyncDelegate()) ?InCompletionDelegate:FLoadPackageAsyncDelegate, InFlags:EPackageFlags=PKG_None, InPIEInstanceID:Int32=-1, InPackagePriority:Int32=0) : Int32;
 
   @:glueCppIncludes("UObject/UObjectHash.h")
   @:global public static function GetObjectsWithOuter(inOuter:UObject, results:PRef<TArray<UObject>>, includeNestedObjects:Bool = true, exclusionFlags:EObjectFlags = RF_NoFlags):Void;

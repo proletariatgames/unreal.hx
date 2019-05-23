@@ -169,7 +169,7 @@ class CreateGlue {
           }
           Globals.cur.inScriptPass = true;
           toGatherModules = [ for (module in scriptModules) Context.getModule(module) ];
-          ensureCompiled(toGatherModules);
+          // ensureCompiled(toGatherModules);
           scriptClassesAdded = true;
         } else if (!didProcess) {
           Globals.cur.inScriptPass = false;
