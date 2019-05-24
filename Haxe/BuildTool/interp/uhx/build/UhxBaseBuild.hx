@@ -302,7 +302,7 @@ class UhxBaseBuild {
     return base;
   }
 
-  private function getEngineVersion(config:UhxBuildConfig):{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> } {
+  public function getEngineVersion(config:UhxBuildConfig):{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> } {
     var engineDir = this.data.engineDir;
     if (FileSystem.exists('$engineDir/Build/Build.version')) {
       return haxe.Json.parse( sys.io.File.getContent('$engineDir/Build/Build.version') );
