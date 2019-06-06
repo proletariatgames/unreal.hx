@@ -70,8 +70,61 @@ class NativeSys
   }
 
   public static function sys_command(cmd:String) : Int {
-    trace('Error', 'Unimplemented sys_command for cmd=$cmd');
-    return -1;
+    var cur = 0, len = cmd.length;
+    var buf = new StringBuf();
+    while (cur < len)
+    {
+      var chr = StringTools.fastCodeAt(cmd, cur++);
+      switch(chr)
+      {
+        case '"'.code:
+          while (cur < len)
+          {
+            var chr = StringTools.fastCodeAt(cmd, cur++);
+            switch(chr)
+            {
+              case '"'.code:
+                break;
+              case '\\'.code:
+                buf.addChar(StringTools.fastCodeAt(cmd, cur++));
+              case _:
+                buf.addChar(chr);
+            }
+          }
+        case ' '.code:
+          break;
+        case '\\'.code:
+          var next = StringTools.fastCodeAt(cmd, cur);
+          if (next == '"'.code)
+          {
+            cur++;
+            buf.addChar(next);
+          } else {
+            buf.addChar(chr);
+          }
+        case _:
+          buf.addChar(chr);
+      }
+    }
+    var url = buf.toString();
+    var args = cmd.substr(cur-1);
+    var ret:Ptr<Int> = Ptr.createStack();
+    var stdout = new FString("");
+    var stderr = new FString("");
+    var success = FPlatformProcess.ExecProcess(url, args, ret, stdout, stderr);
+    if (!stdout.IsEmpty())
+    {
+      FOutputDevice.GLog.Log(Std.string(stdout.toString()) + '\n');
+    }
+    if (!stderr.IsEmpty())
+    {
+      FOutputDevice.GWarn.Log(Std.string(stderr.toString()) + '\n');
+    }
+    if (!success)
+    {
+      return -1;
+    }
+    return ret.get();
   }
 
   public static function sys_exit(code:Int) : Void {

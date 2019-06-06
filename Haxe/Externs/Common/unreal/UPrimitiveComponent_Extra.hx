@@ -17,14 +17,4 @@ extern class UPrimitiveComponent_Extra {
 
 	/** Recreate the physics state right way. */
 	function RecreatePhysicsState():Void;
-
-	/**
-	 *  Test the collision of the supplied shape at the supplied location, and determine if it overlaps this component.
-	 *
-	 *  @param  Pos             Location to place PrimComp geometry at
-	 *	@param	Rot				Rotation of PrimComp geometry
-	 *  @param  CollisionShape 	Shape of collision of PrimComp geometry
-	 *  @return true if PrimComp overlaps this component at the specified location/rotation
-	 */
-	public function OverlapComponent(Pos:PRef<Const<FVector>>, Rot:PRef<Const<FQuat>>, CollisionShape:PRef<Const<FCollisionShape>>) : Bool;
 }

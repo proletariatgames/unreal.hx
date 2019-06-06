@@ -20,4 +20,5 @@ package unreal;
 	public static function LaunchURL(URL:Const<TCharStar>, Parms:Const<TCharStar>, Error:PPtr<FString>):Void;
 	@:ublocking public static function Sleep(Seconds:Float32):Void;
 	public static function GetCurrentProcessId():Int;
+	public static function ExecProcess( URL:TCharStar, Params:TCharStar, OutReturnCode:Ptr<Int>, OutStdOut:PPtr<FString>, OutStdErr:PPtr<FString> ):Bool;
 }

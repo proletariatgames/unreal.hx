@@ -246,7 +246,11 @@ public class HaxeModuleRules : BaseModuleRules {
     }
 
 
+    #if UE_4_22_OR_LATER
+    ReadOnlyBuildVersion version = rules.Target.Version;
+    #else
     BuildVersion version = BuildVersion.ReadDefault();
+    #endif
     rules.PublicDefinitions.Add("UE_VER=" + version.MajorVersion + version.MinorVersion);
 
     switch (rules.Target.Platform) {
@@ -338,10 +342,10 @@ public class HaxeModuleRules : BaseModuleRules {
     proc.StartInfo.CreateNoWindow = true;
     proc.StartInfo.UseShellExecute = false;
     proc.StartInfo.FileName = "haxe";
-    proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir +
-        "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform +
-        "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
-        "\" -D \"PluginDir=" + info.pluginPath + "\" -D UE_BUILD_CS" + " -D \"RootDir=" + info.rootDir + "\"" + (options == null ? "" : options.getOptionsString());
+    proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml " + HaxeConfigOptions.escapeString("EngineDir", engineDir) +
+        " " + HaxeConfigOptions.escapeString("ProjectDir", info.gameDir) + " " + HaxeConfigOptions.escapeString("TargetName", rules.Target.Name) + " " + HaxeConfigOptions.escapeString("TargetPlatform", rules.Target.Platform + "") +
+        " " + HaxeConfigOptions.escapeString("TargetConfiguration", rules.Target.Configuration + "") + " " + HaxeConfigOptions.escapeString("TargetType", rules.Target.Type + "") + " " + HaxeConfigOptions.escapeString("ProjectFile", info.uprojectPath) +
+        " " + HaxeConfigOptions.escapeString("PluginDir", info.pluginPath) + " " + HaxeConfigOptions.escapeString("RootDir", info.rootDir) + " -D UE_BUILD_CS" + (options == null ? "" : options.getOptionsString());
     if (command != null) {
       proc.StartInfo.Arguments += " -D \"Command=" + command + "\"";
     }
@@ -512,7 +516,7 @@ public class HaxeConfigOptions {
   public HaxeConfigOptions() {
   }
 
-  private static string escapeString(string name, string s) {
+  public static string escapeString(string name, string s) {
     if (s == null) {
       return "";
     }
