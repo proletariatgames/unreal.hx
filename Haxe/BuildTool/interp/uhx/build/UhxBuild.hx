@@ -90,6 +90,7 @@ class UhxBuild extends UhxBaseBuild {
       addStamp(this.haxeDir + '/baker-arguments.hxml');
     }
     addStamp(this.outputDir+'/Data/needed-configs.txt');
+    addStamp(this.data.pluginDir+'/Source/HaxeInit/BuildApi.Build.cs');
 
     return stamp;
   }
