@@ -18,4 +18,7 @@ package unreal.slatecore;
 
   @:thisConst
   public function GetAbsoluteSize() : unreal.FVector2D;
+
+  @:thisConst
+  public function GetAbsolutePosition() : unreal.FVector2D;
 }

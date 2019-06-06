@@ -10,6 +10,7 @@ public class BaseModuleRules : ModuleRules {
   private static Dictionary<string, bool> firstRunMap = new Dictionary<string, bool>();
 
   public BaseModuleRules(ReadOnlyTargetRules target) : base(target) {
+    this.internalInit(target);
     this.init();
     this.run();
   }
@@ -28,6 +29,9 @@ public class BaseModuleRules : ModuleRules {
   }
 
   virtual protected void init() {
+  }
+
+  virtual protected void internalInit(ReadOnlyTargetRules target) {
   }
 
   virtual protected void run() {
@@ -71,12 +75,16 @@ public class HaxeModuleRules : BaseModuleRules {
     so this is needed. You can still disable this, but make sure to compile Haxe yourself before
     if you choose to do so.
    **/
-  public bool forceHaxeCompilation = true;
+  public bool forceHaxeCompilation;
 
   public HaxeConfigOptions options = new HaxeConfigOptions();
 
   public HaxeModuleRules(ReadOnlyTargetRules target) : base(target) {
     PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+  }
+
+  override protected void internalInit(ReadOnlyTargetRules target) {
+    this.forceHaxeCompilation = true;
   }
 
   static bool isSkipBuild() {
@@ -101,6 +109,30 @@ public class HaxeModuleRules : BaseModuleRules {
       }
     }
     return false;
+  }
+
+  static void resetCachedDirectory(string path) {
+    System.Type t = getType("UnrealBuildTool.DirectoryItem");
+    if (t == null) {
+      Log.TraceWarning("Cannot find DirectoryItem");
+      return;
+    }
+    MethodInfo m = t.GetMethod("GetItemByPath");
+    if (m == null) {
+      Log.TraceWarning("Cannot find GetItemByPath");
+      return;
+    }
+    object dirItem = m.Invoke(null, new object[]{path});
+    if (dirItem == null) {
+      Log.TraceWarning("Cannot gather dirItem for path " + path);
+      return;
+    }
+    MethodInfo reset = t.GetMethod("ResetCachedInfo");
+    if (reset == null) {
+      Log.TraceWarning("Cannot find ResetCachedInfo");
+      return;
+    }
+    reset.Invoke(dirItem, new object[]{});
   }
 
   override protected void run() {
@@ -163,6 +195,17 @@ public class HaxeModuleRules : BaseModuleRules {
         }
       }
     }
+
+    foreach (string path in PublicIncludePaths) {
+      if (Path.IsPathRooted(path) && !Directory.Exists(path)) {
+        Directory.CreateDirectory(path);
+      }
+    }
+    foreach (string path in PrivateIncludePaths) {
+      if (Path.IsPathRooted(path) && !Directory.Exists(path)) {
+        Directory.CreateDirectory(path);
+      }
+    }
   }
 
   private static bool addedGenerateFilesHook = false;
@@ -203,7 +246,11 @@ public class HaxeModuleRules : BaseModuleRules {
     }
 
 
+    #if UE_4_22_OR_LATER
+    ReadOnlyBuildVersion version = rules.Target.Version;
+    #else
     BuildVersion version = BuildVersion.ReadDefault();
+    #endif
     rules.PublicDefinitions.Add("UE_VER=" + version.MajorVersion + version.MinorVersion);
 
     switch (rules.Target.Platform) {
@@ -233,14 +280,16 @@ public class HaxeModuleRules : BaseModuleRules {
     }
 
     bool generatingProjectFiles = isGeneratingProjectFiles();
-    Log.TraceInformation("Generating " + generatingProjectFiles);
+    bool skipBuild = isSkipBuild();
     if (forceHaxeCompilation) {
-      bool skipBuild = isSkipBuild();
       if (!skipBuild && !generatingProjectFiles) {
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         callHaxe(rules, info, options, true, null);
         Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
+        #if UE_4_22_OR_LATER
+        resetCachedDirectory(rules.ModuleDirectory);
+        #endif
         // make sure the Build.cs file is called every time
         forceNextRun(rules, info);
       } else {
@@ -255,12 +304,16 @@ public class HaxeModuleRules : BaseModuleRules {
           callHaxe(rules, info, options, false, "GenerateProjectFiles");
         };
       }
+    } else if (skipBuild) {
+      Environment.SetEnvironmentVariable("UE_SKIP_BUILD", "1");
     }
 
     rules.ExternalDependencies.Add(info.pluginPath + "/Source/HaxeInit/BuildApi.Build.cs");
-    foreach (string dir in Directory.EnumerateDirectories(info.gameDir + "/Intermediate/Haxe")) {
-      if (File.Exists(dir + "/Data/modules.txt")) {
-        rules.ExternalDependencies.Add(dir + "/Data/modules.txt");
+    if (Directory.Exists(info.gameDir + "/Intermediate/Haxe")) {
+      foreach (string dir in Directory.EnumerateDirectories(info.gameDir + "/Intermediate/Haxe")) {
+        if (File.Exists(dir + "/Data/modules.txt")) {
+          rules.ExternalDependencies.Add(dir + "/Data/modules.txt");
+        }
       }
     }
     rules.ExternalDependencies.Add(info.outputDir + "/Data/modules.txt");
@@ -289,10 +342,10 @@ public class HaxeModuleRules : BaseModuleRules {
     proc.StartInfo.CreateNoWindow = true;
     proc.StartInfo.UseShellExecute = false;
     proc.StartInfo.FileName = "haxe";
-    proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir +
-        "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform +
-        "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
-        "\" -D \"PluginDir=" + info.pluginPath + "\" -D UE_BUILD_CS" + " -D \"RootDir=" + info.rootDir + "\"" + (options == null ? "" : options.getOptionsString());
+    proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml " + HaxeConfigOptions.escapeString("EngineDir", engineDir) +
+        " " + HaxeConfigOptions.escapeString("ProjectDir", info.gameDir) + " " + HaxeConfigOptions.escapeString("TargetName", rules.Target.Name) + " " + HaxeConfigOptions.escapeString("TargetPlatform", rules.Target.Platform + "") +
+        " " + HaxeConfigOptions.escapeString("TargetConfiguration", rules.Target.Configuration + "") + " " + HaxeConfigOptions.escapeString("TargetType", rules.Target.Type + "") + " " + HaxeConfigOptions.escapeString("ProjectFile", info.uprojectPath) +
+        " " + HaxeConfigOptions.escapeString("PluginDir", info.pluginPath) + " " + HaxeConfigOptions.escapeString("RootDir", info.rootDir) + " -D UE_BUILD_CS" + (options == null ? "" : options.getOptionsString());
     if (command != null) {
       proc.StartInfo.Arguments += " -D \"Command=" + command + "\"";
     }
@@ -463,11 +516,16 @@ public class HaxeConfigOptions {
   public HaxeConfigOptions() {
   }
 
-  private static string escapeString(string name, string s) {
+  public static string escapeString(string name, string s) {
     if (s == null) {
       return "";
     }
-    return " -D \"" + name + "=" + s.Replace("\\","\\\\").Replace("\"","\\\"").Replace("\n","\\n") + "\"";
+    // Windows doesn't need to escape \
+    if (!(System.Environment.OSVersion.Platform + "").StartsWith("Win"))
+    {
+      s = s.Replace("\\", "\\\\");
+    }
+    return " -D \"" + name + "=" + s.Replace("\"","\\\"").Replace("\n","\\n") + "\"";
   }
 
   private static string escapeBool(string name, bool b) {

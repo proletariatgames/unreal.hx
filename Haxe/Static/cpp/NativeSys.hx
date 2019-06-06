@@ -106,10 +106,8 @@ class NativeSys
           buf.addChar(chr);
       }
     }
-    trace(cmd);
     var url = buf.toString();
     var args = cmd.substr(cur-1);
-    trace(url, args);
     var ret:Ptr<Int> = Ptr.createStack();
     var stdout = new FString("");
     var stderr = new FString("");
@@ -205,7 +203,7 @@ class NativeSys
     }
 
     var files:TArray<FString> = TArray.create();
-    platform.FindFiles(files, p, "");
+    unreal.hal.IFileManager.Get().FindFiles(files, p + '/*.*', true, true);
     return [ for (file in files) file.toString() ];
   }
 

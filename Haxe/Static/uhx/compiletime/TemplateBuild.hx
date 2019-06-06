@@ -33,7 +33,18 @@ class TemplateBuild
     // if the macro was called in an expression where ithe expected type is known
     // (e.g. var x:SomeType<AParam> = myMacro()), get that expected type so we can force it to type correctly
     var expected:Type = Context.getExpectedType();
-    var expectedComplex = expected == null ? null : expected.toComplexType();
+    var expectedComplex = switch(expected) {
+      case null: null;
+      case TMono(mono):
+        var ret = Context.follow(expected);
+        if (ret == null || ret.match(TMono(_))) {
+          null;
+        } else {
+          ret.toComplexType();
+        }
+      case _:
+        expected.toComplexType();
+    }
     if (expectedComplex != null)
     {
       typeExpr = { expr:ECheckType(typeExpr, expectedComplex), pos:pos };
@@ -46,6 +57,7 @@ class TemplateBuild
     // type it. If the expression can't be typed, this will bubble the typing error
     var expr = Context.typeExpr(typeExpr);
     var typed = getCall(expr);
+    var cls = null;
     switch(typed.expr)
     {
     case TCall({ expr:TField(et_this, fa) }, targs):
@@ -53,14 +65,45 @@ class TemplateBuild
       var cf:ClassField = null;
       switch(fa)
       {
-      case FInstance(_,params,field):
+      case FInstance(c,params,field):
         cf = field.get();
+        cls = c.get();
         // if the field is non-static, the class type parameters also need to be taken into consideration
         tparams = [ for (param in params) TypeConv.get(param, pos) ];
       case FStatic(_,field):
         cf = field.get();
       case _:
         throw new Error('TemplateBuild: Invalid field access $fa', pos);
+      }
+
+      var startParam = 0;
+      if (cf.meta.has(':impl'))
+      {
+        startParam = 1;
+      }
+      var len = cf.params.length;
+      if (cls != null)
+      {
+        len += cls.params.length;
+      }
+      for (i in 0...len)
+      {
+        var targ = targs[startParam + i];
+        switch(Context.follow(targ.t)) {
+          case TAbstract(a,[tl]):
+            if (a.toString() != 'unreal.TypeParam')
+            {
+              throw 'assert';
+            }
+            switch(Context.follow(tl))
+            {
+              case TMono(_) | TDynamic(_):
+                throw new Error('TemplateBuild: Cannot infer the type parameter number ${i+1} (${cf.params[i].name}) for ${functionName}. Please make sure it is more explicit', pos);
+              case _:
+            }
+          case t:
+            throw 'assert $t';
+        }
       }
 
       // get function type params

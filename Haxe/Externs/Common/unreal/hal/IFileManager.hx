@@ -16,45 +16,45 @@ package unreal.hal;
 	@:thisConst function IsSandboxEnabled() : Bool;
 
 	/** Creates file reader archive. */
-	function CreateFileReader(Filename:Const<TCharStar>, ReadFlags:UInt32 = 0) : PPtr<FArchive>;
+	@:ublocking function CreateFileReader(Filename:Const<TCharStar>, ReadFlags:UInt32 = 0) : PPtr<FArchive>;
 
 	/** Creates file writer archive. */
-	function CreateFileWriter(Filename:Const<TCharStar>, WriteFlags:UInt32 = 0) : PPtr<FArchive>;
+	@:ublocking function CreateFileWriter(Filename:Const<TCharStar>, WriteFlags:UInt32 = 0) : PPtr<FArchive>;
 
 	// If you're writing to a debug file, you should use CreateDebugFileWriter, and wrap the calling code in #if ALLOW_DEBUG_FILES.
 #if ALLOW_DEBUG_FILES
-	function CreateDebugFileWriter(Filename:Const<TCharStar>, WriteFlags:UInt32 = 0) : PPtr<FArchive>;
+	@:ublocking function CreateDebugFileWriter(Filename:Const<TCharStar>, WriteFlags:UInt32 = 0) : PPtr<FArchive>;
 #end
 
 	/** Checks if a file is read-only. */
-	function IsReadOnly(Filename:Const<TCharStar>) : Bool;
+	@:ublocking function IsReadOnly(Filename:Const<TCharStar>) : Bool;
 
 	/** Deletes a file. */
-	function Delete(Filename:Const<TCharStar>, RequireExists:Bool = false, EvenReadOnly:Bool = false, Quiet:Bool = false) : Bool;
+	@:ublocking function Delete(Filename:Const<TCharStar>, RequireExists:Bool = false, EvenReadOnly:Bool = false, Quiet:Bool = false) : Bool;
 
 	/** Copies a file. */
 	// function Copy(Dest:Const<TCharStar>, Src:Const<TCharStar>, Replace:Bool = true, EvenIfReadOnly:Bool = false, Attributes:Bool = false, Progress:PPtr<FCopyProgress> = null, ReadFlags:EFileRead = FILEREAD_None, WriteFlags:EFileWrite = FILEWRITE_None) : UInt32;
 
 	/** Moves/renames a file. */
-	function Move(Dest:Const<TCharStar>, Src:Const<TCharStar>, Replace:Bool = true, EvenIfReadOnly:Bool = false, Attributes:Bool = false, bDoNotRetryOrError:Bool = false) : Bool;
+	@:ublocking function Move(Dest:Const<TCharStar>, Src:Const<TCharStar>, Replace:Bool = true, EvenIfReadOnly:Bool = false, Attributes:Bool = false, bDoNotRetryOrError:Bool = false) : Bool;
 
 	/** Checks if a file exists */
-	function FileExists(Filename:Const<TCharStar>) : Bool;
+	@:ublocking function FileExists(Filename:Const<TCharStar>) : Bool;
 
 	/** Checks if a directory exists. */
-	function DirectoryExists(InDirectory:Const<TCharStar>) : Bool;
+	@:ublocking function DirectoryExists(InDirectory:Const<TCharStar>) : Bool;
 
 	/** Creates a directory. */
-	function MakeDirectory(Path:Const<TCharStar>, Tree:Bool = false) : Bool;
+	@:ublocking function MakeDirectory(Path:Const<TCharStar>, Tree:Bool = false) : Bool;
 
 	/** Deletes a directory. */
-	function DeleteDirectory(Path:Const<TCharStar>, RequireExists:Bool = false, Tree:Bool = false) : Bool;
+	@:ublocking function DeleteDirectory(Path:Const<TCharStar>, RequireExists:Bool = false, Tree:Bool = false) : Bool;
 
 	/** Return the stat data for the given file or directory. Check the FFileStatData::bIsValid member before using the returned data */
 	// function GetStatData(FilenameOrDirectory:Const<TCharStar>) : FFileStatData;
 
 	/** Finds file or directories. */
-	function FindFiles(FileNames:PRef<TArray<FString>>, Filename:Const<TCharStar>, Files:Bool, Directories:Bool) : Void;
+	@:ublocking function FindFiles(FileNames:PRef<TArray<FString>>, Filename:Const<TCharStar>, Files:Bool, Directories:Bool) : Void;
 
 	/**
 	 * Finds all the files within the given directory, with optional file extension filter.
@@ -69,7 +69,7 @@ package unreal.hal;
 	// function FindFiles(FoundFiles:PRef<TArray<FString>>, Directory:Const<TCharStar>, FileExtension:Const<TCharStar> = nullptr) : Void;
 
 	/** Finds file or directories recursively. */
-	function FindFilesRecursive(FileNames:PRef<TArray<FString>>, StartDirectory:Const<TCharStar>, Filename:Const<TCharStar>, Files:Bool, Directories:Bool, bClearFileNames:Bool = true) : Void;
+	@:ublocking function FindFilesRecursive(FileNames:PRef<TArray<FString>>, StartDirectory:Const<TCharStar>, Filename:Const<TCharStar>, Files:Bool, Directories:Bool, bClearFileNames:Bool = true) : Void;
 
 	/**
 	 * Call the Visit function of the visitor once for each file or directory in a single directory. This function does not explore subdirectories.
@@ -104,7 +104,7 @@ package unreal.hal;
 	// function IterateDirectoryStatRecursively(Directory:Const<TCharStar>, Visitor:PRef<FDirectoryStatVisitor> ) : Bool;
 
 	/** Gets the age of a file measured in seconds. */
-	function GetFileAgeSeconds(Filename:Const<TCharStar>) : Float64;
+	@:ublocking function GetFileAgeSeconds(Filename:Const<TCharStar>) : Float64;
 
 	/**
 	 * @return the modification time of the given file (or FDateTime::MinValue() on failure)
@@ -159,7 +159,7 @@ package unreal.hal;
 	 *	@param Filename		Platform-independent Unreal filename.
 	 *	@return				File size in bytes or INDEX_NONE if the file didn't exist.
 	 **/
-	function FileSize(Filename:Const<TCharStar>) : Int64;
+	@:ublocking function FileSize(Filename:Const<TCharStar>) : Int64;
 
 	/**
 	 * Sends a message to the file server, and will block until it's complete. Will return
@@ -178,5 +178,5 @@ package unreal.hal;
 	*
 	* @return	Filename with the same case as in the filesystem.
 	*/
-	function GetFilenameOnDisk(Filename:Const<TCharStar>) : FString;
+	@:ublocking function GetFilenameOnDisk(Filename:Const<TCharStar>) : FString;
 }

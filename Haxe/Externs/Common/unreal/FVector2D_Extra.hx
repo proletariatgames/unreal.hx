@@ -41,4 +41,19 @@ extern class FVector2D_Extra {
   @:op(A==B)
   @:expr(return X == b.X && Y == b.Y)
   public function _eq(b:FVector2D):Bool;
+
+  public function Size():Float32;
+
+  /**
+  * Gets a normalized copy of the vector, checking it is safe to do so based on the length.
+  * Returns zero vector if vector length is too small to safely normalize.
+  *
+  * @param Tolerance Minimum squared vector length.
+  * @return A normalized copy if safe, (0,0,0) otherwise.
+  */
+  @:thisConst
+  public function GetSafeNormal() : FVector2D;
+
+  @:thisConst
+  public function ClampAxes(MinAxisVal:Float32, MaxAxisVal:Float32) : FVector2D;
 }
