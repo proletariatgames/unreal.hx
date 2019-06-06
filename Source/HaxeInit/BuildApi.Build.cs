@@ -520,7 +520,12 @@ public class HaxeConfigOptions {
     if (s == null) {
       return "";
     }
-    return " -D \"" + name + "=" + s.Replace("\\","\\\\").Replace("\"","\\\"").Replace("\n","\\n") + "\"";
+    // Windows doesn't need to escape \
+    if (!(System.Environment.OSVersion.Platform + "").StartsWith("Win"))
+    {
+      s = s.Replace("\\", "\\\\");
+    }
+    return " -D \"" + name + "=" + s.Replace("\"","\\\"").Replace("\n","\\n") + "\"";
   }
 
   private static string escapeBool(string name, bool b) {
