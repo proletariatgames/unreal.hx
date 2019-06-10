@@ -132,6 +132,7 @@ class ExternBaker {
           buf.add('package ${pack.join('.')};\n');
         }
         var processor = new ExternBaker(buf);
+        var copyFile = null;
         for (type in module) {
           var pos = null;
           var uname = switch(type) {
@@ -155,6 +156,16 @@ class ExternBaker {
                 continue;
               }
               pos = a.pos;
+              if (a.meta.has(':enum')) {
+                if (module.length > 2) {
+                  Context.warning('@:enum abstract types should be defined in their own modules, with no other type defined', a.pos);
+                  hadErrors = true;
+                  continue;
+                } else {
+                  copyFile = Context.getPosInfos(a.pos).file;
+                  break;
+                }
+              }
               MacroHelpers.getUName(a);
             case TType(t,_):
               // force the type to be built
@@ -222,11 +233,15 @@ class ExternBaker {
         }
 
         var targetFile = '$dir/$name.hx';
-        var info = getGeneratedInfo(targetFile);
-        if (generatedSourceIsValid(ref.file, targetFile, info)) {
-          File.saveContent(targetFile, buf.toString());
+        if (copyFile != null) {
+          File.copy(copyFile, targetFile);
         } else {
-          hadErrors = true;
+          var info = getGeneratedInfo(targetFile);
+          if (generatedSourceIsValid(ref.file, targetFile, info)) {
+            File.saveContent(targetFile, buf.toString());
+          } else {
+            hadErrors = true;
+          }
         }
       }
       if (hadErrors) {
