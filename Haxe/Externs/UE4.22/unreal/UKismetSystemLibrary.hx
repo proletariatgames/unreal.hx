@@ -229,7 +229,7 @@ package unreal;
     @param       TextColor               Whether or not to print the output to the console
     @param       Duration                The display duration (if Print to Screen is True). Using negative number will result in loading the duration time from the config.
   **/
-  @:ufunction(BlueprintCallable) static public function PrintString(WorldContextObject : unreal.UObject, InString : unreal.FString = "Hello", bPrintToScreen : Bool = true, bPrintToLog : Bool = true, @:opt("(R=0.000000,G=0.660000,B=1.000000,A=1.000000)") TextColor : unreal.FLinearColor, Duration : unreal.Float32 = 2.000000) : Void;
+  @:ufunction(BlueprintCallable) static public function PrintString(WorldContextObject : unreal.UObject, @:opt("Hello") ?InString : unreal.FString , bPrintToScreen : Bool = true, bPrintToLog : Bool = true, @:opt("(R=0.000000,G=0.660000,B=1.000000,A=1.000000)") TextColor : unreal.FLinearColor, Duration : unreal.Float32 = 2.000000) : Void;
 
   /**
     Prints text to the log, and optionally, to the screen
@@ -242,7 +242,7 @@ package unreal;
     @param       TextColor               Whether or not to print the output to the console
     @param       Duration                The display duration (if Print to Screen is True). Using negative number will result in loading the duration time from the config.
   **/
-  @:ufunction(BlueprintCallable) static public function PrintText(WorldContextObject : unreal.UObject, InText : unreal.Const<unreal.FText> = "INVTEXT(\"Hello\")", bPrintToScreen : Bool = true, bPrintToLog : Bool = true, @:opt("(R=0.000000,G=0.660000,B=1.000000,A=1.000000)") TextColor : unreal.FLinearColor, Duration : unreal.Float32 = 2.000000) : Void;
+  @:ufunction(BlueprintCallable) static public function PrintText(WorldContextObject : unreal.UObject, @:opt("INVTEXT(\"Hello\")") ?InText : unreal.Const<unreal.FText> , bPrintToScreen : Bool = true, bPrintToLog : Bool = true, @:opt("(R=0.000000,G=0.660000,B=1.000000,A=1.000000)") TextColor : unreal.FLinearColor, Duration : unreal.Float32 = 2.000000) : Void;
 
   /**
     Prints a warning string to the log and the screen. Meant to be used as a way to inform the user that they misused the node.

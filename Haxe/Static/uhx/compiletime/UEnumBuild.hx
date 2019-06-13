@@ -79,9 +79,11 @@ class UEnumBuild
       expose.pack = ['uhx','enums'];
       Globals.cur.hasUnprocessedTypes = true;
       Context.defineType(createArr);
+      Context.getType('uhx.enums.$arrCreateName');
       expose.meta.push({ name:':uexpose', pos:enumType.pos });
       expose.meta.push({ name:':skipUExternCheck', pos:enumType.pos });
       Context.defineType(expose);
+      Context.getType('uhx.enums.${uname}_GetArray');
 
       var writer = new HeaderWriter(headerPath);
       writer.include('uhx/EnumGlue.h');

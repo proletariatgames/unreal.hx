@@ -7,6 +7,10 @@ import haxe.macro.Expr;
   #if !macro
   public inline function new(native:TActorIteratorImpl<T>) this = native;
   public inline function iterator() return new TActorIteratorWrapper<T>(this);
+  @:noCompletion inline public static function callFunc<T>(tparam:unreal.TypeParam<T>, fn:T->Bool, val:T):Bool
+  {
+    return fn(val);
+  }
   #end
 
   macro public static function create(?tParam:Expr, world:Expr) : Expr {
@@ -29,10 +33,9 @@ import haxe.macro.Expr;
   macro public static function iterate<T>(tParam:ExprOf<unreal.TypeParam<T>>, world:Expr, fn:ExprOf<T->Bool>) : Expr {
     return macro {
       var it = unreal.TActorIteratorImpl.create($tParam, $world);
-      var fn = $fn;
       try {
         while (!it.op_Not()) {
-          if (!fn(it.op_Dereference())) {
+          if (!unreal.TActorIterator.callFunc($tParam, $fn, it.op_Dereference())) {
             break;
           }
           it.op_Increment();

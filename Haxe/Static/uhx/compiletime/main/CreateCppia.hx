@@ -185,7 +185,7 @@ class CreateCppia {
           }
           return ret;
         } else {
-          return module.startsWith('cpp.');
+          return module.startsWith('cpp.') || module.startsWith('sys.');
         }
       }
       for (type in types) {

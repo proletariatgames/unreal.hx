@@ -152,6 +152,20 @@ class GlueMethod {
       meth.meta = [];
     }
 
+    inline function addMeta(name:String) {
+      meth.meta.push({ name:name, pos:meth.pos });
+    }
+
+    if (this.thisConv.data.match(CUObject(_)) && !meth.flags.hasAny(Static)) {
+      if (meth.flags.hasAny(Final)) {
+        addMeta(':final');
+        addMeta(':nonVirtual');
+      }
+    } else {
+      // abstract methods cannot be final
+      meth.meta = meth.meta.filter(function(v) return v.name != ':final');
+    }
+
     var isStatic = meth.flags.hasAny(Static);
     var isProp = meth.flags.hasAny(Property);
     var haxeArgs = this.haxeArgs = meth.args;
@@ -273,10 +287,6 @@ class GlueMethod {
     var allTypes = [ for (arg in this.glueArgs) arg.t ];
     allTypes.push(meth.ret);
 
-    inline function addMeta(name:String) {
-      meth.meta.push({ name:name, pos:meth.pos });
-    }
-
     if (!this.templated || isNoTemplate || meth.specialization != null) {
       if (!isGlueStatic && isTemplatedThis) {
         // in this case, we'll have glueHeader and ueHeaderCode - no cppCode is added
@@ -303,11 +313,6 @@ class GlueMethod {
       isStatic = true;
       meth.flags |= Static;
       this.haxeArgs = this.glueArgs;
-    }
-
-    if (meth.flags.hasAny(Final)) {
-      addMeta(':final');
-      addMeta(':nonVirtual');
     }
 
     if (this.templated && !isNoTemplate && meth.specialization == null) {

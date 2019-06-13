@@ -169,6 +169,7 @@ class CreateGlue {
           }
           Globals.cur.inScriptPass = true;
           toGatherModules = [ for (module in scriptModules) Context.getModule(module) ];
+          keepEnums(toGatherModules);
           // ensureCompiled(toGatherModules);
           scriptClassesAdded = true;
         } else if (!didProcess) {
@@ -416,7 +417,7 @@ class CreateGlue {
               c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
               c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
               c.exclude();
-            } else if (c.pack[0] != "haxe" && c.pack[0] != "cpp") {
+            } else if (c.pack[0] != "haxe" && c.pack[0] != "cpp" && c.pack[0] != "sys") {
               c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
               c.exclude();
             }

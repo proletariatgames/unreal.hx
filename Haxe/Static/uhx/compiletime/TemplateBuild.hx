@@ -175,7 +175,7 @@ class TemplateBuild
           throw 'assert';
         }
 
-        var metas = cf.meta.get();
+        var metas = [ for (meta in cf.meta.get()) if (meta.name != ':impl') meta ];
         var sig = UhxMeta.getStaticMetas(metas) + 'run(' + [for (arg in fargs) arg.t.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType();
         if (!Context.defined('cppia'))
         {
