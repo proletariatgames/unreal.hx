@@ -417,22 +417,8 @@ class ExprGlueBuild {
     return ret;
   }
 
-  private static function findField(cls:ClassType, field:String, isStatic:Bool, ?cur:ClassField) {
-    var name = cls.pack.join('.') + '.' + cls.name;
-    var fields = Globals.cur.cachedFields[name];
-    if (fields == null) {
-      Globals.cur.cachedFields[name] = fields = new Map();
-    }
-    var f = fields[field];
-    if (f == null) {
-      if (cur != null) {
-        f = cur;
-      } else {
-        f = cls.findField(field, isStatic);
-      }
-      fields[field] = f;
-    }
-    return f;
+  inline private static function findField(cls:ClassType, field:String, isStatic:Bool) {
+    return Globals.cur.typedClassCache.findField(cls, field, isStatic);
   }
 
   private static function flagCurrentField(meth:String, cl:ClassType, isStatic:Bool, expr:Expr, sig:String) {
@@ -587,7 +573,7 @@ class ExprGlueBuild {
     }
 
     for (field in cls.fields.get()) {
-      var field = findField(cls, field.name, false, field);
+      var field = findField(cls, field.name, false);
       if (uprops.exists(field.name)) {
         uprops[field.name] = { cf:field, isStatic:false };
       } else if (superCalls.exists(field.name)) {
@@ -601,7 +587,7 @@ class ExprGlueBuild {
     }
 
     for (field in cls.statics.get()) {
-      var field = findField(cls, field.name, true, field);
+      var field = findField(cls, field.name, true);
       if (uprops.exists(field.name)) {
         uprops[field.name] = { cf:field, isStatic:true };
       } else if (nativeCalls.exists(field.name)) {

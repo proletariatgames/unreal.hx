@@ -414,7 +414,11 @@ class TArrayIterator<T> {
   public var ar:TArray<T>;
   public var idx:Int;
   public var num:Int;
-  public inline function new(ar:TArray<T>) {
+
+  #if !cppia
+  inline
+  #end
+  public function new(ar:TArray<T>) {
     this.ar = ar;
     this.idx = 0;
     this.num = ar.Num();

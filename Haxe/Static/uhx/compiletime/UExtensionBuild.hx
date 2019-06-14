@@ -205,7 +205,7 @@ class UExtensionBuild {
         default:
         }
 
-        if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride ? nativeMethods[field.name] : null)) {
+        if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride ? nativeMethods[field.name].meta : null)) {
           toExpose[field.name] = getMethodDef(field, isOverride ? nativeMethods[field.name] : null, isOverride && !field.meta.has('uhx_OverridesNative') ? Override : Member);
           // if (isOverride) {
           //   var sig = UhxMeta.getStaticMetas(field.meta.get()) + field.name;

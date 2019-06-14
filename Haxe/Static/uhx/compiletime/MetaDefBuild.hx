@@ -97,7 +97,7 @@ class MetaDefBuild {
             {
               repl = Always;
               // check if the function really exists
-              var fn = haxe.macro.TypeTools.findField(base, kind);
+              var fn = Globals.findField(base, kind);
               if (fn == null)
               {
                 throw new Error('The field ${field.name} defined a ureplicate function call ${kind}, but that function was not found in ${base.name}', field.pos);

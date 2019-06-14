@@ -36,6 +36,11 @@ class Globals {
   @:isVar public var inCompilationServer(get,null):Bool;
   @:isVar public var pluginDir(default, null):String = Context.definedValue('UHX_PLUGIN_PATH');
 
+  @:allow(uhx.compiletime.NeedsGlueBuild)
+  @:persistent static var classCache(default, null):uhx.compiletime.types.ClassCache.UntypedClassCache;
+
+  public var typedClassCache(default, null):uhx.compiletime.types.ClassCache<ClassField>;
+
   public var module(get,null):String;
   public var glueUnityBuild(default, null):Bool = !Context.defined('no_unity_build');
   public var withEditor(default, null):Bool = Context.defined('WITH_EDITOR');
@@ -53,6 +58,17 @@ class Globals {
   public var compiledScriptGlueTypes:Array<String> = [];
 
   @:isVar public var shortBuildName(get, null):String;
+
+  public static function findField(cls:ClassType, field:String, isStatic=false) {
+    // first try to peek from the global class cache
+    var ret = classCache.peekClassData(cls);
+    if (ret != null) {
+      return ret.findField(field, isStatic);
+    }
+
+    // if it doesn't exist, use the local cache instead
+    return cur.typedClassCache.findField(cls, field, isStatic);
+  }
 
   public function readScriptGlues(path:String):Void {
     var scriptGlues = new Map(),
@@ -238,12 +254,6 @@ class Globals {
     A cache of TypeConv objects
    **/
   public var typeConvCache:Map<String, TypeConv> = new Map();
-
-  /**
-    This cache is needed to ensure we all have the same classfield when adding metadata to them,
-    otherwise some meta might be lost
-   **/
-  public var cachedFields:Map<String, Map<String, ClassField>> = new Map();
 
   /**
     Linked list of glue types that need to be generated
@@ -529,14 +539,13 @@ class Globals {
     return cf.meta.hasMeta(':uexpose') || (!isDynamicUType && cf.meta.hasMeta(':uproperty'));
   }
 
-  // if you change this, don't forget to change `shouldExposeFunctionExpr` as well
-  public static function shouldExposeFunction(cf:ClassField, isDynamicUType:Bool, originalNativeField:Null<ClassField>) {
+  public static function shouldExposeFunction(cf:ClassField, isDynamicUType:Bool, originalNativeFieldMeta:Null<MetaAccess>) {
     if (!cf.kind.match(FMethod(_))) {
       return false;
     }
 
-    if (originalNativeField != null) { // is override
-      var ufunc = originalNativeField.meta.extract(":ufunction");
+    if (originalNativeFieldMeta != null) { // is override
+      var ufunc = originalNativeFieldMeta.extract(":ufunction");
       if (ufunc != null) {
         for (meta in ufunc) {
           for (meta in meta.params) {
@@ -556,13 +565,13 @@ class Globals {
     return cf.meta.has(':uexpose') || (!isDynamicUType && cf.meta.has(':ufunction'));
   }
 
-  public static function shouldExposeFunctionExpr(cf:Field, isDynamicUType:Bool, originalNativeField:Null<ClassField>) {
+  public static function shouldExposeFunctionExpr(cf:Field, isDynamicUType:Bool, originalNativeFieldMeta:Null<MetaAccess>) {
     if (!cf.kind.match(FFun(_))) {
       return false;
     }
 
-    if (originalNativeField != null) {
-      var ufunc = originalNativeField.meta.extract(":ufunction");
+    if (originalNativeFieldMeta != null) {
+      var ufunc = originalNativeFieldMeta.extract(":ufunction");
       if (ufunc != null) {
         for (meta in ufunc) {
           for (meta in meta.params) {

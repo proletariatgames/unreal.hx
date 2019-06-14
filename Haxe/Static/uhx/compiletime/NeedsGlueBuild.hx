@@ -112,7 +112,7 @@ class NeedsGlueBuild
       // change uproperties to call getter/setters
       // warn if constructors are created
       var fields:Array<Field> = Context.getBuildFields();
-      var ret = processType(cls, function(str) return superClass.findField(str,false), thisType, fields);
+      var ret = processType(cls, function(str) return Globals.cur.typedClassCache.findField(superClass, str,false), thisType, fields);
       if (ret != null && cls.isInterface) {
         for (field in ret) {
           switch(field.kind) {
@@ -142,25 +142,21 @@ class NeedsGlueBuild
         firstExternSuper = null,
         hasNativeInterfaces = false,
         nonNativeFunctions = new Map();
-    var parent = (cast type : ClassType).superClass;
+    var typeSuper = (cast type : ClassType).superClass;
+    var parent = typeSuper == null ? null : Globals.classCache.getClassData(typeSuper.t.get());
     {
       if (parent != null) {
-        superClass = parent.t.get();
-        var cur = superClass;
-        while(true) {
+        superClass = typeSuper.t.get();
+        var cur = parent;
+        while(cur != null) {
           if (cur.meta.has(':uextern')) {
             firstExternSuper = cur;
             break;
           }
-          if (cur.superClass == null) {
-            break;
+          for (field in cur.members) {
+            nonNativeFunctions[field.name] = true;
           }
-          if (nonNativeFunctions != null) {
-            for (field in cur.fields.get()) {
-              nonNativeFunctions[field.name] = true;
-            }
-          }
-          cur = cur.superClass.t.get();
+          cur = cur.parent;
         }
       }
 
@@ -368,11 +364,11 @@ class NeedsGlueBuild
       // add the methodPtr accessor for any functions that are exposed/implemented in C++
       var overridesNative = field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic &&
                             firstExternSuper != null && !nonNativeFunctions.exists(field.name);
-      var originalNativeField = overridesNative && firstExternSuper != null ? firstExternSuper.findField(field.name, false) : null;
+      var originalNativeField = overridesNative && firstExternSuper != null ? firstExternSuper.findField(field.name) : null;
       var shouldExposeFn = Globals.shouldExposeFunctionExpr(
           field,
           isDynamicUType,
-          originalNativeField);
+          originalNativeField == null ? null : originalNativeField.meta);
       if (!isStatic && shouldExposeFn) {
         field.meta.push({ name:':keep', pos:field.pos });
         switch (field.kind) {
@@ -401,7 +397,7 @@ class NeedsGlueBuild
       }
       var parentField = originalNativeField != null || parent == null || (field.access != null && field.access.has(AStatic)) ?
           originalNativeField :
-          parent.t.get().findField(field.name, false);
+          parent.findField(field.name);
       if (parentField != null && parentField.meta.has(':ufunction')) {
         var ufunc = parentField.meta.extract(":ufunction");
         for (meta in ufunc) {
