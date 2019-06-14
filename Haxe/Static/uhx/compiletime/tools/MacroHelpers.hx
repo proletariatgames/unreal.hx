@@ -165,10 +165,10 @@ class MacroHelpers
     if (classpaths == null) {
       classpaths = haxe.macro.Context.getClassPath();
     }
-    if (sys.FileSystem.exists(filePath)) return filePath;
+    if (Globals.cur.fs.exists(filePath)) return filePath;
     for (cp in classpaths) {
       var path = '$cp/$filePath';
-      if (sys.FileSystem.exists(path)) {
+      if (Globals.cur.fs.exists(path)) {
         return path;
       }
     }
@@ -184,11 +184,11 @@ class MacroHelpers
   public static function deleteRecursive(path:String, force=false):Bool
   {
     var shouldDelete = true;
-    if (!sys.FileSystem.isDirectory(path))
+    if (!Globals.cur.fs.isDirectory(path))
     {
-      sys.FileSystem.deleteFile(path);
+      Globals.cur.fs.deleteFile(path);
     } else {
-      for (file in sys.FileSystem.readDirectory(path)) {
+      for (file in Globals.cur.fs.readDirectory(path)) {
         if (force || (file != 'Private' && file != 'Public')) {
           shouldDelete = deleteRecursive('$path/$file',force);
         } else {
@@ -196,7 +196,7 @@ class MacroHelpers
         }
       }
       if (shouldDelete) {
-        sys.FileSystem.deleteDirectory(path);
+        Globals.cur.fs.deleteDirectory(path);
       }
     }
     return shouldDelete;

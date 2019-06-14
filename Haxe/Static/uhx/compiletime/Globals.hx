@@ -41,6 +41,8 @@ class Globals {
 
   public var typedClassCache(default, null):uhx.compiletime.types.ClassCache<ClassField>;
 
+  public var fs(default, null) = new uhx.compiletime.tools.DirectoryCache();
+
   public var module(get,null):String;
   public var glueUnityBuild(default, null):Bool = !Context.defined('no_unity_build');
   public var withEditor(default, null):Bool = Context.defined('WITH_EDITOR');
@@ -112,10 +114,10 @@ class Globals {
   public function getCompiled(target:String):{ stamp:Null<Float>, modules:Map<String, Bool> } {
     var ret = new Map(),
         path = '$target/Data/compiled.txt';
-    if (!FileSystem.exists(path)) {
+    if (!fs.exists(path)) {
       return { stamp:null, modules:ret };
     }
-    var stamp = FileSystem.stat(path).mtime.getTime(),
+    var stamp = fs.stat(path).mtime.getTime(),
         file = sys.io.File.read(path);
     try {
       while(true) {
@@ -176,7 +178,7 @@ class Globals {
     }
     var target = staticBaseDir;
     target += '/Data/compserver.txt';
-    if (FileSystem.exists(target)) {
+    if (fs.exists(target)) {
       var ret = File.getContent(target);
       if (ret == "0") {
         return this.inCompilationServer = false;
@@ -388,7 +390,7 @@ class Globals {
     if (hasOlderCache == null) {
       var dir = unrealSourceDir;
       if (dir == null) return;
-      if (FileSystem.exists('$dir/Generated/defines.txt')) {
+      if (fs.exists('$dir/Generated/defines.txt')) {
         var defines = getDefinesString();
         this.hasOlderCache = File.getContent('$dir/Generated/defines.txt') == defines;
       } else {
@@ -403,10 +405,10 @@ class Globals {
    **/
   public function reserveCacheFile() {
     var dir = unrealSourceDir;
-    if (!FileSystem.exists('$dir/Generated')) {
-      FileSystem.createDirectory('$dir/Generated');
+    if (!fs.exists('$dir/Generated')) {
+      fs.createDirectory('$dir/Generated');
     }
-    File.saveContent('$dir/Generated/defines.txt', '');
+    fs.saveContent('$dir/Generated/defines.txt', '');
   }
 
   /**
@@ -418,11 +420,11 @@ class Globals {
     }
 
     var dir = unrealSourceDir;
-    if (!FileSystem.exists('$dir/Generated')) {
-      FileSystem.createDirectory('$dir/Generated');
+    if (!fs.exists('$dir/Generated')) {
+      fs.createDirectory('$dir/Generated');
     }
     var str = getDefinesString();
-    File.saveContent('$dir/Generated/defines.txt', str);
+    fs.saveContent('$dir/Generated/defines.txt', str);
   }
 
   public function addScriptDef(name:String, def:{ className:String, meta:uhx.meta.MetaDef }) {

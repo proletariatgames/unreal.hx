@@ -267,7 +267,7 @@ class MetaDefBuild {
     var outputDir = haxe.io.Path.directory(Compiler.getOutput());
     var ntry = Std.int(Math.random() * 0x7FFFFFFF);
     var file = outputDir + '/gameCrcs.data';
-    if (sys.FileSystem.exists(file)) {
+    if (Globals.cur.fs.exists(file)) {
       try {
         var reader = sys.io.File.read(file, true);
         reader.readInt32();

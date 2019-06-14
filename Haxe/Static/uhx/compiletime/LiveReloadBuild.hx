@@ -297,13 +297,13 @@ class LiveReloadBuild
       var hash = liveHashes[cls];
       buf.add('$cls=$hash\n');
     }
-    sys.io.File.saveContent(out, buf.toString());
+    Globals.cur.fs.saveContent(out, buf.toString());
   }
 
   public static function loadLiveHashes(name:String, intoMap:Map<String, String>)
   {
     var out = Globals.cur.staticBaseDir + '/Data/$name';
-    if (!sys.FileSystem.exists(out))
+    if (!Globals.cur.fs.exists(out))
     {
       trace('The live hash file $out was not found. No compile-time live function checks will be made');
       return;

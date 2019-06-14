@@ -2,7 +2,6 @@ package uhx.compiletime;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
-import sys.FileSystem;
 import uhx.compiletime.tools.*;
 import uhx.compiletime.types.*;
 

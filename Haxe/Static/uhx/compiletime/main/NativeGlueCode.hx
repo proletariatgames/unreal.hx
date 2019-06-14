@@ -2,7 +2,6 @@ package uhx.compiletime.main;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
-import sys.FileSystem;
 import sys.io.File;
 import uhx.compiletime.tools.*;
 import uhx.compiletime.types.*;
@@ -32,8 +31,8 @@ class NativeGlueCode
     this.modules = new Map();
     this.glueTypes = new Map();
     this.stampOutput = haxe.macro.Compiler.getOutput() + '/Stamps/$glueGenerationVersion';
-    if (!FileSystem.exists(this.stampOutput)) {
-      FileSystem.createDirectory(this.stampOutput);
+    if (!Globals.cur.fs.exists(this.stampOutput)) {
+      Globals.cur.fs.createDirectory(this.stampOutput);
     }
     Globals.cur.glueManager = this.glues;
   }
@@ -45,19 +44,19 @@ class NativeGlueCode
   private function getNewerUhxStamp() {
     var best = .0;
     function recurse(dir:String) {
-      for (file in FileSystem.readDirectory(dir)) {
+      for (file in Globals.cur.fs.readDirectory(dir)) {
         if (file.endsWith('.hx')) {
-          var time = FileSystem.stat('$dir/$file').mtime.getTime();
+          var time = Globals.cur.fs.stat('$dir/$file').mtime.getTime();
           if (time > best) {
             best = time;
           }
-        } else if (FileSystem.isDirectory('$dir/$file')) {
+        } else if (Globals.cur.fs.isDirectory('$dir/$file')) {
           recurse('$dir/$file');
         }
       }
     }
     for (cp in Context.getClassPath()) {
-      if (FileSystem.exists('$cp/uhx/compiletime') && FileSystem.isDirectory('$cp/uhx/compiletime')) {
+      if (Globals.cur.fs.exists('$cp/uhx/compiletime') && Globals.cur.fs.isDirectory('$cp/uhx/compiletime')) {
         recurse('$cp/uhx/compiletime');
       }
     }
@@ -219,7 +218,8 @@ class NativeGlueCode
       for (inc in field.meta.extractStrings(':glueCppIncludes'))
         writer.include(inc);
     }
-    return writer.close(null);
+    var ret = writer.close(null);
+    return ret;
   }
 
   public function writeGlueCpp(cl:ClassType) {
@@ -261,21 +261,21 @@ class NativeGlueCode
     } else {
       glues.setDeleted(cppPath, firstModule);
     }
-    File.saveContent(stampPath,'');
+    Globals.cur.fs.saveContent(stampPath,'');
   }
 
   private function checkShouldGenerate(stampPath:String, targetPath:String, clt:ClassType):Bool {
     if (Globals.cur.hasOlderCache) {
-      if (!FileSystem.exists(targetPath)) return true;
+      if (!Globals.cur.fs.exists(targetPath)) return true;
       if (clt.meta.has(':wasCompiled')) {
         return false;
       }
       if (clt.meta.has(':uextern')) {
         // we only need to update if the source file was changed more recently
         var sourceFile = MacroHelpers.getPath( Context.getPosInfos(clt.pos).file );
-        if (sourceFile != null && FileSystem.exists(stampPath)) {
-          var stampPath = FileSystem.stat(stampPath).mtime.getTime(),
-              sourceStat = FileSystem.stat(sourceFile).mtime.getTime();
+        if (sourceFile != null && Globals.cur.fs.exists(stampPath)) {
+          var stampPath = Globals.cur.fs.stat(stampPath).mtime.getTime(),
+              sourceStat = Globals.cur.fs.stat(sourceFile).mtime.getTime();
           if (stampPath > sourceStat) {
             return false;
           }
@@ -332,7 +332,7 @@ class NativeGlueCode
         var templWriter = new HeaderWriter(path);
         writeUEHeader(cl, templWriter, gluePath);
       }
-      File.saveContent(stampPath,'');
+      Globals.cur.fs.saveContent(stampPath,'');
     }
   }
 
@@ -453,7 +453,7 @@ class NativeGlueCode
         var path = cpath.replace('.','/');
 
         var headerPath = '$cppTarget/include/${path}.h';
-        if (!FileSystem.exists(headerPath)) {
+        if (!Globals.cur.fs.exists(headerPath)) {
           trace('The uexpose header at path $headerPath does not exist. Skipping');
           continue;
         }
@@ -466,10 +466,10 @@ class NativeGlueCode
           var contents = File.getContent(headerPath);
           // take off the self-include
           contents = contents.replace('#include <$path.h>', '');
-          if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents) {
-            File.saveContent(targetPath, contents);
+          if (!Globals.cur.fs.exists(targetPath) || File.getContent(targetPath) != contents) {
+            Globals.cur.fs.saveContent(targetPath, contents);
           }
-          File.saveContent(stampPath, '');
+          Globals.cur.fs.saveContent(stampPath, '');
         }
       }
 
@@ -486,15 +486,15 @@ class NativeGlueCode
     }
 
     // add all extra modules which we depend on
-    if (!FileSystem.exists('$staticBaseDir/Data')) {
-      FileSystem.createDirectory('$staticBaseDir/Data');
+    if (!Globals.cur.fs.exists('$staticBaseDir/Data')) {
+      Globals.cur.fs.createDirectory('$staticBaseDir/Data');
     }
     var modules = [ for (module in modules.keys()) module ];
     modules.sort(Reflect.compare);
     var contents = modules.join('\n').trim();
     var targetModules = '$staticBaseDir/Data/modules.txt';
-    if (!FileSystem.exists(targetModules) || File.getContent(targetModules).trim() != contents) {
-      File.saveContent(targetModules, contents);
+    if (!Globals.cur.fs.exists(targetModules) || File.getContent(targetModules).trim() != contents) {
+      Globals.cur.fs.saveContent(targetModules, contents);
     }
 
     if (Context.defined("WITH_CPPIA")) {
@@ -502,8 +502,8 @@ class NativeGlueCode
       glueModules.sort(Reflect.compare);
       var contents = glueModules.join('\n');
       var file = '$staticBaseDir/Data/compiled.txt';
-      if (!FileSystem.exists(file) || sys.io.File.getContent(file) != contents) {
-        sys.io.File.saveContent(file, contents);
+      if (!Globals.cur.fs.exists(file) || sys.io.File.getContent(file) != contents) {
+        Globals.cur.fs.saveContent(file, contents);
       }
     }
 
@@ -512,7 +512,7 @@ class NativeGlueCode
     glues.makeUnityBuild();
 
     var file = '$staticBaseDir/Data/staticProducedFiles.txt';
-    sys.io.File.saveContent(file, this.producedFiles.join('\n'));
+    Globals.cur.fs.saveContent(file, this.producedFiles.join('\n'));
   }
 
   public function onGenerate(types:Array<Type>) {

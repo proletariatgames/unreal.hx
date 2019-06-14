@@ -1,5 +1,4 @@
 package uhx.compiletime.tools;
-import sys.FileSystem;
 import sys.io.File;
 
 using StringTools;
@@ -86,8 +85,8 @@ class BaseWriter {
 
   public function delete() {
     this.isDeleted = true;
-    if (FileSystem.exists(path)) {
-      FileSystem.deleteFile(path);
+    if (Globals.cur.fs.exists(path)) {
+      Globals.cur.fs.deleteFile(path);
       return true;
     }
     return false;
@@ -97,20 +96,35 @@ class BaseWriter {
     if (module == null) module = Globals.cur.module;
     var contents = getContents(module);
     if (contents == null || contents == '') {
-      if (FileSystem.exists(path)) {
-        FileSystem.deleteFile(path);
+      if (Globals.cur.fs.exists(path)) {
+        Globals.cur.fs.deleteFile(path);
       }
       this.isDeleted = true;
       return false;
     }
     contents = prelude + contents.trim();
-    if (!FileSystem.exists(path) || File.getContent(path).trim() != contents) {
+    var needsSave = !Globals.cur.fs.exists(path);
+    var hash = haxe.macro.Context.signature(contents);
+    contents = '// $hash\n$contents';
+    if (!needsSave) {
+      var file = File.read(path);
+      try {
+        var line = file.readLine().trim();
+        needsSave = line != '// $hash';
+      }
+      catch(e:haxe.io.Eof) {
+        needsSave = true;
+      }
+      file.close();
+    }
+
+    if (needsSave) {
       var dir = haxe.io.Path.directory( path );
-      if (!FileSystem.exists(dir)) {
-        FileSystem.createDirectory(dir);
+      if (!Globals.cur.fs.exists(dir)) {
+        Globals.cur.fs.createDirectory(dir);
       }
 
-      File.saveContent(path, contents);
+      Globals.cur.fs.saveContent(path, contents);
       return true;
     }
     return false;

@@ -238,7 +238,7 @@ class ExternBaker {
         } else {
           var info = getGeneratedInfo(targetFile);
           if (generatedSourceIsValid(ref.file, targetFile, info)) {
-            File.saveContent(targetFile, buf.toString());
+            Globals.cur.fs.saveContent(targetFile, buf.toString());
           } else {
             hadErrors = true;
           }

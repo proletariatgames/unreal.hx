@@ -2,7 +2,6 @@ package uhx.compiletime.main;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
-import sys.FileSystem;
 import uhx.compiletime.tools.*;
 import uhx.compiletime.types.*;
 
@@ -225,9 +224,9 @@ class CreateGlue {
             var lives = [ for (cls in Globals.cur.explicitLiveReloadFunctions.keys()) cls ];
             var out = Globals.cur.staticBaseDir + '/Data/livereload.txt';
             if (lives.length > 0) {
-              sys.io.File.saveContent( out, lives.join('\n') );
-            } else if (sys.FileSystem.exists(out)) {
-              sys.FileSystem.deleteFile(out);
+              Globals.cur.fs.saveContent( out, lives.join('\n') );
+            } else if (Globals.cur.fs.exists(out)) {
+              Globals.cur.fs.deleteFile(out);
             }
           }
           Globals.cur.loadCachedTypes();
@@ -292,7 +291,7 @@ class CreateGlue {
       nativeGlue.onAfterGenerate();
       Globals.cur.setCacheFile();
       writeFileDeps(fileDeps, '${Globals.cur.staticBaseDir}/Data/staticDeps.txt');
-      sys.io.File.saveContent('${Globals.cur.staticBaseDir}/Data/staticModules.txt', staticModules.join('\n'));
+      Globals.cur.fs.saveContent('${Globals.cur.staticBaseDir}/Data/staticModules.txt', staticModules.join('\n'));
       writeScriptGlues(builtGlues, '${Globals.cur.staticBaseDir}/Data/scriptGlues.txt');
       uhx.compiletime.LiveReloadBuild.saveLiveHashes('static-live-hashes.txt');
     });
@@ -339,20 +338,20 @@ class CreateGlue {
   {
     function recurse(path:String, pack:String)
     {
-      for (file in FileSystem.readDirectory(path))
+      for (file in Globals.cur.fs.readDirectory(path))
       {
         if (file.endsWith('.hx')) {
           modules.push(pack + file.substr(0,-3));
           if (paths != null) {
             paths.push('$path/$file');
           }
-        } else if (FileSystem.isDirectory('$path/$file')) {
+        } else if (Globals.cur.fs.isDirectory('$path/$file')) {
           recurse('$path/$file', pack + file + '.');
         }
       }
     }
 
-    if (FileSystem.exists(path)) recurse(path, '');
+    if (Globals.cur.fs.exists(path)) recurse(path, '');
   }
 
   /**

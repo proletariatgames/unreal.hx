@@ -4,7 +4,6 @@ import haxe.macro.Context;
 import haxe.macro.Compiler;
 import haxe.macro.Type;
 import uhx.compiletime.types.TypeRef;
-import sys.FileSystem;
 
 using uhx.compiletime.tools.MacroHelpers;
 using StringTools;
@@ -37,7 +36,7 @@ class CreateCppia {
     }
     Globals.cur.staticModules = [ for (module in statics) module => true ];
     var modules = [ for (module in scripts) Context.getModule(module) ];
-    if (target != null && sys.FileSystem.exists('$target/Data/livereload.txt')) {
+    if (target != null && Globals.cur.fs.exists('$target/Data/livereload.txt')) {
       var arr = [];
       for (type in sys.io.File.getContent('$target/Data/livereload.txt').split('\n')) {
         try {
@@ -324,7 +323,7 @@ class CreateCppia {
     });
     Context.onAfterGenerate( function() {
       writeFileDeps(fileDeps, '$target/Data/cppiaDeps.txt');
-      sys.io.File.saveContent('$target/Data/cppiaModules.txt', scripts.join('\n'));
+      Globals.cur.fs.saveContent('$target/Data/cppiaModules.txt', scripts.join('\n'));
       uhx.compiletime.LiveReloadBuild.saveLiveHashes('cppia-live-hashes.txt');
     });
   }
@@ -361,20 +360,20 @@ class CreateCppia {
   {
     function recurse(path:String, pack:String)
     {
-      for (file in FileSystem.readDirectory(path))
+      for (file in Globals.cur.fs.readDirectory(path))
       {
         if (file.endsWith('.hx')) {
           modules.push(pack + file.substr(0,-3));
           if (paths != null) {
             paths.push('$path/$file');
           }
-        } else if (FileSystem.isDirectory('$path/$file')) {
+        } else if (Globals.cur.fs.isDirectory('$path/$file')) {
           recurse('$path/$file', pack + file + '.');
         }
       }
     }
 
-    if (FileSystem.exists(path)) recurse(path, '');
+    if (Globals.cur.fs.exists(path)) recurse(path, '');
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {

@@ -1,6 +1,5 @@
 package uhx.compiletime.types;
 import haxe.macro.Context;
-import sys.FileSystem;
 import sys.io.File;
 import uhx.compiletime.tools.*;
 import uhx.compiletime.main.NativeGlueCode;
@@ -160,7 +159,7 @@ class GlueManager {
     for (module in this.modules.keys()) {
       var targetPath = GlueInfo.getUnityPath(module, false);
       nativeGlueCode.addProducedFile(targetPath);
-      if (this.regenUnityFiles || !sys.FileSystem.exists(targetPath)) {
+      if (this.regenUnityFiles || !Globals.cur.fs.exists(targetPath)) {
         this.modulesChanged[module] = true;
       }
     }
@@ -168,7 +167,7 @@ class GlueManager {
     for (deleted in this.modulesDeleted.keys()) {
       if (!this.modulesChanged.exists(deleted)) {
         var target = GlueInfo.getUnityPath(deleted, false);
-        if (!sys.FileSystem.exists(target)) {
+        if (!Globals.cur.fs.exists(target)) {
           this.modulesChanged[deleted] = true;
         } else {
           if (hasAnyInclude(target, this.modulesDeleted[deleted])) {
@@ -184,9 +183,9 @@ class GlueManager {
       if (files == null)
       {
         var target = GlueInfo.getUnityPath(changed, true);
-        if (FileSystem.exists(target))
+        if (Globals.cur.fs.exists(target))
         {
-          FileSystem.deleteFile(target);
+          Globals.cur.fs.deleteFile(target);
         }
         continue;
       }
@@ -212,21 +211,21 @@ class GlueManager {
       var result = buf.toString();
       var target = GlueInfo.getUnityPath(changed, true);
       if (this.regenUnityFiles) {
-        if (!FileSystem.exists(target) || File.getContent(target) != result) {
-          File.saveContent(target, result);
+        if (!Globals.cur.fs.exists(target) || File.getContent(target) != result) {
+          Globals.cur.fs.saveContent(target, result);
         }
       } else {
-        File.saveContent(target, result);
+        Globals.cur.fs.saveContent(target, result);
       }
     }
 
-    if (FileSystem.exists(dir)) {
+    if (Globals.cur.fs.exists(dir)) {
       var suffix = '.' + Globals.cur.shortBuildName + GlueInfo.UNITY_CPP_EXT;
-      for (file in FileSystem.readDirectory(dir)) {
+      for (file in Globals.cur.fs.readDirectory(dir)) {
         if (file.endsWith('.cpp')) {
           if (!file.endsWith(suffix) || !this.modules.exists(file.substring(GlueInfo.UNITY_CPP_PREFIX.length, file.length - suffix.length))) {
             trace('Deleting unused unity build file $dir/$file');
-            FileSystem.deleteFile('$dir/$file');
+            Globals.cur.fs.deleteFile('$dir/$file');
           }
         }
       }
@@ -244,25 +243,25 @@ class GlueManager {
         mod = cur.module,
         isProgram = Context.defined('UE_PROGRAM');
 
-    FileSystem.createDirectory(Globals.cur.staticBaseDir + '/Generated/Private');
-    FileSystem.createDirectory(Globals.cur.staticBaseDir + '/Generated/Public');
-    FileSystem.createDirectory(Globals.cur.staticBaseDir + '/Generated/Shared');
-    FileSystem.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Public');
-    FileSystem.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Private');
-    FileSystem.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Shared');
+    Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/Private');
+    Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/Public');
+    Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/Shared');
+    Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Public');
+    Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Private');
+    Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Shared');
 
     // update templates that need to be updated
     function recurse(templatePath:String, toPath:String)
     {
       var checkMap = null;
 
-      if (!FileSystem.exists(toPath)) {
-        FileSystem.createDirectory(toPath);
+      if (!Globals.cur.fs.exists(toPath)) {
+        Globals.cur.fs.createDirectory(toPath);
       } else {
         checkMap = new Map();
       }
 
-      for (file in FileSystem.readDirectory(templatePath))
+      for (file in Globals.cur.fs.readDirectory(templatePath))
       {
         if (isProgram) {
           switch(file) {
@@ -273,12 +272,12 @@ class GlueManager {
         if (checkMap != null) checkMap[file] = true;
         var curTemplPath = '$templatePath/$file',
             curToPath = '$toPath/$file';
-        if (FileSystem.isDirectory(curTemplPath))
+        if (Globals.cur.fs.isDirectory(curTemplPath))
         {
           recurse(curTemplPath, curToPath);
         } else {
           this.nativeGlueCode.addProducedFile(curToPath);
-          var shouldCopy = !FileSystem.exists(curToPath);
+          var shouldCopy = !Globals.cur.fs.exists(curToPath);
           var contents = File.getContent(curTemplPath);
           if (mod != 'HaxeRuntime') {
             contents = contents.replace('HAXERUNTIME', mod.toUpperCase()).replace('HaxeRuntime', mod);
@@ -288,7 +287,7 @@ class GlueManager {
           }
 
           if (shouldCopy) {
-            File.saveContent(curToPath, contents);
+            Globals.cur.fs.saveContent(curToPath, contents);
           }
 
           if (glueUnityBuild && file.endsWith('.cpp')) {
@@ -299,7 +298,7 @@ class GlueManager {
 
       if (checkMap != null)
       {
-        for (file in FileSystem.readDirectory(toPath)) {
+        for (file in Globals.cur.fs.readDirectory(toPath)) {
           if (!checkMap.exists(file)) {
             MacroHelpers.deleteRecursive('$toPath/$file');
           }
@@ -313,10 +312,10 @@ class GlueManager {
     var templateExport = '${cur.unrealSourceDir}/Generated/TemplateExport';
     if (!isProgram) {
       recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Export', templateExport);
-    } else if (FileSystem.exists(templateExport)) {
+    } else if (Globals.cur.fs.exists(templateExport)) {
       MacroHelpers.deleteRecursive(templateExport);
     }
-    if (FileSystem.exists(oldSrcDir)) {
+    if (Globals.cur.fs.exists(oldSrcDir)) {
       MacroHelpers.deleteRecursive(oldSrcDir);
     }
     return srcDir;
@@ -324,7 +323,7 @@ class GlueManager {
 
   private function cleanDir(path:String, cppMask:TouchKind, headerMask:TouchKind, touchedFiles:Map<String, TouchKind>) {
     function recurse(path:String, packPath:String) {
-      for (file in FileSystem.readDirectory(path)) {
+      for (file in Globals.cur.fs.readDirectory(path)) {
         var idx = file.lastIndexOf('.');
         if (idx >= 0 && file.charCodeAt(0) != '.'.code) {
           var name = file.substr(0, idx),
@@ -348,17 +347,17 @@ class GlueManager {
             if (file.endsWith('.cpp')) {
               regenUnityFiles = true;
             }
-            FileSystem.deleteFile(fullPath);
+            Globals.cur.fs.deleteFile(fullPath);
           }
         } else {
           var fullPath = '$path/$file';
-          if (FileSystem.isDirectory(fullPath)) {
+          if (Globals.cur.fs.isDirectory(fullPath)) {
             recurse(fullPath, packPath + file + '.');
           }
         }
       }
     }
-    if (FileSystem.exists(path)) {
+    if (Globals.cur.fs.exists(path)) {
       recurse(path, '');
     }
   }

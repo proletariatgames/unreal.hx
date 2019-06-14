@@ -6,7 +6,6 @@ import uhx.compiletime.tools.HelperBuf;
 import uhx.compiletime.tools.HeaderWriter;
 import uhx.compiletime.tools.*;
 import uhx.compiletime.types.*;
-import sys.FileSystem;
 
 using haxe.macro.Tools;
 using Lambda;
