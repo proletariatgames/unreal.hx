@@ -4,6 +4,7 @@
 #include "Core.h"
 #include "HAL/PlatformAtomics.h"
 #include <cstdio>
+#include <clocale>
 
 #if PLATFORM_WINDOWS || PLATFORM_XBOXONE
   #include "Windows/MinimalWindowsApi.h"
@@ -115,6 +116,9 @@ static bool uhx_init_if_needed(void *top_of_stack)
   gc_set_top_of_stack((int *)top_of_stack, false);
   const char *error = hxRunLibrary();
   if (error) { UE_LOG(HaxeLog, Fatal, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
+  // hxcpp sets the locale to "" which is incompatible with Unreal - so let's set it back to C
+  // see https://github.com/HaxeFoundation/hxcpp/commit/94812c34d7df0d9d50127a8ce6033c4e3f98cc9a for the commit that added this
+  setlocale(LC_ALL, "C");
 #endif
   gDidInit = 2;
   return true;
