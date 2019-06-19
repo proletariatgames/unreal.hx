@@ -18,7 +18,9 @@ abstract DirectoryCache(DirCacheData) {
 
   public function exists(path:String) {
     path = Path.normalize(path);
-    if (this.exists(path)) {
+    var dir = this[path];
+    if (dir != null && dir != nullMap) {
+      return dir != nullMap;
       return true;
     }
     var path = new Path(path);
@@ -33,7 +35,7 @@ abstract DirectoryCache(DirCacheData) {
   public function deleteFile(file:String) {
     var path = getNormalizedPath(file);
     var data = this[path.dir];
-    if (data != null) {
+    if (data != null && data != nullMap) {
       data.remove(getFileName(path));
     }
     sys.FileSystem.deleteFile(file);
@@ -45,16 +47,18 @@ abstract DirectoryCache(DirCacheData) {
     this.remove(path);
     var path = new Path(path);
     var data = this[path.dir];
-    if (data != null) {
+    if (data != null && data != nullMap) {
       data.remove(getFileName(path));
     }
   }
 
   public function createDirectory(origPath:String) {
     sys.FileSystem.createDirectory(origPath);
-    var path = getNormalizedPath(origPath);
+    var path = Path.normalize(origPath);
+    this.remove(path);
+    var path = new Path(path);
     var data = this[path.dir];
-    if (data != null) {
+    if (data != null && data != nullMap) {
       var name = getFileName(path);
       data[name] = { isDir: true };
     }
@@ -64,7 +68,7 @@ abstract DirectoryCache(DirCacheData) {
     sys.io.File.saveContent(path, contents);
     var path = getNormalizedPath(path);
     var data = this[path.dir];
-    if (data != null) {
+    if (data != null && data != nullMap) {
       var name = getFileName(path);
       data[name] = { isDir: false }; // reset stat data
     }
@@ -89,6 +93,10 @@ abstract DirectoryCache(DirCacheData) {
 
   public function isDirectory(origPath:String) {
     var path = Path.normalize(origPath);
+    var dir = this[path];
+    if (dir != null) {
+      return true;
+    }
     if (this.exists(path)) {
       return true;
     }
