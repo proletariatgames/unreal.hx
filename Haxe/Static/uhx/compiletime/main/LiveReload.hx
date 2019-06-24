@@ -131,7 +131,7 @@ class LiveReload
     });
 
     var files = File.getContent(file).trim().split('\n');
-    // haxe.macro.CompilationServer.invalidateFiles(files);
+    haxe.macro.CompilationServer.invalidateFiles(files);
     for (file in files)
     {
       var file = Path.normalize(file);

@@ -14,70 +14,98 @@ abstract DirectoryCache(DirCacheData) {
     this = new Map();
   }
 
-  private static var nullMap = new Map();
-
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function exists(path:String) {
+    #if USE_DIR_CACHE
     path = Path.normalize(path);
     var dir = this[path];
-    if (dir != null && dir != nullMap) {
-      return dir != nullMap;
+    if (dir != null) {
       return true;
     }
     var path = new Path(path);
     var data = getDirData(path.dir);
-    if (data == nullMap) {
+    if (data == null) {
       return false;
     } else {
       return data.exists(getFileName(path));
     }
+    #else
+    return sys.FileSystem.exists(path);
+    #end
   }
 
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function deleteFile(file:String) {
+    #if USE_DIR_CACHE
     var path = getNormalizedPath(file);
     var data = this[path.dir];
-    if (data != null && data != nullMap) {
+    if (data != null) {
       data.remove(getFileName(path));
     }
+    #end
     sys.FileSystem.deleteFile(file);
   }
 
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function deleteDirectory(origPath:String) {
     sys.FileSystem.deleteDirectory(origPath);
+    #if USE_DIR_CACHE
     var path = Path.normalize(origPath);
     this.remove(path);
     var path = new Path(path);
     var data = this[path.dir];
-    if (data != null && data != nullMap) {
+    if (data != null) {
       data.remove(getFileName(path));
     }
+    #end
   }
 
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function createDirectory(origPath:String) {
     sys.FileSystem.createDirectory(origPath);
+    #if USE_DIR_CACHE
     var path = Path.normalize(origPath);
     this.remove(path);
     var path = new Path(path);
     var data = this[path.dir];
-    if (data != null && data != nullMap) {
+    if (data != null) {
       var name = getFileName(path);
       data[name] = { isDir: true };
     }
+    #end
   }
 
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function saveContent(path:String, contents:String) {
     sys.io.File.saveContent(path, contents);
+    #if USE_DIR_CACHE
     var path = getNormalizedPath(path);
     var data = this[path.dir];
-    if (data != null && data != nullMap) {
+    if (data != null) {
       var name = getFileName(path);
       data[name] = { isDir: false }; // reset stat data
     }
+    #end
   }
 
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function stat(origPath:String) {
+    #if USE_DIR_CACHE
     var path = getNormalizedPath(origPath);
     var data = getDirData(path.dir);
-    if (data == nullMap) {
+    if (data == null) {
       throw 'parent directory ${path.dir} for $path does not exist';
     } else {
       var ret = data[getFileName(path)];
@@ -89,9 +117,16 @@ abstract DirectoryCache(DirCacheData) {
       }
       return ret.stat;
     }
+    #else
+    return sys.FileSystem.stat(origPath);
+    #end
   }
 
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function isDirectory(origPath:String) {
+    #if USE_DIR_CACHE
     var path = Path.normalize(origPath);
     var dir = this[path];
     if (dir != null) {
@@ -102,7 +137,7 @@ abstract DirectoryCache(DirCacheData) {
     }
     var path = new Path(path);
     var data = getDirData(path.dir);
-    if (data == nullMap) {
+    if (data == null) {
       throw 'Path $origPath does not exist';
     }
 
@@ -114,15 +149,25 @@ abstract DirectoryCache(DirCacheData) {
       ret.isDir = sys.FileSystem.isDirectory(origPath);
     }
     return ret.isDir;
+    #else
+    return sys.FileSystem.isDirectory(origPath);
+    #end
   }
 
+  #if !USE_DIR_CACHE
+  inline
+  #end
   public function readDirectory(path:String) {
+    #if USE_DIR_CACHE
     var data = getDirData(Path.normalize(path));
-    if (data == nullMap) {
+    if (data == null) {
       throw 'directory $path does not exist';
     }
 
     return [for (key in data.keys()) key];
+    #else
+    return sys.FileSystem.readDirectory(path);
+    #end
   }
 
   inline function getNormalizedPath(path:String):Path {
@@ -152,7 +197,7 @@ abstract DirectoryCache(DirCacheData) {
     }
     catch(e:Dynamic) {
       // does not exist
-      return nullMap;
+      return null;
     }
     return [for (file in contents) file => {}];
   }

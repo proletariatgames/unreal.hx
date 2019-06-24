@@ -287,7 +287,11 @@ class DelegateBuild {
 #end
 
     var supName = 'Base$type';
+    #if haxe4
+    var fnArgs = ComplexType.TFunction([for (arg in args) (arg.name == '') ? arg.t.toComplexType() : TNamed(arg.name, arg.t.toComplexType())], ret.toComplexType());
+    #else
     var fnArgs = tfun.toComplexType();
+    #end
     var sup:ComplexType = macro : unreal.$supName<$fnArgs>;
 
     meta.push({ name:':keepInit', params:[], pos:pos });

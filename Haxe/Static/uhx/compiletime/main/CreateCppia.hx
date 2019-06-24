@@ -325,6 +325,10 @@ class CreateCppia {
       writeFileDeps(fileDeps, '$target/Data/cppiaDeps.txt');
       Globals.cur.fs.saveContent('$target/Data/cppiaModules.txt', scripts.join('\n'));
       uhx.compiletime.LiveReloadBuild.saveLiveHashes('cppia-live-hashes.txt');
+      var oldLive = haxe.io.Path.directory(haxe.macro.Compiler.getOutput()) + '/live.cppia';
+      if (Globals.cur.fs.exists(oldLive)) {
+        Globals.cur.fs.deleteFile(oldLive);
+      }
     });
   }
 

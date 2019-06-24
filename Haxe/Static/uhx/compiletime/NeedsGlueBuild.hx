@@ -19,20 +19,32 @@ class NeedsGlueBuild
     #end
     var localClass = Context.getLocalClass(),
         cls:ClassType = localClass.get();
-    if (Context.defined('UHX_DISPLAY')) {
+    if (Context.defined('UHX_DISPLAY') || (Context.defined('LIVE_RELOAD_BUILD') && !Globals.cur.liveReloadModules[cls.module])) {
       if (cls.isInterface || cls.isExtern) {
         return null;
       }
-      var displayPos = haxe.macro.Compiler.getDisplayPos();
-      if (displayPos == null ||
-          sys.FileSystem.fullPath(displayPos.file).toLowerCase() != sys.FileSystem.fullPath(Context.getPosInfos(cls.pos).file).toLowerCase()
-         )
-      {
-        return null;
+      if (Context.defined('UHX_DISPLAY')) {
+        var displayPos = haxe.macro.Compiler.getDisplayPos();
+        if (displayPos == null ||
+            sys.FileSystem.fullPath(displayPos.file).toLowerCase() != sys.FileSystem.fullPath(Context.getPosInfos(cls.pos).file).toLowerCase()
+          )
+        {
+          return null;
+        }
       }
 
       var fields:Array<Field> = Context.getBuildFields(),
-          needsUpdate = false;
+          needsUpdate = false,
+          toAdd = [];
+
+      var fieldNames = [for (field in fields) field.name => field];
+      if (cls.meta.has(':uclass') && !fieldNames.exists('StaticClass')) {
+        var dummy = macro class {
+          public static function StaticClass():unreal.UClass { return null; }
+        };
+        needsUpdate = true;
+        toAdd.push(dummy.fields[0]);
+      }
       for (field in fields) {
         switch (field.kind) {
         case FFun(fn):
@@ -40,11 +52,24 @@ class NeedsGlueBuild
             fn.expr = macro {throw "Not Implemented";};
             needsUpdate = true;
           }
+          if (field.meta.hasMeta(':ufunction') || field.meta.hasMeta(':uexpose')) {
+            var glueFnName = '_get_${field.name}_methodPtr';
+            if (!fieldNames.exists(glueFnName)) {
+              needsUpdate = true;
+
+              var dummy = macro class {
+                private static function $glueFnName() : unreal.UIntPtr {
+                  return cast 0;
+                }
+              }
+              toAdd.push(dummy.fields[0]);
+            }
+          }
         case _:
         }
       }
       if (needsUpdate) {
-        return fields;
+        return fields.concat(toAdd);
       } else {
         return null;
       }
@@ -246,10 +271,13 @@ class NeedsGlueBuild
               superCalls[sfield] = { expr: EConst(CString(sfield)), pos:e.pos };
               var args = [ for (arg in args) map(arg) ];
               changed = true;
-              var name = field.name + '_super_' + clsName;
               hasSuper = true;
-              // { expr:ECall(macro @:pos(e.pos) $i{name}, args), pos:field.pos };
-              { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{sfield}].concat(args)), pos:e.pos };
+              if (Context.defined('LIVE_RELOAD_BUILD')) {
+                var name = field.name + '_super_' + clsName;
+                { expr:ECall(macro @:pos(e.pos) this.$name, args), pos:e.pos };
+              } else {
+                { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{sfield}].concat(args)), pos:e.pos };
+              }
             case _:
               e.map(map);
             }
@@ -258,16 +286,16 @@ class NeedsGlueBuild
           if (shouldMap) {
             fn.expr = map(fn.expr);
           }
-          if (false)
+          if (hasSuper && Context.defined('WITH_LIVE_RELOAD'))
           {
             superCalls[fnName] = { expr: EConst(CString(fnName)), pos:field.pos };
             var args = [ for (i in 0...fn.args.length) macro @:pos(field.pos) $i{'arg$i'} ];
-            var superCall = { expr:ECall(macro @:pos(field.pos) $delayedglue.getSuperExpr, [macro $v{fnName}, macro $v{fnName + '_super_' + clsName}].concat(args)), pos:field.pos };
+            var superCall = Context.defined('LIVE_RELOAD_BUILD') ? macro throw 'assert' : { expr:ECall(macro @:pos(field.pos) $delayedglue.getSuperExprSeparate, [macro $v{fnName}, macro $v{fnName + '_super_' + clsName}].concat(args)), pos:field.pos };
             toAdd.push({
               name: field.name + '_super_' + clsName,
               pos: field.pos,
               access: [APrivate],
-              meta: [{ name:':noCompletion', pos:field.pos }],
+              meta: [{ name:':noCompletion', pos:field.pos }, { name:':compilerGenerated', pos:field.pos }],
               kind: FFun({
                 args: [for (i in 0...fn.args.length) {
                   name: 'arg$i',
@@ -275,7 +303,6 @@ class NeedsGlueBuild
                   type: null
                 }],
                 ret: fn.ret,
-
                 expr: superCall
               })
             });

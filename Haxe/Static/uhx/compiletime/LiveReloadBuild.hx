@@ -150,14 +150,17 @@ class LiveReloadBuild
   {
     for (t in types)
     {
+      var extraMeta = null;
       var cls = switch(t) {
         case TInst(c,_): c.get();
         case TAbstract(a,_):
-          var impl = a.get().impl;
+          var a = a.get();
+          extraMeta = a.meta;
+          var impl = a.impl;
           impl != null ? impl.get() : null;
         case _: null;
       };
-      if (cls != null && cls.meta.has(':hasLiveReload'))
+      if ((cls != null && cls.meta.has(':hasLiveReload')) || (extraMeta != null && extraMeta.has(':hasLiveReload')))
       {
         // ensure it's built
         getLiveHashFor(cls);
@@ -393,6 +396,7 @@ class LiveReloadBuild
 
     var ret = Context.signature(fields);
     cls.meta.add('uhxLiveHash', [macro $v{ret}], cls.pos);
+    Globals.cur.liveHashes[TypeRef.fastClassPath(cls)] = ret;
     return ret;
   }
 #end
@@ -401,7 +405,6 @@ class LiveReloadBuild
   {
     var cls = Context.getLocalClass().get();
     var hash = getLiveHashFor(cls);
-    Globals.cur.liveHashes[TypeRef.fastClassPath(cls)] = hash;
     return macro $v{hash};
   }
 }

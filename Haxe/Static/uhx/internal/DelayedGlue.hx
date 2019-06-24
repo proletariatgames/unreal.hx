@@ -13,6 +13,10 @@ class DelayedGlue {
     return uhx.compiletime.ExprGlueBuild.getSuperExpr(fieldName, targetFieldName, args, false);
   }
 
+  macro public static function getSuperExprSeparate(fieldName:String, targetFieldName:String, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
+    return uhx.compiletime.ExprGlueBuild.getSuperExpr(fieldName, targetFieldName, args, false, true);
+  }
+
   macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
     #if LIVE_RELOAD_BUILD
     return macro cast null;
