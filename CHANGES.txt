@@ -3,6 +3,7 @@
 
   added UE 4.19 support
   added UE 4.21 support
+  added UE 4.22 support
   added Haxe 4 support
 
     New Features:
@@ -13,6 +14,10 @@
     added `@:ualign` to allow custom alignment setting for an Unreal.hx-generated struct
     allow `OnRep_` functions to work just as `onRep_`
     stacks are now registered and unregistered as needed, allowing foreign threads to call Haxe functions
+    haxe4 new function syntax support for parameter names (deprecating `@:uParamName`)
+    many compilation performance improvements
+    new live reload mode with a vscode plugin can achieve very fast incremental compilation speed
+    multi-thread support - allowing Haxe code to be called from multiple external threads
 
     Bugfixes:
 
