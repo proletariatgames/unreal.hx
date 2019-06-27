@@ -5,9 +5,12 @@ package unreal;
 @:noCopy
 @:uextern
 extern class FInputModeUIOnly extends FInputModeDataBase {
+	
+	@:uname(".ctor")
+	public static function create() : FInputModeUIOnly;
 
-  @:uname(".ctor")
-  public static function create() : FInputModeUIOnly;
+	public function SetWidgetToFocus(InWidgetToFocus:TSharedPtr<SWidget>) : FInputModeUIOnly;
 
-  public function SetWidgetToFocus(InWidgetToFocus:TSharedPtr<SWidget>) : FInputModeUIOnly;
+	public function SetLockMouseToViewportBehavior(MouseLockMode:EMouseLockMode) : FInputModeUIOnly;
+
 }
