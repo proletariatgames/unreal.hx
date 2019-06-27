@@ -298,7 +298,7 @@ public class HaxeModuleRules : BaseModuleRules {
         }
       }
 
-      if (generatingProjectFiles && !addedGenerateFilesHook) {
+      if (generatingProjectFiles && !addedGenerateFilesHook && rules.Target.Type != TargetType.Program) {
         addedGenerateFilesHook = true;
         AppDomain.CurrentDomain.ProcessExit += delegate(object sender, EventArgs e) {
           callHaxe(rules, info, options, false, "GenerateProjectFiles");
@@ -520,6 +520,16 @@ public class HaxeConfigOptions {
     if (s == null) {
       return "";
     }
+    if (!s.Contains(" "))
+    {
+      return "-D " + name + "=" + s;
+    }
+    // take off any trailing \
+    while (s[s.Length - 1] == '\\')
+    {
+      s = s.Substring(0, s.Length - 1);
+    }
+
     // Windows doesn't need to escape \
     if (!(System.Environment.OSVersion.Platform + "").StartsWith("Win"))
     {
