@@ -54,6 +54,31 @@ extern class FDateTime_Extra {
 
 	public function GetDate() : FDateTime;
 
+	/**
+	 * Returns the maximum date value.
+	 *
+	 * The maximum date value is December 31, 9999, 23:59:59.9999999.
+	 *
+	 * @see MinValue
+	 */
+	public static function MaxValue() : FDateTime;
+
+	/**
+	 * Validates the given components of a date and time value.
+	 *
+	 * The allow ranges for the components are:
+	 *		Year: 1 - 9999
+	 *		Month: 1 - 12
+	 *		Day: 1 - DaysInMonth(Month)
+	 *		Hour: 0 - 23
+	 *		Minute: 0 - 59
+	 *		Second: 0 - 59
+	 *		Millisecond: 0 - 999
+	 *
+	 * @return true if the components are valid, false otherwise.
+	 */
+	public static function Validate(Year:Int32, Month:Int32, Day:Int32, Hour:Int32, Min:Int32, Second:Int32, Ms:Int32) : Bool;
+
 	@:op(A<B)
 	@:expr(return GetTicks() < b.GetTicks())
 	public function _lt(b:FDateTime):Bool;

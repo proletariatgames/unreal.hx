@@ -24,7 +24,7 @@ class BaseWriter {
   private var includeMap:Map<String,Bool>;
   private var includes:Array<String>;
 
-  private function new(path) {
+  public function new(path) {
     this.path = path;
     this.buf = new HelperBuf();
     this.includeMap = new Map();
@@ -80,7 +80,7 @@ class BaseWriter {
   }
 
   private function getContents(module:String):String {
-    throw 'Not Implemented';
+    return this.buf.toString().trim();
   }
 
   public function delete() {

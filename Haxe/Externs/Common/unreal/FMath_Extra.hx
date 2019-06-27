@@ -175,4 +175,7 @@ extern class FMath_Extra {
 
 	/** Clamps X to be between Min and Max, inclusive */
 	public static function Clamp(X:Float32, Min:Float32, Max:Float32) : Float32;
+
+	public static function Cos(Value:Float32) : Float32;
+	public static function Acos(Value:Float32) : Float32;
 }

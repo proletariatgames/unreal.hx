@@ -32,5 +32,7 @@ extern class FTimespan_Extra {
   @:expr(return fromTicks(GetTicks() - b.GetTicks()))
   public function _sub(b:FTimespan):FTimespan;
 
+  public static function FromSeconds(Seconds:Float) : FTimespan;
+
   function ToString():FString;
 }

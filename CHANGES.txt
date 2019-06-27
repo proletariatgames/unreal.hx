@@ -18,6 +18,7 @@
     many compilation performance improvements
     new live reload mode with a vscode plugin can achieve very fast incremental compilation speed
     multi-thread support - allowing Haxe code to be called from multiple external threads
+    added support to LOCTEXT/NSLOCTEXT generation through the unreal.I18n class
 
     Bugfixes:
 

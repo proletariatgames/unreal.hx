@@ -19,6 +19,8 @@ class NativeGlueCode
   private var glueTypes:Map<String, Ref<ClassType>>;
   private var modules:Map<String,Bool>;
   private var producedFiles:Array<String>;
+  private var loctexts:Array<{ text:String, ns:String, key:String, pos:Position }>;
+  private var generateLoctext:Bool;
 
   private var stampOutput:String;
   // This version gets bumped each time a fundamental glue generation has changed
@@ -34,6 +36,8 @@ class NativeGlueCode
     if (!Globals.cur.fs.exists(this.stampOutput)) {
       Globals.cur.fs.createDirectory(this.stampOutput);
     }
+    this.loctexts = [];
+    this.generateLoctext = !Context.defined('UHX_SKIP_LOCTEXT');
     Globals.cur.glueManager = this.glues;
   }
 
@@ -507,6 +511,10 @@ class NativeGlueCode
       }
     }
 
+    if (this.generateLoctext && this.loctexts.length > 0) {
+      this.generateLoctexts();
+    }
+
     // clean generated folder
     glues.cleanDirs();
     glues.makeUnityBuild();
@@ -525,6 +533,15 @@ class NativeGlueCode
       case TInst(c,tl):
         var typeName = c.toString();
         var cl = c.get();
+        if (this.generateLoctext && cl.meta.has(':used_loctext')) {
+          for (meta in cl.meta.extract(':used_loctext')) {
+            switch(meta.params) {
+              case [{ expr:EConst(CString(text)) }, { expr:EConst(CString(ns)) }, { expr:EConst(CString(key)) }]:
+                this.loctexts.push({ text:text, ns:ns, key:key, pos:meta.pos });
+              case _:
+            }
+          }
+        }
         switch(cl.kind) {
         case KAbstractImpl(a):
           var a = a.get();
@@ -590,6 +607,38 @@ class NativeGlueCode
     if (hadErrors) {
       throw new Error('Build finished with errors', Context.currentPos());
     }
+  }
+
+  private function generateLoctexts() {
+    this.loctexts.sort(function(v1,v2) {
+      return switch [Reflect.compare(v1.ns, v2.ns), Reflect.compare(v1.key, v2.key)] {
+        case [0,k]: k;
+        case [k,_]: k;
+      }
+    });
+    var outPath = GlueInfo.getExportHeaderPath('uhx_loctexts');
+    // change .h to .inl
+    outPath = outPath.substr(0,outPath.length-1) + 'inl';
+    var writer = new BaseWriter(outPath);
+    inline function escape(txt:String) {
+      return txt.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
+    var last = null;
+    for (txt in loctexts) {
+      if (last != null && last.key == txt.key && last.ns == txt.ns) {
+        if (last.text != txt.text) {
+          Context.warning('Different text for same LOCTEXT was detected. NS=${last.ns} KEY=${last.key}', last.pos);
+          Context.warning('Also defined here', txt.pos);
+        }
+        last = txt;
+        continue;
+      }
+      writer.buf.add('NSLOCTEXT("${escape(txt.ns)}", "${escape(txt.key)}", "${escape(txt.text)}");\n');
+      last = txt;
+    }
+
+    glues.touch(TExportHeader, 'uhx_loctexts');
+    writer.close(null);
   }
 }
 

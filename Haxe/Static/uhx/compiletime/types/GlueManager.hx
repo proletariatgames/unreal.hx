@@ -333,7 +333,7 @@ class GlueManager {
               mask:Null<TouchKind> = null;
           if (ext == 'cpp') {
             mask = cppMask;
-          } else if (ext == 'h') {
+          } else if (ext == 'h' || ext == 'inl') {
             mask = headerMask;
           }
           if (mask != null) {
