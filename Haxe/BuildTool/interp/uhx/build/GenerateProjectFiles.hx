@@ -444,8 +444,12 @@ class GenerateProjectFiles extends UhxBaseBuild {
         }
       }
     } else {
-      for (key in exclude.keys()) {
+      var keys = [ for (key in exclude.keys()) key ];
+      for (key in keys) {
         if (key.endsWith('Haxe')) {
+          exclude.remove(key);
+        } else if (!haxe.io.Path.isAbsolute(key)) {
+          exclude[this.data.rootDir + '/' + key] = exclude[key];
           exclude.remove(key);
         }
       }
@@ -460,7 +464,7 @@ class GenerateProjectFiles extends UhxBaseBuild {
       {
         for (inc in this.config.extraEndsWithIncludes)
         {
-          for (key in exclude.keys())
+          for (key in [ for (key in exclude.keys()) key ])
           {
             if (haxe.io.Path.normalize(key).endsWith(inc))
             {
@@ -482,8 +486,20 @@ class GenerateProjectFiles extends UhxBaseBuild {
     }
 
     var externsPath = haxe.io.Path.normalize(this.data.pluginDir + '/Haxe/Externs');
-    for (key in exclude.keys()) {
+    for (key in [ for (key in exclude.keys()) key ]) {
       if (key.startsWith(externsPath)) {
+        exclude.remove(key);
+      }
+    }
+
+    var root = haxe.io.Path.normalize(this.data.projectDir);
+    if (!root.endsWith('/')) {
+      root = root + '/';
+    }
+    for (key in [ for (key in exclude.keys()) key ]) {
+      var norm = haxe.io.Path.normalize(key);
+      if (norm.startsWith(root)) {
+        exclude[norm.substring(root.length)] = exclude[key];
         exclude.remove(key);
       }
     }
