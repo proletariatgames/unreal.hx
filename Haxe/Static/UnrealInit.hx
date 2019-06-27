@@ -20,7 +20,13 @@ using StringTools;
 #end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
-@:buildXml("<compilerflag value=\"/bigobj\" if=\"windows\" /><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <files id=\"cppia\"><compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" /> <compilerflag value=\"/bigobj\" if=\"windows\" /> </files>")
+@:buildXml("<compilerflag value=\"/bigobj\" if=\"windows\" />
+<compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" />
+<files id=\"cppia\">
+  <compilerflag value=\"${UHX_EXTRA_COMPILERFLAGS}\" />
+  <compilerflag value=\"/bigobj\" if=\"windows\" />
+  <compilerflag value=\"-DHXCPP_CPPIA_OLD_CLASS_LINK\" if=\"WITH_LIVE_RELOAD\" />
+</files>")
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
