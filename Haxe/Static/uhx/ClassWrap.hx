@@ -49,6 +49,7 @@ import unreal.*;
     }
 
     var wrapperArray = wrapperArray;
+    var replace = false;
     var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
     var ret = wrapperArray[index];
     var serial = ObjectArrayHelper_Glue.indexToSerialChecked(index, nativePtr);
@@ -66,7 +67,13 @@ import unreal.*;
 #end
         return ret;
       } else {
-        throw 'The object at index $index ($ret) had incompatible serial numbers: ${ret.serialNumber} != $serial';
+        // It can happen that this object was constructed in the same place as an old, invalid object with the same name
+        // see bWasConstructedOnOldObject on StaticAllocateObject.
+        // when this happens, the object will get the same index and since this occurs outside a normal GC environment, we never
+        // get to invalidate the previous object
+        ret.invalidate();
+        ret = null;
+        replace = true;
       }
     }
 
@@ -112,11 +119,13 @@ import unreal.*;
     // we need to write in the wrapper array - so we need to acquire this mutex
     mutex.acquire();
     wrapperArray = ClassWrap.wrapperArray;
-    var cur = wrapperArray[index];
-    if (cur != null) {
-      // another competing thread has already set this
-      mutex.release();
-      return cur;
+    if (!replace) {
+      var cur = wrapperArray[index];
+      if (cur != null) {
+        // another competing thread has already set this
+        mutex.release();
+        return cur;
+      }
     }
     if (index >= wrapperArray.length) {
       // if we need to grow the array, we must create a new one so that the threads that are only reading can safely keep reading from the old array
