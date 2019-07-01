@@ -67,6 +67,21 @@ class I18n {
     return macro @:pos(pos) unreal.internationalization.FInternationalization.ForUseOnlyByLocMacroAndGraphNodeTextLiterals_CreateText($text, $ns, $key);
   }
 
+  public static function generateCompiled() {
+    var icls = switch(Context.follow(Context.getType('unreal.I18n'))) {
+      case TInst(cl,_):
+        cl;
+      case _: throw 'assert';
+    };
+    var cls = icls.get();
+    var metas = cls.meta;
+    var compiled = [];
+    for (meta in metas.extract(UhxMeta.UCompiled)) {
+      compiled.push(meta.params[0]);
+    }
+    metas.add(':ugenerated', compiled, cls.pos);
+  }
+
   public static function getLoctextNamespace(clsRef:Null<Ref<ClassType>>, method:Null<String>, pos:Position):Null<String> {
     if (clsRef == null) {
       return null;

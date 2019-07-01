@@ -243,6 +243,10 @@ class CreateGlue {
         MetaDefBuild.writeStaticDefs();
       }
 
+      if (!Context.defined('UHX_SKIP_LOCTEXT')) {
+        unreal.I18n.generateCompiled();
+      }
+
       for (t in gen) {
         switch(t) {
         case TInst(c,_):
