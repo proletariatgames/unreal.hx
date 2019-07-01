@@ -19,7 +19,7 @@ class NeedsGlueBuild
     #end
     var localClass = Context.getLocalClass(),
         cls:ClassType = localClass.get();
-    if (Context.defined('UHX_DISPLAY') || (Context.defined('LIVE_RELOAD_BUILD') && !Globals.cur.liveReloadModules[cls.module])) {
+    if (Context.defined('UHX_DISPLAY')) {
       if (cls.isInterface || cls.isExtern) {
         return null;
       }
@@ -154,10 +154,12 @@ class NeedsGlueBuild
   }
 
   public static function processType(type:BaseType, findSuperField:Null<String->ClassField>, thisType:TypeRef, fields:Array<Field>):Array<Field> {
+    // when fast is set, we will take some shortcuts to make compilation faster
+    var fast = (Context.defined('LIVE_RELOAD_BUILD') && !Globals.cur.liveReloadModules[type.module]);
     var hadErrors = false,
         toAdd:Array<Field> = [];
     var delayedglue = macro uhx.internal.DelayedGlue;
-    if (Context.defined('UHX_DISPLAY') || (Context.defined('cppia') && Globals.cur.staticModules.exists(type.module))) {
+    if (fast || Context.defined('UHX_DISPLAY') || (Context.defined('cppia') && Globals.cur.staticModules.exists(type.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }
@@ -169,6 +171,7 @@ class NeedsGlueBuild
         nonNativeFunctions = new Map();
     var typeSuper = (cast type : ClassType).superClass;
     var parent = typeSuper == null ? null : Globals.classCache.getClassData(typeSuper.t.get());
+    if (!fast)
     {
       if (parent != null) {
         superClass = typeSuper.t.get();
@@ -223,7 +226,7 @@ class NeedsGlueBuild
       Globals.cur.classesToAddMetaDef.push(thisType.getClassPath());
     }
 
-    if (type.meta.has(':uclass') && Context.defined('cppia') || Context.defined('WITH_CPPIA')) {
+    if (!fast && (type.meta.has(':uclass') && Context.defined('cppia') || Context.defined('WITH_CPPIA'))) {
       var dummy = macro class {
         @:noUsing @:noCompletion private function dummy() {
           $delayedglue.checkClass();
@@ -238,7 +241,7 @@ class NeedsGlueBuild
     var usesCppia = Context.defined('cppia') || Context.defined("WITH_CPPIA");
     var clsName = type.pack.join('_') + '_' + type.name;
     for (field in fields) {
-      if (field.kind.match(FFun(_)) && usesCppia) {
+      if (!fast && field.kind.match(FFun(_)) && usesCppia) {
         var needsStatic = field.meta.hasMeta(':uexpose');
         if (!needsStatic && isDynamicUType) {
           needsStatic = field.access != null && field.access.has(AOverride) && !nonNativeFunctions.exists(field.name);
@@ -255,7 +258,7 @@ class NeedsGlueBuild
         }
       }
 
-      if (field.access != null && (field.access.has(AOverride) || field.meta.hasMeta(':hasSuper'))) {
+      if (!fast && field.access != null && (field.access.has(AOverride) || field.meta.hasMeta(':hasSuper'))) {
         field.meta.push({ name:':keep', pos:field.pos });
         // TODO: should we check for non-override fields as well? This would
         //       add some overhead for all override fields, which is something I'd like to avoid for now
@@ -314,23 +317,25 @@ class NeedsGlueBuild
           isDynamic = false,
           isStatic = field.access != null && field.access.has(AStatic);
 
-      switch(field.kind) {
-      case FVar(_) | FProp(_):
-        var hasExpose = field.meta.hasMeta(":uexpose");
-        isExposedProp = Globals.shouldExposePropertyExpr(field, isDynamicUType);
-        isDynamic = !hasExpose && isDynamicUType;
+      if (!fast) {
+        switch(field.kind) {
+        case FVar(_) | FProp(_):
+          var hasExpose = field.meta.hasMeta(":uexpose");
+          isExposedProp = Globals.shouldExposePropertyExpr(field, isDynamicUType);
+          isDynamic = !hasExpose && isDynamicUType;
 
-        if (!isStatic && isDynamicUType && hasExpose) {
-          // check if the parent is also dynamic
-          if (superClass != null && Globals.isDynamicUType(superClass)) {
-            Context.warning(
-              'Unreal Glue Extension: uexpose properties can only exist in subclasses of non-dynamic script UClasses. ' +
-              'Consider adding @:upropExpose on the superclass, or taking the @:uexpose off from this property.',
-              field.pos);
-            hadErrors = true;
+          if (!isStatic && isDynamicUType && hasExpose) {
+            // check if the parent is also dynamic
+            if (superClass != null && Globals.isDynamicUType(superClass)) {
+              Context.warning(
+                'Unreal Glue Extension: uexpose properties can only exist in subclasses of non-dynamic script UClasses. ' +
+                'Consider adding @:upropExpose on the superclass, or taking the @:uexpose off from this property.',
+                field.pos);
+              hadErrors = true;
+            }
           }
+        case _:
         }
-      case _:
       }
 
       var shouldAddGetterSetter = isExposedProp;
@@ -343,7 +348,7 @@ class NeedsGlueBuild
         changed = true;
         switch (field.kind) {
           case FVar(t,e) | FProp('default','default',t,e) if (t != null):
-            if (isDynamic) {
+            if (!fast && isDynamic) {
               var staticPropName = 'uhx__prop_${field.name}';
               var dummy = macro class {
                 private static var $staticPropName:unreal.UProperty;
@@ -389,10 +394,10 @@ class NeedsGlueBuild
       }
 
       // add the methodPtr accessor for any functions that are exposed/implemented in C++
-      var overridesNative = field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic &&
+      var overridesNative = !fast && field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic &&
                             firstExternSuper != null && !nonNativeFunctions.exists(field.name);
-      var originalNativeField = overridesNative && firstExternSuper != null ? firstExternSuper.findField(field.name) : null;
-      var shouldExposeFn = Globals.shouldExposeFunctionExpr(
+      var originalNativeField = !fast && overridesNative && firstExternSuper != null ? firstExternSuper.findField(field.name) : null;
+      var shouldExposeFn = fast || Globals.shouldExposeFunctionExpr(
           field,
           isDynamicUType,
           originalNativeField == null ? null : originalNativeField.meta);
@@ -422,7 +427,7 @@ class NeedsGlueBuild
         case _:
         }
       }
-      var parentField = originalNativeField != null || parent == null || (field.access != null && field.access.has(AStatic)) ?
+      var parentField = fast || originalNativeField != null || parent == null || (field.access != null && field.access.has(AStatic)) ?
           originalNativeField :
           parent.findField(field.name);
       if (parentField != null && parentField.meta.has(':ufunction')) {
@@ -447,7 +452,7 @@ class NeedsGlueBuild
         }
       }
 
-      for (meta in field.meta) {
+      if (!fast) for (meta in field.meta) {
         if (meta.name == ':ufunction' && meta.params != null) {
           var fn = switch (field.kind) {
           case FFun(f):
@@ -639,7 +644,7 @@ class NeedsGlueBuild
       };
       if (Context.defined('cppia')) {
         staticClassDef.fields[0].access.push(ADynamic);
-        if (!Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGluesExists(thisClassName + ':')) {
+        if (!fast && !Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGluesExists(thisClassName + ':')) {
           Context.warning('UHXERR: The @:uclass ${thisClassName} was never compiled into C++. It is recommended to run a full C++ compilation', type.pos);
         }
       }
@@ -649,7 +654,7 @@ class NeedsGlueBuild
       }
       nativeCalls.set('StaticClass', 'StaticClass');
       nativeCalls.set('CPPSize', 'CPPSize');
-      if (isDynamicUType && (superClass == null || !Globals.isDynamicUType(superClass))) {
+      if (!fast && isDynamicUType && (superClass == null || !Globals.isDynamicUType(superClass))) {
         var ufuncCallDef = macro class {
           @:ifFeature($v{thisClassName})
           @:glueCppIncludes("IntPtr.h", "CoreMinimal.h","UObject/Class.h")
@@ -670,7 +675,7 @@ class NeedsGlueBuild
         nativeCalls.set('setupFunction', 'setupFunction');
       }
     }
-    if (Context.defined('cppia') && !Context.defined('LIVE_RELOAD_BUILD')) {
+    if (!fast && Context.defined('cppia') && !Context.defined('LIVE_RELOAD_BUILD')) {
       var def = macro class {
         @:noCompletion static var uhx_glueScript(get,null):Dynamic;
         @:noCompletion static function get_uhx_glueScript():Dynamic {
@@ -686,11 +691,13 @@ class NeedsGlueBuild
       }
     }
 
-    if (uprops.length > 0)
-      type.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], type.pos);
-    type.meta.add(':usupercalls', [ for (call in superCalls) call ], type.pos);
-    type.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], type.pos);
-    type.meta.add(':umethodptrs', [ for(call in methodPtrs) macro $v{call} ], type.pos);
+    if (!fast) {
+      if (uprops.length > 0)
+        type.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], type.pos);
+      type.meta.add(':usupercalls', [ for (call in superCalls) call ], type.pos);
+      type.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], type.pos);
+      type.meta.add(':umethodptrs', [ for(call in methodPtrs) macro $v{call} ], type.pos);
+    }
 
     // mark to add the haxe-side glue helper
     if (!type.meta.has(':ustruct')) {
@@ -713,6 +720,17 @@ class NeedsGlueBuild
         field.meta.push(meta);
       }
       fields.push(field);
+    }
+
+    if (fast && !(cast type : ClassType).isInterface) {
+      for (field in fields) {
+        switch (field.kind) {
+          case FFun(fn) if (fn.expr == null):
+            fn.expr = macro throw 'assert';
+            changed = true;
+          case _:
+        }
+      }
     }
 
     if (toAdd.length > 0 || changed)

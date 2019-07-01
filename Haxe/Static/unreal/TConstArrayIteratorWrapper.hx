@@ -27,15 +27,9 @@ private class NativeIteratorWrapper<T> {
     this.it = it;
   }
 
-  #if !LIVE_RELOAD_BUILD
-  inline
-  #end
-  public function hasNext() return !this.it.op_Not();
+  inline public function hasNext() return !this.it.op_Not();
 
-  #if !LIVE_RELOAD_BUILD
-  inline
-  #end
-  public function next() : T {
+  inline public function next() : T {
     var val = this.it.op_Dereference();
     this.it.op_Increment();
     return val;

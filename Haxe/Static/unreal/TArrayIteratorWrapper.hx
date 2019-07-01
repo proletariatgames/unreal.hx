@@ -10,12 +10,15 @@ private typedef NativeIterator<T> = TIndexedContainerIterator<TArray<T>,T,Int32>
 
 private class NativeIteratorWrapper<T> {
   var it:NativeIterator<T>;
-  public inline function new(it:NativeIterator<T>) {
+  #if !LIVE_RELOAD_BUILD
+  inline
+  #end
+  public function new(it:NativeIterator<T>) {
     this.it = it;
   }
 
-  public inline function hasNext() return !this.it.op_Not();
-  public inline function next() : T {
+  inline public function hasNext() return !this.it.op_Not();
+  inline public function next() : T {
     var val = this.it.op_Dereference();
     this.it.op_Increment();
     return val;
