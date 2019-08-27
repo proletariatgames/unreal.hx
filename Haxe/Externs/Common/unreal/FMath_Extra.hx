@@ -178,4 +178,5 @@ extern class FMath_Extra {
 
 	public static function Cos(Value:Float32) : Float32;
 	public static function Acos(Value:Float32) : Float32;
+	public static function Atan2(Y:Float32, X:Float32) : Float32;
 }

@@ -1352,6 +1352,10 @@ class UhxBuild extends UhxBaseBuild {
       extraArgs = [
         '-D toolchain=ps4',
       ];
+    case 'XboxOne':
+      extraArgs = [
+        '-D toolchain=xboxone',
+      ];
     }
 
     var extraCompilerFlags = [];
@@ -1366,6 +1370,8 @@ class UhxBuild extends UhxBaseBuild {
       }
     }
     envs.push('UHX_EXTRA_COMPILERFLAGS=${extraCompilerFlags.join(" ")}');
+    // explicitly expand those otherwise they will expand
+    envs = [ for (env in envs) ~/%([^%]+)%/g.map(env, function(ereg) return Sys.getEnv(ereg.matched(1))) ];
 
     if (envs.length > 0) {
       args.push('--macro uhx.compiletime.main.Env.set(' + toMacroDef(envs) + ')');

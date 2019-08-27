@@ -253,7 +253,7 @@ class NeedsGlueBuild
             }
           };
           var cur = dummy.fields[0];
-          cur.name = 'uhx_dummy_check_' + field.name;
+          cur.name = 'uhx_dummy_check_${clsName}_' + field.name;
           toAdd.push(cur);
         }
       }

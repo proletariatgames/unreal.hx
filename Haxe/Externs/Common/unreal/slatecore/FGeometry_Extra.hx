@@ -21,4 +21,12 @@ package unreal.slatecore;
 
   @:thisConst
   public function GetAbsolutePosition() : unreal.FVector2D;
+
+	/**
+	 * Absolute coordinates could be either desktop or window space depending on what space the root of the widget hierarchy is in.
+	 *
+	 * @return Transforms AbsoluteCoordinate into the local space of this Geometry.
+	 */
+	@:thisConst
+	public function AbsoluteToLocal(AbsoluteCoordinate:unreal.FVector2D) : unreal.FVector2D;
 }

@@ -56,4 +56,7 @@ extern class FVector2D_Extra {
 
   @:thisConst
   public function ClampAxes(MinAxisVal:Float32, MaxAxisVal:Float32) : FVector2D;
+
+	public static function Distance(V1:Const<PRef<FVector2D>>, V2:Const<PRef<FVector2D>>):Float32;
+  public static function DistSquared(V1:Const<PRef<FVector2D>>, V2:Const<PRef<FVector2D>>):Float32;
 }

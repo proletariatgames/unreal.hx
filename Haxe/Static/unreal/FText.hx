@@ -34,6 +34,10 @@ package unreal;
     return this.ToString().toString();
   }
 
+  public function toUpper():FText {
+    return this.ToUpper();
+  }
+
 	inline public static function Format(Fmt:unreal.FTextFormat, InArguments:Const<PRef<unreal.FFormatNamedArguments>>) : FText
 	{
 		return FTextImpl.Format(Fmt, InArguments);

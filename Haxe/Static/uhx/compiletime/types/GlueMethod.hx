@@ -506,6 +506,8 @@ class GlueMethod {
 
     if (this.meth.uname == '.ctor' && this.meth.flags.hasAny(Static)) {
       return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [ for (arg in cppArgs) arg.t ], this.ctx );
+    } else if (this.meth.uname == '.sizeof' && isGetter && this.meth.flags.hasAny(Static)) {
+      return 'return sizeof(' + this.thisConv.ueType.getCppClass() + ')';
     } else if (this.meth.uname == '.mkWrapper') {
       return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [], this.ctx, true );
     } else if (this.meth.flags.hasAny(Property)) {
@@ -589,7 +591,9 @@ class GlueMethod {
         case _:
           if (meth.meta.hasMeta(':global')) {
             var namespace = MacroHelpers.extractStringsFromMetadata(meth.meta, ':global')[0];
-            if (namespace != null)
+            if (namespace == '')
+              meth.uname;
+            else if (namespace != null)
               '::' + namespace.replace('.','::') + '::' + meth.uname;
             else
               '::' + meth.uname;

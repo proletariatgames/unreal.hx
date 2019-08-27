@@ -932,7 +932,7 @@ class ExternBaker {
         }
 
       } else if (!c.isInterface && !meta.hasMeta(':global') && !this.thisConv.data.match(CUObject(_))) {
-        if (!meta.hasMeta(':noCopy')) {
+        if (!meta.hasMeta(':noCopy') && !meta.hasMeta(':static')) {
           var doc = "\n    Invokes the copy constructor of the referenced C++ class.\n    " +
             "This has some limitations - it won't copy the full inheritance chain of the class if it wasn't typed as the exact class\n    " +
             "it will also be a compilation error if the wrapped class forbids the C++ copy constructor;\n    " +
@@ -999,7 +999,7 @@ class ExternBaker {
             this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
         }
-        if (!meta.hasMeta(':noEquals')) {
+        if (!meta.hasMeta(':noEquals') && !meta.hasMeta(':static')) {
             methods.push({
             name: 'equals',
             uname: '.equals',

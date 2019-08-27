@@ -30,6 +30,13 @@ extern class ACharacter_Extra {
    */
   public function Landed(Hit:Const<PRef<FHitResult>>) : Void;
 
+	/**
+	 * Called from CharacterMovementComponent to notify the character that the movement mode has changed.
+	 * @param	PrevMovementMode	Movement mode before the change
+	 * @param	PrevCustomMode		Custom mode before the change (applicable if PrevMovementMode is Custom)
+	 */
+  public function OnMovementModeChanged(PrevMovementMode:EMovementMode, PreviousCustomMode:UInt8) : Void;
+
   @:thisConst
   private function CanJumpInternal_Implementation() : Bool;
 

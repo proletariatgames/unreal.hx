@@ -16,6 +16,8 @@ package unreal;
 
 	static function Format(Fmt:unreal.FTextFormat, InArguments:Const<PRef<unreal.FFormatNamedArguments>>) : FTextImpl;
 	@:uname("Format") static function FormatOrdered(Fmt:unreal.FTextFormat, InArguments:Const<PRef<TArray<FFormatArgumentValue>>>) : FTextImpl;
+
+  function ToUpper():unreal.Const<FText>;
 }
 
 

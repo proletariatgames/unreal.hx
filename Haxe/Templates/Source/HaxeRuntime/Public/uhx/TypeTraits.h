@@ -10,7 +10,9 @@ namespace TypeTraits {
 
 namespace Check {
 
-  template<typename U> static char eqTest(decltype( std::declval<U>() == std::declval<U>() ));
+  template<size_t n>
+  struct EXISTS {};
+  template<typename U> static char eqTest(EXISTS<sizeof(*static_cast<U*>(nullptr) == *static_cast<U*>(nullptr))>* = 0);
   template<typename U> static int eqTest(...);
 
   template<typename U> static char destructTest(decltype( (std::declval<U *>()->~U(), true) ));

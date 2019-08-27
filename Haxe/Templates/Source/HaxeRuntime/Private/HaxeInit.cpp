@@ -7,7 +7,6 @@
 #include <clocale>
 
 #if PLATFORM_WINDOWS || PLATFORM_XBOXONE
-  #include "Windows/MinimalWindowsApi.h"
   namespace Windows {
   typedef struct _MEMORY_BASIC_INFORMATION {
     LPVOID  BaseAddress;

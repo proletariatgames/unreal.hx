@@ -472,7 +472,6 @@ public class HaxeCompilationInfo {
         platform = "Win";
         break;
       default:
-        libName = "libhaxeruntime.a";
         break;
     }
     string config = this.rules.Target.Configuration + "";

@@ -243,4 +243,12 @@ extern class AActor_Extra {
 
 	/** Fills ReplicatedMovement property */
 	public function GatherCurrentMovement() : Void;
+
+	/**
+	 * Attaches the RootComponent of this Actor to the RootComponent of the supplied actor, optionally at a named socket.
+	 * @param ParentActor				Actor to attach this actor's RootComponent to
+	 * @param AttachmentRules			How to handle transforms and modification when attaching.
+	 * @param SocketName				Socket name to attach to, if any
+	 */
+	public function AttachToActor(ParentActor:AActor,AttachmentRules:PRef<Const<FAttachmentTransformRules>>, SocketName:FName) : Void;
 }
