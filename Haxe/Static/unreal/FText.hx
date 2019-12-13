@@ -18,9 +18,11 @@ package unreal;
     return FTextImpl.AsTimespan(Timespan, TargetCulture);
   }
 
+  #if proletariat
   inline public static function asHourMinuteTimespan(Timespan:Const<PRef<FTimespan>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl {
     return FTextImpl.AsHourMinuteTimespan(Timespan, TargetCulture);
   }
+  #end
 
   @:from inline public static function fromString(str:String):FText {
     return create(str);

@@ -10,7 +10,9 @@ package unreal;
   static function AsNumber(Val:Float32, Options:PPtr<Const<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl;
 
   static function AsTimespan(Timespan:Const<PRef<FTimespan>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl;
+  #if proletariat
   static function AsHourMinuteTimespan(Timespan:Const<PRef<FTimespan>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl;
+  #end
 
   @:expr(return ToString().op_Dereference()) public function toString():String;
 
