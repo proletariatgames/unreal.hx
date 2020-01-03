@@ -261,14 +261,17 @@ class CreateGlue {
               case _:
             }
           }
-        case TAbstract(a,_):
-          var impl = a.get().impl;
+        case TAbstract(abs,_):
+          var a = abs.get();
+          var impl = a.impl;
           if (impl != null) {
             var meta = impl.get().meta;
             if (meta.has(':ugenerated')) {
-              var a = a.get();
-              builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated'), isScript:a.meta.has(':uscript') && !a.meta.has(':udelegate')});
+              builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated'), isScript:a.meta.has(':uscript') });
             }
+          }
+          if (a.meta.has(':ugenerated')) {
+            builtGlues.push({ path:abs.toString(), glues:a.meta.extractStrings(':ugenerated'), isScript:a.meta.has(':uscript') });
           }
         case TEnum(e,_):
           var meta = e.get().meta;

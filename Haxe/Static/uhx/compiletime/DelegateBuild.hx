@@ -384,6 +384,16 @@ class DelegateBuild {
 #end
     }
 
+    final sig = type + '@(' + [ for (arg in args) TypeConv.get(arg.t, pos).ueType.getCppType() ].join(',') + '):' + TypeConv.get(ret, pos).ueType.getCppType();
+    if (Context.defined('cppia') && !Context.defined('display')) {
+      if (!Globals.cur.compiledScriptGluesExists('uhx.delegates.' + tref.name + ':' +sig)) {
+        Context.warning('UHXERR: The delegate ${tref.name} was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', pos);
+      }
+    } else if (Context.defined('WITH_CPPIA')) {
+      meta.push({ name:':ugenerated', params:[macro $v{sig}], pos:pos });
+      trace('adding $sig');
+    }
+
 #if !bake_externs
     meta.push({ name:':haxeCreated', params:[], pos:pos });
 #end
