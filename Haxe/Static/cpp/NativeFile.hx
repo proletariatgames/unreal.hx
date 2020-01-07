@@ -22,7 +22,7 @@ import unreal.*;
 class NativeFile
 {
   public static function file_open(fname:String,r:String) : Dynamic {
-    var platform = FPlatformFileManager.Get().GetPlatformFile();
+    var platform = IPlatformFile.GetPlatformPhysical();
 
     var ret:POwnedPtr<IFileHandle> = switch (r) {
       case "r" | "rb":
@@ -104,14 +104,19 @@ class NativeFile
     var initialPosition = native.Tell();
 
     var ptr = AnyPtr.fromBytesData(s) + p;
-    if (!handle.get().ReadPtr(Ptr.fromAnyPtr(ptr), len)) {
-      var ret:Int = cast (native.Tell() - initialPosition);
+    var success = handle.get().ReadPtr(Ptr.fromAnyPtr(ptr), len);
+    var ret = (native.Tell() - initialPosition);
+    if (!success) {
       if (ret == 0) {
         handle.throwError("file_read");
       }
       return ret;
     }
-    return len;
+    if (ret > len)
+    {
+      handle.throwError("file_read assert");
+    }
+    return ret;
   }
 
   public static function file_read_char(handle:Dynamic) : Int {

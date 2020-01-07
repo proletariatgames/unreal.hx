@@ -61,13 +61,26 @@ class GlueManager {
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Private', TPrivateCpp, TPrivateHeader, touchedFiles);
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Public', TNone, TPublicHeader, touchedFiles);
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Shared', TNone, TSharedHeader, touchedFiles);
-      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TExportHeader, touchedFiles);
-      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp, TNone, touchedFiles);
-      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Shared', TNone, TNone, touchedFiles);
+      if (Context.defined('UHX_CUSTOM_PATHS'))
+      {
+        cleanDir(Globals.cur.staticBaseDir + '/Generated/PublicExport', TNone, TExportHeader, touchedFiles);
+        cleanDir(Globals.cur.staticBaseDir + '/Generated/PrivateExport', TExportCpp, TNone, touchedFiles);
+      } else {
+        cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TExportHeader, touchedFiles);
+        cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp, TNone, touchedFiles);
+        cleanDir(Globals.cur.unrealSourceDir + '/Generated/Shared', TNone, TNone, touchedFiles);
+      }
     } else {
-      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TPublicHeader | TExportHeader, touchedFiles);
-      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Shared', TNone, TSharedHeader, touchedFiles);
-      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp | TPrivateCpp, TPrivateHeader, touchedFiles);
+      if (Context.defined('UHX_CUSTOM_PATHS'))
+      {
+        cleanDir(Globals.cur.staticBaseDir + '/Generated/PublicExport', TNone, TPublicHeader | TExportHeader, touchedFiles);
+        cleanDir(Globals.cur.staticBaseDir + '/Generated/SharedExport', TNone, TSharedHeader, touchedFiles);
+        cleanDir(Globals.cur.staticBaseDir + '/Generated/PrivateExport', TExportCpp | TPrivateCpp, TPrivateHeader, touchedFiles);
+      } else {
+        cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TPublicHeader | TExportHeader, touchedFiles);
+        cleanDir(Globals.cur.unrealSourceDir + '/Generated/Shared', TNone, TSharedHeader, touchedFiles);
+        cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp | TPrivateCpp, TPrivateHeader, touchedFiles);
+      }
       // delete static base directory if it exists
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Public', TNone, TNone, touchedFiles);
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Shared', TNone, TNone, touchedFiles);
@@ -220,7 +233,7 @@ class GlueManager {
     }
 
     if (Globals.cur.fs.exists(dir)) {
-      var suffix = '.' + Globals.cur.shortBuildName + GlueInfo.UNITY_CPP_EXT;
+      var suffix = Context.defined('UHX_CUSTOM_PATHS') ? (GlueInfo.UNITY_CPP_EXT) : ('.' + Globals.cur.shortBuildName + GlueInfo.UNITY_CPP_EXT);
       for (file in Globals.cur.fs.readDirectory(dir)) {
         if (file.endsWith('.cpp')) {
           if (!file.endsWith(suffix) || !this.modules.exists(file.substring(GlueInfo.UNITY_CPP_PREFIX.length, file.length - suffix.length))) {
@@ -241,14 +254,24 @@ class GlueManager {
         oldSrcDir = !glueUnityBuild ? staticTemplate : sourceTemplate,
         pluginPath = cur.pluginDir,
         mod = cur.module,
-        isProgram = Context.defined('UE_PROGRAM');
+        isProgram = Context.defined('UE_PROGRAM'),
+        customPathSupport = Context.defined('UHX_CUSTOM_PATHS');
 
     Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/Private');
     Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/Public');
     Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/Shared');
-    Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Public');
-    Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Private');
-    Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Shared');
+    if (!customPathSupport)
+    {
+      Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Public');
+      Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Private');
+      Globals.cur.fs.createDirectory(Globals.cur.unrealSourceDir + '/Generated/Shared');
+    } else {
+      Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/PublicExport');
+      Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/SharedExport');
+      Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/PrivateExport');
+      Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/TemplateExport');
+      Globals.cur.fs.createDirectory(Globals.cur.staticBaseDir + '/Generated/Unity');
+    }
 
     // update templates that need to be updated
     function recurse(templatePath:String, toPath:String)
@@ -309,7 +332,7 @@ class GlueManager {
     recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Public', '$srcDir/Public');
     recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Private', '$srcDir/Private');
     recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Shared', '$srcDir/Shared');
-    var templateExport = '${cur.unrealSourceDir}/Generated/TemplateExport';
+    var templateExport = (customPathSupport ? cur.staticBaseDir : cur.unrealSourceDir) +'/Generated/TemplateExport';
     if (!isProgram) {
       recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Export', templateExport);
     } else if (Globals.cur.fs.exists(templateExport)) {

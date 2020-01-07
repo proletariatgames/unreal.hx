@@ -36,6 +36,8 @@ extern class UUserWidget_Extra {
 	private function NativeOnDrop(InGeometry : Const<PRef<FGeometry>>, InDragDropEvent : Const<PRef<FDragDropEvent>>, InOperation : UDragDropOperation) : Bool;
 	private function NativeOnFocusReceived (InGeometry : Const<PRef<FGeometry>>, InFocusEvent : Const<PRef<FFocusEvent>>) : FReply;
  	private function NativeOnFocusLost(InFocusEvent : Const<PRef<FFocusEvent>>) : Void;
+	@:thisConst
+	private function NativeSupportsKeyboardFocus() : Bool;
 
 	private function OnAnimationFinished_Implementation (Animation:Const<UWidgetAnimation>):Void;
 	private function OnAnimationStarted_Implementation (Animation:Const<UWidgetAnimation>):Void;

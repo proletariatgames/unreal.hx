@@ -1,6 +1,7 @@
 package unreal;
 
 extern class UParticleSystemComponent_Extra {
+  public function ActivateSystem(bFlagAsJustAttached:Bool=false) : Void;
   public function DeactivateSystem() : Void;
 
   /**
@@ -14,4 +15,7 @@ extern class UParticleSystemComponent_Extra {
    */
   public function GetFloatParameter(InName:Const<FName>, OutFloat:Ref<Float32>) : Bool;
   public var bAutoDestroy:Bool;
+
+  public var bWasDeactivated:Bool;
+  public var bDeactivateTriggered:Bool;
 }

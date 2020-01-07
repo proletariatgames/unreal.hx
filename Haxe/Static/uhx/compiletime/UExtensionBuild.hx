@@ -142,8 +142,8 @@ class UExtensionBuild {
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
-      var ctx = new ConvCtx(); //["hasParent" => "false"];
       var clt = cl.get();
+      var ctx = new ConvCtx(clt.pos); //["hasParent" => "false"];
       var curPos = Context.getPosInfos(clt.pos);
       curPos.min = curPos.max = 0;
       curPos.file += ' (${clt.name})';

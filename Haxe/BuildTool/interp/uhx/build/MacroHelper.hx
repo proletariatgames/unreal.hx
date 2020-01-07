@@ -15,7 +15,7 @@ class MacroHelper {
         case 'interp' |
         'neko' | 'eval' | 'macro' |
         'haxe_ver' | 'source-header' |
-        'haxe3' | 'haxe4' | 'true':
+        'haxe3' | 'haxe4' | 'true' | 'haxe':
         // ignore
         case _:
           if (key.indexOf('target.') != 0)

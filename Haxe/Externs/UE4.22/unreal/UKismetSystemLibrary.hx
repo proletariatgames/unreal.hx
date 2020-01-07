@@ -40,7 +40,7 @@ package unreal;
   /**
     Returns the full path to the specified object.
   **/
-  @:ufunction(BlueprintCallable) static public function GetPathName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
+  // @:ufunction(BlueprintCallable) static public function GetPathName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
 
   /**
     Returns the display name (or actor label), for displaying as a debugging aid.

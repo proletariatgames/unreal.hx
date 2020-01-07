@@ -13,6 +13,7 @@ extern class ACharacter_Extra {
   public function ApplyDamageMomentum(DamageTaken:Float32, DamageEvent:Const<PRef<FDamageEvent>>, PawnInstigator:APawn, DamageCauser:AActor) : Void;
 
   public function CheckJumpInput(deltaSeconds:Float32) : Void;
+  public function ResetJumpState() : Void;
 
 #if (UE_VER <= 4.19)
   public function ClearJumpInput() : Void;

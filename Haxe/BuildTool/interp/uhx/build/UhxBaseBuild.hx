@@ -2,6 +2,15 @@ package uhx.build;
 import uhx.build.Log.*;
 import sys.FileSystem;
 import sys.io.File;
+#if cpp
+  #if haxe4
+  import sys.thread.Thread;
+  import sys.thread.Lock;
+  #else
+  import cpp.vm.Thread;
+  import cpp.vm.Lock;
+  #end
+#end
 
 using StringTools;
 
@@ -12,6 +21,11 @@ class UhxBaseBuild {
   var hadUhxErr:Bool;
 
   public function new(data:UhxBuildData, ?config:UhxBuildConfig) {
+    if (data.prebuild) {
+      // disable stderr otherwise visual studio will consider any stderr trace a failure
+      setUseStderr(false);
+    }
+
     for (field in Reflect.fields(data)) {
       if (field == 'rootDir')
       {
@@ -160,11 +174,17 @@ class UhxBaseBuild {
 
   private function callHaxe(args:Array<String>, showErrors:Bool) {
     var cmd = 'haxe';
-    var installPath = this.config.haxeInstallPath;
-    if (installPath != null) {
-      if (!haxe.io.Path.isAbsolute(installPath)) {
-        installPath = this.rootDir + '/' + installPath;
+    function makeAbsolute(path:Null<String>) {
+      if (path == null) {
+        return null;
       }
+      if (!haxe.io.Path.isAbsolute(path)) {
+        return this.rootDir + '/' + path;
+      }
+      return path;
+    }
+    var installPath = makeAbsolute(this.config.haxeInstallPath);
+    if (installPath != null) {
       if (Sys.systemName() == 'Windows') {
         cmd = '${installPath}/haxe.exe';
       } else {
@@ -175,6 +195,11 @@ class UhxBaseBuild {
         return -1;
       }
       Sys.putEnv('HAXEPATH', installPath);
+    }
+    var nekoPath = makeAbsolute(this.config.nekoInstallPath);
+    if (nekoPath != null) {
+      Sys.putEnv('NEKOPATH', nekoPath);
+      Sys.putEnv('NEKO_INSTPATH', nekoPath);
     }
 
     var haxelibPath = this.config.haxelibPath;
@@ -187,15 +212,15 @@ class UhxBaseBuild {
 
 #if cpp
     log('$cmd ${args.join(' ')}');
-    if (showErrors) {
+    if (showErrors && useStderr) {
       return this.call(cmd,args,showErrors);
     }
     try {
       var proc = new sys.io.Process(cmd, args),
-          err = Sys.stderr(),
+          err = useStderr ? Sys.stderr() : Sys.stdout(),
           stdout = proc.stdout;
-      var finishLock = new cpp.vm.Lock();
-      cpp.vm.Thread.create(function() {
+      var finishLock = new Lock();
+      Thread.create(function() {
         try {
           while(true) {
             Sys.println(stdout.readLine());
@@ -228,7 +253,9 @@ class UhxBaseBuild {
       finishLock.wait();
       var ret = proc.exitCode();
       if (ret != 0) {
-        uhx.build.Log.err(' -> returned with exit code $ret');
+        uhx.build.Log.err(' -> returned with exit code $ret' + (!config.verbose ? "" :
+          ' while running $cmd \'${args.join("' '")}\''
+        ));
       }
       return ret;
     }
@@ -238,7 +265,9 @@ class UhxBaseBuild {
 #else
     var ret = call(cmd, args, showErrors);
     if (ret != 0) {
-      uhx.build.Log.err(' -> returned with exit code $ret');
+      uhx.build.Log.err(' -> returned with exit code $ret' + (!config.verbose ? "" :
+        ' while running $cmd \'${args.join("' '")}\''
+      ));
     }
     return ret;
 #end
@@ -249,7 +278,9 @@ class UhxBaseBuild {
     log('$program ${args.join(' ')}');
     var ret = Sys.command(program, args);
     if (ret != 0) {
-      err(' -> returned with exit code $ret');
+      err(' -> returned with exit code $ret' + (!config.verbose ? "" :
+        ' while running $program \'${args.join("' '")}\''
+      ));
     }
     return ret;
   }

@@ -86,4 +86,27 @@ extern class UActorComponent_Extra {
 
   /** If true, we call the virtual InitializeComponent */
   public var bWantsInitializeComponent:Bool;
+
+  /** Returns true if we are replicating and this client is not authoritative */
+  @:thisConst
+	public function IsNetSimulating() : Bool;
+
+	/** Get the network role of the Owner, or ROLE_None if there is no owner. */
+  @:thisConst
+	public function GetOwnerRole() : unreal.ENetRole;
+
+	/**
+	 * Get the network mode (dedicated server, client, standalone, etc) for this component.
+	 * @see IsNetMode()
+	 */
+  @:thisConst
+	public function GetNetMode() : unreal.ENetMode;
+
+	/**
+	* Test whether net mode is the given mode.
+	* In optimized non-editor builds this can be more efficient than GetNetMode()
+	* because it can check the static build flags without considering PIE.
+	*/
+  @:thisConst
+	public function IsNetMode(Mode:unreal.ENetMode) : Bool;
 }

@@ -17,4 +17,6 @@ package unreal;
   public static function GetGameName():TCharStar;
 
   public static function CanEverRender():Bool;
+
+  public static function GetVolumeMultiplier():Float32;
 }

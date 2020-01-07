@@ -77,7 +77,7 @@ class ExprGlueBuild {
     }
 
     // var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).data.match(CUObject(_)) ? [ "parent" => "this" ] : null;
-    var ctx = new ConvCtx();
+    var ctx = new ConvCtx(pos);
 
     var glueType = getGlueType(clsRef, pos);
     var glueExpr = new HelperBuf(),

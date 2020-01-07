@@ -64,10 +64,10 @@ class GlueMethod {
     }
     this.isTemplatedThis = isTemplatedThis;
     if (this.meth.name == 'new') {
-      if (this.meth.meta.hasMeta(':uname')) {
+      if (!this.meth.meta.hasMeta(':uname')) {
         this.meth.uname = '.ctor';
       }
-      this.meth.ret = this.thisConv;
+      this.meth.ret = this.thisConv.withModifiers([]);
     }
 
     if (meth.flags.hasAny(Static) && meth.specialization != null && meth.specialization.types.length > 0) {
@@ -182,7 +182,7 @@ class GlueMethod {
       }
     }
 
-    var ctx = new ConvCtx();
+    var ctx = new ConvCtx(this.meth.pos);
     this.ctx = ctx;
 
     var glueArgs = this.glueArgs = haxeArgs;
@@ -801,11 +801,12 @@ class GlueMethod {
 
   public function getFieldString(buf:CodeFormatter, glue:CodeFormatter):Void {
     var isNoTemplate = meth.flags.hasAny(NoTemplate);
+    var completionBody = meth.ret.haxeType.isVoid() ? 'return;' : 'return cast null;';
     if (this.templated && !isNoTemplate && meth.specialization == null)
     {
       buf << '#end' << new Newline();
       buf << '#if UHX_DISPLAY' << new Newline();
-      this.pvtGetFieldString(buf, null, 'return cast null;');
+      this.pvtGetFieldString(buf, null, completionBody);
       buf << '#else' << new Newline();
       buf << new Comment(meth.doc);
       buf << 'macro ';
@@ -829,7 +830,7 @@ class GlueMethod {
       << new End('}')
       << '#end' << new Newline()
       << '#if !macro' << new Newline();
-      pvtGetFieldString(buf, null, 'return cast null;', meth.name + '_uhx_type');
+      pvtGetFieldString(buf, null, completionBody, meth.name + '_uhx_type');
     } else {
       pvtGetFieldString(buf, glue);
     }

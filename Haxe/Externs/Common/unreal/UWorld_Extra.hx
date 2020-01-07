@@ -112,6 +112,10 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetDeltaSeconds() : Float32;
 
+  /** Helper for getting the time since a certain time. */
+  @:thisConst
+	public function TimeSince(Time:Float32) : Float32;
+
 	/** Return the URL of this level on the local machine. */
   @:thisConst
 	function GetLocalURL() : FString;
@@ -175,6 +179,28 @@ extern class UWorld_Extra {
   @:thisConst
   public function LineTraceMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
 
+	/**
+	 * Interface for Async. Pretty much same parameter set except you can optional set delegate to be called when execution is completed and you can set UserData if you'd like
+	 * if no delegate, you can query trace data using QueryTraceData or QueryOverlapData
+	 * the data is available only in the next frame after request is made - in other words, if request is made in frame X, you can get the result in frame (X+1)
+	 *
+	 *	@param	InTraceType		Indicates if you want multiple results, single result, or just yes/no (no hit information)
+	 *  @param  Start           Start location of the ray
+	 *  @param  End             End location of the ray
+	 *  @param  TraceChannel    The 'channel' that this ray is in, used to determine which components to hit
+	 *  @param  Params          Additional parameters used for the trace
+	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace
+	 *	@param	InDeleagte		Delegate function to be called - to see example, search FTraceDelegate
+	 *							Example can be void MyActor::TraceDone(const FTraceHandle& TraceHandle, FTraceDatum & TraceData)
+	 *							Before sending to the function,
+	 *
+	 *							FTraceDelegate TraceDelegate;
+	 *							TraceDelegate.BindRaw(this, &MyActor::TraceDone);
+	 *
+	 *	@param	UserData		UserData
+	 */
+	public function AsyncLineTraceByChannel(InTraceType:EAsyncTraceType, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>, ResponseParam:Const<PRef<FCollisionResponseParams>>):FTraceHandle;
+
   @:thisConst
   public function SweepSingleByChannel(OutHit:PRef<FHitResult>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>, ResponseParams:Const<PRef<FCollisionResponseParams>>) : Bool;
 
@@ -222,6 +248,33 @@ extern class UWorld_Extra {
     Params:Const<PRef<FCollisionQueryParams>>,
     ResponseParam:Const<PRef<FCollisionResponseParams>>
   ) : Bool;
+
+  /**
+	 *  Test the collision of a shape at the supplied location using a specific profile, and determine the set of components that it overlaps
+	 *  @param  OutOverlaps     Array of components found to overlap supplied box
+	 *  @param  Pos             Location of center of shape to test against the world
+	 *  @param  ProfileName     The 'profile' used to determine which components to hit
+	 *  @param	CollisionShape	CollisionShape - supports Box, Sphere, Capsule
+	 *  @param  Params          Additional parameters used for the trace
+	 *  @return TRUE if OutOverlaps contains any blocking results
+	 */
+  @:thisConst
+	function OverlapMultiByProfile(
+    OutOverlaps:PRef<TArray<FOverlapResult>>,
+    Pos:Const<PRef<FVector>>,
+    Rot:Const<PRef<FQuat>>,
+    ProfileName:FName,
+    CollisionShape:Const<PRef<FCollisionShape>>,
+    Params:Const<PRef<FCollisionQueryParams>>
+  ) : Bool;
+
+	/**
+	 * Query function
+	 * return true if already done and returning valid result - can be hit or no hit
+	 * return false if either expired or not yet evaluated or invalid
+	 * Use IsTraceHandleValid to find out if valid and to be evaluated
+	 */
+	public function QueryTraceData(Handle:Const<PRef<FTraceHandle>>, OutData:PRef<FTraceDatum>):Bool;
 
   /**
     Returns the AWorldSettings actor associated with this world.

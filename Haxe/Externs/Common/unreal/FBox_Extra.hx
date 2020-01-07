@@ -26,4 +26,14 @@ extern class FBox_Extra
 
   @:thisConst
   public function ExpandBy(V:Const<PRef<FVector>>) : FBox;
+
+  /**
+	 * Checks whether the given location is inside or on this box.
+	 *
+	 * @param In The location to test for inside the bounding volume.
+	 * @return true if location is inside this volume.
+	 * @see IsInsideXY
+	 */
+  @:thisConst
+  public function IsInsideOrOn(In:Const<PRef<FVector>>) : Bool;
 }

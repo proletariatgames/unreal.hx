@@ -3,9 +3,11 @@ package unreal;
 @:glueCppIncludes('EngineUtils.h')
 @:uname("TActorIterator")
 @:uextern @:typeName extern class TActorIteratorImpl<T> {
+  #if !macro
   @:uname('.ctor') @:typeName public static function create<T>(world:UWorld):TActorIterator<T>;
   @:uname('.ctor') @:typeName public static function createForSubclass<T>(world:UWorld, subclass:TSubclassOf<T>):TActorIterator<T>;
   @:uname('new') @:typeName public static function createNew<T>(world:UWorld):POwnedPtr<TActorIterator<T>>;
+  #end
 
   public function op_Increment() : Void;
   public function op_Dereference() : PPtr<T>;

@@ -2,14 +2,11 @@ package unreal;
 
 import haxe.macro.Expr;
 
-#if macro
-// avoid recursive build macros
-typedef TObjectIteratorImpl<T> = Dynamic;
-#end
-
 @:forward abstract TObjectIterator<T>(TObjectIteratorImpl<T>) from TObjectIteratorImpl<T> to TObjectIteratorImpl<T> {
+#if !macro
   public inline function new(native:TObjectIteratorImpl<T>) this = native;
   public inline function iterator() return new TObjectIteratorWrapper<T>(this);
+#end
 
   macro public static function create(?tParam:Expr) : Expr {
     return macro unreal.TObjectIteratorImpl.create($tParam);
@@ -19,7 +16,7 @@ typedef TObjectIteratorImpl<T> = Dynamic;
     return macro unreal.TObjectIteratorImpl.createStruct($tParam);
   }
 }
-
+#if !macro
 private class TObjectIteratorWrapper<T> {
   var it:TObjectIterator<T>;
   public inline function new(it:TObjectIterator<T>) {
@@ -33,3 +30,4 @@ private class TObjectIteratorWrapper<T> {
     return val;
   }
 }
+#end

@@ -14,6 +14,10 @@ using Lambda;
   Generates the metadata definitions (MetaDef) for the uproperties and ufunctions that will be added at runtime by cppia
  **/
 class MetaDefBuild {
+  @:persistent static var UTypes:Map<String, StaticMeta> = new Map();
+  @:persistent static var DynamicClasses:Array<{ haxeClass:String, uclass:String }> = [];
+  @:persistent static var UDelegates:Map<String, UDelegateDef> = new Map();
+
   public static function addUDelegateMetaDef(data:{ uname:String, hxName:String, isMulticast:Bool, args:Array<{ name:String, conv:TypeConv}>, ret:TypeConv, pos:Position }) {
     var func:UFunctionDef = {
       hxName: null,
@@ -235,20 +239,13 @@ class MetaDefBuild {
     switch(Context.getType('uhx.meta.StaticMetaData')) {
     case TInst(c,_):
       var c = c.get();
-      var oldMeta = c.meta.extract('UTypes');
-      var oldDefs = [];
-      for (meta in oldMeta) {
-        if (meta.params != null) {
-          for (param in meta.params) {
-            var field = objGetField(param, "hxPath");
-            if (field != null && !map.exists(field)) {
-              oldDefs.push(param);
-            }
-          }
-        }
+      for (key in map.keys())
+      {
+        UTypes[key] = map[key];
       }
+
       c.meta.remove('UTypes');
-      c.meta.add('UTypes', oldDefs.concat([for (val in map) macro $v{val}]), Context.currentPos());
+      c.meta.add('UTypes', ([for (val in UTypes) macro $v{val}]), Context.currentPos());
     case _:
       Context.warning('Invalid type for StaticMetaData', Context.currentPos());
     }
@@ -358,37 +355,20 @@ class MetaDefBuild {
 
     switch(Context.getType('uhx.meta.CppiaMetaData')) {
     case TInst(c,_):
+      DynamicClasses = DynamicClasses
+        .filter(function(v) return !arr.exists(function(v2) return v.uclass == v2.uclass))
+        .concat(arr);
       var c = c.get();
-      var oldMeta = c.meta.extract('DynamicClasses');
-      var oldDefs = [];
-      for (dyn in oldMeta) {
-        if (dyn.params != null) {
-          for (param in dyn.params) {
-            var uclass = objGetField(param, 'uclass');
-            if (uclass != null && !arr.exists(function(v) return v.uclass == uclass)) {
-              oldDefs.push(param);
-            }
-          }
-        }
-      }
       c.meta.remove("DynamicClasses");
-      c.meta.add('DynamicClasses', oldDefs.concat([for (v in arr) macro $v{v}]), Context.currentPos());
+      c.meta.add('DynamicClasses', ([for (v in DynamicClasses) macro $v{v}]), Context.currentPos());
 
-      var oldMeta = c.meta.extract('UDelegates');
-      var oldDefs = [];
-      for (meta in oldMeta) {
-        if (meta.params != null) {
-          for (param in meta.params) {
-            var uname = objGetField(param, "uname");
-            if (uname != null && !Globals.cur.scriptDelegateDefs.exists(uname)) {
-              oldDefs.push(param);
-            }
-          }
-        }
+      var defs = Globals.cur.scriptDelegateDefs;
+      for (key in defs.keys())
+      {
+        UDelegates[key] = defs[key];
       }
-
       c.meta.remove("UDelegates");
-      c.meta.add('UDelegates', oldDefs.concat([for (val in Globals.cur.scriptDelegateDefs) macro $v{val}]), Context.currentPos());
+      c.meta.add('UDelegates', ([for (val in UDelegates) macro $v{val}]), Context.currentPos());
     case _:
       Context.warning('Invalid type for CppiaMetaData', Context.currentPos());
     }

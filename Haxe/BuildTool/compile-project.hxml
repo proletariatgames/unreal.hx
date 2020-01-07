@@ -3,3 +3,4 @@
 -cp ../../
 --interp
 -main uhx.build.Main
+--macro uhx.build.ConfigHelper.init()

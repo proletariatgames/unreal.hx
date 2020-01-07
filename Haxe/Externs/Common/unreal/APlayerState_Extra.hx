@@ -13,4 +13,7 @@ extern class APlayerState_Extra {
   public var SessionName : unreal.FName;
 
   public function OnDeactivated() : Void;
+
+  @:thisConst
+  public function GetPawn() : APawn;
 }

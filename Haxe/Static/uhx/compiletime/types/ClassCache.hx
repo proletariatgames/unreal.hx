@@ -138,7 +138,7 @@ abstract ClassCache<T : MemberData>(Map<String, ClassData<T>>) from Map<String, 
     if (clsData == null) {
       var sup = null;
       if (cls.superClass != null) {
-        sup = getClassData(cls.superClass.t.get());
+        sup = getClassData_pvt(cls.superClass.t.get());
       }
       var fields = [ for(field in cls.fields.get()) field.name => cast field ];
       var statics = [ for(field in cls.statics.get()) field.name => cast field ];

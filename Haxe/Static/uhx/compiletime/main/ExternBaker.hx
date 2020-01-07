@@ -36,10 +36,13 @@ class ExternBaker {
     classpaths.reverse();
     // parse the optional arguments
     Compiler.addGlobalMetadata("", "@:build(uhx.compiletime.types.OptionalArgsBuild.build())");
+    var verbose = Context.defined('UHX_VERBOSE');
+    var haxeVerbose = Sys.args().exists(function(v) return v == '-v' || v == '--verbose');
 
     #if bake_externs
     TypeConv.onTypeLoad = function(name:String) {
       try {
+        if (haxeVerbose) trace('GetType $name');
         var extra = Context.getType(name + '_Extra');
         // it exists
         if (extra != null) {
@@ -55,7 +58,6 @@ class ExternBaker {
     // walk into the paths - from last to first - and if needed, create the wrapper code
     var target = Compiler.getOutput();
     target = FileSystem.fullPath(target);
-    var verbose = Context.defined('UHX_VERBOSE');
     var filesToCompile = new Map();
     {
       var file = sys.io.File.read(targetFiles);
@@ -113,13 +115,31 @@ class ExternBaker {
 
     var modules = [];
     var unames = new Map();
-    for (ref in filesToCompile) {
-      var module = Context.getModule(ref.module);
-      modules.push({ module:module, ref: ref });
-    }
-
-    Context.onGenerate(function(_) {
-      for (m in modules) {
+    var filesIterator = filesToCompile.iterator();
+    var compiledFiles = new Map();
+    Context.onAfterTyping(function(types:Array<ModuleType>) {
+      for (type in types) {
+        switch(type) {
+          case TClassDecl(c):
+            compiledFiles[c.get().module] = true;
+          case TEnumDecl(c):
+            compiledFiles[c.get().module] = true;
+          case TTypeDecl(c):
+            compiledFiles[c.get().module] = true;
+          case TAbstract(c):
+            compiledFiles[c.get().module] = true;
+        }
+      }
+      var needsBreak = false;
+      while (filesIterator.hasNext()) {
+        var ref = filesIterator.next();
+        if (haxeVerbose) trace('Getting Module ${ref.module}');
+        var module = Context.getModule(ref.module);
+        if (!compiledFiles[ref.module]) {
+          needsBreak = needsBreak || module.length > 0;
+        }
+        var m = { module:module, ref: ref };
+        modules.push(m);
         var module = m.module,
             ref = m.ref;
         var generatedHeader = getGeneratedHeader({ srcFile: ref.file.toLowerCase(), ver:1 });
@@ -227,8 +247,8 @@ class ExternBaker {
         if (!FileSystem.exists(dir)) {
           try {
             FileSystem.createDirectory(dir);
-          } catch(e:Dynamic) {
             trace('failed when creating $dir: there might be a race condition');
+          } catch(e:Dynamic) {
           }
         }
 
@@ -243,6 +263,16 @@ class ExternBaker {
             hadErrors = true;
           }
         }
+        if (needsBreak) {
+          break;
+        }
+      }
+    });
+
+    Context.onGenerate(function(_) {
+      if (filesIterator.hasNext()) {
+        Context.warning('Extern baker: Not all files were processed', Context.currentPos());
+        hadErrors = true;
       }
       if (hadErrors) {
         throw new Error('Extern bake finished with errors',Context.currentPos());
@@ -510,20 +540,20 @@ class ExternBaker {
     return ret;
   }
 
-  private static function getAllDefinedSuperFields(c:ClassType, fields:Map<String, Bool>):Void {
+  private static function getAllDefinedSuperFields(c:ClassType, fields:Map<String, ClassField>):Void {
     var sup = c.superClass;
     if (sup == null) {
       return;
     }
     var supCl = sup.t.get();
     for (field in supCl.fields.get()) {
-      fields[field.name] = true;
+      fields[field.name] = field;
     }
     try {
       switch(Context.getType(sup.t.toString() + '_Extra')) {
       case TInst(c,_):
         for (field in c.get().fields.get()) {
-          fields[field.name] = true;
+          fields[field.name] = field;
         }
       case _:
       }
@@ -596,6 +626,7 @@ class ExternBaker {
               fields[oldFieldIdx] = field;
             } else {
               Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
+              Context.warning('Unreal Extern Baker: See the ${field.name} original declaration', fields[oldFieldIdx].pos);
             }
           } else {
             fields.push(field);
@@ -615,6 +646,7 @@ class ExternBaker {
               statics[oldFieldIdx] = field;
             } else {
               Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
+              Context.warning('Unreal Extern Baker: See the ${field.name} original declaration', statics[oldFieldIdx].pos);
             }
           } else {
             statics.push(field);
@@ -694,6 +726,7 @@ class ExternBaker {
         if (superFields.exists(field.name)) {
           if (!fields.exists(function(cf) return cf != field && cf.getUName() == field.name)) {
             Context.warning('Unreal Extern Baker: The field ${field.name} already exists in a superclass. Create a new field with another name and with the metadata @:uname("${field.name}")', field.pos);
+            Context.warning('Unreal Extern Baker: See the ${field.name} original declaration', superFields[field.name].pos);
           }
           return false;
         }
@@ -1150,6 +1183,9 @@ class ExternBaker {
       case TFun(args,ret) if (field.meta.has(':expr')):
         this.addDoc(field.doc);
         this.addMeta(field.meta.get().filter(function(meta) return meta.name != ':expr'));
+        if (field.kind.match(FMethod(MethInline))) {
+          this.buf.add('inline ');
+        }
         if (isStatic && field.name != 'new') {
           this.buf.add('static ');
         }
@@ -1457,6 +1493,14 @@ class ExternBaker {
           });
         }
         #end
+        var meta = meta;
+        if (meta.name == ':uRuntimeMeta' && meta.params != null && meta.params.length == 1) {
+          switch meta.params[0].expr {
+            case EMeta(m, _):
+              meta = m;
+            case _:
+          }
+        }
         this.add('@' + meta.name);
         if (meta.params != null && meta.params.length > 0) {
           this.add('(');

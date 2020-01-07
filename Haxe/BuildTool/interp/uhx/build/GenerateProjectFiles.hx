@@ -285,7 +285,8 @@ class GenerateProjectFiles extends UhxBaseBuild {
     if (this.config.nekoInstallPath != null)
     {
       path = makeAbsolutePath(this.config.nekoInstallPath) + separator + path;
-      env['NEKO_INSTPATH'] = makeAbsolutePath(this.config.haxeInstallPath);
+      env['NEKO_INSTPATH'] = makeAbsolutePath(this.config.nekoInstallPath);
+      env['NEKOPATH'] = makeAbsolutePath(this.config.nekoInstallPath);
     }
     if (this.config.haxelibPath != null)
     {

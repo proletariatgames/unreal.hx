@@ -8,11 +8,17 @@ import haxe.macro.Type;
 #end
 
 class ConfigHelper {
+  #if macro
+  public static function init() {
+    Compiler.addClassPath(Context.definedValue('ProjectDir'));
+  }
+
+  #end
+
   macro public static function getConfigs():ExprOf<Array<UhxBuildData->UhxBuildConfig->UhxBuildConfig>> {
     if (Context.defined('cpp')) {
       return macro ([] : Array<UhxBuildData->UhxBuildConfig->UhxBuildConfig>);
     }
-    Compiler.addClassPath(Context.definedValue('ProjectDir'));
     var ret = [];
     function get(name:String) {
       try {
@@ -24,7 +30,7 @@ class ConfigHelper {
           ret.push(macro @:pos(cl.pos) $nameExpr.getConfig);
         case _:
         }
-      } 
+      }
       catch(e:Dynamic) {
         if (!Std.string(e).startsWith("Type not found ")) {
           throw e;

@@ -42,6 +42,7 @@ class CreateGlue {
     }
     var scriptModules = [];
     for (path in scriptPaths) {
+      haxe.macro.Compiler.addClassPath(path);
       getModules(path, scriptModules);
     }
     Globals.cur.staticModules = [ for (module in staticModules) module => true ];
@@ -161,11 +162,6 @@ class CreateGlue {
         if (!scriptClassesAdded) {
           Globals.cur.hasUnprocessedTypes = true;
           // make sure cppia classes are compiled as well
-          for (path in scriptPaths) {
-            // we only add classpaths after all static compilation so it is obvious that we cannot
-            // reference script paths from static
-            haxe.macro.Compiler.addClassPath(path);
-          }
           Globals.cur.inScriptPass = true;
           toGatherModules = [ for (module in scriptModules) Context.getModule(module) ];
           keepEnums(toGatherModules);

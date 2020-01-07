@@ -18,19 +18,19 @@
 			"SET ProjectDir=$(ProjectDir)",
 			"SET PluginDir=$(PluginDir)",
 			"IF EXIST \"$(ProjectDir)\"\\uhxenv.bat CALL \"$(ProjectDir)\"\\uhxenv.bat",
-			"haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\" -D UE_PRE_BUILD"
+			"haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\" -D UE_PRE_BUILD -D CustomPaths"
 		],
 		"Linux": [
 			"export ProjectDir=\"$(ProjectDir)\"",
 			"export PluginDir=\"$(PluginDir)\"",
 			"[ -f \"$(ProjectDir)\"/uhxenv.sh ] && source \"$(ProjectDir)\"/uhxenv.sh",
-			"haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\" -D UE_PRE_BUILD"
+			"haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\" -D UE_PRE_BUILD -D CustomPaths"
 		],
 		"Mac": [
 			"export ProjectDir=\"$(ProjectDir)\"",
 			"export PluginDir=\"$(PluginDir)\"",
 			"[ -f \"$(ProjectDir)\"/uhxenv.sh ] && source \"$(ProjectDir)\"/uhxenv.sh",
-			"haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\" -D UE_PRE_BUILD"
+			"haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\" -D UE_PRE_BUILD -D CustomPaths"
 		]
 	}
 }

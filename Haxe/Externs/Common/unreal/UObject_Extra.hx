@@ -299,4 +299,7 @@ extern class UObject_Extra {
 	public function SaveConfig(@:opt(EPropertyFlags.CPF_Config) ?Flags:EPropertyFlags, ?Filename:TCharStar, @:opt(unreal.FConfigCacheIni.GConfig) ?Config:PPtr<FConfigCacheIni>) : Void;
 	public function UpdateDefaultConfigFile(@:opt(new unreal.FString("")) ?SpecificFileLocation:Const<PRef<FString>>) : Void;
 	public function UpdateGlobalUserConfigFile() : Void;
+
+  // You can call this on a null object and it won't crash!
+  @:expr(return this == null ? new unreal.FString("<NULL>") : this.GetName()) @:extern inline function GetNameSafe():FString { return null; }
 }

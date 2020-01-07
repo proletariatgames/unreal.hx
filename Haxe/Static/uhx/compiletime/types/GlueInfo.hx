@@ -21,11 +21,13 @@ class GlueInfo {
     var cur = Globals.cur,
         ret = null;
     if (cur.glueUnityBuild) {
-      ret = cur.staticBaseDir + '/Generated';
+      ret = cur.staticBaseDir + '/Generated/Private';
+    } else if (Context.defined('UHX_CUSTOM_PATHS')) {
+      ret = cur.staticBaseDir + '/Generated/PrivateExport';
     } else {
-      ret = cur.unrealSourceDir + '/Generated';
+      ret = cur.unrealSourceDir + '/Generated/Private';
     }
-    return ret + '/Private/${tref.pack.join("/")}';
+    return ret + '/${tref.pack.join("/")}';
   }
 
   public static function getPublicHeaderPath(tref:TypeRef, ?ensureExists=false):String {
@@ -40,11 +42,13 @@ class GlueInfo {
     var cur = Globals.cur,
         ret = null;
     if (cur.glueUnityBuild) {
-      ret = cur.staticBaseDir + '/Generated';
+      ret = cur.staticBaseDir + '/Generated/Public';
+    } else if (Context.defined('UHX_CUSTOM_PATHS')) {
+      ret = cur.staticBaseDir + '/Generated/PublicExport';
     } else {
-      ret = cur.unrealSourceDir + '/Generated';
+      ret = cur.unrealSourceDir + '/Generated/Public';
     }
-    return ret + '/Public/${tref.pack.join("/")}';
+    return ret + '/${tref.pack.join("/")}';
   }
 
   public static function getSharedHeaderPath(tref:TypeRef, ?ensureExists=false):String {
@@ -59,15 +63,17 @@ class GlueInfo {
     var cur = Globals.cur,
         ret = null;
     if (cur.glueUnityBuild) {
-      ret = cur.staticBaseDir + '/Generated';
+      ret = cur.staticBaseDir + '/Generated/Shared';
+    } else if (Context.defined('UHX_CUSTOM_PATHS')) {
+      ret = cur.staticBaseDir + '/Generated/SharedExport';
     } else {
-      ret = cur.unrealSourceDir + '/Generated';
+      ret = cur.unrealSourceDir + '/Generated/Shared';
     }
     if (tref == null)
     {
-      return ret + '/Shared';
+      return ret;
     }
-    return ret + '/Shared/${tref.pack.join("/")}';
+    return ret + '/${tref.pack.join("/")}';
   }
 
   public static function getCppPath(tref:TypeRef, ?ensureExists=false):String {
@@ -82,11 +88,13 @@ class GlueInfo {
     var cur = Globals.cur,
         ret = null;
     if (cur.glueUnityBuild) {
-      ret = cur.staticBaseDir + '/Generated';
+      ret = cur.staticBaseDir + '/Generated/Private';
+    } else if (Context.defined('UHX_CUSTOM_PATHS')) {
+      ret = cur.staticBaseDir + '/Generated/PrivateExport';
     } else {
-      ret = cur.unrealSourceDir + '/Generated';
+      ret = cur.unrealSourceDir + '/Generated/Private';
     }
-    return ret + '/Private/${tref.pack.join("/")}';
+    return ret + '/${tref.pack.join("/")}';
   }
 
   public static function getUnityDir():Null<String> {
@@ -95,7 +103,7 @@ class GlueInfo {
       return null;
     }
 
-    var dir = cur.unrealSourceDir + '/Generated/Unity/' + cur.shortBuildName;
+    var dir = (Context.defined('UHX_CUSTOM_PATHS') ? (cur.staticBaseDir + '/Generated/Unity') : (cur.unrealSourceDir + '/Generated/Unity/' + cur.shortBuildName));
     return dir;
   }
 
@@ -109,11 +117,15 @@ class GlueInfo {
       Globals.cur.fs.createDirectory(dir);
     }
 
-    return dir + '/' + UNITY_CPP_PREFIX + umodule + '.' + Globals.cur.shortBuildName + UNITY_CPP_EXT;
+    if (Context.defined('UHX_CUSTOM_PATHS')) {
+      return dir + '/' + UNITY_CPP_PREFIX + umodule + UNITY_CPP_EXT;
+    } else {
+      return dir + '/' + UNITY_CPP_PREFIX + umodule + '.' + Globals.cur.shortBuildName + UNITY_CPP_EXT;
+    }
   }
 
   public static function getExportHeaderPath(uname:String, ?ensureExists=false):String {
-    var ret = Globals.cur.unrealSourceDir + '/Generated/Public';
+    var ret = Context.defined('UHX_CUSTOM_PATHS') ? (Globals.cur.staticBaseDir + '/Generated/PublicExport') : (Globals.cur.unrealSourceDir + '/Generated/Public');
     if (uname.indexOf('.') >= 0) {
       var arr = uname.split('.');
       uname = arr.pop();

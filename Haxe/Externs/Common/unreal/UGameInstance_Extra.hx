@@ -27,4 +27,7 @@ extern class UGameInstance_Extra {
 	 * useful to wait for content downloads, etc
 	 */
   public function DelayPendingNetGameTravel() : Bool;
+
+  @:thisConst
+  public function GetGameViewportClient() : UGameViewportClient;
 }

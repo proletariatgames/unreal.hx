@@ -71,9 +71,6 @@ extern class APlayerController_Extra {
 
   public function FlushPressedKeys() : Void;
 
-  /** @return true if this controller thinks it's able to restart. Called from GameMode::PlayerCanRestart */
-  public function CanRestartPlayer() : Bool;
-
   public function PreClientTravel(PendingURL:Const<PRef<FString>>, TravelType:ETravelType, bIsSeamlessTravel:Bool):Void;
 
   public function CleanupPlayerState() : Void;

@@ -111,6 +111,14 @@ public class HaxeModuleRules : BaseModuleRules {
     return false;
   }
 
+  static List<string> getListField(ModuleRules rules, string name) {
+    FieldInfo f = rules.GetType().GetField(name);
+    if (f != null) {
+      return (List<string>) f.GetValue(rules);
+    }
+    return null;
+  }
+
   static void resetCachedDirectory(string path) {
     System.Type t = getType("UnrealBuildTool.DirectoryItem");
     if (t == null) {
@@ -171,7 +179,13 @@ public class HaxeModuleRules : BaseModuleRules {
       }
     }
 
-    HaxeCompilationInfo info = setupHaxeTarget(this, this.forceHaxeCompilation, this.options);
+    HaxeCompilationInfo info = setupHaxeTarget(this, this.forceHaxeCompilation, this.manualDependencies, this.options);
+    if (!this.manualDependencies && !this.forceHaxeCompilation && info.usingCustomPaths)
+    {
+      Log.TraceWarning("Automatic dependencies aren't compatible when compiling using pre-build scripts. Please set `manualDependencies` to `false`");
+      this.manualDependencies = false;
+    }
+
     if (!manualDependencies) {
       string modulesPath = info.outputDir + "/Data/modules.txt";
       string curName = this.GetType().Name;
@@ -210,13 +224,70 @@ public class HaxeModuleRules : BaseModuleRules {
 
   private static bool addedGenerateFilesHook = false;
 
-  public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules, bool forceHaxeCompilation, HaxeConfigOptions options) {
-    rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
-    rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Public"));
-    rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/TemplateExport"));
-    rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Shared"));
+  private static void addModulesText(ModuleRules rules, HaxeCompilationInfo info)
+  {
+    List<string> modules = new List<string>(rules.PublicDependencyModuleNames);
+    modules.AddRange(rules.PrivateDependencyModuleNames);
+    modules.AddRange(rules.Target.ExtraModuleNames);
+    modules.Sort();
+    string modulesStr = "";
+    string last = null;
+    foreach (string str in modules) {
+      if (last != null) {
+        modulesStr += "\n";
+      }
+      if (str != last) {
+        modulesStr += str;
+      }
+      last = str;
+    }
+    if (!Directory.Exists(info.outputDir + "/Data")) {
+      Directory.CreateDirectory(info.outputDir + "/Data");
+    } else {
+      // before writing, let's check if the compilation has already ran
+      FileInfo ModulesFile = new FileReference(info.outputDir + "/Data/modules.txt").ToFileInfo();
+      FileInfo BuildCSModulesFile = new FileReference(info.outputDir + "/Data/buildcs-modules.txt").ToFileInfo();
+      // if the modules.txt is newer, it means it was already built. So it's time to check!
+      if (ModulesFile.Exists && (!BuildCSModulesFile.Exists || BuildCSModulesFile.LastWriteTimeUtc < ModulesFile.LastWriteTimeUtc)) {
+        foreach (string dep in File.ReadAllText(info.outputDir + "/Data/modules.txt").Trim().Split('\n')) {
+          bool found = false;
+          foreach (string module in modules) {
+            if (String.Equals(module, dep, StringComparison.OrdinalIgnoreCase)) {
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            Log.TraceError("The module \"" + dep + "\" is a dependency in Haxe, but it was not present in your Build.cs file.\n" +
+              "If the dependency is already added to your Private/PublicDependencyModuleNames and this message is still appearing,\n" +
+              "please make sure that it was added in the `init` override rather than the constructor");
+          }
+        }
+      }
+    }
 
+    File.WriteAllText(info.outputDir + "/Data/buildcs-modules.txt", modulesStr);
+  }
+
+  public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules, bool forceHaxeCompilation, bool manualDependencies, HaxeConfigOptions options) {
     HaxeCompilationInfo info = new HaxeCompilationInfo(rules);
+    List<string> additionalUObjectPaths = getListField(rules, "PublicAdditionalUObjectPaths");
+    List<string> additionalSourcePaths = getListField(rules, "AdditionalSourcePaths");
+    if (additionalUObjectPaths != null && additionalSourcePaths != null)
+    {
+      Log.TraceInformation("Using PublicAdditionalUObjectPaths / AdditionalSourcePaths");
+      info.usingCustomPaths = true;
+      additionalUObjectPaths.Add(Path.Combine(info.outputDir, "Generated/PublicExport"));
+      additionalUObjectPaths.Add(Path.Combine(info.outputDir, "Generated/SharedExport"));
+      additionalUObjectPaths.Add(Path.Combine(info.outputDir, "Generated/TemplateExport"));
+      additionalSourcePaths.Add(Path.Combine(info.outputDir, "Generated/Unity"));
+      additionalSourcePaths.Add(Path.Combine(info.outputDir, "Generated/PrivateExport"));
+    } else {
+      rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
+      rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Public"));
+      rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/TemplateExport"));
+      rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Shared"));
+    }
     rules.PublicAdditionalLibraries.Add(info.libPath);
     rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Generated/Public"));
     rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Generated/Shared"));
@@ -281,15 +352,36 @@ public class HaxeModuleRules : BaseModuleRules {
 
     bool generatingProjectFiles = isGeneratingProjectFiles();
     bool skipBuild = isSkipBuild();
-    if (forceHaxeCompilation) {
+    if (info.usingCustomPaths && manualDependencies) {
+      addModulesText(rules, info);
+    }
+    // if we are using custom paths, we don't need the global /Generated directory anymore
+    // since we can then use a local directory inside the Intermediates dir for these files
+    // so we should delete it and reset the main cached directory if it does exist
+    if (info.usingCustomPaths && Directory.Exists(rules.ModuleDirectory + "/Generated")) {
+      Directory.Delete(rules.ModuleDirectory + "/Generated", true);
+      resetCachedDirectory(rules.ModuleDirectory);
+    }
+
+    if (forceHaxeCompilation || generatingProjectFiles) {
       if (!skipBuild && !generatingProjectFiles) {
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         callHaxe(rules, info, options, true, null);
         Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
-        #if UE_4_22_OR_LATER
-        resetCachedDirectory(rules.ModuleDirectory);
-        #endif
+#if UE_4_22_OR_LATER
+        if (!info.usingCustomPaths) {
+          // Recursively clear all UnrealBuildTool cached directories in the /Generated directory
+          // after Haxe build, because it may have modified directories or files within, e.g.
+          // deleting unnecessary glue files.
+          // This prevents UnrealHeaderTool from building a manifest that references those deleted
+          // files and then failing to find them.
+          foreach (string subDirectory in Directory.GetDirectories(rules.ModuleDirectory + "/Generated", "*", SearchOption.AllDirectories))
+          {
+            resetCachedDirectory(subDirectory);
+          }
+        }
+#endif
         // make sure the Build.cs file is called every time
         forceNextRun(rules, info);
       } else {
@@ -314,6 +406,20 @@ public class HaxeModuleRules : BaseModuleRules {
         if (File.Exists(dir + "/Data/modules.txt")) {
           rules.ExternalDependencies.Add(dir + "/Data/modules.txt");
         }
+      }
+    }
+
+    List<string> allPaths = new List<string>();
+    allPaths.AddRange(rules.PublicIncludePaths);
+    allPaths.AddRange(rules.PrivateIncludePaths);
+    if (additionalUObjectPaths != null && additionalSourcePaths != null) {
+      allPaths.AddRange(additionalSourcePaths);
+      allPaths.AddRange(additionalUObjectPaths);
+    }
+
+    foreach (string Dir in allPaths) {
+      if (!Directory.Exists(Dir)) {
+        Directory.CreateDirectory(Dir);
       }
     }
     rules.ExternalDependencies.Add(info.outputDir + "/Data/modules.txt");
@@ -349,6 +455,9 @@ public class HaxeModuleRules : BaseModuleRules {
     if (command != null) {
       proc.StartInfo.Arguments += " -D \"Command=" + command + "\"";
     }
+    if (info.usingCustomPaths) {
+      proc.StartInfo.Arguments += " -D \"CustomPaths\"";
+    }
     Log.TraceInformation("Calling the build tool with arguments " + proc.StartInfo.Arguments);
 
     proc.StartInfo.RedirectStandardOutput = true;
@@ -380,6 +489,7 @@ public class HaxeCompilationInfo {
   public string uprojectPath;
   public string pluginPath;
   public string rootDir;
+  public bool usingCustomPaths;
 
   public HaxeCompilationInfo(ModuleRules rules) {
     this.rules = rules;

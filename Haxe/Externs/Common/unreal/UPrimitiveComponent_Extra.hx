@@ -27,4 +27,10 @@ extern class UPrimitiveComponent_Extra {
 	 *  @return true if PrimComp overlaps this component at the specified location/rotation
 	 */
 	public function OverlapComponent(Pos:PRef<Const<FVector>>, Rot:PRef<Const<FQuat>>, CollisionShape:PRef<Const<FCollisionShape>>) : Bool;
+
+	/**
+	 * Return a CollisionShape that most closely matches this primitive.
+	 */
+	@:thisConst
+	public function GetCollisionShape(Inflation:Float32 = 0.0) : FCollisionShape;
 }

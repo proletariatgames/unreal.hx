@@ -1,5 +1,6 @@
 package unreal;
 
+@:hasCopy
 extern class FVector2D_Extra {
   public function new(x:Float32, y:Float32);
 

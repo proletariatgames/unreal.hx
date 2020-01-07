@@ -37,4 +37,6 @@ extern class FSlateApplication_Extra {
    */
   public function ProcessMouseMoveEvent(MouseEvent:Const<PRef<FPointerEvent>>, bIsSynthetic:Bool) : Bool;
 
+	/** Releases the focus for all users from whatever it currently is on. */
+  public function ClearAllUserFocus(ReasonFocusIsChanging:unreal.slatecore.EFocusCause = unreal.slatecore.EFocusCause.SetDirectly) : Void;
 }

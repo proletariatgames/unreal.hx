@@ -1,5 +1,9 @@
 package unreal;
 
+@:uname("FOnWindowCloseRequested")
+@:glueCppIncludes("Engine/GameViewportDelegates.h")
+typedef FOnWindowCloseRequested = Delegate<FOnWindowCloseRequested, Void->Bool>;
+
 @:glueCppIncludes("Engine/GameViewportClient.h")
 @:uextern extern class UGameViewportClient_Extra extends unreal.UScriptViewportClient {
 
@@ -12,6 +16,8 @@ package unreal;
   @:thisConst
   public function GetViewportSize( ViewportSize:FVector2D ) : Void;
 
+  public function SetMouseLockMode(InMouseLockMode:EMouseLockMode) : Void;
+
   /**
     Controls suppression of the blue transition text messages
    **/
@@ -20,4 +26,5 @@ package unreal;
   public function IsFocused(Viewport:PPtr<FViewport>) : Bool;
   public function ReceivedFocus(Viewport:PPtr<FViewport>) : Void;
   public function LostFocus(Viewport:PPtr<FViewport>) : Void;
+  public function OnWindowCloseRequested() : PRef<FOnWindowCloseRequested>;
 }

@@ -24,6 +24,8 @@ package unreal;
 
   function RemoveFromStart(str:Const<PRef<FString>>, SearchCase:ESearchCase) : Bool;
 
+  function Split(InS:Const<PRef<FString>>, LeftS:PPtr<FString>, RightS:PPtr<FString>, SearchCase:ESearchCase = ESearchCase.IgnoreCase, SearchDir:ESearchDir = ESearchDir.FromStart) : Bool;
+
   function ToLowerInline():Void;
   function ToUpperInline():Void;
   @:expr(return op_Dereference()) public function toString():String;

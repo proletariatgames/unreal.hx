@@ -251,4 +251,12 @@ extern class AActor_Extra {
 	 * @param SocketName				Socket name to attach to, if any
 	 */
 	public function AttachToActor(ParentActor:AActor,AttachmentRules:PRef<Const<FAttachmentTransformRules>>, SocketName:FName) : Void;
+	
+	/** See if the root component has Mobility of EComponentMobility::Stationary */
+	@:thisConst
+	public function IsRootComponentStationary() : Bool;
+
+	/** See if the root component has Mobility of EComponentMobility::Movable */
+	@:thisConst
+	public function IsRootComponentMovable() : Bool;
 }

@@ -179,4 +179,32 @@ extern class FMath_Extra {
 	public static function Cos(Value:Float32) : Float32;
 	public static function Acos(Value:Float32) : Float32;
 	public static function Atan2(Y:Float32, X:Float32) : Float32;
+
+	/**
+	 * Find the intersection of a ray and a plane.  The ray has a start point with an infinite length.  Assumes that the
+	 * line and plane do indeed intersect; you must make sure they're not parallel before calling.
+	 *
+	 * @param RayOrigin	The start point of the ray
+	 * @param RayDirection	The direction the ray is pointing (normalized vector)
+	 * @param Plane	The plane to intersect with
+	 *
+	 * @return The point of intersection between the ray and the plane.
+	 */
+	public static function RayPlaneIntersection(RayOrigin:Const<PRef<FVector>>, RayDirection:Const<PRef<FVector>>, Plane:Const<PRef<FPlane>>) : FVector;
+
+	/**
+	 * Find the intersection of a line and a plane. Assumes that the line and
+	 * plane do indeed intersect; you must make sure they're not parallel before
+	 * calling.
+	 *
+	 * @param Point1 the first point defining the line
+	 * @param Point2 the second point defining the line
+	 * @param Plane the plane
+	 *
+	 * @return The point of intersection between the line and the plane.
+	 */
+	public static function LinePlaneIntersection(Point1:Const<PRef<FVector>>, Point2:Const<PRef<FVector>>, Plane:Const<PRef<FPlane>>) : FVector;
+
+	/** Determines whether a line intersects a box. */
+	public static function LineBoxIntersection(Box:Const<PRef<unreal.FBox>>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Direction:Const<PRef<FVector>>) : Bool;
 }

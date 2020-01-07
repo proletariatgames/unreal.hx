@@ -2123,7 +2123,7 @@ private typedef InfoCtx = {
   var Marker = 4;
 
   public function toString() {
-    return switch(this) {
+    return switch(this : Modifier) {
     case Ptr:
       'PPtr';
     case Ref:

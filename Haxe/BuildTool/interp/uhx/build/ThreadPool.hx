@@ -1,6 +1,11 @@
 package uhx.build;
+#if haxe4
+import sys.thread.Thread;
+import sys.thread.Deque;
+#else
 import cpp.vm.Thread;
 import cpp.vm.Deque;
+#end
 
 class ThreadPool {
   public var size(default, null):Int;

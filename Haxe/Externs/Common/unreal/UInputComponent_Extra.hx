@@ -134,14 +134,15 @@ extern class UInputComponent_Extra {
 		}
 		delegate.BindLambda(func);
 		ab.ActionDelegate = unreal.FInputActionUnifiedDelegate.createWithDelegateWithKey(delegate);
+		ab.bConsumeInput = bConsumeInput;
 		return AddActionBinding(ab);
   })
-	public function BindActionHx(actionName:FName, keyEvent:EInputEvent, object:Null<UObject>, func:unreal.inputcore.FKey->Void) : FInputActionBinding;
+	public function BindActionHx(actionName:FName, keyEvent:EInputEvent, object:Null<UObject>, func:unreal.inputcore.FKey->Void, bConsumeInput:Bool=true) : FInputActionBinding;
 
 	@:expr({
-		return BindActionHx(actionName, keyEvent, object, function(key) func());
+		return BindActionHx(actionName, keyEvent, object, function(key) func(), bConsumeInput);
 	})
-	public function BindActionHxVoid(actionName:FName, keyEvent:EInputEvent, object:Null<UObject>, func:Void->Void) : FInputActionBinding;
+	public function BindActionHxVoid(actionName:FName, keyEvent:EInputEvent, object:Null<UObject>, func:Void->Void, bConsumeInput:Bool=true) : FInputActionBinding;
 
 
   /**

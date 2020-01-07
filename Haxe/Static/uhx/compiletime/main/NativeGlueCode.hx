@@ -269,7 +269,8 @@ class NativeGlueCode
   }
 
   private function checkShouldGenerate(stampPath:String, targetPath:String, clt:ClassType):Bool {
-    if (Globals.cur.hasOlderCache) {
+    var dce = Context.definedValue("dce");
+    if (Globals.cur.hasOlderCache && (dce == "no" || dce == "std")) {
       if (!Globals.cur.fs.exists(targetPath)) return true;
       if (clt.meta.has(':wasCompiled')) {
         return false;

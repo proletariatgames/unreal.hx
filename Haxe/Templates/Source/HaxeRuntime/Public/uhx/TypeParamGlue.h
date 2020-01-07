@@ -286,6 +286,17 @@ BASIC_TYPE(double, Float);
 
 #undef BASIC_TYPE
 
+template<typename T>
+struct TypeParamGluePtr<T*, OtherType> {
+  inline static typename PtrMaker<T*>::Type haxeToUePtr(unreal::UIntPtr haxe) {
+    return typename PtrMaker<T*>::Type( StructHelper<T>::getPointer(unreal::VariantPtr::fromUIntPtrRepresentation(haxe)) );
+  }
+
+  inline static unreal::UIntPtr ueToHaxeRef(T *& ue) {
+    return uhx::expose::HxcppRuntime::boxVariantPtr(StructHelper<T>::fromPointer(ue));
+  }
+};
+
 // enum types
 template<typename T>
 struct TypeParamGlue<T, EnumType> {

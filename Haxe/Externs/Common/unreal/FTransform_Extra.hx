@@ -1,5 +1,6 @@
 package unreal;
 
+@:hasCopy @:hasEquals
 extern class FTransform_Extra {
   public function new();
 

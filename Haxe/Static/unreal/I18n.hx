@@ -23,11 +23,30 @@ class I18n {
   /**
     Creates a FText that can be translated using `namespace`, `key` and `text`
   **/
-  macro public static function nsloctext(namespace:String, key:String, text:String):ExprOf<unreal.FText> {
-    return addLoctext(Context.getLocalClass().get(), text, namespace, key, Context.currentPos());
+  macro public static function nsloctext(namespace:String, key:Expr, text:String):ExprOf<unreal.FText> {
+    var literalKey = getLiteral(Context.typeExpr(key));
+    if (literalKey == null)
+    {
+      throw new Error('Invalid key. It must be equate to a literal string', key.pos);
+    }
+    return addLoctext(Context.getLocalClass().get(), text, namespace, literalKey, Context.currentPos());
   }
 
   #if macro
+  private static function getLiteral(expr:TypedExpr):Null<String>
+  {
+    return switch(expr.expr) {
+      case TConst(TString(s)):
+        s;
+      case TParenthesis(e) | TMeta(_,e) | TCast(e,_):
+        getLiteral(e);
+      case TField(_, FEnum(_, enumField)):
+        enumField.name;
+      case _:
+        null;
+    };
+  }
+
   public static function loctextPvt(key:String, text:String):Expr {
     var pos = Context.currentPos();
     var cls = Context.getLocalClass();

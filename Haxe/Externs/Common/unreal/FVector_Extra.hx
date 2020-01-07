@@ -140,6 +140,10 @@ extern class FVector_Extra {
   @:expr(return X == b.X && Y == b.Y && Z == b.Z)
   public function _eq(b:FVector):Bool;
 
+  @:op(A!=B)
+  @:expr(return X != b.X || Y != b.Y || Z != b.Z)
+  public function _noteq(b:FVector):Bool;
+
   public function IsNearlyZero():Bool;
 
   public function IsZero():Bool;

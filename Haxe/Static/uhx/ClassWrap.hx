@@ -3,6 +3,13 @@ import uhx.internal.ObjectArrayHelper;
 import uhx.internal.ObjectArrayHelper_Glue;
 import cpp.Function;
 import unreal.*;
+#if UHX_MULTI_THREADED
+  #if haxe4
+    import sys.thread.Mutex;
+  #else
+    import cpp.vm.Mutex;
+  #end
+#end
 
 @:access(unreal.UObject)
 @:keep class ClassWrap {
@@ -14,7 +21,7 @@ import unreal.*;
 
 #if UHX_MULTI_THREADED
   static var constructingObjects:uhx.threading.Tls<Array<unreal.UObject>> = new uhx.threading.Tls();
-  static var mutex:cpp.vm.Mutex;
+  static var mutex:Mutex;
 #else
   static var constructingObjects:Array<unreal.UObject> = [];
 #end
@@ -44,7 +51,7 @@ import unreal.*;
       }));
 #end
 #if UHX_MULTI_THREADED
-      mutex = new cpp.vm.Mutex();
+      mutex = new Mutex();
 #end
     }
 

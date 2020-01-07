@@ -565,6 +565,10 @@ class NeedsGlueBuild
             }
           }
         } else if (meta.name == ':uproperty' && meta.params != null) {
+          if (field.access != null && field.access.has(AStatic)) {
+            Context.warning('Unreal Glue Extension: Static @:uproperty is not supported by Unreal. For property `${field.name}`', field.pos);
+            hadErrors = true;
+          }
           for (param in meta.params) {
             if (UExtensionBuild.upropReplicated(param) && !field.meta.hasMeta(":ureplicate")) {
               Context.warning('Do not use `Replicated`. Instead, use the @:ureplicate metadata. Please refer to the Unreal.hx documentation for more information', param.pos);

@@ -389,6 +389,9 @@ class Globals {
   public function checkOlderCache() {
     if (hasOlderCache == null) {
       var dir = unrealSourceDir;
+      if (Context.defined('UHX_CUSTOM_PATHS')) {
+        dir = staticBaseDir;
+      }
       if (dir == null) return;
       if (fs.exists('$dir/Generated/defines.txt')) {
         var defines = getDefinesString();
@@ -405,6 +408,9 @@ class Globals {
    **/
   public function reserveCacheFile() {
     var dir = unrealSourceDir;
+    if (Context.defined('UHX_CUSTOM_PATHS')) {
+      dir = staticBaseDir;
+    }
     if (!fs.exists('$dir/Generated')) {
       fs.createDirectory('$dir/Generated');
     }
@@ -420,6 +426,9 @@ class Globals {
     }
 
     var dir = unrealSourceDir;
+    if (Context.defined('UHX_CUSTOM_PATHS')) {
+      dir = staticBaseDir;
+    }
     if (!fs.exists('$dir/Generated')) {
       fs.createDirectory('$dir/Generated');
     }

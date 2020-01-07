@@ -4,7 +4,191 @@
 #include "Core.h"
 #include "HAL/PlatformAtomics.h"
 #include <cstdio>
+#include <cstdlib>
 #include <clocale>
+#include <string.h>
+#include "Misc/CommandLine.h"
+
+// argument handling
+extern int _hxcpp_argc;
+extern char **_hxcpp_argv;
+
+/*
+ISWHITE and ParseCommandLine are based on the implementation of the
+.NET Core runtime, CoreCLR, which is licensed under the MIT license:
+Copyright (c) Microsoft. All rights reserved.
+See LICENSE file in the CoreCLR project root for full license information.
+
+The original source code of ParseCommandLine can be found in
+https://github.com/dotnet/coreclr/blob/master/src/vm/util.cpp
+*/
+
+#define ISWHITE(x) ((x)==(' ') || (x)==('\t') || (x)==('\n') || (x)==('\r') )
+
+static void ParseCommandLine(char *psrc, TArray<char *> &out)
+{
+    unsigned int argcount = 1;       // discovery of arg0 is unconditional, below
+
+    bool    fInQuotes;
+    int     iSlash;
+
+    /* A quoted program name is handled here. The handling is much
+       simpler than for other arguments. Basically, whatever lies
+       between the leading double-quote and next one, or a terminal null
+       character is simply accepted. Fancier handling is not required
+       because the program name must be a legal NTFS/HPFS file name.
+       Note that the double-quote characters are not copied, nor do they
+       contribute to numchars.
+
+       This "simplification" is necessary for compatibility reasons even
+       though it leads to mishandling of certain cases.  For example,
+       "c:\tests\"test.exe will result in an arg0 of c:\tests\ and an
+       arg1 of test.exe.  In any rational world this is incorrect, but
+       we need to preserve compatibility.
+    */
+
+    char *pStart = psrc;
+    bool skipQuote = false;
+
+    // Pairs of double-quotes vanish...
+    while(psrc[0]=='\"' && psrc[1]=='\"')
+       psrc += 2;
+
+    if (*psrc == '\"')
+    {
+        // scan from just past the first double-quote through the next
+        // double-quote, or up to a null, whichever comes first
+        psrc++;
+        while ((*psrc!= '\"') && (*psrc != '\0'))
+        {
+           psrc++;
+           // Pairs of double-quotes vanish...
+           while(psrc[0]=='\"' && psrc[1]=='\"')
+              psrc += 2;
+        }
+
+        skipQuote = true;
+    }
+    else
+    {
+        /* Not a quoted program name */
+
+        while (!ISWHITE(*psrc) && *psrc != '\0')
+            psrc++;
+    }
+
+    // We have now identified arg0 as pStart (or pStart+1 if we have a leading
+    // quote) through psrc-1 inclusive
+    if (skipQuote)
+        pStart++;
+    char *arg0 = (char*) calloc(psrc - pStart + 1, sizeof(char));
+    memcpy(arg0, pStart, psrc - pStart);
+    pStart = psrc;
+    out.Push(arg0); // the command isn't part of Sys.args()
+
+    // if we stopped on a double-quote when arg0 is quoted, skip over it
+    if (skipQuote && *psrc == '\"')
+        psrc++;
+
+    while ( *psrc != '\0')
+    {
+LEADINGWHITE:
+
+        // The outofarg state.
+        while (ISWHITE(*psrc))
+            psrc++;
+
+        if (*psrc == '\0')
+            break;
+        else
+        if (*psrc == '#')
+        {
+            while (*psrc != '\0' && *psrc != '\n')
+                psrc++;     // skip to end of line
+
+            goto LEADINGWHITE;
+        }
+
+        argcount++;
+        fInQuotes = false;
+
+        char *argStart = psrc;
+        TArray<char> arg;
+
+        while ((!ISWHITE(*psrc) || fInQuotes) && *psrc != '\0')
+        {
+            switch (*psrc)
+            {
+            case '\\':
+                iSlash = 0;
+                while (*psrc == '\\')
+                {
+                    iSlash++;
+                    psrc++;
+                }
+
+                if (*psrc == '\"')
+                {
+                    for ( ; iSlash >= 2; iSlash -= 2)
+                    {
+                        arg.Push('\\');
+                    }
+
+                    if (iSlash & 1)
+                    {
+                        arg.Push(*psrc);
+                        psrc++;
+                    }
+                    else
+                    {
+                        fInQuotes = !fInQuotes;
+                        psrc++;
+                    }
+                }
+                else
+                    for ( ; iSlash > 0; iSlash--)
+                    {
+                        arg.Push('\\');
+                    }
+
+                break;
+
+            case '\"':
+                fInQuotes = !fInQuotes;
+                psrc++;
+                break;
+
+            default:
+                arg.Push(*psrc);
+                psrc++;
+            }
+        }
+
+        char *toAdd = (char*) calloc(arg.Num() + 1, sizeof(char));
+        memcpy(toAdd, arg.GetData(), arg.Num());
+        out.Add(toAdd);
+        arg = TArray<char>();
+    }
+}
+
+/**
+  Initializes _hxcpp_argc and _hxcpp_argv so that Sys.args() doesn't go through the normal path.
+  This is needed because we can run into locale issues due to incompatibilities between Unreal and hxcpp,
+  which can lead to hard crashes while parsing the command-line (due to the setlocale call which is made inside the hxcpp initialization)
+  So instead of letting hxcpp do the work, we are going to fill the _hxcpp_argc and _hxcpp_argv information as if
+  it was run in a normal `main` code, and instead parse the command-line ourselves with an UTF8 version of it
+**/
+static void uhx_init_args()
+{
+  if (_hxcpp_argc == 0)
+  {
+    TArray<char *> Ret;
+    ParseCommandLine(TCHAR_TO_UTF8(FCommandLine::GetOriginal()), Ret);
+    _hxcpp_argc = Ret.Num();
+    _hxcpp_argv = (char**) calloc(Ret.Num() + 2, sizeof(char*));
+    memcpy(_hxcpp_argv, Ret.GetData(), Ret.Num() * sizeof(char*));
+  }
+}
 
 #if PLATFORM_WINDOWS || PLATFORM_XBOXONE
   namespace Windows {
@@ -112,6 +296,7 @@ static bool uhx_init_if_needed(void *top_of_stack)
   SET_TLS_VALUE(tlsRegistered, (void *) (unreal::IntPtr) TlsRegisterEnum::RegLocally);
   #endif
 
+  uhx_init_args();
   gc_set_top_of_stack((int *)top_of_stack, false);
   const char *error = hxRunLibrary();
   if (error) { UE_LOG(HaxeLog, Fatal, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }

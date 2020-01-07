@@ -207,7 +207,7 @@ class UStructBuild {
             pos: expr.pos,
             meta: metas
           });
-        case EFunction(name, fn):
+        case EFunction(FNamed(name,_), fn):
           if (name == null) {
             throw new Error('Unreal Struct: Invalid unnamed function. All functions must be named', expr.pos);
           }
@@ -222,7 +222,7 @@ class UStructBuild {
           });
         case e:
           var name = std.Type.enumConstructor(e);
-          throw new Error('Unreal Struct: Invalid expression $name in the struct definition. Only vars and functions are supported', expr.pos);
+          throw new Error('Unreal Struct: Invalid expression $name in the struct definition. Only vars and named functions are supported', expr.pos);
       }
     }
 

@@ -43,6 +43,8 @@ class Main {
         cppiaRecompile: #if UE_CPPIA_RECOMPILE true #else false #end,
         ueEditorRecompile: #if UE_EDITOR_RECOMPILE true #else false #end,
         ueEditorCompile: #if UE_EDITOR_COMPILE true #else false #end,
+        customPaths: #if CustomPaths true #else false #end,
+        prebuild: #if UE_PRE_BUILD true #else false #end
       };
 
       // we're using #if conditionals for commands so that we only compile what's needed

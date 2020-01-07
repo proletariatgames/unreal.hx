@@ -15,6 +15,8 @@ using StringTools;
   public var cppiaRecompile(default, null):Bool;
   public var ueEditorRecompile(default, null):Bool;
   public var ueEditorCompile(default, null):Bool;
+  public var customPaths(default, null):Bool;
+  public var prebuild(default, null):Bool;
 
   public static function fromArgs(args:haxe.DynamicAccess<Dynamic>) {
     var ret:UhxBuildData = {
@@ -32,6 +34,8 @@ using StringTools;
         cppiaRecompile: args['cppiaRecompile'],
         ueEditorRecompile: args['ueEditorRecompile'],
         ueEditorCompile: args['ueEditorCompile'],
+        customPaths: args['customPaths'],
+        prebuild: args['prebuild'],
     };
     return ret;
   }

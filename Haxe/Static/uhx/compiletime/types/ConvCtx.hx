@@ -6,7 +6,8 @@ import uhx.compiletime.tools.HelperBuf;
   private var buf:HelperBuf;
   private var pos:Position;
 
-  public function new() {
+  public function new(pos) {
+    this.pos = pos;
   }
 }
 

@@ -90,6 +90,7 @@ class UhxBuild extends UhxBaseBuild {
                 'haxelibPath', 'forceDebug', 'debugSymbols', 'liveReload'];
     var buf = new StringBuf();
     buf.add('engine=${this.version};');
+    buf.add('customPaths=${this.data.customPaths};');
     for (v in vars) {
       var val:Dynamic = Reflect.field(this.config, v);
       if (val != null) {
@@ -1249,6 +1250,9 @@ class UhxBuild extends UhxBaseBuild {
     if (this.config.dce != null) {
       args.push('-dce ${this.config.dce}');
     }
+    if (data.customPaths) {
+      args.push('-D UHX_CUSTOM_PATHS');
+    }
 
     if (debugMode) {
       args.push('-debug');
@@ -1795,7 +1799,20 @@ class UhxBuild extends UhxBaseBuild {
       this.defines.sort(Reflect.compare);
       var allDefs = this.defines.join('\n').trim();
       var targetDefs = '${buildVars.outputDir}/Data/defines.txt';
-      if (!FileSystem.exists(targetDefs) || sys.io.File.getContent(targetDefs).trim() != allDefs) {
+      var shouldSave = !FileSystem.exists(targetDefs);
+      if (!shouldSave)
+      {
+        var contents = sys.io.File.getContent(targetDefs);
+        if (contents.length == 0)
+        {
+          // looks like there is a bug in the macro interpreter and getContent returning an empty string
+          contents = "";
+        }
+        if (allDefs != contents.trim()) {
+          shouldSave = true;
+        }
+      }
+      if (shouldSave) {
         sys.io.File.saveContent(targetDefs, allDefs);
       }
     }
