@@ -20,8 +20,10 @@ package unreal.umg;
 	/** Function called after the underlying SWidget is constructed. */
 	private function OnWidgetRebuilt() : Void;
 
+  #if proletariat
 	public function SetNavigationExplicit(Direction:unreal.slatecore.EUINavigation, InFocusRecipient:PRef<UWidget>) : Void;
 
-	public function SetNavigationCustom(Direction:unreal.slatecore.EUINavigation, Delegate:FWidgetNavigationDelegate) : Void;
+  public function SetNavigationCustom(Direction:unreal.slatecore.EUINavigation, Delegate:FWidgetNavigationDelegate) : Void;
+  #end
 
 }

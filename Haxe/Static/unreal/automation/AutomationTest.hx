@@ -188,14 +188,14 @@ class AutomationTest {
       return macro @:pos(pos) {
         var uhx_e1 = $e1;
         var uhx_e2 = $e2;
-        if (!$uhx_e1.equals($uhx_e2)) $ethis.err(uhx_e1 + ' should be structurally equal to ' + uhx_e2);
+        if (!uhx_e1.equals(uhx_e2)) $ethis.err(uhx_e1 + ' should be structurally equal to ' + uhx_e2);
       }
     }
     catch(e:Dynamic) {
       return macro @:pos(pos) {
         var uhx_e1 = $e1;
         var uhx_e2 = $e2;
-        if ($uhx_e1 != $uhx_e2) $ethis.err(uhx_e1 + ' should be equal to ' + uhx_e2);
+        if (uhx_e1 != uhx_e2) $ethis.err(uhx_e1 + ' should be equal to ' + uhx_e2);
       }
     }
   }
@@ -208,14 +208,14 @@ class AutomationTest {
       return macro @:pos(pos) {
         var uhx_e1 = $e1;
         var uhx_e2 = $e2;
-        if ($uhx_e1.equals($uhx_e2)) $ethis.err(uhx_e1 + ' should not be structurally equal to ' + uhx_e2);
+        if (uhx_e1.equals(uhx_e2)) $ethis.err(uhx_e1 + ' should not be structurally equal to ' + uhx_e2);
       }
     }
     catch(e:Dynamic) {
       return macro @:pos(pos) {
         var uhx_e1 = $e1;
         var uhx_e2 = $e2;
-        if ($uhx_e1 == $uhx_e2) $ethis.err(uhx_e1 + ' should not be equal to ' + uhx_e2);
+        if (uhx_e1 == uhx_e2) $ethis.err(uhx_e1 + ' should not be equal to ' + uhx_e2);
       }
     }
   }
