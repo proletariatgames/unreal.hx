@@ -624,7 +624,7 @@ class ExternBaker {
           if (oldFieldIdx >= 0) {
             if (field.meta.has(':ureplace')) {
               fields[oldFieldIdx] = field;
-            } else {
+            } else if (!field.meta.has(':uhx_eb_ignore_field_warning')) {
               Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
               Context.warning('Unreal Extern Baker: See the ${field.name} original declaration', fields[oldFieldIdx].pos);
             }
@@ -644,7 +644,7 @@ class ExternBaker {
           if (oldFieldIdx >= 0) {
             if (field.meta.has(":ureplace")) {
               statics[oldFieldIdx] = field;
-            } else {
+            } else if (!field.meta.has(':uhx_eb_ignore_field_warning')) {
               Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}. Define it with the metadata @:ureplace to replace it', field.pos);
               Context.warning('Unreal Extern Baker: See the ${field.name} original declaration', statics[oldFieldIdx].pos);
             }
@@ -724,7 +724,7 @@ class ExternBaker {
 
       function superFilter(fields:Array<ClassField>, field:ClassField) {
         if (superFields.exists(field.name)) {
-          if (!fields.exists(function(cf) return cf != field && cf.getUName() == field.name)) {
+          if (!fields.exists(function(cf) return cf != field && cf.getUName() == field.name) && !field.meta.has(':uhx_eb_ignore_field_warning')) {
             Context.warning('Unreal Extern Baker: The field ${field.name} already exists in a superclass. Create a new field with another name and with the metadata @:uname("${field.name}")', field.pos);
             Context.warning('Unreal Extern Baker: See the ${field.name} original declaration', superFields[field.name].pos);
           }

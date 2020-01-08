@@ -391,7 +391,6 @@ class DelegateBuild {
       }
     } else if (Context.defined('WITH_CPPIA')) {
       meta.push({ name:':ugenerated', params:[macro $v{sig}], pos:pos });
-      trace('adding $sig');
     }
 
 #if !bake_externs

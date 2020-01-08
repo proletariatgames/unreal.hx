@@ -14,11 +14,68 @@ class NeedsGlueBuild
   static var checkedVersion = false;
   public static function build():Array<Field>
   {
-    #if bake_externs
-    return null;
-    #end
     var localClass = Context.getLocalClass(),
         cls:ClassType = localClass.get();
+    #if bake_externs
+    var toAdd:Array<Field> = [];
+    var ifaces = cls.interfaces;
+    var buildFields = null;
+    if (ifaces != null && ifaces.length > 0) {
+      buildFields = Context.getBuildFields();
+      var fields = [ for (field in buildFields) field.name => true ];
+      function visitInterface(iface:ClassType) {
+        for (field in iface.fields.get()) {
+          if (!fields[field.name]) {
+            var meta = [{ name:':uhx_eb_ignore_field_warning', params:[], pos:field.pos }];
+            switch(field.kind) {
+            case FVar(read,write):
+              toAdd.push({
+                name: field.name,
+                kind: FieldType.FVar(field.type.toComplexType(), null),
+                pos:field.pos,
+                meta:meta
+              });
+            case FMethod(_):
+              switch(Context.follow(field.type)) {
+              case TFun(args, ret):
+                toAdd.push({
+                  name: field.name,
+                  kind: FFun({
+                    args: [ for (arg in args) { name:arg.name, type:arg.t.toComplexType() } ],
+                    expr: null,
+                    ret: ret.toComplexType()
+                  }),
+                  pos:field.pos,
+                  meta:meta
+                });
+              case t:
+                throw 'assert: $t';
+              }
+            }
+          }
+        }
+        var t = null;
+        try {
+          t = Context.getType(iface.pack.join('.') + (iface.pack.length > 0 ? '.' : '') + iface.name + '_Extra');
+        }
+        catch(e:Dynamic) {}
+        if (t != null) {
+          switch(Context.follow(t)) {
+          case TInst(c,_):
+            visitInterface(c.get());
+          case _:
+          }
+        }
+        for (iface in iface.interfaces) {
+          visitInterface(iface.t.get());
+        }
+      }
+      for (iface in ifaces) {
+        visitInterface(iface.t.get());
+      }
+    }
+    return toAdd.length > 0 ? buildFields.concat(toAdd) : null;
+    #end
     if (Context.defined('UHX_DISPLAY')) {
       if (cls.isInterface || cls.isExtern) {
         return null;
@@ -191,7 +248,6 @@ class NeedsGlueBuild
       var ifaces = (cast type : ClassType).interfaces;
       if (ifaces != null) {
         function checkInterface(iface:ClassType) {
-          if (hasNativeInterfaces) return;
           if (iface.meta.has(':uextern')) {
             hasNativeInterfaces = true;
             return;
