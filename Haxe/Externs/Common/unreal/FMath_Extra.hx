@@ -109,7 +109,7 @@ extern class FMath_Extra {
 	 * @param	Angle0 The first angle that we wind relative to.
 	 * @param	Angle1 The second angle that we may wind relative to the first.
 	 */
-	public static function WindRelativeAnglesDegrees(InAngle0:Float32, InOutAngle0:PRef<Float32>) : Void;
+	public static function WindRelativeAnglesDegrees(InAngle0:Float32, InOutAngle0:Ref<Float32>) : Void;
 
 	/** Returns a new rotation component value
 	 *
