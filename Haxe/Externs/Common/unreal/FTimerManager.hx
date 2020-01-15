@@ -16,6 +16,10 @@ package unreal;
 
   function PauseTimer(handle:FTimerHandle) : Void;
   function UnPauseTimer(handle:FTimerHandle) : Void;
+  #if proletariat
+  function GetTimerDelegate(handle:FTimerHandle) : FTimerDelegate;
+  function GetTimerDynamicDelegate(handle:FTimerHandle) : FTimerDynamicDelegate;
+  #end
   function GetTimerRate(handle:FTimerHandle) : Float32;
   function IsTimerActive(handle:FTimerHandle) : Bool;
   function IsTimerPaused(handle:FTimerHandle) : Bool;
