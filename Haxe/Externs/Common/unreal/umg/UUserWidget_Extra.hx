@@ -17,7 +17,8 @@ extern class UUserWidget_Extra {
 #if (UE_VER <= 4.19)
 	public static function CreateWidgetOfClass(UserWidgetClass:UClass, InGameInstance:UGameInstance, InWorld:UWorld, InOwningPlayer:APlayerController):UUserWidget;
 #else
-	public static function CreateWidgetInstance(OwnerPC:PRef<APlayerController>, UserWidgetClass:TSubclassOf<UUserWidget>, WidgetName:FName):UUserWidget;
+	@:uname("CreateWidgetInstance") public static function CreateWidgetInstanceWithOwnerWidget(OwnerWidget:PRef<UWidget>, UserWidgetClass:TSubclassOf<UUserWidget>, WidgetName:FName):UUserWidget;
+	@:uname("CreateWidgetInstance") public static function CreateWidgetInstanceWithOwnerPC(OwnerPC:PRef<APlayerController>, UserWidgetClass:TSubclassOf<UUserWidget>, WidgetName:FName):UUserWidget;
 #end
 
 	private function NativeTick(MyGeometry:Const<PRef<FGeometry>>, InDeltaTime:Float32):Void;
