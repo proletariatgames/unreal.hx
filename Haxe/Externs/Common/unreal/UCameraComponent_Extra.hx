@@ -6,4 +6,8 @@ extern class UCameraComponent_Extra
 	public function AddOrUpdateBlendable(InBlendableObject:TScriptInterface<IBlendableInterface>, InWeight:Float32) : Void;
 	/** Removes a blendable. */
 	public function RemoveBlendable(InBlendableObject:TScriptInterface<IBlendableInterface>) : Void;
+
+#if proletariat
+	public function SetCurrentAndBaseFieldOfView(CurrentFOV:Float32, BaseFOV:Float32) : Void;
+#end
 }
