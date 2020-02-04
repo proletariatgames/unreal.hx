@@ -32,6 +32,8 @@ typedef FOnMoviePlaybackFinished = unreal.Event<FOnMoviePlaybackFinished, Void->
   /** Call only on the game thread. Spins this thread until the movie stops. */
   public function WaitForMovieToFinish() : Void;
 
+  public function PassLoadingScreenWindowBackToGame() : Void;
+
   /** Called from to check if the game thread is finished loading. */
   @:thisConst
   public function IsLoadingFinished() : Bool;
