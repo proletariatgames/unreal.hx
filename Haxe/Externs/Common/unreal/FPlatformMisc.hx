@@ -9,6 +9,11 @@ package unreal;
    */
   static function GetMacAddress():TArray<UInt8>;
 
+  /*
+   * Show (true) or hide (false) the intro splash screen at the start of the game
+   */
+  static function PlatformHandleSplashScreen(ShouldShow:Bool):Void;
+
   /**
    * Retrieve the Mac address of the current adapter as a string.
    *
