@@ -152,7 +152,9 @@ extern class FRotator_Extra {
 	/**
 	 * In-place normalize, removes all winding and creates the "shortest route" rotation.
 	 */
-  public function Normalize() : Void;
+	public function Normalize() : Void;
+
+	public static function NormalizeAxis(Angle:Float32) : Float32;
 
 	/**
 	 * Decompose this Rotator into a Winding part (multiples of 360) and a Remainder part.
