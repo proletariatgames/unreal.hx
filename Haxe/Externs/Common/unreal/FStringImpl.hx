@@ -5,6 +5,7 @@ package unreal;
 @:ustruct
 @:uextern extern class FStringImpl {
   @:uname('.ctor') static function create(text:TCharStar):FStringImpl;
+  @:uname('.ctor') static function createEmpty():FStringImpl;
   @:uname('new') static function createNew(text:TCharStar):POwnedPtr<FStringImpl>;
   function op_Dereference() : TCharStar;
 
@@ -29,5 +30,10 @@ package unreal;
   function ToLowerInline():Void;
   function ToUpperInline():Void;
   @:expr(return op_Dereference()) public function toString():String;
+
+  @:expr public static var EmptyString (get,never) : Const<FString>;
+  @:expr({
+    return FStringImpl.createEmpty();
+  }) private static function get_EmptyString() : Const<FString>;
 }
 

@@ -18,6 +18,15 @@ package unreal;
     return FTextImpl.AsTimespan(Timespan, TargetCulture);
   }
 
+  inline public static function fromInt(Val:Int, Options:Const<PPtr<FNumberFormattingOptions>>=null) : FTextImpl {
+    return FTextImpl.FromInt(Val, Options);
+  }
+
+  public static var EmptyText(get, never) : FText;
+  inline private static function get_EmptyText() : FText {
+    return FTextImpl.EmptyText;
+  }
+
   #if proletariat
   inline public static function asHourMinuteTimespan(Timespan:Const<PRef<FTimespan>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl {
     return FTextImpl.AsHourMinuteTimespan(Timespan, TargetCulture);

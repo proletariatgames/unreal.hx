@@ -19,9 +19,25 @@ package unreal;
 	static function Format(Fmt:unreal.FTextFormat, InArguments:Const<PRef<unreal.FFormatNamedArguments>>) : FTextImpl;
 	@:uname("Format") static function FormatOrdered(Fmt:unreal.FTextFormat, InArguments:Const<PRef<TArray<FFormatArgumentValue>>>) : FTextImpl;
 
-  function ToUpper():unreal.Const<FText>;
+  @:thisConst
+  function ToUpper():FText;
+  @:thisConst
+  function ToLower():FText;
+
+  @:expr public static var EmptyText (get,never) : Const<FText>;
+  @:expr({
+    return FTextImpl.GetEmpty().copy();
+  }) private static function get_EmptyText() : Const<FText>;
 
   function IsEmpty():Bool;
+
+	/**
+	 * Generate an FText that represents the passed number in the current culture
+	 */
+  @:uname("AsNumber") static function FromInt(val:Int32, FormattingOptions:Const<PPtr<FNumberFormattingOptions>>=null) : Const<FText>;
+  static function AsPercent(val:Float32, FormattingOptions:Const<PPtr<FNumberFormattingOptions>>=null) : Const<FText>;
+
+  private static function GetEmpty() : PRef<Const<FText>>;
 }
 
 

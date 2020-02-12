@@ -15,6 +15,11 @@ package unreal;
     return this.Len();
   }
 
+  public static var EmptyString(get, never) : FString;
+  inline private static function get_EmptyString() : FString {
+    return FStringImpl.EmptyString;
+  }
+
   inline public static function create(str:String):FString {
     return FStringImpl.create(str);
   }
