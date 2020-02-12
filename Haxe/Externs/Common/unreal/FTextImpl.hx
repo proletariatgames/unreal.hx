@@ -26,7 +26,7 @@ package unreal;
 
   @:expr public static var EmptyText (get,never) : Const<FText>;
   @:expr({
-    return FTextImpl.GetEmpty().copy();
+    return FTextImpl.GetEmpty();
   }) private static function get_EmptyText() : Const<FText>;
 
   function IsEmpty():Bool;
