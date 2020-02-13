@@ -79,9 +79,10 @@ typedef UhxBuildConfig = {
   ?cppiaModuleExclude:Array<String>,
 
   /**
-    forces the Haxe compilation to include -debug, even in shipping mode
+    forces the Haxe compilation to build without -debug. Useful for profiling.
+    Ignored if cppia is used (cppia always uses -debug).
    **/
-  ?forceDebug:Bool,
+  ?forceNoDebug:Bool,
 
   /**
     forces the Haxe compilation to compile with the debug symbols, even in shipping

@@ -1506,7 +1506,6 @@ class UhxBuild extends UhxBaseBuild {
     this.defineVer = 'UE_VER=${this.version.MajorVersion}.${this.version.MinorVersion}';
     this.definePatch = 'UE_PATCH=${this.version.PatchVersion == null ? 0 : this.version.PatchVersion}';
     this.outputStatic = getLibLocation();
-    this.debugMode = data.targetConfiguration != Shipping || config.forceDebug;
     if (config.compilationServer != null) {
       // TODO this works around an issue that is fixed in another branch
       this.compserver = Std.parseInt(config.compilationServer + '');
@@ -1540,6 +1539,8 @@ class UhxBuild extends UhxBaseBuild {
     } else {
       this.config.dce = DceNo;
     }
+    this.debugMode = this.cppiaEnabled || (!config.forceNoDebug && data.targetConfiguration != Shipping);
+
     consolidateNeededConfigs();
     this.stampOverride = getStampOverride();
 
