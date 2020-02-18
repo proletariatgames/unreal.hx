@@ -24,4 +24,12 @@ import unreal.*;
 	 * @return true if it was able to show the UI, false if it failed
 	 */
 	public function ShowInviteUI(LocalUserNum:unreal.Int32, @:opt(UnrealName.NAME_GameSession) ?SessionName:FName) : Bool;
+
+	/**
+	 * Displays an informational system dialog.
+	 *
+	 * @param UserId Who to show this dialog for.
+	 * @param MessageId Platform-specific identifier for the message box to display.
+	 */
+	 public function ShowPlatformMessageBox(UserId:Const<PRef<FUniqueNetId>> , MessageType:EPlatformMessageType) : Bool;
 }
