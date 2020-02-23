@@ -59,6 +59,8 @@ class NativeSys
     return 'Emscripten';
     #elseif PLATFORM_PS4
     return 'PS4';
+    #elseif PLATFORM_SWITCH
+    return 'Switch';
     #else
     return haxe.macro.Compiler.getDefine('UHX_UE_TARGET_PLATFORM');
     #end

@@ -928,6 +928,7 @@ class UhxBuild extends UhxBaseBuild {
         if (this.config.disableBakerSourceCheck) {
           bakeArgs.push('-D NO_SOURCE_CHECK');
         }
+        addPlatformDefines(bakeArgs, this.buildVars.data.targetPlatform);
 
         bakeArgs.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
         fns.push(function() return compileSources(bakeArgs) == 0);
@@ -1038,12 +1039,15 @@ class UhxBuild extends UhxBaseBuild {
         defines.push('-D PLATFORM_IOS');
       case Android:
         defines.push('-D PLATFORM_ANDROID');
+        defines.push('-D toolchain=android');        
       case HTML5:
         defines.push('-D PLATFORM_HTML5');
       case Linux:
         defines.push('-D PLATFORM_LINUX');
       case TVOS:
         defines.push('-D PLATFORM_TVOS');
+      case Switch:
+        defines.push('-D PLATFORM_SWITCH');        
       case _:
         throw new BuildError('Unknown platform $platform');
     }
@@ -1360,6 +1364,15 @@ class UhxBuild extends UhxBaseBuild {
       extraArgs = [
         '-D toolchain=xboxone',
       ];
+    case 'Android':
+      extraArgs = [
+        '-D toolchain=android',
+      ];
+    case 'Switch':
+      extraArgs = [
+      '-D toolchain=switch',
+      ];   
+      
     }
 
     var extraCompilerFlags = [];
@@ -1517,7 +1530,8 @@ class UhxBuild extends UhxBaseBuild {
       this.compserver = Std.parseInt(Sys.getEnv("HAXE_COMPILATION_SERVER"));
     }
 
-    this.externsFolder = shouldBuildEditor() ? 'Externs_Editor' : 'Externs';
+    this.externsFolder = shouldBuildEditor() ? 'Extern_Editor' : 'Externs';
+    this.externsFolder += '_' + this.buildVars.data.targetPlatform;
 
     // get all modules that need to be compiled
     this.modulePaths = ['$haxeDir/Static'];

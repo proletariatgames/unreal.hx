@@ -139,6 +139,8 @@ class GlueManager {
       ret.push('PLATFORM_LINUX');
     case 'TVOS':
       ret.push('PLATFORM_TVOS');
+    case 'Switch':
+      ret.push('PLATFORM_SWITCH');
     case platform:
       throw 'Unknown target platform $platform';
     }

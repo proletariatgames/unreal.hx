@@ -13,4 +13,5 @@
   var Linux = "Linux";
   var AllDesktop = "AllDesktop";
   var TVOS = "TVOS";
+  var Switch = "Switch";
 }
