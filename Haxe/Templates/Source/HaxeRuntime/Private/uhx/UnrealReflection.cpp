@@ -862,6 +862,10 @@ void uhx::TMapReflect_obj::set_Item(unreal::VariantPtr self, unreal::UIntPtr key
   Add(self, key, val);
 }
 
+int uhx::TMapReflect_obj::Num(unreal::VariantPtr self) {
+	return GET_SET_HELPER(self).Num();
+}
+
 bool uhx::TMapReflect_obj::Contains(unreal::VariantPtr self, unreal::UIntPtr InKey) {
   uint64 stackSpace1;
   void *keyPtr = hxcppPointerToCppPointer(GET_MAP_UPROP()->KeyProp, InKey, stackSpace1);

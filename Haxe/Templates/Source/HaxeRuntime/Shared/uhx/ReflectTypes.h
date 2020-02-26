@@ -52,6 +52,7 @@ public:
 
   virtual void Add(unreal::VariantPtr self, unreal::UIntPtr InKey, unreal::UIntPtr InValue) override;
   virtual unreal::UIntPtr FindOrAdd(unreal::VariantPtr self, unreal::UIntPtr Key) override;
+	virtual int Num(unreal::VariantPtr self) override;
   virtual void set_Item(unreal::VariantPtr self, unreal::UIntPtr key, unreal::UIntPtr val) override;
   virtual bool Contains(unreal::VariantPtr self, unreal::UIntPtr InKey) override;
   virtual unreal::UIntPtr FindChecked(unreal::VariantPtr self, unreal::UIntPtr InKey) override;

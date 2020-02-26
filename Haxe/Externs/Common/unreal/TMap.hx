@@ -16,6 +16,7 @@ package unreal;
   public function FindChecked(InKey:K):PRef<V>;
   public function Remove(InKey:K):Int32;
   public function Empty(ExpectedElements:Int32 = 0) : Void;
+  public function Num():Int32;
 
   @:ueHeaderCode('
     unreal::VariantPtr GenerateKeyArray(unreal::VariantPtr self) override {
