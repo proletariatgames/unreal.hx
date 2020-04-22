@@ -26,6 +26,8 @@ extern class UEngine_Extra {
 
 	public function GetGameUserSettings() : UGameUserSettings;
 
+	public function UpdateGameUserSettings(Settings:UGameUserSettings) : Void;
+
 /**
 	 * Updates level streaming state using active game players view and blocks until all sub-levels are loaded/ visible/ hidden
 	 * so further calls to UpdateLevelStreaming won't do any work unless state changes.
@@ -65,6 +67,10 @@ extern class UEngine_Extra {
 	 **/
 	@:glueCppIncludes('CoreGlobals.h')
 	@:global static function IsRunningCommandlet():Bool;
+
+	/** Whether we're currently in the async loading code path or not */
+	@:glueCppIncludes('CoreGlobals.h')
+	@:global static function IsAsyncLoading() : Bool;
 
 	public function Exec(InWorld:UWorld, Cmd:TCharStar, Out:PRef<FOutputDevice>):Bool;
 

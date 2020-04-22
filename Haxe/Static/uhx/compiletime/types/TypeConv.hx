@@ -393,6 +393,22 @@ class TypeConv {
               defParams = [kparam,vparam];
               TMap;
             }
+          case 'TSoftObjectPtr':
+            var param = params[0].toUPropertyDef();
+            if (param ==  null) {
+              null;
+            } else {
+              defParams = [param];
+              TSoftObjectPtr;
+            }  
+          case 'TSoftClassPtr':
+            var param = params[0].toUPropertyDef();
+            if (param ==  null) {
+              null;
+            } else {
+              defParams = [param];
+              TSoftClassPtr;
+            }            
           case _:
             if (flags.hasAny(SUStruct)) {
               switch(info.ueType.name) {

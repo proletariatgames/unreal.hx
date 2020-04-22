@@ -173,6 +173,9 @@ typedef UEnumDef = {
   var TMap = 22;
   var TSet = 23;
 
+  var TSoftObjectPtr = 24;
+  var TSoftClassPtr = 25;
+
   inline public function t():Int {
     return this;
   }

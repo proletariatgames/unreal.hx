@@ -313,4 +313,8 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetStreamingLevels() : Const<PRef<TArray<ULevelStreaming>>>;
 
+  /** If true this world will tick physics to simulate. This isn't same as having Physics Scene.
+  *  You need Physics Scene if you'd like to trace. This flag changed ticking */
+  public var bShouldSimulatePhysics:Bool;
+
 }

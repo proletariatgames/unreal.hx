@@ -11,6 +11,9 @@ extern class FMath_Extra {
 	@:expr(1.e-8)
 	public static var SMALL_NUMBER(default, null):Float;
 
+	@:expr(3.402823466e+38)
+	public static var MAX_FLT(default, null):Float;
+
 	public static function VInterpTo(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;
 
 	public static function VInterpConstantTo(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;

@@ -1553,7 +1553,7 @@ class UhxBuild extends UhxBaseBuild {
     } else {
       this.config.dce = DceNo;
     }
-    this.debugMode = this.cppiaEnabled || (!config.forceNoDebug && data.targetConfiguration != Shipping && data.targetConfiguration != Test);
+    this.debugMode = this.cppiaEnabled || (!config.forceNoDebug && data.targetConfiguration != Shipping && data.targetConfiguration != Test && data.targetPlatform != "Android");
 
     consolidateNeededConfigs();
     this.stampOverride = getStampOverride();

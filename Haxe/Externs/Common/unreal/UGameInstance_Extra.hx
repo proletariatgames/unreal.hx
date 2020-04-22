@@ -30,4 +30,6 @@ extern class UGameInstance_Extra {
 
   @:thisConst
   public function GetGameViewportClient() : UGameViewportClient;
+
+  @:typeName public function GetSubsystem<T : unreal.USubsystem>() : PPtr<T>;
 }

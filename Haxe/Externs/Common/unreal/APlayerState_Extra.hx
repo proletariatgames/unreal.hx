@@ -16,4 +16,6 @@ extern class APlayerState_Extra {
 
   @:thisConst
   public function GetPawn() : APawn;
+
+  public function SetPlayerName(S:Const<PRef<unreal.FString>>) : Void;
 }

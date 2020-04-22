@@ -45,4 +45,7 @@ extern class ULocalPlayer_Extra {
 #end
 
   public function Exec(InWorld:UWorld, Cmd:TCharStar, Ar:PRef<FOutputDevice>):Bool;
+
+  @:thisConst
+  public function GetControllerId() : Int32;
 }

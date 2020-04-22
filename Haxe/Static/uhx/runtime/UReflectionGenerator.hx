@@ -1565,6 +1565,38 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
         ret.ValueProp = value;
         prop = ret;
 
+      case TSoftObjectPtr:
+        var reg = registry[def.typeUName],
+            cls = null;
+        if (reg != null) {
+          if (!reg.isUpdated) {
+            getUpdatedClass(reg);
+          }
+          curCls = cls = reg.getUpdated();
+        } else {
+          curCls = cls = getUClass(def.params[0].typeUName.substr(1));
+        }
+        var ret:USoftObjectProperty = cast newProperty(outer, USoftObjectProperty.StaticClass(), name, objFlags);
+        ret.SetPropertyClass(cls);
+        prop = ret;
+
+      case TSoftClassPtr:
+        var reg = registry[def.typeUName],
+            cls = null;
+        if (reg != null) {
+          if (!reg.isUpdated) {
+            getUpdatedClass(reg);
+          }
+          curCls = cls = reg.getUpdated();
+        } else {
+          curCls = cls = getUClass(def.params[0].typeUName.substr(1));
+        }
+        var ret:USoftClassProperty = cast newProperty(outer, USoftClassProperty.StaticClass(), name, objFlags);
+        ret.PropertyFlags |= CPF_UObjectWrapper;
+        ret.SetPropertyClass(UClass.StaticClass());
+        ret.MetaClass = cls;
+        prop = ret;
+
       case _:
         throw 'No property found for type ${flags.type} for property $def';
     };

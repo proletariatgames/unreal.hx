@@ -33,4 +33,12 @@ extern class UPrimitiveComponent_Extra {
 	 */
 	@:thisConst
 	public function GetCollisionShape(Inflation:Float32 = 0.0) : FCollisionShape;
+
+	/**
+	*   Welds this component to another scene component, optionally at a named socket. Component is automatically attached if not already
+	*	Welding allows the child physics object to become physically connected to its parent. This is useful for creating compound rigid bodies with correct mass distribution.
+	*   @param InParent the component to be physically attached to
+	*   @param InSocketName optional socket to attach component to
+	*/
+	public function WeldTo(InParent:USceneComponent, InSocketName:FName) : Void;
 }

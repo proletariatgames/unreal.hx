@@ -18,7 +18,7 @@ package unreal;
   Stores user settings for a game (for example graphics and sound settings), with the ability to save and load to and from a file.
 **/
 @:glueCppIncludes("GameFramework/GameUserSettings.h")
-@:uextern @:uclass extern class UGameUserSettings extends unreal.UObject {
+@:uextern @:uclass extern class UGameUserSettings extends #if proletariat unreal.USaveGame #else unreal.UObject #end {
   
   /**
     Applies all current user settings to the game and saves to permanent storage (e.g. file), optionally checking for command line overrides.

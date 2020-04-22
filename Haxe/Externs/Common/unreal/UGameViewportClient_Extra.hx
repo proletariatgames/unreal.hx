@@ -27,4 +27,6 @@ typedef FOnWindowCloseRequested = Delegate<FOnWindowCloseRequested, Void->Bool>;
   public function ReceivedFocus(Viewport:PPtr<FViewport>) : Void;
   public function LostFocus(Viewport:PPtr<FViewport>) : Void;
   public function OnWindowCloseRequested() : PRef<FOnWindowCloseRequested>;
+
+  public function Tick(DeltaSeconds:Float32) : Void;
 }

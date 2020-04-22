@@ -73,7 +73,13 @@ extern class APlayerController_Extra {
 
   public function PreClientTravel(PendingURL:Const<PRef<FString>>, TravelType:ETravelType, bIsSeamlessTravel:Bool):Void;
 
-  public function CleanupPlayerState() : Void;
+	public function CleanupPlayerState() : Void;
+
+	/** Adds an inputcomponent to the top of the input stack. */
+	public function PushInputComponent(Input:UInputComponent) : Void;
+
+	/** Removes given inputcomponent from the input stack (regardless of if it's the top, actually). */
+	public function PopInputComponent(Input:UInputComponent) : Bool;
 
   public function SetPawn(InPawn:APawn) : Void;
 
