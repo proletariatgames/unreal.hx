@@ -347,7 +347,11 @@ class ReflectAPI {
       prop.SetPropertyValue(objOffset, value == true);
     } else if (Std.is(prop, UObjectPropertyBase)) {
       var prop:UObjectPropertyBase = cast prop;
-      prop.SetObjectPropertyValue(objOffset, value);
+      if (Std.is(prop, USoftObjectProperty) || Std.is(prop, USoftClassProperty)) {
+        (cast prop : USoftObjectProperty).CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
+      } else {
+        prop.SetObjectPropertyValue(objOffset, value);
+      }
     } else if (Std.is(prop, UNameProperty)) {
       var val:AnyPtr = 0;
       if (Std.is(value, String)) {
@@ -549,8 +553,12 @@ class ReflectAPI {
       var prop:UBoolProperty = cast prop;
       return prop.GetPropertyValue(objPtr);
     } else if (Std.is(prop, UObjectPropertyBase)) {
-      var prop:UObjectPropertyBase = cast prop;
-      return prop.GetObjectPropertyValue(objPtr);
+      if (Std.is(prop, USoftObjectProperty)) {
+        return uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess prop.wrapped, objPtr);
+      } else {
+        var prop:UObjectPropertyBase = cast prop;
+        return prop.GetObjectPropertyValue(objPtr);
+      }
     } else if (Std.is(prop, UNameProperty)) {
       if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
         return VariantPtr.fromExternalPointer(objPtr);

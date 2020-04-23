@@ -16,6 +16,7 @@
 #include <unordered_map>
 #include <string.h>
 #include "UObject/UObjectArray.h"
+#include "UObject/SoftObjectPtr.h"
 #include "HAL/PlatformTLS.h"
 // #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
@@ -32,6 +33,8 @@
 #define GET_ARRAY_HELPER(self) (getArrayHelper(GET_UPROP(), self))
 #define GET_MAP_HELPER(self) (getMapHelper(GET_MAP_UPROP(), self))
 #define GET_SET_HELPER(self) (getSetHelper(GET_UPROP(), self))
+#define GET_SOFT_OBJ_HELPER(self) (getSoftObjectPtrHelper(GET_UPROP(), self))
+#define GET_SOFT_CLASS_HELPER(self) (getSoftObjectPtrHelper(GET_UPROP(), self))
 
 namespace uhx {
 
@@ -78,6 +81,28 @@ struct MapWrapperLayout : public InitialWrapperLayout {
   }
 };
 
+struct SoftObjectWrapperLayout : public InitialWrapperLayout {
+  uhx::StructInfo paramInfo;
+  uhx::StructInfo* paramArray[2];
+  uhx::TSoftObjectReflect_obj reflect;
+
+  SoftObjectWrapperLayout(unreal::UIntPtr innerProperty) :
+    reflect(uhx::TSoftObjectReflect_obj(innerProperty))
+  {
+  }
+};
+
+struct SoftClassWrapperLayout : public InitialWrapperLayout {
+  uhx::StructInfo paramInfo;
+  uhx::StructInfo* paramArray[2];
+  uhx::TSoftClassReflect_obj reflect;
+
+  SoftClassWrapperLayout(unreal::UIntPtr innerProperty) :
+    reflect(uhx::TSoftClassReflect_obj(innerProperty))
+  {
+  }
+};
+
 }
 
 static inline unreal::UIntPtr getUnderlyingFromUIntPtr(unreal::UIntPtr inPtr) {
@@ -105,6 +130,10 @@ static inline FScriptSetHelper getSetHelper(UProperty *inProp, unreal::VariantPt
   return FScriptSetHelper::CreateHelperFormElementProperty(inProp, (void *) (inSelf.getUnderlyingPointer()));
 }
 
+static inline FSoftObjectPtr *getSoftObjectPtrHelper(UProperty *inProp, unreal::VariantPtr inSelf) {
+  return  (FSoftObjectPtr *) inSelf.getUnderlyingPointer();
+}
+
 void uhx::TArrayReflect_obj::init() {
   check(m_propertyType);
   UProperty *prop = Cast<UProperty>((UObject *) m_propertyType);
@@ -118,6 +147,18 @@ void uhx::TMapReflect_obj::init() {
 }
 
 void uhx::TSetReflect_obj::init() {
+  check(m_propertyType);
+  UProperty *prop = Cast<UProperty>((UObject *) m_propertyType);
+  check(prop->IsA<UProperty>());
+}
+
+void uhx::TSoftObjectReflect_obj::init() {
+  check(m_propertyType);
+  UProperty *prop = Cast<UProperty>((UObject *) m_propertyType);
+  check(prop->IsA<UProperty>());
+}
+
+void uhx::TSoftClassReflect_obj::init() {
   check(m_propertyType);
   UProperty *prop = Cast<UProperty>((UObject *) m_propertyType);
   check(prop->IsA<UProperty>());
@@ -464,6 +505,74 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny, u
     info.genericParams = (const uhx::StructInfo**) layout->paramArray;
 
     check(reflectPtr + (sizeof(uhx::MapWrapperLayout)) <= (ret + startOffset + extraSize));
+  } else if (inProp->IsA<USoftClassProperty>()) {
+    extraSize += sizeof(void*) + sizeof(uhx::SoftClassWrapperLayout);
+    if (pointerIfAny) {
+      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).getGcPointerUnchecked();
+      static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
+      startOffset = offset;
+    } else {
+      extraSize += sizeof(FSoftObjectPtr) + sizeof(void*);
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
+      static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
+      startOffset = offset;
+    }
+
+    unreal::UIntPtr objOffset = ret + startOffset;
+    // re-align
+    objOffset = doAlign(objOffset, info.alignment);
+    if (!pointerIfAny) {
+      objOffset += sizeof(FSoftObjectPtr);
+      // re-align
+      objOffset = doAlign(objOffset, sizeof(void*));
+    }
+
+    unreal::UIntPtr reflectPtr = objOffset;
+
+    uhx::SoftClassWrapperLayout *layout = new ( (void*) reflectPtr) uhx::SoftClassWrapperLayout((unreal::UIntPtr) inProp);
+    infoLayout = layout;
+    info.genericImplementation = &layout->reflect;
+    // layout->paramInfo = infoFromUProperty(Cast<USoftClassProperty>(inProp)->PropertyClass, uhx::UHX_WRAPPER_NORMAL);
+    // layout->paramArray[0] = &layout->paramInfo;
+    layout->paramArray[0] = nullptr;
+    layout->paramArray[1] = nullptr;
+    info.genericParams = (const uhx::StructInfo**) layout->paramArray;
+
+    check(reflectPtr + (sizeof(uhx::SoftClassWrapperLayout)) <= (ret + startOffset + extraSize));
+  } else if (inProp->IsA<USoftObjectProperty>()) {
+    extraSize += sizeof(void*) + sizeof(uhx::SoftObjectWrapperLayout);
+    if (pointerIfAny) {
+      ret = uhx::expose::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).getGcPointerUnchecked();
+      static int offset = uhx::expose::HxcppRuntime::getTemplatePointerSize();
+      startOffset = offset;
+    } else {
+      extraSize += sizeof(FSoftObjectPtr) + sizeof(void*);
+      ret = uhx::expose::HxcppRuntime::createInlineTemplateWrapper(extraSize, (unreal::UIntPtr) &info).getGcPointerUnchecked();
+      static int offset = uhx::expose::HxcppRuntime::getTemplateSize();
+      startOffset = offset;
+    }
+
+    unreal::UIntPtr objOffset = ret + startOffset;
+    // re-align
+    objOffset = doAlign(objOffset, info.alignment);
+    if (!pointerIfAny) {
+      objOffset += sizeof(FSoftObjectPtr);
+      // re-align
+      objOffset = doAlign(objOffset, sizeof(void*));
+    }
+
+    unreal::UIntPtr reflectPtr = objOffset;
+
+    uhx::SoftObjectWrapperLayout *layout = new ( (void*) reflectPtr) uhx::SoftObjectWrapperLayout((unreal::UIntPtr) inProp);
+    infoLayout = layout;
+    info.genericImplementation = &layout->reflect;
+    // layout->paramInfo = infoFromUProperty(Cast<USoftObjectProperty>(inProp)->PropertyClass, uhx::UHX_WRAPPER_NORMAL);
+    // layout->paramArray[0] = &layout->paramInfo;
+    layout->paramArray[0] = nullptr;
+    layout->paramArray[1] = nullptr;
+    info.genericParams = (const uhx::StructInfo**) layout->paramArray;
+
+    check(reflectPtr + (sizeof(uhx::SoftObjectWrapperLayout)) <= (ret + startOffset + extraSize));
   } else if (pointerIfAny) {
     return unreal::VariantPtr::fromExternalPointer(pointerIfAny); // we don't need wrappers
   } else {
@@ -575,8 +684,12 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
   } else if (inProp->IsA<UArrayProperty>() || inProp->IsA<UMapProperty>() || inProp->IsA<USetProperty>()) {
     return uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(inProp, inPointer));
   } else if (inProp->IsA<UObjectPropertyBase>()) {
-    auto objProp = Cast<UObjectPropertyBase>(inProp);
-    return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr)  objProp->GetObjectPropertyValue((void *) inPointer));
+    if (inProp->IsA<USoftObjectProperty>() || inProp->IsA<USoftClassProperty>()) {
+      return uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(inProp, inPointer));
+    } else {
+      auto objProp = Cast<UObjectPropertyBase>(inProp);
+      return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr)  objProp->GetObjectPropertyValue((void *) inPointer));
+    }
   }
 
   #if (UE_VER >= 417)
@@ -1071,6 +1184,94 @@ void uhx::TSetReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr va
   }
 
   targetHelper.Rehash();
+}
+
+// TSoftObjectReflect
+
+unreal::UIntPtr uhx::TSoftObjectReflect_obj::Get(unreal::VariantPtr self)
+{
+  return (unreal::UIntPtr) (GET_SOFT_CLASS_HELPER(self)->Get());
+}
+
+void uhx::TSoftObjectReflect_obj::Set(unreal::VariantPtr self, unreal::UIntPtr Obj)
+{
+  *(GET_SOFT_OBJ_HELPER(self)) = ::uhx::TypeParamGlue< UObject* >::haxeToUe(Obj);
+}
+
+unreal::VariantPtr uhx::TSoftObjectReflect_obj::ToSoftObjectPath(unreal::VariantPtr self)
+{
+  return unreal::VariantPtr::fromExternalPointer(&(GET_SOFT_OBJ_HELPER(self)->ToSoftObjectPath()));
+}
+
+unreal::VariantPtr uhx::TSoftObjectReflect_obj::copyNew(unreal::VariantPtr self)
+{
+  uhx::expose::HxcppRuntime::throwString("TSoftObjectPtr copyNew is not implemented");
+  return 0;
+}
+
+unreal::VariantPtr uhx::TSoftObjectReflect_obj::copy(unreal::VariantPtr self)
+{
+  auto prop = GET_UPROP();
+
+  unreal::VariantPtr ret = createWrapper(prop, nullptr, uhx::UHX_WRAPPER_SET);
+  void *pointer = (void *) (ret.getUnderlyingPointer());
+  new (pointer) FSoftObjectPtr(*GET_SOFT_OBJ_HELPER(self));
+
+  return ret;
+}
+
+void uhx::TSoftObjectReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr val)
+{
+  *(GET_SOFT_OBJ_HELPER(self)) = *GET_SOFT_OBJ_HELPER(val);
+}
+
+bool uhx::TSoftObjectReflect_obj::equals(unreal::VariantPtr self, unreal::VariantPtr other)
+{
+  return *GET_SOFT_OBJ_HELPER(self) == *GET_SOFT_OBJ_HELPER(other);
+}
+
+// TSoftClassReflect
+
+unreal::UIntPtr uhx::TSoftClassReflect_obj::Get(unreal::VariantPtr self)
+{
+  return (unreal::UIntPtr) (GET_SOFT_CLASS_HELPER(self)->Get());
+}
+
+void uhx::TSoftClassReflect_obj::Set(unreal::VariantPtr self, unreal::UIntPtr Obj)
+{
+  *(GET_SOFT_OBJ_HELPER(self)) = (UClass*) (Obj);
+}
+
+unreal::VariantPtr uhx::TSoftClassReflect_obj::ToSoftObjectPath(unreal::VariantPtr self)
+{
+  return unreal::VariantPtr::fromExternalPointer(&(GET_SOFT_CLASS_HELPER(self)->ToSoftObjectPath()));
+}
+
+unreal::VariantPtr uhx::TSoftClassReflect_obj::copyNew(unreal::VariantPtr self)
+{
+  uhx::expose::HxcppRuntime::throwString("TSoftClassPtr copyNew is not implemented");
+  return 0;
+}
+
+unreal::VariantPtr uhx::TSoftClassReflect_obj::copy(unreal::VariantPtr self)
+{
+  auto prop = GET_UPROP();
+
+  unreal::VariantPtr ret = createWrapper(prop, nullptr, uhx::UHX_WRAPPER_SET);
+  void *pointer = (void *) (ret.getUnderlyingPointer());
+  new (pointer) FSoftObjectPtr(GET_SOFT_CLASS_HELPER(self)->Get());
+
+  return ret;
+}
+
+void uhx::TSoftClassReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr val)
+{
+  *(GET_SOFT_CLASS_HELPER(self)) = *GET_SOFT_CLASS_HELPER(val);
+}
+
+bool uhx::TSoftClassReflect_obj::equals(unreal::VariantPtr self, unreal::VariantPtr other)
+{
+  return *GET_SOFT_CLASS_HELPER(self) == *GET_SOFT_CLASS_HELPER(other);
 }
 
 int uhx::ue::RuntimeLibrary_obj::getHaxeGcRefOffset() {
