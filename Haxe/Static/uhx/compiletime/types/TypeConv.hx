@@ -1696,6 +1696,7 @@ class TypeConv {
       "cpp.Float32" => "float",
       "cpp.Float64" => "double",
       "Float" => "double",
+      "UInt" => "uint32",
       "cpp.Int16" => "int16",
       "cpp.Int32" => "int32",
       "cpp.Int64" => "int64",

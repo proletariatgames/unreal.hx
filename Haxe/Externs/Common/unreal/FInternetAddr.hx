@@ -12,4 +12,6 @@ package unreal;
 	 * have those so for now it won't be used
 	 */
 	public function SetIp(InAddr:Const<TCharStar>, bIsValid_IsNotSetInHaxe:Bool) : Void;
+
+	public function ToString(bAppendPort:Bool):FString;
 }
