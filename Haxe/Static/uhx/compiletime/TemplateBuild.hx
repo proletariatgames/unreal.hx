@@ -177,6 +177,16 @@ class TemplateBuild
 
         var metas = [ for (meta in cf.meta.get()) if (meta.name != ':impl') meta ];
         var sig = UhxMeta.getStaticMetas(metas) + 'run(' + [for (arg in fargs) arg.t.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType();
+        var definedType = Context.getType(definedTypePath);
+        switch(Context.follow(definedType))
+        {
+        case TInst(c,tl):
+          definedType = TInst(c, [ for (p in c.get().params) p.t ]);
+        case TAbstract(a,tl):
+          definedType = TAbstract(a, [ for (p in a.get().params) p.t ]);
+        case _:
+          throw 'assert: Unknown type $definedType for $definedTypePath. Expected class or abstract';
+        }
         if (!Context.defined('cppia'))
         {
           var flags:MethodFlags = MNone;
@@ -203,16 +213,6 @@ class TemplateBuild
             pos: pos
           };
           var glue = target.getGlueHelperType();
-          var type = Context.getType(definedTypePath);
-          switch(Context.follow(type))
-          {
-          case TInst(c,tl):
-            type = TInst(c, [ for (p in c.get().params) p.t ]);
-          case TAbstract(a,tl):
-            type = TAbstract(a, [ for (p in a.get().params) p.t ]);
-          case _:
-            throw 'assert: Unknown type $type for $definedTypePath. Expected class or abstract';
-          }
           var classPos = cf.pos;
           function changePos(e:Expr)
           {
@@ -220,7 +220,7 @@ class TemplateBuild
             e.iter(changePos);
           }
 
-          var ret = new GlueMethod(def, type, glue);
+          var ret = new GlueMethod(def, definedType, glue);
           var cls = macro class {
           };
           cls.pack = target.pack;
@@ -258,21 +258,12 @@ class TemplateBuild
           var args:Array<FunctionArg> = [];
           if (!isStatic)
           {
-            var t_this = Context.follow(et_this.t);
-            switch(t_this)
-            {
-              case TAnonymous(anon):
-                switch(anon.get().status)
-                {
-                  case AClassStatics(t):
-                    t_this = TInst(t, [ for (param in t.get().params) param.t ]);
-                  case AAbstractStatics(t):
-                    t_this = TAbstract(t, [ for (param in t.get().params) param.t ]);
-                  case _:
-                }
-              case _:
-            }
-            args.push({ name:'uhx_this', type:TypeConv.get(t_this, pos).haxeType.toComplexType(), opt:false });
+            // ensure we are using the right type parameters if `this` is parameterized
+            final definedTypeConv = TypeConv.get(definedType, pos);
+            final thisTypeRef = definedTypeConv.haxeType.params.length > 0 ?
+              definedTypeConv.haxeType.with(null, null, null, [for (i in 0...definedTypeConv.haxeType.params.length) TypeConv.get(monos[i], pos).haxeType ])
+              : typeRef;
+            args.push({ name:'uhx_this', type:thisTypeRef.toComplexType(), opt:false });
           }
           for (i in 0...tparams.length)
           {

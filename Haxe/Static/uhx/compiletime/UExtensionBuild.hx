@@ -424,7 +424,7 @@ class UExtensionBuild {
               if (meta.params != null) {
                 for (param in meta.params) {
                   if (first) first = false; else data.add(', ');
-                  data.add(param.toString().replace('[','(').replace(']',')'));
+                  data.add(param.toString().replace('[','(').replace(']',')').replace('\'', '\"'));
                 }
               }
               break;

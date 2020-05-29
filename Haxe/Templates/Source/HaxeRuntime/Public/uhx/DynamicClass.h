@@ -6,6 +6,10 @@
 #include "HaxeInit.h"
 #include "UObject/Class.h"
 
+// PROLETARIAT BEGIN - amichaud - fix disabled PCH errors
+#include "Modules/ModuleManager.h"
+// PROLETARIAT END
+
 #if UE_VER >= 416
 #define DECLARE_UHX_DYNAMIC_UCLASS_PACK(Class) \
   virtual const TCHAR* ClassPackage() const override;

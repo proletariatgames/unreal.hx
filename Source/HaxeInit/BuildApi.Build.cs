@@ -301,13 +301,25 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.PublicDefinitions.Add("HXCPP_EXTERN_CLASS_ATTRIBUTES=");
     rules.PublicDefinitions.Add("MAY_EXPORT_SYMBOL=");
 
+    string uhxRootDir = info.gameDir;
+    if (rules.Target.Type == TargetType.Program)
+    {
+      uhxRootDir = rules.ModuleDirectory;
+    }
+
+    if (options != null && options.nekoPath != null) {
+      string nekoPath = System.IO.Path.Combine(uhxRootDir, options.nekoPath);
+      Environment.SetEnvironmentVariable("NEKOPATH", nekoPath);
+      Environment.SetEnvironmentVariable("NEKO_INSTPATH", nekoPath);
+      Environment.SetEnvironmentVariable("PATH", nekoPath + System.IO.Path.PathSeparator + Environment.GetEnvironmentVariable("PATH"));
+    }
     if (options != null && options.haxeInstallPath != null) {
-      string haxePath = System.IO.Path.Combine(info.gameDir, options.haxeInstallPath);
+      string haxePath = System.IO.Path.Combine(uhxRootDir, options.haxeInstallPath);
       Environment.SetEnvironmentVariable("HAXEPATH", haxePath);
       Environment.SetEnvironmentVariable("PATH", haxePath + System.IO.Path.PathSeparator + Environment.GetEnvironmentVariable("PATH"));
     }
     if (options != null && options.haxelibPath != null) {
-      string libPath = System.IO.Path.Combine(info.gameDir, options.haxelibPath);
+      string libPath = System.IO.Path.Combine(uhxRootDir, options.haxelibPath);
       Environment.SetEnvironmentVariable("HAXELIB_PATH", libPath);
     }
     if (options != null && options.noDynamicObjects) {
@@ -451,7 +463,7 @@ public class HaxeModuleRules : BaseModuleRules {
     proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml " + HaxeConfigOptions.escapeString("EngineDir", engineDir) +
         " " + HaxeConfigOptions.escapeString("ProjectDir", info.gameDir) + " " + HaxeConfigOptions.escapeString("TargetName", rules.Target.Name) + " " + HaxeConfigOptions.escapeString("TargetPlatform", rules.Target.Platform + "") +
         " " + HaxeConfigOptions.escapeString("TargetConfiguration", rules.Target.Configuration + "") + " " + HaxeConfigOptions.escapeString("TargetType", rules.Target.Type + "") + " " + HaxeConfigOptions.escapeString("ProjectFile", info.uprojectPath) +
-        " " + HaxeConfigOptions.escapeString("PluginDir", info.pluginPath) + " " + HaxeConfigOptions.escapeString("RootDir", info.rootDir) + " -D UE_BUILD_CS" + (options == null ? "" : options.getOptionsString());
+        " " + HaxeConfigOptions.escapeString("PluginDir", info.pluginPath) + " " + HaxeConfigOptions.escapeString("RootDir", info.rootDir) + " -D UE_BUILD_CS " + (options == null ? "" : options.getOptionsString());
     if (command != null) {
       proc.StartInfo.Arguments += " -D \"Command=" + command + "\"";
     }
@@ -617,6 +629,11 @@ public class HaxeConfigOptions {
   public string haxelibPath;
 
   /**
+    If using a custom neko path, specify it here
+  **/
+  public string nekoPath;
+
+  /**
     Whether to disable dynamic cppia uobjects. In case this is true, any cppia change that results in a
     ufunction/uproperty being changed/added must be recompiled
   **/
@@ -655,8 +672,8 @@ public class HaxeConfigOptions {
   }
 
   public string getOptionsString() {
-    return escapeString("haxeInstallPath", haxeInstallPath) +
-           escapeString("haxelibPath", haxelibPath) +
+    return escapeString("haxeInstallPath", haxeInstallPath) + " " +
+           escapeString("haxelibPath", haxelibPath) + " " +
            escapeBool("noDynamicObjects", noDynamicObjects);
   }
 }

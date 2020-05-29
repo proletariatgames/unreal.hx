@@ -953,17 +953,22 @@ class ExprGlueBuild {
       }
       writer.buf.add(')\n');
     }
+    writer.include('uhx/Syntax.h');
     writer.buf.add('$declMacro$retStr$argStr$constStr(');
+    inline function cleanupCommas(cppType:StringBuf)
+    {
+      return cppType.toString().replace(',', ' UHX_COMMA ');
+    }
 
     if (!ret.haxeType.isVoid()) {
-      writer.buf.add('${ret.ueType.getCppType()}, ');
+      writer.buf.add('${ cleanupCommas(ret.ueType.getCppType()) }, ');
     }
     writer.buf.add(uname);
 
     var paramNames = abs.meta.extractStrings(':uParamName');
     for (i in 0...args.length) {
       var arg = args[i];
-      writer.buf.add(', ${arg.t.ueType.getCppType()}');
+      writer.buf.add(', ${cleanupCommas(arg.t.ueType.getCppType()) }');
       if (isDynamicDelegate) {
         var paramName = paramNames[i] != null ? paramNames[i] : arg.name;
         if (paramName == '') paramName = 'arg$i';

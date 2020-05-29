@@ -29,6 +29,7 @@ template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
 template<class T> class TAutoWeakObjectPtr;
 template<class TClass> class TSubclassOf;
 template<class TClass> class TEnumAsByte;
+template<typename WrappedRetValType, typename... Values> class TBaseDelegate;
 
 namespace uhx {
 
@@ -294,6 +295,9 @@ struct TAnyData<TSubclassOf<T>, false> { FORCEINLINE static const StructInfo *ge
 template<class T>
 struct TTemplatedData<TEnumAsByte<T>> { FORCEINLINE static const StructInfo *getInfo() { return TAnyData<T, false>::getInfo(); } };
 
+template<typename First, typename... Values>
+struct TTemplatedData<TBaseDelegate<First, Values...>> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
+
 template<template<typename, typename...> class T, typename First, typename... Values>
 struct TAnyData<T<First, Values...>, false> {
   FORCEINLINE static const StructInfo *getInfo() {
@@ -314,6 +318,4 @@ struct TAnyData<T, false> {
     return TSimpleStructData<T>::getInfo();
   }
 };
-
-
 }

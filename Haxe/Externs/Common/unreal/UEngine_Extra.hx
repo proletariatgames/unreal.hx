@@ -26,7 +26,9 @@ extern class UEngine_Extra {
 
 	public function GetGameUserSettings() : UGameUserSettings;
 
+	#if proletariat
 	public function UpdateGameUserSettings(Settings:UGameUserSettings) : Void;
+	#end
 
 /**
 	 * Updates level streaming state using active game players view and blocks until all sub-levels are loaded/ visible/ hidden

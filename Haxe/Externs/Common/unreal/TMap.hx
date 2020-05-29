@@ -37,6 +37,26 @@ package unreal;
   public function GenerateValueArray():TArray<V>;
 
   @:expr({
+    var keyList = GenerateKeyArray();
+    var valList = GenerateValueArray();
+    var i = 0, len = keyList.length;
+    return {
+      hasNext:function() {
+        return i < len;
+      },
+      next:function() {
+        final ret = {
+          key: keyList[i],
+          value: valList[i],
+        };
+        i++;
+        return ret;
+      }
+    };
+  })
+  public function keyValueIterator():KeyValueIterator<K, V>;
+
+  @:expr({
     var ret = GenerateValueArray(),
         len = ret.length;
     var i = 0;

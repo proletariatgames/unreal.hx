@@ -137,6 +137,8 @@ import unreal.*;
   public function GetLeaderboardsInterface() : unreal.TThreadSafeSharedPtr<IOnlineLeaderboards>;
   public function GetIdentityInterface() : unreal.TThreadSafeSharedPtr<IOnlineIdentity>;
   public function GetExternalUIInterface() : unreal.TThreadSafeSharedPtr<IOnlineExternalUI>;
+  public function GetStoreV2Interface() : unreal.TThreadSafeSharedPtr<IOnlineStoreV2>;
+  public function GetPurchaseInterface() : unreal.TThreadSafeSharedPtr<IOnlinePurchase>;
 
   @:thisConst
   public function GetSessionInterface() : TThreadSafeSharedPtr<IOnlineSession>;

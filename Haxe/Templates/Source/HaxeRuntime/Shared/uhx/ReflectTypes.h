@@ -6,6 +6,8 @@
 #include <uhx/glues/TArrayImpl_Glue.h>
 #include <uhx/glues/TMap_Glue.h>
 #include <uhx/glues/TSet_Glue.h>
+#include <uhx/glues/TSoftObjectPtr_Glue.h>
+#include <uhx/glues/TSoftClassPtr_Glue.h>
 
 namespace uhx {
 
@@ -90,6 +92,50 @@ public:
   virtual unreal::VariantPtr copyNew(unreal::VariantPtr self) override;
   virtual unreal::VariantPtr copy(unreal::VariantPtr self) override;
   virtual void assign(unreal::VariantPtr self, unreal::VariantPtr val) override;
+  virtual unreal::UIntPtr get_Item(unreal::VariantPtr self, unreal::VariantPtr ElementId) override;
+  virtual bool IsValidId(unreal::VariantPtr self, unreal::VariantPtr ElementId) override;
+
+protected:
+  void *m_propertyType;
+  void init();
+};
+
+class TSoftObjectReflect_obj : uhx::glues::TSoftObjectPtr_Glue_obj {
+public:
+  TSoftObjectReflect_obj(unreal::UIntPtr inUPropertyType) :
+    m_propertyType( (void *) inUPropertyType )
+  {
+    init();
+  }
+
+  virtual unreal::UIntPtr Get(unreal::VariantPtr self) override;
+  virtual void Set(unreal::VariantPtr self, unreal::UIntPtr Obj) override;
+  virtual unreal::VariantPtr ToSoftObjectPath(unreal::VariantPtr self) override;
+  virtual unreal::VariantPtr copyNew(unreal::VariantPtr self) override;
+  virtual unreal::VariantPtr copy(unreal::VariantPtr self) override;
+  virtual void assign(unreal::VariantPtr self, unreal::VariantPtr val) override;
+  virtual bool equals(unreal::VariantPtr self, unreal::VariantPtr other) override;
+
+protected:
+  void *m_propertyType;
+  void init();
+};
+
+class TSoftClassReflect_obj : uhx::glues::TSoftClassPtr_Glue_obj {
+public:
+  TSoftClassReflect_obj(unreal::UIntPtr inUPropertyType) :
+    m_propertyType( (void *) inUPropertyType )
+  {
+    init();
+  }
+
+  virtual unreal::UIntPtr Get(unreal::VariantPtr self) override;
+  virtual void Set(unreal::VariantPtr self, unreal::UIntPtr Obj) override;
+  virtual unreal::VariantPtr ToSoftObjectPath(unreal::VariantPtr self) override;
+  virtual unreal::VariantPtr copyNew(unreal::VariantPtr self) override;
+  virtual unreal::VariantPtr copy(unreal::VariantPtr self) override;
+  virtual void assign(unreal::VariantPtr self, unreal::VariantPtr val) override;
+  virtual bool equals(unreal::VariantPtr self, unreal::VariantPtr other) override;
 
 protected:
   void *m_propertyType;

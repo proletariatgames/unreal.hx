@@ -44,6 +44,41 @@ package unreal;
    */
   function Remove(ElementId:FSetElementId):Void;
 
+ /**
+   * Get an element from the set by index.
+   * @param index - Index of the element.
+   * @return Element at index
+   */ 
+  public function get_Item(ElementId:FSetElementId):PRef<T>;
+
+  /**
+	 * Checks whether an element id is valid.
+	 * @param Id - The element id to check.
+	 * @return true if the element identifier refers to a valid element in this set.
+	 */
+  public function IsValidId(ElementId:FSetElementId):Bool;
+
+  @:expr({
+    var i = 0;
+    var size = Num();
+    return {
+      hasNext: function () return size > 0,
+      next: function () 
+      {
+        while (true)
+        {
+          var setId = FSetElementId.FromInteger(i++);
+          if (IsValidId(setId))
+          {
+            size--;
+            return get_Item(setId);
+          }
+        }
+      }
+    };
+  }) function iterator():Iterator<T>;
+
+
   @:expr({
     var id = FindId(Element);
     if (id.IsValidId()) {

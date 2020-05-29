@@ -281,8 +281,7 @@ extern class UObject_Extra {
 
   @:thisConst public function IsTemplate(@:opt(RF_ArchetypeObject|RF_ClassDefaultObject) ?TemplateTypes:EObjectFlags):Bool;
 
-  public function GetPrimaryAssetId() : FPrimaryAssetId;
-
+  @:thisConst public function GetPrimaryAssetId() : FPrimaryAssetId;
 
   /** Always called immediately before properties are received from the remote. */
   public function PreNetReceive() : Void;

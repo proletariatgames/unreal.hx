@@ -2,6 +2,10 @@ package unreal;
 
 @:hasEquals
 extern class FPrimaryAssetId_Extra {
+
+	@:uname('.ctor') public static function create(InType:FPrimaryAssetType, InName:FName) : FPrimaryAssetId;
+	@:uname('.ctor') public static function createInvalid() : FPrimaryAssetId;
+
 	/** An FName describing the logical type of this object, usually the name of a base UClass. For example, any Blueprint derived from APawn will have a Primary Asset Type of "Pawn".
 	"PrimaryAssetType:PrimaryAssetName" should form a unique name across your project. */
 	public var PrimaryAssetType:FPrimaryAssetType;

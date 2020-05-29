@@ -518,6 +518,11 @@ class GlueMethod {
       body += '[' + cppArgTypes[0] + ']';
       if (cppArgs.length == 2)
         body += ' = ' + cppArgTypes[1];
+    } else if (this.op == '=') {
+      if (cppArgs.length != 1) {
+        throw new Error('Unreal Glue: assign operator must take one argument', meth.pos);
+      }
+      body += ' = ' + cppArgTypes[0];
     } else if (this.op == '*' || this.op == '++' || this.op == '--' || this.op == '!') {
       if (cppArgs.length > 0) {
         throw new Error('Unreal Glue: unary operators must take zero arguments', meth.pos);
@@ -635,6 +640,9 @@ class GlueMethod {
         case '.copyStruct':
           this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null), opt:null }];
           ''; // we are already going to dereference it, which will be enough to invoke the copy constructor
+        case 'op_Assign':
+          this.op = '=';
+          '(*(' + self.t.glueToUe(self.name, this.ctx) + '))';
         case '.assign':
           var thisType = this.thisConv.withModifiers(null);
           this.cppArgs = [{ name:'this', t:thisType, opt:null }, {name:'val', t:thisType, opt:null}];

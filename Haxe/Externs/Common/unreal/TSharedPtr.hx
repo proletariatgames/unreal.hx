@@ -54,4 +54,12 @@ package unreal;
    * @return  Reference to the object
    */
   public function ToSharedRef():TSharedRef<T>;
+
+  /**
+	 * Returns the number of shared references to this object (including this reference.)
+	 * IMPORTANT: Not necessarily fast!  Should only be used for debugging purposes!
+	 *
+	 * @return  Number of shared references to the object (including this reference.)
+   */
+	public function GetSharedReferenceCount() : Int32;
 }

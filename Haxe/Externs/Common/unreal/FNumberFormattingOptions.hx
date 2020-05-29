@@ -12,7 +12,9 @@ package unreal;
   var MinimumFractionalDigits:Int32;
   var MinimumIntegralDigits:Int32;
   var UseGrouping:Bool;
+  #if !UHX_NO_UOBJECT
   var RoundingMode:ERoundingMode;
+  #end
 }
 
 
