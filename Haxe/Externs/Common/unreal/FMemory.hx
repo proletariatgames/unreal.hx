@@ -13,9 +13,5 @@ package unreal;
   static function Realloc(original:AnyPtr, count:IntPtr, alignment:FakeUInt32=0):AnyPtr;
   static function Free(original:AnyPtr):Void;
 
-  static function GPUMalloc(count:IntPtr, alignment:FakeUInt32=0):AnyPtr;
-  static function GPURealloc(original:AnyPtr, count:IntPtr, alignment:FakeUInt32=0):AnyPtr;
-  static function GPUFree(original:AnyPtr):Void;
-
   static function GetAllocSize(original:AnyPtr):IntPtr;
 }
