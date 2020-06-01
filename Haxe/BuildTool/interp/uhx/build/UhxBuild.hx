@@ -8,7 +8,7 @@ using Lambda;
 using StringTools;
 
 class UhxBuild extends UhxBaseBuild {
-  private static var VERSION_LEVEL = 7;
+  private static var VERSION_LEVEL = 8;
   private static inline var PARALLEL_DEP_CHECK = true;
 
   var haxeDir:String;
@@ -1039,7 +1039,7 @@ class UhxBuild extends UhxBaseBuild {
         defines.push('-D PLATFORM_IOS');
       case Android:
         defines.push('-D PLATFORM_ANDROID');
-        defines.push('-D toolchain=android');        
+        defines.push('-D toolchain=android');
       case HTML5:
         defines.push('-D PLATFORM_HTML5');
       case Linux:
@@ -1047,7 +1047,7 @@ class UhxBuild extends UhxBaseBuild {
       case TVOS:
         defines.push('-D PLATFORM_TVOS');
       case Switch:
-        defines.push('-D PLATFORM_SWITCH');        
+        defines.push('-D PLATFORM_SWITCH');
       case _:
         throw new BuildError('Unknown platform $platform');
     }
@@ -1371,8 +1371,8 @@ class UhxBuild extends UhxBaseBuild {
     case 'Switch':
       extraArgs = [
       '-D toolchain=switch',
-      ];   
-      
+      ];
+
     }
 
     var extraCompilerFlags = [];
