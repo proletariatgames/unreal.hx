@@ -275,6 +275,11 @@ class CoreAPI {
     return false;
   }
 
+	public static inline function GetFNameSafe(obj:UObject):String
+	{
+		return obj != null ? obj.GetFName().ToString().toString() : '(null)';
+	}
+
 #end // UHX_NO_UOBJECT
 
 #else
