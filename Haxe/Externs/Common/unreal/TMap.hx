@@ -8,10 +8,8 @@ package unreal;
 {
   @:uname('.ctor') static function create<K, V>():TMap<K, V>;
   @:uname('new') static function createNew<K, V>():POwnedPtr<TMap<K, V>>;
-  public function Add(InKey:K, InValue:V):Void;
+  @:arrayAccess public function Add(InKey:K, InValue:V):Void;
   @:arrayAccess public function FindOrAdd(Key:K):PRef<V>;
-  @:arrayAccess
-  public function set_Item(key:K, val:PRef<V>):Void;
   public function Contains(InKey:K):Bool;
   public function FindChecked(InKey:K):PRef<V>;
   public function Remove(InKey:K):Int32;

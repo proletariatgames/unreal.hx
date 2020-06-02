@@ -971,10 +971,6 @@ unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal:
   return result != nullptr ? getValueWithProperty(localValueProp, result) : 0;
 }
 
-void uhx::TMapReflect_obj::set_Item(unreal::VariantPtr self, unreal::UIntPtr key, unreal::UIntPtr val) {
-  Add(self, key, val);
-}
-
 int uhx::TMapReflect_obj::Num(unreal::VariantPtr self) {
 	return GET_SET_HELPER(self).Num();
 }
