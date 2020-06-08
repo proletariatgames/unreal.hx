@@ -14,4 +14,6 @@ package unreal;
   @:uname('op_Assign') public function Set(val:PPtr<T>):Void;
 
   public function ToSoftObjectPath() : Const<PRef<FSoftObjectPath>>;
+
+  @:thisConst public function LoadSynchronous() : PPtr<T>;
 }

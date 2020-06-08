@@ -1238,6 +1238,11 @@ bool uhx::TSoftObjectReflect_obj::equals(unreal::VariantPtr self, unreal::Varian
   return *GET_SOFT_OBJ_HELPER(self) == *GET_SOFT_OBJ_HELPER(other);
 }
 
+unreal::UIntPtr uhx::TSoftObjectReflect_obj::LoadSynchronous(unreal::VariantPtr self)
+{
+  return uhx::expose::HxcppRuntime::uobjectWrap( (unreal::UIntPtr) (GET_SOFT_CLASS_HELPER(self)->LoadSynchronous()) );
+}
+
 // TSoftClassReflect
 
 unreal::UIntPtr uhx::TSoftClassReflect_obj::Get(unreal::VariantPtr self)
@@ -1280,6 +1285,11 @@ void uhx::TSoftClassReflect_obj::assign(unreal::VariantPtr self, unreal::Variant
 bool uhx::TSoftClassReflect_obj::equals(unreal::VariantPtr self, unreal::VariantPtr other)
 {
   return *GET_SOFT_CLASS_HELPER(self) == *GET_SOFT_CLASS_HELPER(other);
+}
+
+unreal::UIntPtr uhx::TSoftClassReflect_obj::LoadSynchronous(unreal::VariantPtr self)
+{
+  return (unreal::UIntPtr) (GET_SOFT_CLASS_HELPER(self)->LoadSynchronous());
 }
 
 int uhx::ue::RuntimeLibrary_obj::getHaxeGcRefOffset() {
