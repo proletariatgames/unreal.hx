@@ -5,4 +5,5 @@ extern class FInputEvent_Extra {
   public function IsControlDown() : Bool;
   public function IsAltDown() : Bool;
   public function IsCommandDown() : Bool;
+  public function GetUserIndex() : Int32;
 }
