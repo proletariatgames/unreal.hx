@@ -26,4 +26,5 @@ package unreal.umg;
   public function SetNavigationCustom(Direction:unreal.slatecore.EUINavigation, Delegate:FWidgetNavigationDelegate) : Void;
   #end
 
+  private var bIsVolatile:Bool;
 }
