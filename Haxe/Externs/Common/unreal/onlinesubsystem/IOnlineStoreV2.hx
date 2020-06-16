@@ -25,6 +25,17 @@ typedef FOnQueryOnlineStoreOffersComplete = Delegate<FOnQueryOnlineStoreOffersCo
 		Delegate:Const<PRef<FOnQueryOnlineStoreOffersComplete>>
 	):Void;
 
+		/**
+	 * Query for available store offers matching the given ids. Delegate callback is guaranteed.
+	 *
+	 * @param UserId user initiating the request
+	 * @param OfferIds only return offers matching these ids
+	 * @param Delegate completion callback
+	 *
+	 * @return true if async operation started
+	 */
+	 public function QueryOffersById(UserId:Const<PRef<FUniqueNetId>>, Filter:Const<PRef<TArray<FString>>>,	Delegate:Const<PRef<FOnQueryOnlineStoreOffersComplete>>) : Void;
+
 	/**
 	 * Get currently cached store offers
 	 * @param Offers [out] list of offers previously queried
