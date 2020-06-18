@@ -6,4 +6,7 @@ extern class FPrimaryAssetType_Extra {
 
 	@:thisConst
 	public function ToString() : FString;
+
+  @:expr(return ToString().toString())
+  public function toString():String;
 }

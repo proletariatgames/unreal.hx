@@ -12,6 +12,12 @@ extern class FLinearColor_Extra {
   @:uname("new")
   public static function createNew() : POwnedPtr<FLinearColor>;
 
+	@:expr(return ToString().toString())
+  public function toString():String;
+
+	@:thisConst
+	public function ToString():FString;
+
   @:uname(".ctor")
   public static function createWithValues(r:Float32,g:Float32,b:Float32,a:Float32) : FLinearColor;
   @:uname("new")
