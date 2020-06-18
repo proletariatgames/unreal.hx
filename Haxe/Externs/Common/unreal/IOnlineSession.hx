@@ -1,5 +1,6 @@
 package unreal;
 
+import unreal.*;
 
 /** Delegate fired when an AutoLogin request is complete */
 @:glueCppIncludes('OnlineEngineInterface.h')
@@ -38,6 +39,15 @@ typedef FOnSessionInviteReceived = MulticastDelegate<FOnSessionInviteReceived, C
 @:uParamName("UserId") @:uParamName("FromId") @:uParamName("AppID") @:uParamName("InviteResult")
 typedef FOnSessionInviteReceivedDelegate = unreal.Delegate<FOnSessionInviteReceivedDelegate, Const<PRef<FUniqueNetId>>->Const<PRef<FUniqueNetId>>->Const<PRef<FString>>->Const<PRef<FOnlineSessionSearchResult>>->Void>;
 
+@:glueCppIncludes('OnlineSessionInterface.h') @:umodule("OnlineSubsystem")
+@:uParamName("bWasSuccessful") @:uParamName("ControllerId") @:uParamName("UserId") @:uParamName("InviteResult")
+typedef FOnSessionUserInviteAccepted = unreal.MulticastDelegate<FOnSessionUserInviteAccepted, Bool->Int32->TSharedPtr<Const<FUniqueNetId>>->Const<PRef<FOnlineSessionSearchResult>>->Void>;
+
+@:glueCppIncludes('OnlineSessionInterface.h') @:umodule("OnlineSubsystem")
+@:uParamName("bWasSuccessful") @:uParamName("ControllerId") @:uParamName("UserId") @:uParamName("InviteResult")
+typedef FOnSessionUserInviteAcceptedDelegate = unreal.Delegate<FOnSessionUserInviteAcceptedDelegate, Bool->Int32->TSharedPtr<Const<FUniqueNetId>>->Const<PRef<FOnlineSessionSearchResult>>->Void>;
+
+
 /**
  * Delegate fired when the search for an online session has completed
  *
@@ -71,6 +81,7 @@ typedef FOnCancelFindSessionsCompleteDelegate = unreal.Delegate<FOnCancelFindSes
 @:glueCppIncludes("OnlineSessionInterface.h")
 @:uextern @:noCopy @:noEquals @:noClass extern class IOnlineSession {
 	public function CreateSession(HostingPlayerNum:Int32, SessionName:FName, NewSession:Const<PRef<FOnlineSessionSettings>>) : Bool;
+	public function StartSession(SessionName:FName) : Bool;
 	public function EndSession(SessionName:FName) : Bool;
 	/**
 	 * Searches the named session array for the specified session
@@ -83,4 +94,5 @@ typedef FOnCancelFindSessionsCompleteDelegate = unreal.Delegate<FOnCancelFindSes
 
 	public function AddOnSessionInviteReceivedDelegate_Handle(Delegate:Const<PRef<FOnSessionInviteReceivedDelegate>>) : FDelegateHandle;
 	public function ClearOnSessionInviteReceivedDelegate_Handle(Handle:PRef<FDelegateHandle>) : Void;
+	public function AddOnSessionUserInviteAcceptedDelegate_Handle(Delegate:Const<PRef<FOnSessionUserInviteAcceptedDelegate>>) : FDelegateHandle;
 }

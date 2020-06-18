@@ -141,5 +141,8 @@ import unreal.*;
   public function GetPurchaseInterface() : unreal.TThreadSafeSharedPtr<IOnlinePurchase>;
 
   @:thisConst
-  public function GetSessionInterface() : TThreadSafeSharedPtr<IOnlineSession>;
+	public function GetSessionInterface() : TThreadSafeSharedPtr<IOnlineSession>;
+
+	@:thisConst
+	public function GetPresenceInterface() : TThreadSafeSharedPtr<IOnlinePresence>;
 }

@@ -11,5 +11,6 @@ package unreal;
 	public var NumOpenPrivateConnections : Int32;
 	/** The number of publicly available connections that are available (read only) */
 	public var NumOpenPublicConnections : Int32;
+	public var OwningUserId:TSharedPtr<Const<FUniqueNetId>>;
 
 }
