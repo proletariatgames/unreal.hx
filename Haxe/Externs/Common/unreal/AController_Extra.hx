@@ -36,4 +36,5 @@ extern class AController_Extra {
   @:thisConst
   function GetPlayerViewPoint(out_Location:PRef<FVector>, out_Rotation:PRef<FRotator>) : Void;
 
+  private function OnPossess(InPawn:APawn) : Void;
 }
