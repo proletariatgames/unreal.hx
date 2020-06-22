@@ -30,6 +30,19 @@ extern class FDateTime_Extra {
 	public function ToIso8601() : FString;
 
 	/**
+	 * Converts a string to a date and time.
+	 *
+	 * Currently, the string must be in the format written by either FDateTime.ToString() or
+	 * FTimeStamp.TimestampToFString(). Other formats are not supported at this time.
+	 *
+	 * @param DateTimeString The string to convert.
+	 * @param OutDateTime Will contain the parsed date and time.
+	 * @return true if the string was converted successfully, false otherwise.
+	 * @see ParseHttpDate, ParseIso8601, ToString
+	 */
+	public static function Parse(DateTimeString:Const<PRef<FString>>, OutDateTime:PRef<FDateTime>) : Bool;
+
+	/**
 	 * Parses a date string in ISO-8601 format.
 	 *
 	 * @param DateTimeString The string to be parsed
