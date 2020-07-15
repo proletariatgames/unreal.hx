@@ -688,7 +688,7 @@ class ExprGlueBuild {
         nameWithout = uname.substr(1),
         headerPath = GlueInfo.getExportHeaderPath(nameWithout, true);
 
-    var writer = new HeaderWriter(headerPath);
+    var writer = new HeaderWriter(headerPath, nameWithout);
     var cls = abs.impl.get();
 
     var uprops = [],
@@ -868,7 +868,7 @@ class ExprGlueBuild {
         nameWithout = uname.substr(1),
         tref = TypeRef.fromBaseType(abs, abs.pos),
         headerPath = GlueInfo.getExportHeaderPath(nameWithout, true);
-    var writer = new HeaderWriter(headerPath);
+    var writer = new HeaderWriter(headerPath, nameWithout);
 
     var typeRef = TypeRef.fromBaseType(abs, abs.pos);
     var parent = null;

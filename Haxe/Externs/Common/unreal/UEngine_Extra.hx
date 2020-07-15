@@ -16,6 +16,8 @@ extern class UEngine_Extra {
 
 	public function OnNetworkFailure() : PRef<FOnNetworkFailure>;
 
+	public function HandleDisconnect(World:UWorld, NetDriver:UNetDriver) : Void;
+
 	public function GetWorldContextFromWorld(InWorld:Const<UWorld>) : PPtr<FWorldContext>;
 
 	public function GetWorldContextFromWorldChecked(InWorld:Const<UWorld>) : PRef<FWorldContext>;

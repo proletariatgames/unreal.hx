@@ -1033,11 +1033,18 @@ class ExternBaker {
           this.end('}');
         }
         if (!meta.hasMeta(':noEquals') && !meta.hasMeta(':static')) {
+          var metaEntry:MetadataEntry = null;
+          switch ((macro @:op(A==B) _).expr){
+              case EMeta(entry, _):
+                metaEntry = entry;
+              case _:
+                throw 'assert';
+            }
             methods.push({
             name: 'equals',
             uname: '.equals',
             doc: null,
-            meta:null,
+            meta: [metaEntry],
             args:[{name:"other", t:this.thisConv, opt:null}],
             ret:TypeConv.get(Context.getType("Bool"), c.pos),
             flags: MNone,

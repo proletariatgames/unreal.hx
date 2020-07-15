@@ -235,6 +235,11 @@ typedef UhxBuildConfig = {
   **/
   ?extraVscodeTasks:Array<Dynamic>,
 
+  /**
+    Defines the max number of include inside in each file inside the unity folder  
+  **/  
+  ?maxNumberOfIncludesUnity: Int,
+
   //#endregion vscode
 
 }

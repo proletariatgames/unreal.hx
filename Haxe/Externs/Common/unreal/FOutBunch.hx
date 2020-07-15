@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Misc/NetworkGuid.h")
+@:glueCppIncludes("Net/DataBunch.h")
 @:noCopy
 @:uextern extern class FOutBunch {
   function new();

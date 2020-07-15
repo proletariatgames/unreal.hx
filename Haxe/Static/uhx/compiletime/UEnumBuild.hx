@@ -84,7 +84,7 @@ class UEnumBuild
       Context.defineType(expose);
       Context.getType('uhx.enums.${uname}_GetArray');
 
-      var writer = new HeaderWriter(headerPath);
+      var writer = new HeaderWriter(headerPath, uname);
       writer.include('uhx/EnumGlue.h');
       writer.include('uhx/enums/${uname}_GetArray.h');
       writer.include('uhx/expose/HxcppRuntime.h');

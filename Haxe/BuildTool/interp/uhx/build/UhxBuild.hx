@@ -87,7 +87,7 @@ class UhxBuild extends UhxBaseBuild {
     var vars = ['dce','extraCompileArgs','extraCppiaCompileArgs','extraStaticClasspaths',
                 'extraScriptClasspaths', 'disableCppia', 'noStatic', 'disableUObject',
                 'debugger', 'noDynamicObjects', 'compilationServer', 'haxeInstallPath',
-                'haxelibPath', 'forceDebug', 'debugSymbols', 'liveReload'];
+                'haxelibPath', 'forceDebug', 'debugSymbols', 'liveReload', 'maxNumberOfIncludesUnity'];
     var buf = new StringBuf();
     buf.add('engine=${this.version};');
     buf.add('customPaths=${this.data.customPaths};');
@@ -1412,6 +1412,9 @@ class UhxBuild extends UhxBaseBuild {
 
     var thaxe = timer('Haxe compilation');
     args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
+    if(config.maxNumberOfIncludesUnity != null){
+      args.push('-D UHX_MAX_NUMBER_OF_INCLUDES_UNITY=${config.maxNumberOfIncludesUnity}');
+    }
     var ret = compileSources(args.concat(compileOnlyArgs));
     thaxe();
     if (!isCrossCompiling) {

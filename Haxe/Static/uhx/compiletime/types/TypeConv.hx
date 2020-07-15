@@ -785,6 +785,7 @@ class TypeConv {
       }
       if (flags.hasAny(OSubclassOf)) {
         set.add("CoreUObject.h");
+        canForwardDecl = false;
       }
       if (flags.hasAny(OScriptInterface)) {
         set.add("UObject/ScriptInterface.h");

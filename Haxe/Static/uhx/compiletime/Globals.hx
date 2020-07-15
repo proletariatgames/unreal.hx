@@ -45,11 +45,13 @@ class Globals {
 
   public var module(get,null):String;
   public var glueUnityBuild(default, null):Bool = !Context.defined('no_unity_build');
+
   public var withEditor(default, null):Bool = Context.defined('WITH_EDITOR');
   public var configuration(default, null):String = Context.definedValue('UHX_UE_CONFIGURATION');
   public var targetType(default, null):String = Context.definedValue('UHX_UE_TARGET_TYPE');
   public var targetPlatform(default, null):String = Context.definedValue('UHX_UE_TARGET_PLATFORM');
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
+  public var maxNumberOfIncludesUnity (get, null):Null<Int> = Std.parseInt(Context.definedValue('UHX_MAX_NUMBER_OF_INCLUDES_UNITY'));
   public var allCompiledModules(default, null):Map<String, Bool> = new Map();
   public var glueManager:Null<uhx.compiletime.types.GlueManager>;
   public var compiledModules:{ stamp:Float, modules:Map<String, Bool> };
@@ -60,6 +62,14 @@ class Globals {
   public var compiledScriptGlueTypes:Array<String> = [];
 
   @:isVar public var shortBuildName(get, null):String;
+
+  /**
+    Default value of maxNumberOfIncludesUnity used when making unity build.
+    1000 was chosen empirically. More equals to more caching but less parallelization and vice-versa
+  **/
+  private function get_maxNumberOfIncludesUnity(): Null<Int> {
+    return maxNumberOfIncludesUnity == null? 1000:maxNumberOfIncludesUnity;
+  }
 
   public static function findField(cls:ClassType, field:String, isStatic=false) {
     // first try to peek from the global class cache

@@ -5,6 +5,13 @@ import uhx.compiletime.tools.*;
 import uhx.compiletime.main.NativeGlueCode;
 using StringTools;
 
+/**
+This class is mainly used by 'NativeGlueCode' and manages:
+  -the creation of the bundled classes inside the "Intermediate/Haxe/../Generated/Unity/" folder.
+  -the cleaning of "Intermediate/Haxe/../Generated/" unused files and folders
+  -Creation of the "Intermediate/Haxe/../Generated/" sub folders
+  -
+**/
 class GlueManager {
   private var touchedFiles:Map<String, TouchKind> = new Map();
   private var modules:Map<String, Array<String>>;
@@ -22,6 +29,10 @@ class GlueManager {
     }
   }
 
+  /**
+    Mark files with a touch flag, or add new flags if file has already been marked.
+    It will be used when cleaning the directories and files.
+  **/
   public function touch(kind:TouchKind, file:String) {
     var ret = this.touchedFiles[file];
     if (ret == null) {
@@ -32,6 +43,10 @@ class GlueManager {
     this.touchedFiles[file] = ret;
   }
 
+  /**
+    Map .cpp file paths into modules and flags the entire module if one of them changed.
+    Later those files will be bundled in the function "makeUnityBuild" into single files using #include.
+  **/
   public function addCpp(file:String, module:String, hasChanged:Bool) {
     if (this.modules != null) {
       var arr = this.modules[module];
@@ -46,6 +61,10 @@ class GlueManager {
     }
   }
 
+  /**
+    Set deleted files and their respective modules.
+    Embedded Map is only used here for performance, the bool value is never used and is allways true.
+  **/
   public function setDeleted(file:String, module:String) {
     if (modulesDeleted != null && !modulesChanged.exists(module)) {
       var files = this.modulesDeleted[module];
@@ -56,6 +75,9 @@ class GlueManager {
     }
   }
 
+  /**
+    Clean generated folders before 'makeUnityBuild' function.
+  **/
   public function cleanDirs() {
     if (Globals.cur.glueUnityBuild) {
       cleanDir(Globals.cur.staticBaseDir + '/Generated/Private', TPrivateCpp, TPrivateHeader, touchedFiles);
@@ -88,6 +110,9 @@ class GlueManager {
     }
   }
 
+  /**
+    Parse defines when creating the bundled module files inside Unity Folder.
+  **/
   private static function getUniqueDefines() {
     var ret = [];
     switch(Globals.cur.configuration) {
@@ -144,10 +169,12 @@ class GlueManager {
     case platform:
       throw 'Unknown target platform $platform';
     }
-
     return ret;
   }
 
+  /**
+    Return true if filepath has any of the listed includes. (Map value not used)
+  **/
   private function hasAnyInclude(path:String, includes:Map<String, Bool>) {
     var file = sys.io.File.read(path);
     try {
@@ -165,12 +192,50 @@ class GlueManager {
     return false;
   }
 
+  /**
+    Bundle glue classes into a single files using #include.
+    This is used for performance. Shared includes are loaded and parsed only once.
+    If file is too large, split into multiple files so it can be parallelized.
+    maxIncludes is a magic number (for now), you can change it to try optimize build performance in your machine.
+    (bigger maxIncludes means less loading into memory/parsing shared dependencies ans smaller maxIncludes means more parallelization).
+  **/
   public function makeUnityBuild() {
     var dir = GlueInfo.getUnityDir();
     if (dir == null) {
       return;
     }
 
+    //1. sort files and breaks them into submodules
+    var maxIncludes = Globals.cur.maxNumberOfIncludesUnity;
+    for (module in [ for (key in this.modules.keys()) key ] ) {
+      var files = this.modules[module];
+      if (files == null)
+        continue;   
+      //put files in alphabetical order because we don´t know in what order it will process the files       
+      files.sort(Reflect.compare);   
+      if(maxIncludes == null)
+        continue;
+      if(files.length < maxIncludes)             
+        continue;  
+      //create sub modules of each module that has more than maxIncludes files and set changed status for each submodule equals to parent module
+      var chunkCount = Std.int(files.length / maxIncludes) + (files.length % maxIncludes == 0 ? 0: 1);
+      for( i in 0...chunkCount){
+          this.modules[module+"_"+i] = [];
+          this.modulesChanged[module+"_"+i] = this.modulesChanged[module];
+          this.modulesDeleted[module+"_"+i] = this.modulesDeleted[module];
+        }   
+      //add files to each submodule
+      for (i in 0...files.length){
+        this.modules[module+"_"+Std.int(i / maxIncludes)].push(files[i]);
+      }
+      //remove original module
+      this.modules.remove(module);
+      this.modulesChanged.remove(module);
+      this.modulesDeleted.remove(module);     
+    }
+
+    //2. Add module filepaths to the NativeGlueCode's producedFiles
+    //mark module as changed if filepath does not exists or regenUnityFiles is true 
     for (module in this.modules.keys()) {
       var targetPath = GlueInfo.getUnityPath(module, false);
       nativeGlueCode.addProducedFile(targetPath);
@@ -179,6 +244,7 @@ class GlueManager {
       }
     }
 
+    //3. For each module flagged as deleted but not flagged as changed, check if file dont exists or has any deleted include, if true mark module as changed 
     for (deleted in this.modulesDeleted.keys()) {
       if (!this.modulesChanged.exists(deleted)) {
         var target = GlueInfo.getUnityPath(deleted, false);
@@ -192,7 +258,7 @@ class GlueManager {
       }
     }
 
-
+    //4. For each module flagged as changed create/overwrite a file including all the module´s classes
     for (changed in this.modulesChanged.keys()) {
       var files = this.modules[changed];
       if (files == null)
@@ -220,9 +286,7 @@ class GlueManager {
           buf.add('#include "$file"\n');
         }
       }
-
       buf.add('#endif');
-
       var result = buf.toString();
       var target = GlueInfo.getUnityPath(changed, true);
       if (this.regenUnityFiles) {
@@ -234,6 +298,7 @@ class GlueManager {
       }
     }
 
+    //5. Check unused module files and files with wrong suffixes and delets them
     if (Globals.cur.fs.exists(dir)) {
       var suffix = Context.defined('UHX_CUSTOM_PATHS') ? (GlueInfo.UNITY_CPP_EXT) : ('.' + Globals.cur.shortBuildName + GlueInfo.UNITY_CPP_EXT);
       for (file in Globals.cur.fs.readDirectory(dir)) {
@@ -247,6 +312,11 @@ class GlueManager {
     }
   }
 
+  /**
+    Create folders inside "../Intermediate/Haxe/../Generated/"
+    update templates
+    returns 
+  **/
   public function updateGameModule() {
     var cur = Globals.cur,
         glueUnityBuild = cur.glueUnityBuild,
@@ -346,6 +416,11 @@ class GlueManager {
     return srcDir;
   }
 
+  /**
+    Cleans directory by recursively checking each path for .cpp, .h ans .inl files.
+    Deletes any file that haven't been touched or don't have any touchmask or TouchKind is None.
+    set regenUnityFiles to true if any of the deleted files is a *.cpp.
+  **/
   private function cleanDir(path:String, cppMask:TouchKind, headerMask:TouchKind, touchedFiles:Map<String, TouchKind>) {
     function recurse(path:String, packPath:String) {
       for (file in Globals.cur.fs.readDirectory(path)) {

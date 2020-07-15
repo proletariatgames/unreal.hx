@@ -34,12 +34,15 @@ package unreal;
 	 * Write the FString to a file.
 	 * Supports all combination of ANSI/Unicode files and platforms.
 	 */
-	static function SaveStringToFile(String:Const<PRef<FString>>, Filename:TCharStar) : Bool;
+	static function SaveStringToFile(
+		String:Const<PRef<FString>>,
+		Filename:TCharStar,
+		EncodingOptions:EEncodingOptions = EEncodingOptions.AutoDetect) : Bool;
 
 	/**
 	 * Write the FString to a file.
 	 * Supports all combination of ANSI/Unicode files and platforms.
 	 */
 	static function SaveStringArrayToFile(Lines:Const<PRef<TArray<FString>>>, Filename:TCharStar) : Bool;
-	
+
 }

@@ -4,8 +4,17 @@ class HeaderWriter extends BaseWriter {
   private var fwdMap:Map<String, Bool> = new Map();
   private var forwardDecls:Array<String> = [];
 
-  public function new(path) {
+  public function new(path, uname) {
     super(path);
+    //don´t include itself
+    if(uname == null){ return; }
+    var incl:String = uname;
+    if (uname.indexOf('.') >= 0) {
+      var arr = uname.split('.');
+      incl = arr.join('/');
+    }
+    incl += '.h';
+    dontInclude(incl);
   }
 
   public function forwardDeclare(decl:String) {

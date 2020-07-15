@@ -477,7 +477,7 @@ class GlueMethod {
   }
 
   private function shouldCheckPointer() {
-    return !this.meth.flags.hasAny(Static);
+    return !this.meth.flags.hasAny(Static) && this.meth.uname != '.equals';
   }
 
   private function genCppCall(body:String, prefix:String, outVars:HelperBuf) {

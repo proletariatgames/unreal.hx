@@ -328,13 +328,15 @@ class NativeGlueCode
     }
 
     if (shouldGenerate) {
-      var writer = new HeaderWriter(headerPath);
+      var glueClassPath = gluePathRef.getClassPath(true);
+      var writer = new HeaderWriter(headerPath, glueClassPath);
       writer.dontInclude(headerPath);
       writeHeader(cl, writer, gluePath);
       if (cl.meta.has(':ueTemplate')) {
         var path = headerPath.substr(0,-2) + '_UE.h';
         this.producedFiles.push(path);
-        var templWriter = new HeaderWriter(path);
+        glueClassPath +='_UE';
+        var templWriter = new HeaderWriter(path, glueClassPath);
         writeUEHeader(cl, templWriter, gluePath);
       }
       Globals.cur.fs.saveContent(stampPath,'');
@@ -369,7 +371,7 @@ class NativeGlueCode
       return;
     }
 
-    var header = new uhx.compiletime.tools.HeaderWriter(targetPath);
+    var header = new uhx.compiletime.tools.HeaderWriter(targetPath, wrapperPath.getClassPath());
     var incs = new uhx.compiletime.tools.IncludeSet();
     header.include(originalPath.getClassPath().replace('.','/') + '.h');
     header.include('uhx/AutoHaxeInit.h');

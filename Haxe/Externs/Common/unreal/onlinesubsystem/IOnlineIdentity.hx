@@ -19,10 +19,10 @@ typedef FOnLoginComplete = unreal.MulticastDelegate<FOnLoginComplete, Int32->Boo
 typedef FOnLoginCompleteDelegate = unreal.Delegate<FOnLoginCompleteDelegate, Int32->Bool->Const<PRef<FUniqueNetId>>->Const<PRef<FString>>->Void>;
 
 /**
-	* Delegate called when a player logs in/out
-	*
-	* @param LocalUserNum the player that logged in/out
-	*/
+ * Delegate called when a player logs in/out
+ *
+ * @param LocalUserNum the player that logged in/out
+ */
 @:glueCppIncludes("OnlineIdentityInterface.h") @:umodule("OnlineSubsystem")
 @:uParamName("LocalUserNum")
 typedef FOnLoginChanged = unreal.MulticastDelegate<FOnLoginChanged, Int32->Void>;
@@ -47,12 +47,12 @@ typedef FOnLoginStatusChanged = unreal.MulticastDelegate<FOnLoginStatusChanged, 
 @:uParamName("LocalUserNum") @:uParamName("OldStatus") @:uParamName("NewStatus") @:uParamName("NewId")
 typedef FOnLoginStatusChangedDelegate = unreal.Delegate<FOnLoginStatusChangedDelegate, Int32->ELoginStatus->ELoginStatus->Const<PRef<FUniqueNetId>>->Void>;
 
-	/**
-	 * Delegate used in notifying the that manual logout completed
-	 *
-	 * @param LocalUserNum the controller number of the associated user
-	 * @param bWasSuccessful whether the async call completed properly or not
-	 */
+/**
+ * Delegate used in notifying the that manual logout completed
+ *
+ * @param LocalUserNum the controller number of the associated user
+ * @param bWasSuccessful whether the async call completed properly or not
+ */
 @:glueCppIncludes("OnlineIdentityInterface.h") @:umodule("OnlineSubsystem")
 @:uParamName("LocalUserNum") @:uParamName("bWasSuccessful")
 typedef FOnLogoutComplete = unreal.MulticastDelegate<FOnLogoutComplete, Int32->Bool->Void>;
@@ -61,6 +61,18 @@ typedef FOnLogoutComplete = unreal.MulticastDelegate<FOnLogoutComplete, Int32->B
 @:uParamName("LocalUserNum") @:uParamName("bWasSuccessful")
 typedef FOnLogoutCompleteDelegate = unreal.Delegate<FOnLogoutCompleteDelegate, Int32->Bool->Void>;
 
+/**
+ * Delegate executed when we get a user privilege result.
+ *
+ * @param UniqueId The unique id of the user who was queried
+ * @param Privilege the privilege that was queried
+ * @param PrivilegeResult bitwise OR of any privilege failures. 0 is success.
+ */
+@:glueCppIncludes("OnlineIdentityInterface.h") @:umodule("OnlineSubsystem")
+@:uname("IOnlineIdentity.FOnGetUserPrivilegeCompleteDelegate")
+@:uParamName("UniqueId") @:uParamName("Privilege") @:uParamName("PrivilegeResult")
+typedef FOnGetUserPrivilegeCompleteDelegate = unreal.Delegate<FOnGetUserPrivilegeCompleteDelegate, Const<PRef<FUniqueNetId>>->EUserPrivileges->FakeUInt32->Void>;
+
 @:glueCppIncludes("OnlineIdentityInterface.h") @:umodule("OnlineSubsystem")
 @:noCopy
 @:uextern extern class IOnlineIdentity {
@@ -68,6 +80,15 @@ typedef FOnLogoutCompleteDelegate = unreal.Delegate<FOnLogoutCompleteDelegate, I
 	public function GetLoginStatus(localUserNum:Int32):ELoginStatus;
 	public function GetPlayerNickname(localUserNum:Int32):FString;
 	public function Login(LocalUserNum:Int32, Credentials:FOnlineAccountCredentials):Bool;
+
+	/**
+	 * Gets the status of a user's privilege.
+	 *
+	 * @param LocalUserId the unique id of the user to query
+	 * @param Privilege the privilege you want to know about
+	 * @param Delegate delegate to execute when the async task completes
+	 */
+	public function GetUserPrivilege(LocalUserId:Const<PRef<FUniqueNetId>>, Privilege:EUserPrivileges, Delegate:Const<PRef<FOnGetUserPrivilegeCompleteDelegate>>) : Void;
 
 	/**
 	 * Gets the platform specific unique id for the specified player
