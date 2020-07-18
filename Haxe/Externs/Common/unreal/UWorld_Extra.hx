@@ -317,4 +317,12 @@ extern class UWorld_Extra {
   *  You need Physics Scene if you'd like to trace. This flag changed ticking */
   public var bShouldSimulatePhysics:Bool;
 
+  	/**
+	 * Flushes level streaming in blocking fashion and returns when all levels are loaded/ visible/ hidden
+	 * so further calls to UpdateLevelStreaming won't do any work unless state changes. Basically blocks
+	 * on all async operation like updating components.
+	 *
+	 * @param FlushType					Whether to only flush level visibility operations (optional)
+	 */
+  public function FlushLevelStreaming(FlushType:EFlushLevelStreamingType = Full) : Void;
 }

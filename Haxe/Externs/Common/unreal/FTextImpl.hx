@@ -16,8 +16,8 @@ package unreal;
 
   @:expr(return ToString().op_Dereference()) public function toString():String;
 
-	static function Format(Fmt:unreal.FTextFormat, InArguments:Const<PRef<unreal.FFormatNamedArguments>>) : FTextImpl;
-	@:uname("Format") static function FormatOrdered(Fmt:unreal.FTextFormat, InArguments:Const<PRef<TArray<FFormatArgumentValue>>>) : FTextImpl;
+  static function Format(Fmt:unreal.FTextFormat, InArguments:Const<PRef<unreal.FFormatNamedArguments>>) : FTextImpl;
+  @:uname("Format") static function FormatOrdered(Fmt:unreal.FTextFormat, InArguments:Const<PRef<TArray<FFormatArgumentValue>>>) : FTextImpl;
 
   @:thisConst
   function ToUpper():FText;
@@ -31,11 +31,17 @@ package unreal;
 
   function IsEmpty():Bool;
 
-	/**
-	 * Generate an FText that represents the passed number in the current culture
-	 */
+  /**
+  * Generate an FText that represents the passed number in the current culture
+  */
   @:uname("AsNumber") static function FromInt(val:Int32, FormattingOptions:Const<PPtr<FNumberFormattingOptions>>=null) : Const<FText>;
   static function AsPercent(val:Float32, FormattingOptions:Const<PPtr<FNumberFormattingOptions>>=null) : Const<FText>;
+
+  function CompareTo(Other:FText, ComparisonLevel:ETextComparisonLevel = ETextComparisonLevel.Default) : Int32;
+  function CompareToCaseIgnored(Other:FText) : Int32;
+
+  function EqualTo(Other:FText, ComparisonLevel:ETextComparisonLevel = ETextComparisonLevel.Default) : Bool;
+  function EqualToCaseIgnored(Other:FText) : Bool;
 
   private static function GetEmpty() : PRef<Const<FText>>;
 }

@@ -10,4 +10,8 @@ extern class IOnlineExternalUI_Extra {
 		* @return true if it was able to show the UI, false if it failed
 	*/
 	public function ShowProfileUI(Requestor:unreal.Const<unreal.PRef<unreal.FUniqueNetId>>, Requestee:unreal.Const<unreal.PRef<unreal.FUniqueNetId>>) : Bool;
+
+	public function ReportEnterInGameStoreUI():Void;
+	public function ReportExitInGameStoreUI():Void;
+
 }

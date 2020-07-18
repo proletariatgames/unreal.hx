@@ -9,12 +9,11 @@ typedef FOnUserControllerConnectionChange = unreal.MulticastDelegate<FOnUserCont
 @:uname("FCoreDelegates.FOnUserControllerPairingChange")
 typedef FOnUserControllerPairingChange = unreal.MulticastDelegate<FOnUserControllerPairingChange, Int32->Int32->Int32->Void>;
 
-
 @:glueCppIncludes('Misc/CallbackDevice.h')
 @:uextern extern class FCoreDelegates {
   static var OnPreExit:FSimpleMulticastDelegate;
 
-  static var OnControllerConnectionChange:FOnUserControllerConnectionChange; 
-  
+  static var OnControllerConnectionChange:FOnUserControllerConnectionChange;
+
   static var OnControllerPairingChange:FOnUserControllerPairingChange;
 }
