@@ -22,6 +22,11 @@ import unreal.*;
 	/** Full description for display */
 	public var LongDescription:FText;
 
+	#if proletariat
+	/** Tax message for display */
+	public var TaxMessage:FText;
+	#end
+
 	/** Date the offer was released */
 	public var ReleaseDate:FDateTime;
 	/** Date this information is no longer valid (maybe due to sale ending, etc) */
