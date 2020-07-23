@@ -305,7 +305,7 @@ class NeedsGlueBuild
         if (needsStatic) {
           var dummy = macro class {
             #if !haxe4 @:extern #end @:noUsing @:noCompletion inline private function dummy() {
-              $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
+              $delayedglue.checkCompiledIfOverridesNative($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
             }
           };
           var cur = dummy.fields[0];

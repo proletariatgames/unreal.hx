@@ -100,6 +100,18 @@ abstract ClassData<T : MemberData>(ClassDataData<T>) from ClassDataData<T> {
     }
     return null;
   }
+
+  public function findFieldWithClass(field:String) {
+    var data:ClassData<T> = this;
+    while (data != null) {
+      var field = data.members.get(field);
+      if (field != null) {
+        return { field:field, cls:data };
+      }
+      data = data.parent;
+    }
+    return null;
+  }  
 }
 
 abstract ClassCache<T : MemberData>(Map<String, ClassData<T>>) from Map<String, ClassData<T>> {
@@ -109,6 +121,10 @@ abstract ClassCache<T : MemberData>(Map<String, ClassData<T>>) from Map<String, 
 
   inline public function findField(cls:ClassType, field:String, isStatic=false) {
     return getClassData(cls).findField(field, isStatic);
+  }
+
+  inline public function findFieldWithClass(cls:ClassType, field:String) {
+    return getClassData(cls).findFieldWithClass(field);
   }
 
   inline public function peekClassData(cls:ClassType) {

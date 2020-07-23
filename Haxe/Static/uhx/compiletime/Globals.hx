@@ -82,6 +82,15 @@ class Globals {
     return cur.typedClassCache.findField(cls, field, isStatic);
   }
 
+
+  public static function findFieldWithClass(cls:ClassType, field:String) {
+    var ret = classCache.peekClassData(cls);
+    if (ret != null) {
+      return ret.findFieldWithClass(field);
+    }
+    return cast cur.typedClassCache.findFieldWithClass(cls, field);
+  }
+
   public function readScriptGlues(path:String):Void {
     var scriptGlues = new Map(),
         byName = new Map(),
