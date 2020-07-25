@@ -63,6 +63,16 @@ typedef FOnFindSessionsComplete = MulticastDelegate<FOnFindSessionsComplete, Boo
 @:uParamName("bSuccess")
 typedef FOnFindSessionsCompleteDelegate = unreal.Delegate<FOnFindSessionsCompleteDelegate, Bool->Void>;
 
+@:glueCppIncludes('OnlineSessionInterface.h')
+@:uname('FOnDestroySessionComplete')
+@:uParamName("SessionName") @:uParamName("bSuccess")
+typedef FOnDestroySessionComplete = MulticastDelegate<FOnDestroySessionComplete, FName->Bool->Void>;
+
+@:glueCppIncludes('OnlineSessionInterface.h')
+@:uname("FOnDestroySessionComplete.FDelegate")
+@:uParamName("SessionName") @:uParamName("bWasSuccessful")
+typedef FOnDestroySessionCompleteDelegate = unreal.Delegate<FOnDestroySessionCompleteDelegate, FName->Bool->Void>;
+
 /**
  * Delegate fired when the cancellation of a search for an online session has completed
  *
@@ -95,4 +105,8 @@ typedef FOnCancelFindSessionsCompleteDelegate = unreal.Delegate<FOnCancelFindSes
 	public function AddOnSessionInviteReceivedDelegate_Handle(Delegate:Const<PRef<FOnSessionInviteReceivedDelegate>>) : FDelegateHandle;
 	public function ClearOnSessionInviteReceivedDelegate_Handle(Handle:PRef<FDelegateHandle>) : Void;
 	public function AddOnSessionUserInviteAcceptedDelegate_Handle(Delegate:Const<PRef<FOnSessionUserInviteAcceptedDelegate>>) : FDelegateHandle;
+
+	public function SendSessionInviteToFriend(LocalUserNum: Int32, SessionName: FName, Friend: PRef<Const<FUniqueNetId>>) : Bool;
+
+	public function DestroySession(SessionName:FName, CompletionDelegate:Const<PRef<FOnDestroySessionCompleteDelegate>>) : Bool;
 }

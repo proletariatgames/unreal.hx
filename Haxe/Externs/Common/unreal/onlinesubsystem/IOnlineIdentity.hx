@@ -101,6 +101,15 @@ typedef FOnGetUserPrivilegeCompleteDelegate = unreal.Delegate<FOnGetUserPrivileg
 	public function GetUniquePlayerId(LocalUserNum : unreal.Int32) : TSharedPtr<Const<FUniqueNetId>>;
 
 	/**
+	 * Create a unique id from string
+	 *
+	 * @param Str string holding textual representation of an Id
+	 *
+	 * @return UniqueId from the given data, NULL otherwise
+	 */
+	public function CreateUniquePlayerId(Str: PRef<Const<FString>>): TSharedPtr<Const<FUniqueNetId>>;
+
+	/**
 	 * OnLoginComplete helpers
 	 **/
 	public function AddOnLoginCompleteDelegate_Handle(LocalUserNum:Int32, Delegate:Const<PRef<FOnLoginCompleteDelegate>>) : FDelegateHandle;

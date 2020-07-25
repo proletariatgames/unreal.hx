@@ -39,4 +39,13 @@ extern class FSlateApplication_Extra {
 
 	/** Releases the focus for all users from whatever it currently is on. */
   public function ClearAllUserFocus(ReasonFocusIsChanging:unreal.slatecore.EFocusCause = unreal.slatecore.EFocusCause.SetDirectly) : Void;
+
+  #if proletariat
+	/**
+	 * Forces a recursive InvalidatePrepass on all Slate windows and their
+	 * their children, and then redraws all Slate windows. Useful after disabling GEnableSlateLayoutCaching
+	 * to ensure that windows update for global changes, e.g. language change.
+	 */
+  public function InvalidateAndRedrawWindows() : Void;
+  #end
 }
