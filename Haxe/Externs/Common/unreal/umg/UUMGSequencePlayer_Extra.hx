@@ -1,5 +1,6 @@
 package unreal.umg;
 
+import unreal.moviescene.EMovieScenePlayerStatus;
 import unreal.slatecore.*;
 import unreal.umg.*;
 
@@ -7,6 +8,10 @@ import unreal.umg.*;
 extern class UUMGSequencePlayer_Extra {
 
 	public function GetAnimation() : UWidgetAnimation;
+
+	public function Play(StartAtTime:Float32, InNumLoopsToPlay:Int32, InPlayMode:EUMGSequencePlayMode, InPlaybackSpeed:Float32) : Void;
+
+	public function PlayTo(StartAtTime:Float32, EndAtTime:Float32, InNumLoopsToPlay:Int32, InPlayMode:EUMGSequencePlayMode, InPlaybackSpeed:Float32) : Void;
 
 	public function Pause() : Void;
 
@@ -21,4 +26,8 @@ extern class UUMGSequencePlayer_Extra {
 	public function SetNumLoopsToPlay(InNumLoopsToPlay:Int32) : Void;
 
 	public function SetPlaybackSpeed(PlaybackSpeed:Float32) : Void;
+
+	public function GetPlaybackStatus() : EMovieScenePlayerStatus;
+
+	public function IsPlayingForward() : Bool;
 }
