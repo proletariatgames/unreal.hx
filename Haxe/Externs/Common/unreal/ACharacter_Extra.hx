@@ -55,4 +55,18 @@ extern class ACharacter_Extra {
   /** If Pawn is possessed by a player, returns its Player State.  Needed for network play as controllers are not replicated to clients. */
   @:thisConst
 	public function GetPlayerState() : APlayerState;
+
+	/**
+	 * Called when Character crouches. Called on non-owned Characters through bIsCrouched replication.
+	 * @param	HalfHeightAdjust		difference between default collision half-height, and actual crouched capsule half-height.
+	 * @param	ScaledHalfHeightAdjust	difference after component scale is taken in to account.
+	 */
+	public function OnStartCrouch(HalfHeightAdjust:Float32, ScaledHalfHeightAdjust:Float32) : Void;
+
+	/**
+	 * Called when Character stops crouching. Called on non-owned Characters through bIsCrouched replication.
+	 * @param	HalfHeightAdjust		difference between default collision half-height, and actual crouched capsule half-height.
+	 * @param	ScaledHalfHeightAdjust	difference after component scale is taken in to account.
+	 */
+	public function OnEndCrouch(HalfHeightAdjust:Float32, ScaledHalfHeightAdjust:Float32) : Void;
 }

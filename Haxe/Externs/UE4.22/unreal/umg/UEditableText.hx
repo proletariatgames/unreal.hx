@@ -171,5 +171,5 @@ package unreal.umg;
   @:ufunction(BlueprintCallable) @:final public function SetIsPassword(InbIsPassword : Bool) : Void;
   @:ufunction(BlueprintCallable) @:final public function SetHintText(InHintText : unreal.FText) : Void;
   @:ufunction(BlueprintCallable) @:final public function SetIsReadOnly(InbIsReadyOnly : Bool) : Void;
-  
+  @:ufunction(BlueprintCallable) @:final public function SetVirtualKeyboardType(Type : EVirtualKeyboardType) : Void;
 }

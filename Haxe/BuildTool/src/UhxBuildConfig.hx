@@ -3,7 +3,7 @@
   All properties added here will be optional and not setting them will make UE4Haxe use
   the default settings
  **/
-typedef UhxBuildConfig = {
+ typedef UhxBuildConfig = {
   /**
     Disables Haxe compilation entirely
     @default false
@@ -239,6 +239,11 @@ typedef UhxBuildConfig = {
     Defines the max number of include inside in each file inside the unity folder  
   **/  
   ?maxNumberOfIncludesUnity: Int,
+
+  /**
+    Enables LTCG for haxe c++ code
+  **/
+  ?enableLTCG:Bool,
 
   //#endregion vscode
 

@@ -113,4 +113,6 @@ package unreal;
 
   static function GetEnvironmentVariable(VariableName:Const<TCharStar>):FString;
   static function SetEnvironmentVar(VariableName:Const<TCharStar>, Value:Const<TCharStar>):Void;
+
+  static function GetNetworkConnectionType():ENetworkConnectionType;
 }

@@ -6,6 +6,7 @@ package unreal;
   #if proletariat
   static function ShowErrorDialog(category:Int32, number:Int32):Void;
   static function IsNifmAvailable():Bool;
+  static function ConditionalStartNifm():Bool;
   #end
 }
 #end

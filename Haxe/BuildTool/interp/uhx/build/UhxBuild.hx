@@ -8,7 +8,7 @@ using Lambda;
 using StringTools;
 
 class UhxBuild extends UhxBaseBuild {
-  private static var VERSION_LEVEL = 9;
+  private static var VERSION_LEVEL = 10;
   private static inline var PARALLEL_DEP_CHECK = true;
 
   var haxeDir:String;
@@ -87,7 +87,7 @@ class UhxBuild extends UhxBaseBuild {
     var vars = ['dce','extraCompileArgs','extraCppiaCompileArgs','extraStaticClasspaths',
                 'extraScriptClasspaths', 'disableCppia', 'noStatic', 'disableUObject',
                 'debugger', 'noDynamicObjects', 'compilationServer', 'haxeInstallPath',
-                'haxelibPath', 'forceDebug', 'debugSymbols', 'liveReload', 'maxNumberOfIncludesUnity'];
+                'haxelibPath', 'forceDebug', 'debugSymbols', 'liveReload', 'maxNumberOfIncludesUnity', 'enableLTCG'];
     var buf = new StringBuf();
     buf.add('engine=${this.version};');
     buf.add('customPaths=${this.data.customPaths};');
@@ -405,6 +405,7 @@ class UhxBuild extends UhxBaseBuild {
       case _:
         throw 'assert';
     };
+    //Unreal.hx doesn't create the ".uhtmanifest" from scratch, so we get a previous built "uhtmanifest" or call UBT to create one to use as a base.
     var baseManifest = findUhtManifest(target);
     if (baseManifest == null) {
       warn('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Calling UBT');
@@ -498,7 +499,22 @@ class UhxBuild extends UhxBaseBuild {
     }
     var shouldRun = lastRun == 0;
 
+    //Create the manifest using the base manifest from UHT
     var manifest:UhtManifest = haxe.Json.parse(sys.io.File.getContent(baseManifest));
+    //Removes UHX's generated headers from the base uhtmanifest.
+    //We don't need them to generate the externs and they could create compilation errors
+    for (module in manifest.Modules) {
+      var headersToRemove = [];
+      for( ph in module.PublicHeaders){     
+        if(haxe.io.Path.normalize(ph).indexOf('/Generated/PublicExport/') >= 0){
+          headersToRemove.push(ph);
+        }         
+      }
+      for( h in headersToRemove){
+        module.PublicHeaders.remove(h);
+      }
+    }
+
     if (!FileSystem.exists(uhtDir)) {
       FileSystem.createDirectory(uhtDir);
     }
@@ -1414,6 +1430,11 @@ class UhxBuild extends UhxBaseBuild {
     args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
     if(config.maxNumberOfIncludesUnity != null){
       args.push('-D UHX_MAX_NUMBER_OF_INCLUDES_UNITY=${config.maxNumberOfIncludesUnity}');
+    }
+    if(config.enableLTCG != null){
+      if(config.enableLTCG = true){
+        args.push('-D HXCPP_OPTIMIZE_LINK');
+      }  
     }
     var ret = compileSources(args.concat(compileOnlyArgs));
     thaxe();
