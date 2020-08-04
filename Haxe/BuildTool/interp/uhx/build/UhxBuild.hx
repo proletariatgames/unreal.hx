@@ -8,7 +8,7 @@ using Lambda;
 using StringTools;
 
 class UhxBuild extends UhxBaseBuild {
-  private static var VERSION_LEVEL = 10;
+  private static var VERSION_LEVEL = 11;
   private static inline var PARALLEL_DEP_CHECK = true;
 
   var haxeDir:String;
@@ -505,10 +505,10 @@ class UhxBuild extends UhxBaseBuild {
     //We don't need them to generate the externs and they could create compilation errors
     for (module in manifest.Modules) {
       var headersToRemove = [];
-      for( ph in module.PublicHeaders){     
+      for( ph in module.PublicHeaders){
         if(haxe.io.Path.normalize(ph).indexOf('/Generated/PublicExport/') >= 0){
           headersToRemove.push(ph);
-        }         
+        }
       }
       for( h in headersToRemove){
         module.PublicHeaders.remove(h);
@@ -1434,7 +1434,7 @@ class UhxBuild extends UhxBaseBuild {
     if(config.enableLTCG != null){
       if(config.enableLTCG = true){
         args.push('-D HXCPP_OPTIMIZE_LINK');
-      }  
+      }
     }
     var ret = compileSources(args.concat(compileOnlyArgs));
     thaxe();
