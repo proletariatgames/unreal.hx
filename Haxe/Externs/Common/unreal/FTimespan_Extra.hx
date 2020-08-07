@@ -35,4 +35,8 @@ extern class FTimespan_Extra {
   public static function FromSeconds(Seconds:Float) : FTimespan;
 
   function ToString():FString;
+
+	@:expr(return ToString().toString())
+  public function toString():String;
+
 }

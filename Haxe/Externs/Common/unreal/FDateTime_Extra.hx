@@ -8,7 +8,10 @@ extern class FDateTime_Extra {
 	public function GetTicks() : Int64;
 
 	@:thisConst @:uname("ToString")
-	public function toString() : FString;
+	public function ToString() : FString;
+
+	@:expr(return ToString().toString())
+  public function toString():String;
 
 	@:thisConst @:uname("ToString")
 	public function toFormattedString(fmt:TCharStar) : FString;
@@ -51,6 +54,12 @@ extern class FDateTime_Extra {
 	 * @see Parse, ParseHttpDate, ToIso8601
 	 */
 	public static function ParseIso8601(DateTimeString:Const<TCharStar>, OutDateTime:PRef<FDateTime>) : Bool;
+
+	@:expr({
+		var dateTime = FDateTime.fromTicks(0);
+		return FDateTime.ParseIso8601(Iso8601.op_Dereference(), dateTime) ? dateTime : null;
+	})
+	public static function FromIso8601(Iso8601:FString):Null<FDateTime>;
 
 	/**
 	 * Gets the UTC date and time on this computer.
