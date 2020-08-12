@@ -184,9 +184,10 @@ static void uhx_init_args()
   {
     TArray<char *> Ret;
     ParseCommandLine(TCHAR_TO_UTF8(FCommandLine::GetOriginal()), Ret);
-    _hxcpp_argc = Ret.Num();
-    _hxcpp_argv = (char**) calloc(Ret.Num() + 2, sizeof(char*));
-    memcpy(_hxcpp_argv, Ret.GetData(), Ret.Num() * sizeof(char*));
+    _hxcpp_argc = Ret.Num() + 1;
+    _hxcpp_argv = (char**) calloc(Ret.Num() + 3, sizeof(char*));
+    memcpy(_hxcpp_argv + 1, Ret.GetData(), Ret.Num() * sizeof(char*));
+    _hxcpp_argv[0] = _hxcpp_argv[1]; // we skip the first argument as it should be the executable path
   }
 }
 
