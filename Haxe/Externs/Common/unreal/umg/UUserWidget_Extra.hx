@@ -25,6 +25,7 @@ extern class UUserWidget_Extra {
 	private function NativePreConstruct():Void;
 	private function NativeConstruct():Void;
 	private function NativeOnMouseButtonDown(MyGeometry : Const<PRef<FGeometry>>, InMouseEvent : Const<PRef<FPointerEvent>>) : FReply;
+	private function NativeOnMouseMove(InGeometry : Const<PRef<FGeometry>>, InMouseEvent : Const<PRef<FPointerEvent>>) : FReply;
 	private function NativeOnMouseEnter(MyGeometry : Const<PRef<FGeometry>>, MouseEvent : Const<PRef<FPointerEvent>>) : Void;
 	private function NativeOnMouseLeave(InMouseEvent : Const<PRef<FPointerEvent>>) : Void;
 	private function NativeOnKeyDown (InGeometry : Const<PRef<FGeometry>>, InKeyEvent : Const<PRef<FKeyEvent>>) : FReply;
