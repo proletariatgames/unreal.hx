@@ -8,7 +8,7 @@ using Lambda;
 using StringTools;
 
 class UhxBuild extends UhxBaseBuild {
-  private static var VERSION_LEVEL = 11;
+  private static var VERSION_LEVEL = 12;
   private static inline var PARALLEL_DEP_CHECK = true;
 
   var haxeDir:String;

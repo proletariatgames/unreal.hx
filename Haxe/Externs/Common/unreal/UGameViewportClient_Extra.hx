@@ -1,5 +1,7 @@
 package unreal;
 
+import unreal.slate.FSceneViewport;
+
 @:uname("FOnWindowCloseRequested")
 @:glueCppIncludes("Engine/GameViewportDelegates.h")
 typedef FOnWindowCloseRequested = Delegate<FOnWindowCloseRequested, Void->Bool>;
@@ -15,6 +17,8 @@ typedef FOnWindowCloseRequested = Delegate<FOnWindowCloseRequested, Void->Bool>;
 
   @:thisConst
   public function GetViewportSize( ViewportSize:FVector2D ) : Void;
+
+  public function GetGameViewport() : PPtr<FSceneViewport>;
 
   public function SetMouseLockMode(InMouseLockMode:EMouseLockMode) : Void;
 
