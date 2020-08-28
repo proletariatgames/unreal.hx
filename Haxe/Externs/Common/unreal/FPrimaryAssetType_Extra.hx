@@ -7,6 +7,9 @@ extern class FPrimaryAssetType_Extra {
 	@:thisConst
 	public function ToString() : FString;
 
+	@:thisConst
+	public function IsValid():Bool;
+
   @:expr(return ToString().toString())
   public function toString():String;
 }
