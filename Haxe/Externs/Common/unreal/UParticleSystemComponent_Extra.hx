@@ -15,6 +15,10 @@ extern class UParticleSystemComponent_Extra {
    */
   public function GetFloatParameter(InName:Const<FName>, OutFloat:Ref<Float32>) : Bool;
   public var bAutoDestroy:Bool;
+  
+#if proletariat
+	public var bForceKillEmittersOnDeactivate:Bool;
+#end
 
   public var bWasDeactivated:Bool;
   public var bDeactivateTriggered:Bool;

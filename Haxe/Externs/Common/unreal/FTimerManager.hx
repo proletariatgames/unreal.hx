@@ -8,10 +8,10 @@ package unreal;
   @:uname("SetTimer")
   function SetTimerWithDelegate(inOutHandle:PRef<FTimerHandle>, delegate:FTimerDynamicDelegate, rate:Float32, loop:Bool=false, firstDelay:Float=-1) : Void;
   @:uname("SetTimerForNextTick")
-  function SetTimerForNextTickWithUObject(obj:UObject, method:MethodPointer<UObject, Void->Void>) : Void;
+  function SetTimerForNextTickWithUObject(obj:UObject, method:MethodPointer<UObject, Void->Void>) : FTimerHandle;
 
   function SetTimer(inOutHandle:PRef<FTimerHandle>, delegate:Const<PRef<FTimerDelegate>>, rate:Float32, loop:Bool=false, firstDelay:Float=-1) : Void;
-  function SetTimerForNextTick(delegate:Const<PRef<FTimerDelegate>>) : Void;
+  function SetTimerForNextTick(delegate:Const<PRef<FTimerDelegate>>) : FTimerHandle;
   function ClearTimer(handle:FTimerHandle) : Void;
 
   function PauseTimer(handle:FTimerHandle) : Void;

@@ -101,12 +101,17 @@ typedef FOnCancelFindSessionsCompleteDelegate = unreal.Delegate<FOnCancelFindSes
 	 * @return pointer to the struct if found, NULL otherwise
 	 */
 	public function GetNamedSession(SessionName:FName) : PPtr<FNamedOnlineSession>;
+	public function UpdateSession(SessionName : FName, UpdatedSettings : PRef<FOnlineSessionSettings>, bShouldRefreshOnlineData : Bool) : Bool;
+
+	public function JoinSession(LocalUserId : Const<PRef<FUniqueNetId>>, SessionName : FName, DesiredSession : Const<PRef<FOnlineSessionSearchResult>>) : Bool;
 
 	public function AddOnSessionInviteReceivedDelegate_Handle(Delegate:Const<PRef<FOnSessionInviteReceivedDelegate>>) : FDelegateHandle;
 	public function ClearOnSessionInviteReceivedDelegate_Handle(Handle:PRef<FDelegateHandle>) : Void;
 	public function AddOnSessionUserInviteAcceptedDelegate_Handle(Delegate:Const<PRef<FOnSessionUserInviteAcceptedDelegate>>) : FDelegateHandle;
 
 	public function SendSessionInviteToFriend(LocalUserNum: Int32, SessionName: FName, Friend: PRef<Const<FUniqueNetId>>) : Bool;
+
+	public function UnregisterPlayer(SessionName:FName, PlayerId:PRef<Const<FUniqueNetId>>): Bool;
 
 	public function DestroySession(SessionName:FName, CompletionDelegate:Const<PRef<FOnDestroySessionCompleteDelegate>>) : Bool;
 }

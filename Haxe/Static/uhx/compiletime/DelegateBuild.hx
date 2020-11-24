@@ -92,6 +92,11 @@ class DelegateBuild {
           }
 
 #if !UHX_NO_UOBJECT
+
+          public function BindWeakLambda(obj:unreal.UObject, fn:$lambdaType) : Void {
+            $delayedglue.getNativeCall("BindWeakLambda", false, obj, fn);
+          }
+
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
             $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
@@ -99,6 +104,7 @@ class DelegateBuild {
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
+
 #end
         }
 

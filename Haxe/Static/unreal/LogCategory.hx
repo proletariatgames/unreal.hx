@@ -10,13 +10,13 @@ class LogCategory {
     this.unrealCategory = new FLogCategoryBase(name, verbosity, verbosity);
   }
 
-  public static function get(name:String) {
+  public static function get(name:String, ?verbosity:ELogVerbosity=Log) {
     if (catMap == null) {
       catMap = new Map();
     }
     var cat = catMap[name];
     if (cat == null) {
-      catMap[name] = cat = new LogCategory(name, Log);
+      catMap[name] = cat = new LogCategory(name, verbosity);
     }
     return cat;
   }

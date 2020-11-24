@@ -418,11 +418,15 @@ class NeedsGlueBuild
             uprops.push(field.name);
             var getter = 'get_' + field.name,
                 setter = 'set_' + field.name;
+            var message = 'Unreal Glue Extension Error: trying to access variable ${field.name} from a null object';
+            var check = isStatic? macro null:macro if(this == null){throw throw $v{message}};
             var dummy = macro class {
               private function $getter():$t {
+                $check;
                 return $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false, $v{isDynamic}, $v{fieldUName});
               }
               private function $setter(value:$t):$t {
+                $check;
                 $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true, $v{isDynamic}, $v{fieldUName});
                 return value;
               }

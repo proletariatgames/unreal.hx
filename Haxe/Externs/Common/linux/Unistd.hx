@@ -118,4 +118,24 @@ extern class Unistd {
   @:ublocking
   @:global
   public static function close(fd : Int) : Int;
+
+  /**
+    The nice() function shall add the value of incr to the nice value of the calling process. A process' nice value is a non-negative number for which a more positive value shall result in less favorable scheduling.
+    A maximum nice value of 2*{NZERO}-1 and a minimum nice value of 0 shall be imposed by the system. Requests for values above or below these limits shall result in the nice value being set to the corresponding limit. Only a process with appropriate privileges can lower the nice value.
+
+    PS|TPS Calling the nice() function has no effect on the priority of processes or threads with policy SCHED_FIFO or SCHED_RR. The effect on processes or threads with other scheduling policies is implementation-defined. 
+    The nice value set with nice() shall be applied to the process. If the process is multi-threaded, the nice value shall affect all system scope threads in the process.
+    As -1 is a permissible return value in a successful situation, an application wishing to check for error situations should set errno to 0, then call nice(), and if it returns -1, check to see whether errno is non-zero.
+
+    RETURN VALUE
+    Upon successful completion, nice() shall return the new nice value -{NZERO}. Otherwise, -1 shall be returned, the process' nice value shall not be changed, and errno shall be set to indicate the error.
+    
+    ERRORS
+    The nice() function shall fail if: 
+    EPERM
+    The incr argument is negative and the calling process does not have appropriate privileges.
+  **/
+  @:ublocking
+  @:global
+  public static function nice(incr : Int) : Int;
 }

@@ -16,4 +16,6 @@ package unreal;
 	public function CreateInternetAddr(?Address:FakeUInt32=0, ?Port:FakeUInt32=0) : TSharedRef<FInternetAddr>;
 
 	public function DestroySocket(Socket:PPtr<unreal.sockets.FSocket>):Void;
+
+	public function CreateSocket(SocketType:Const<PRef<FName>>, SocketDescription:Const<PRef<FString>>, bForceUDP:Bool = false):PPtr<unreal.sockets.FSocket>;
 }

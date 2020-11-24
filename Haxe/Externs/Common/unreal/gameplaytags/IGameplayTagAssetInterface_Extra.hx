@@ -8,5 +8,6 @@ extern class IGameplayTagAssetInterface_Extra {
 	public function HasAllMatchingGameplayTags(TagContainer:Const<PRef<FGameplayTagContainer>>) : Bool;
 	@:thisConst
 	public function HasAnyMatchingGameplayTags(TagContainer:Const<PRef<FGameplayTagContainer>>) : Bool;
-
+	@:thisConst
+	public function GetOwnedGameplayTags(TagContainer:PRef<FGameplayTagContainer>) : Void;
 }

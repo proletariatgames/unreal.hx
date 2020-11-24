@@ -4,7 +4,7 @@ package unreal;
 @:uname("FText")
 @:ustruct
 @:uextern extern class FTextImpl {
-  static function FromString(str:FString) : FTextImpl;
+  static function FromString(str:PRef<Const<FString>>) : FTextImpl;
   function ToString():unreal.Const<unreal.PRef<FString>>;
 
   static function AsNumber(Val:Float32, Options:PPtr<Const<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl;
@@ -44,6 +44,9 @@ package unreal;
   function EqualToCaseIgnored(Other:FText) : Bool;
 
   private static function GetEmpty() : PRef<Const<FText>>;
+
+  public static function FromStringTable(TableId:FName, Key:FString):FText;
+
 }
 
 

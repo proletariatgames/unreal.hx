@@ -24,6 +24,10 @@ package unreal;
     return create(str);
   }
 
+  inline public function ToUnlocalizedText():FText {
+    return FText.FromString(this.ToString());
+  }
+
   public function toString():String {
     return this.ToString().toString();
   }

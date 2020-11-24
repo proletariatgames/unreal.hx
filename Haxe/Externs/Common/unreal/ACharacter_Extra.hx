@@ -52,10 +52,6 @@ extern class ACharacter_Extra {
 /** Set the Pawn's Player State. Keeps bi-directional reference of Pawn to Player State and back in sync. */
 	public function SetPlayerState(NewPlayerState:APlayerState) : Void;
 
-  /** If Pawn is possessed by a player, returns its Player State.  Needed for network play as controllers are not replicated to clients. */
-  @:thisConst
-	public function GetPlayerState() : APlayerState;
-
 	/**
 	 * Called when Character crouches. Called on non-owned Characters through bIsCrouched replication.
 	 * @param	HalfHeightAdjust		difference between default collision half-height, and actual crouched capsule half-height.

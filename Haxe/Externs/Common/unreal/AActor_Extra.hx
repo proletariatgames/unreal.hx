@@ -85,6 +85,9 @@ extern class AActor_Extra {
 	/** Always called immediately after a new Role is received from the remote. */
 	public function PostNetReceiveRole() : Void;
 
+	/** Update location and rotation from ReplicatedMovement. Not called for simulated physics! */
+	public function PostNetReceiveLocationAndRotation() : Void;
+
 	/** Get the timer instance from the actors world */
 	@:thisConst
 	public function GetWorldTimerManager() : PRef<FTimerManager>;
@@ -251,7 +254,7 @@ extern class AActor_Extra {
 	 * @param SocketName				Socket name to attach to, if any
 	 */
 	public function AttachToActor(ParentActor:AActor,AttachmentRules:PRef<Const<FAttachmentTransformRules>>, SocketName:FName) : Void;
-	
+
 	/** See if the root component has Mobility of EComponentMobility::Stationary */
 	@:thisConst
 	public function IsRootComponentStationary() : Bool;

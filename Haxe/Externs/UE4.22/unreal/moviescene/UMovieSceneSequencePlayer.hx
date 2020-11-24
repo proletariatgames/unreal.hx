@@ -236,10 +236,12 @@ package unreal.moviescene;
   **/
   @:uproperty private var NetSyncProps : unreal.moviescene.FMovieSceneSequenceReplProperties;
   
+  // PROLETARIAT BEGIN - Dustin - Add "(default, null)" to uproperty to avoid a deleted assignment operator
   /**
     The root template instance we're evaluating
   **/
-  @:uproperty private var RootTemplateInstance : unreal.moviescene.FMovieSceneRootEvaluationTemplateInstance;
+  @:uproperty private var RootTemplateInstance(default, null): unreal.moviescene.FMovieSceneRootEvaluationTemplateInstance;
+  // PROLETARIAT END
   
   /**
     Specific playback settings for the animation.

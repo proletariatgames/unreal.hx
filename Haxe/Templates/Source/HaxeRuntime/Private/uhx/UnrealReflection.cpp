@@ -934,7 +934,7 @@ unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal:
 
 				localKeyProp->CopySingleValueToScriptVM(NewElementKey, keyPtr);
 			},
-			[localValueProp, result, localMapLayout](void* NewElementValue) mutable
+			[localValueProp, &result, localMapLayout](void* NewElementValue) mutable
 			{
 				if (localValueProp->PropertyFlags & CPF_ZeroConstructor)
 				{
@@ -947,7 +947,7 @@ unreal::UIntPtr uhx::TMapReflect_obj::FindOrAdd(unreal::VariantPtr self, unreal:
 
         result = NewElementValue;
 			},
-			[localValueProp, result](void* ExistingElementValue) mutable
+			[localValueProp, &result](void* ExistingElementValue) mutable
 			{
         result = ExistingElementValue;
 			},

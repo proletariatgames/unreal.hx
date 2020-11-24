@@ -107,5 +107,6 @@ package unreal.umg;
   @:ufunction(BlueprintCallable) @:final public function SetClickMethod(InClickMethod : unreal.slatecore.EButtonClickMethod) : Void;
   @:ufunction(BlueprintCallable) @:final public function SetTouchMethod(InTouchMethod : unreal.slatecore.EButtonTouchMethod) : Void;
   @:ufunction(BlueprintCallable) @:final public function SetPressMethod(InPressMethod : unreal.slatecore.EButtonPressMethod) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetUseGamepadVirtualAcceptOnKeyEvent(bEnabled : Bool) : Void;
   
 }

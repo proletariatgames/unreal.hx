@@ -7,6 +7,15 @@ extern class FLinearColor_Extra {
   public var B : Float32;
   public var A : Float32;
 
+  public static var White(get,never) : FLinearColor;
+  public static var Gray(get,never) : FLinearColor;
+  public static var Black(get,never) : FLinearColor;
+  public static var Transparent(get,never) : FLinearColor;
+  public static var Red(get,never) : FLinearColor;
+  public static var Green(get,never) : FLinearColor;
+  public static var Blue(get,never) : FLinearColor;
+  public static var Yellow(get,never) : FLinearColor;
+
   @:uname(".ctor")
   public static function create() : FLinearColor;
   @:uname("new")

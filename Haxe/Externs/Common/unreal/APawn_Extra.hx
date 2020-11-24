@@ -22,4 +22,8 @@ extern class APawn_Extra {
 
   public function PossessedBy(newController:AController) : Void;
   public function UnPossessed() : Void;
+
+  /** If Pawn is possessed by a player, returns its Player State.  Needed for network play as controllers are not replicated to clients. */
+  @:thisConst
+	public function GetPlayerState() : APlayerState;
 }

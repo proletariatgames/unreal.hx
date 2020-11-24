@@ -23,7 +23,7 @@ extern class FPrimaryAssetId_Extra {
 	/** Converts from Type:Name format */
 	public static function FromString(Str:FString) : FPrimaryAssetId;
 
-  @:expr(return 'FPrimaryAssetId(${ToString().toString()})')
+  @:expr(return ToString().toString())
   public function toString():String;
 
 }

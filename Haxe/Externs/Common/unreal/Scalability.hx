@@ -8,7 +8,7 @@ package unreal;
 @:uname("Scalability.FQualityLevels")
 @:uextern extern class FQualityLevels
 {
-    public var ResolutionQuality : Int32;
+    public var ResolutionQuality : Float32;
     public var ViewDistanceQuality : Int32;
     public var AntiAliasingQuality : Int32;
     public var ShadowQuality : Int32;

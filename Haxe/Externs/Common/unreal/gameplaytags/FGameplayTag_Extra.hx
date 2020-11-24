@@ -11,9 +11,9 @@ extern class FGameplayTag_Extra
 	 * Gets the FGameplayTag that corresponds to the TagName
 	 *
 	 * @param TagName The Name of the tag to search for
-	 * 
+	 *
 	 * @param ErrorIfNotfound: ensure() that tag exists.
-	 * 
+	 *
 	 * @return Will return the corresponding FGameplayTag or an empty one if not found.
 	 */
 	public static function RequestGameplayTag(TagName:FName, ErrorIfNotFound:Bool =true) : FGameplayTag;
@@ -22,7 +22,7 @@ extern class FGameplayTag_Extra
 	 * Determine if this tag matches TagToCheck, expanding our parent tags
 	 * "A.1".MatchesTag("A") will return True, "A".MatchesTag("A.1") will return False
 	 * If TagToCheck is not Valid it will always return False
-	 * 
+	 *
 	 * @return True if this tag matches TagToCheck
 	 */
 	@:thisConst
@@ -32,12 +32,12 @@ extern class FGameplayTag_Extra
 	 * Determine if TagToCheck is valid and exactly matches this tag
 	 * "A.1".MatchesTagExact("A") will return False
 	 * If TagToCheck is not Valid it will always return False
-	 * 
+	 *
 	 * @return True if TagToCheck is Valid and is exactly this tag
 	 */
 	@:thisConst
 	public function MatchesTagExact(TagToCheck:Const<PRef<FGameplayTag>>) : Bool;
-	
+
 	/**
 	 * Check to see how closely two FGameplayTags match. Higher values indicate more matching terms in the tags.
 	 *
@@ -85,8 +85,11 @@ extern class FGameplayTag_Extra
 	public function GetGameplayTagParents() : FGameplayTagContainer;
 
 	/** Displays gameplay tag as a string for blueprint graph usage */
-	@:thisConst 
+	@:thisConst
 	public function ToString() : FString;
+
+  @:expr(return ToString().toString())
+  public function toString():String;
 
 	/** Get the tag represented as a name */
 	@:thisConst
