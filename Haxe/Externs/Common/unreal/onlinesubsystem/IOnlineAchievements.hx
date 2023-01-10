@@ -16,5 +16,7 @@ typedef FOnQueryAchievementsCompleteDelegate = unreal.Delegate<FOnQueryAchieveme
   public function QueryAchievements( playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, delegate : FOnQueryAchievementsCompleteDelegate ) : Void;
 	public function GetCachedAchievement( playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, AchievementId : FString, OutAchievement:FOnlineAchievement ) : EOnlineCachedResult;
 	public function GetCachedAchievements( playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, OutAchievements:TArray<FOnlineAchievement>) : EOnlineCachedResult;
-	public function IndicateAchievementProgress( playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, AchName : unreal.PRef<unreal.Const<FString>>, CurProgress: unreal.Int32, MaxProgress: unreal.Int32): Void;
+	public function SetAchievementStatProgressInt(playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, AchName : unreal.PRef<unreal.Const<FString>>,
+		AchStatName : unreal.PRef<unreal.Const<FString>>, CurProgress: unreal.Int32, MaxProgress: unreal.Int32): Void;
+	public function GetAchievementStatProgressInt(AchStatName : unreal.PRef<unreal.Const<FString>>): unreal.Int32;
 }

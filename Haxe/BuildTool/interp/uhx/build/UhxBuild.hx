@@ -8,7 +8,7 @@ using Lambda;
 using StringTools;
 
 class UhxBuild extends UhxBaseBuild {
-  private static var VERSION_LEVEL = 13;
+  private static var VERSION_LEVEL = 15;
   private static inline var PARALLEL_DEP_CHECK = true;
 
   var haxeDir:String;
@@ -1083,6 +1083,7 @@ class UhxBuild extends UhxBaseBuild {
         '-main UnrealCppia',
         '',
         '-D cppia',
+        '-D unreal',
         '-D ${this.defineVer}',
         '-D ${this.definePatch}',
         '-D UHX_STATIC_BASE_DIR=${buildVars.outputDir}',
@@ -1229,6 +1230,7 @@ class UhxBuild extends UhxBaseBuild {
       '-D HXCPP_DLL_EXPORT',
       '-D ${this.defineVer}',
       '-D ${this.definePatch}',
+      '-D unreal',
 
       '-cpp ${buildVars.outputDir}/Static',
       '--macro uhx.compiletime.main.CreateGlue.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(this.scriptPaths) + ')',

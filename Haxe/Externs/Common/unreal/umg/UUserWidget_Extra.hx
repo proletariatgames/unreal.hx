@@ -47,11 +47,13 @@ extern class UUserWidget_Extra {
 	private function OnLevelRemovedFromWorld(InLevel:ULevel, InWorld:UWorld) : Void;
 
 	@:ufunction(BlueprintImplementableEvent) public function OnDragDetected(MyGeometry : FGeometry, MouseEvent : Const<PRef<FPointerEvent>>, Operation : Ref<unreal.umg.UDragDropOperation>) : Void;
+	@:ufunction(BlueprintImplementableEvent) public function OnDragCancelled(MouseEvent : Const<PRef<FPointerEvent>>, Operation : Ref<unreal.umg.UDragDropOperation>) : Void;
 
 	@:ureplace @:ufunction(BlueprintCallable) @:final private function ListenForInputAction(ActionName : unreal.FName, EventType : unreal.TEnumAsByte<unreal.EInputEvent>, bConsume : Bool, Callback : unreal.umg.FOnInputAction) : Void;
 	#if proletariat
 		@:final private function ListenForInputAxis(AxisName : unreal.FName, EventType : unreal.TEnumAsByte<unreal.EInputEvent>, bConsume : Bool, Callback : unreal.umg.FOnInputAxis) : Void;
 		@:final private function StopListeningForInputAxis(AxisName : unreal.FName) : Void;
+		@:final private function IsListeningForInputAxis(AxisName : unreal.FName) : Bool;
 	#end
 	@:ureplace @:ufunction(BlueprintCallable) @:final private function StopListeningForInputAction(ActionName : unreal.FName, EventType : unreal.TEnumAsByte<unreal.EInputEvent>) : Void;
 }

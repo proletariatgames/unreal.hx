@@ -7,6 +7,7 @@ package unreal;
   static function ShowErrorDialog(category:Int32, number:Int32):Void;
   static function IsNifmAvailable():Bool;
   static function ConditionalStartNifm():Bool;
+  static function SetCPUBoostModeEnabled(bEnabled:Bool):Void;
   #end
 }
 #end

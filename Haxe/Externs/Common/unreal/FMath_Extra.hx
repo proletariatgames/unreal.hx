@@ -135,6 +135,9 @@ extern class FMath_Extra {
 	/** Performs a linear interpolation between two values, Alpha ranges from 0-1 */
 	@:uname('Lerp')
 	public static function LerpQuat(A:Const<PRef<FQuat>>, B:Const<PRef<FQuat>>, Alpha:Float32) : FQuat;
+	/** Performs a linear interpolation between two values, Alpha ranges from 0-1 */
+	@:uname('LerpStable')
+	public static function LerpStableVector(A:Const<PRef<FVector2D>>, B:Const<PRef<FVector2D>>, Alpha:Float32) : FVector2D;
 
 	/** Interpolate between A and B, applying an ease in function.  Exp controls the degree of the curve. */
 	public static function InterpEaseIn(A:Float32, B:Float32, Alpha:Float32, Exp:Float32) : Float32;
@@ -210,4 +213,19 @@ extern class FMath_Extra {
 
 	/** Determines whether a line intersects a box. */
 	public static function LineBoxIntersection(Box:Const<PRef<unreal.FBox>>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Direction:Const<PRef<FVector>>) : Bool;
+
+	/**
+	 * Performs a sphere vs box intersection test using Arvo's algorithm:
+	 *
+	 *	for each i in (x, y, z)
+	 *		if (SphereCenter(i) < BoxMin(i)) d2 += (SphereCenter(i) - BoxMin(i)) ^ 2
+	 *		else if (SphereCenter(i) > BoxMax(i)) d2 += (SphereCenter(i) - BoxMax(i)) ^ 2
+	 *
+	 * @param Sphere the center of the sphere being tested against the AABB
+	 * @param RadiusSquared the size of the sphere being tested
+	 * @param AABB the box being tested against
+	 *
+	 * @return Whether the sphere/box intersect or not.
+	 */
+	public static function SphereAABBIntersection(SphereCenter:PRef<Const<FVector>>,RadiusSquared:Float32, AABB:PRef<Const<FBox>>) : Bool;
 }

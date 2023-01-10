@@ -184,4 +184,13 @@ extern class FVector_Extra {
   /** Create a copy of this vector, with the maximum 2D magnitude clamped to MaxSize. Z is unchanged. */
   @:thisConst
   public function GetClampedToMaxSize2D(MaxSize:Float32) : FVector;
+
+	/**
+	 * Utility to check if there are any non-finite values (NaN or Inf) in this vector.
+	 *
+	 * @return true if there are any non-finite values in this vector, false otherwise.
+	 */
+	@:thisConst
+	public function ContainsNaN() : Bool;
+
 }

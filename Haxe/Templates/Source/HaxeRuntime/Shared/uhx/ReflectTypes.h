@@ -115,6 +115,9 @@ public:
   virtual void assign(unreal::VariantPtr self, unreal::VariantPtr val) override;
   virtual bool equals(unreal::VariantPtr self, unreal::VariantPtr other) override;
   virtual unreal::UIntPtr LoadSynchronous(unreal::VariantPtr self) override;
+  virtual bool IsValid(unreal::VariantPtr self) override;
+  virtual bool IsPending(unreal::VariantPtr self) override;
+  virtual bool IsNull(unreal::VariantPtr self) override;
 
 protected:
   void *m_propertyType;
@@ -137,7 +140,7 @@ public:
   virtual void assign(unreal::VariantPtr self, unreal::VariantPtr val) override;
   virtual bool equals(unreal::VariantPtr self, unreal::VariantPtr other) override;
   virtual unreal::UIntPtr LoadSynchronous(unreal::VariantPtr self) override;
-  
+
 protected:
   void *m_propertyType;
   void init();

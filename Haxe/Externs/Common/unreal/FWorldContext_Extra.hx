@@ -22,4 +22,7 @@ extern class FWorldContext_Extra {
   var WorldType:EWorldType;
 
   function World():UWorld;
+
+  /** Set CurrentWorld and update external reference pointers to reflect this*/
+	function SetCurrentWorld(World:UWorld) : Void;
 }

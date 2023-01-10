@@ -27,6 +27,9 @@ extern class FBox_Extra
   @:thisConst
   public function ExpandBy(V:Const<PRef<FVector>>) : FBox;
 
+  @:thiConst
+  public function ShiftBy(Offset:PRef<Const<FVector>>) : FBox;
+
   /**
 	 * Checks whether the given location is inside or on this box.
 	 *

@@ -4,6 +4,11 @@ extern class UParticleSystemComponent_Extra {
   public function ActivateSystem(bFlagAsJustAttached:Bool=false) : Void;
   public function DeactivateSystem() : Void;
 
+  public function Complete() : Void;
+
+	/** If this PSC is pooling. */
+	public var PoolingMethod:EPSCPoolMethod;
+
   /**
    *	Retrieve the Float parameter value for the given name.
    *
@@ -15,7 +20,7 @@ extern class UParticleSystemComponent_Extra {
    */
   public function GetFloatParameter(InName:Const<FName>, OutFloat:Ref<Float32>) : Bool;
   public var bAutoDestroy:Bool;
-  
+
 #if proletariat
 	public var bForceKillEmittersOnDeactivate:Bool;
 #end

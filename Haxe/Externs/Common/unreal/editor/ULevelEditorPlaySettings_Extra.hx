@@ -19,5 +19,8 @@ extern class ULevelEditorPlaySettings_Extra {
   function SetPlayNumberOfClients(value:Int32):Void;
   function IsPlayNumberOfClientsActive():Bool;
   // TODO - reference to basic
-  // function GetPlayerNumberOfClients(value:PRef<Int32>):Void;
+	// function GetPlayerNumberOfClients(value:PRef<Int32>):Void;
+
+	function GetPlayRankedMode(OutPlayRankedMode:Ref<Bool>):Bool;
+	function GetConnectToAppServer(OutConnectToAppServer:Ref<Bool>):Bool;
 }

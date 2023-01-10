@@ -80,6 +80,8 @@ extern class UEngine_Extra {
 
 	public function GetWorldFromContextObject(obj:Const<UObject>, bChecked:Bool):UWorld;
 
+	public function CreateNewWorldContext(WorldType:EWorldType):PRef<FWorldContext>;
+
 	/** Add a FString to the On-screen debug message system. bNewerOnTop only works with Key == INDEX_NONE */
 	public function AddOnScreenDebugMessage(Key : Int32, TimeToDisplay : Float32, DisplayColor : FColor, DebugMessage : Const<PRef<FString>>):Void;
 

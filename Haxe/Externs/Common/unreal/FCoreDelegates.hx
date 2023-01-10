@@ -26,4 +26,6 @@ typedef FCoreDelegates_FApplicationLifetimeDelegate = unreal.MulticastDelegate<F
   static var ApplicationHasEnteredForegroundDelegate:FCoreDelegates_FApplicationLifetimeDelegate;
 
   static var ApplicationHasReactivatedDelegate:FCoreDelegates_FApplicationLifetimeDelegate;
+
+  static var ApplicationWillTerminateDelegate:FCoreDelegates_FApplicationLifetimeDelegate;
 }

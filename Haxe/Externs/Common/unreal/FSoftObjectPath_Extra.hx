@@ -1,5 +1,6 @@
 package unreal;
 
+@:hasEquals
 extern class FSoftObjectPath_Extra {
 	@:thisConst
 	public function IsValid() : Bool;

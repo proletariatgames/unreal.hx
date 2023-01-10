@@ -12,4 +12,8 @@ extern class FPrimaryAssetType_Extra {
 
   @:expr(return ToString().toString())
   public function toString():String;
+
+	@:thisConst
+	public function GetName() : FName;
+
 }

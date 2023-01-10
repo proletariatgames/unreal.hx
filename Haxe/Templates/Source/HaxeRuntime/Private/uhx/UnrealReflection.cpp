@@ -1076,7 +1076,7 @@ unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::wrapProperty(unreal::UIntPtr inP
 unreal::UIntPtr uhx::TSetReflect_obj::get_Item(unreal::VariantPtr self, unreal::VariantPtr ElementId) {
   FSetElementId *pointer = (FSetElementId *) (ElementId.getUnderlyingPointer());
   int32 id = pointer->AsInteger();
-  return getValueWithProperty((UProperty *) m_propertyType, (void *) GET_SET_HELPER(self).GetElementPtr(id));  
+  return getValueWithProperty((UProperty *) m_propertyType, (void *) GET_SET_HELPER(self).GetElementPtr(id));
 }
 
 bool uhx::TSetReflect_obj::IsValidId(unreal::VariantPtr self, unreal::VariantPtr ElementId) {
@@ -1241,6 +1241,21 @@ bool uhx::TSoftObjectReflect_obj::equals(unreal::VariantPtr self, unreal::Varian
 unreal::UIntPtr uhx::TSoftObjectReflect_obj::LoadSynchronous(unreal::VariantPtr self)
 {
   return uhx::expose::HxcppRuntime::uobjectWrap( (unreal::UIntPtr) (GET_SOFT_CLASS_HELPER(self)->LoadSynchronous()) );
+}
+
+bool uhx::TSoftObjectReflect_obj::IsValid(unreal::VariantPtr self)
+{
+  return GET_SOFT_OBJ_HELPER(self)->IsValid();
+}
+
+bool uhx::TSoftObjectReflect_obj::IsPending(unreal::VariantPtr self)
+{
+  return GET_SOFT_OBJ_HELPER(self)->IsPending();
+}
+
+bool uhx::TSoftObjectReflect_obj::IsNull(unreal::VariantPtr self)
+{
+  return GET_SOFT_OBJ_HELPER(self)->IsNull();
 }
 
 // TSoftClassReflect

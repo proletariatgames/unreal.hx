@@ -65,12 +65,6 @@ import unreal.FPlatformMisc;
     }
     trace('Error', 'Stack trace:\n' + CallStack.toString(stack));
 
-    if (FPlatformMisc.IsDebuggerPresent()) {
-      FPlatformMisc.DebugBreak();
-    }
-#if (debug && HXCPP_DEBUGGER && hxcpp_debugger_ext)
-    debugger.Api.debugBreak();
-#end
     endWrap();
     var inPIE = false;
 #if WITH_EDITOR

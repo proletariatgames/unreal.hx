@@ -6,8 +6,8 @@ extern class IGenericTeamAgentInterface_Extra {
 	//public function SetGenericTeamId(TeamID:Const<PRef<FGenericTeamId>>) : Void;
 
 	/** Retrieve team identifier in form of FGenericTeamId */
-	//@:thisConst
-	//public function GetGenericTeamId() : FGenericTeamId;
+	@:thisConst
+	public function GetGenericTeamId() : FGenericTeamId;
 
 	/** Retrieved owner attitude toward given Other object */
 	//@:thisConst

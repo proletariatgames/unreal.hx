@@ -5,6 +5,8 @@ import unreal.assetregistry.*;
 extern class UAssetManager_Extra {
 	public static function Get() : PRef<UAssetManager>;
 
+	public static function GetStreamableManager():PRef<FStreamableManager>;
+
 	/** Gets the FSoftObjectPath for a primary asset type and name, returns invalid if not found */
 	public function GetPrimaryAssetPath(AssetID:PRef<FPrimaryAssetId>) : FSoftObjectPath;
 
@@ -69,4 +71,15 @@ extern class UAssetManager_Extra {
 	 * @return					Streamable Handle that must be stored to keep the preloaded assets from being freed
 	 */
 	public function PreloadPrimaryAssets(AssetsToLoad:PRef<Const<TArray<FPrimaryAssetId>>>, LoadBundles:PRef<Const<TArray<FName>>>, bLoadRecursive:Bool, DelegateToCall:FStreamableDelegate, ?Priority:Int32 = 0) : TSharedPtr<FStreamableHandle>;
+
+	/**
+		Returns a valid bundle entry (`FAssetBundleEntry#IsValid`) if the asset id points to an asset that is loaded with the provided bundle.
+		Otherwise returns an invalid entry.
+	**/
+	@:thisConst
+	public function GetAssetBundleEntry(BundleScope:PRef<Const<FPrimaryAssetId>>, BundleName:FName):FAssetBundleEntry;
+
+	@:thisConst
+	public function GetAssetBundleEntries(BundleScope:PRef<Const<FPrimaryAssetId>>, OutEntries:PRef<TArray<FAssetBundleEntry>>):Bool;
+
 }

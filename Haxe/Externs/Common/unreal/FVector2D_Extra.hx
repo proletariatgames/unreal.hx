@@ -33,6 +33,7 @@ extern class FVector2D_Extra {
   public function Equals(V:Const<PRef<FVector2D>>, Tolerance:Float32=1e-4) : Bool;
 
   @:op(A+B)
+  @:commutative
   @:expr(return createWithValues(X + b.X, Y + b.Y))
   public function _add(b:FVector2D):FVector2D;
 
@@ -44,6 +45,28 @@ extern class FVector2D_Extra {
   @:op(A-B)
   @:expr(return createWithValues(X - b.X, Y - b.Y))
   public function _sub(b:FVector2D):FVector2D;
+
+  @:op(A/B)
+  @:expr(return createWithValues(X / b.X, Y / b.Y))
+  public function _div(b:FVector2D):FVector2D;
+
+  @:op(A+V)
+  @:commutative
+  @:expr(return createWithValues(X + v, Y + v))
+  public function _addValue(v:Float32):FVector2D;
+
+  @:op(A*V)
+  @:commutative
+  @:expr(return createWithValues(X * v, Y * v))
+  public function _mulValue(v:Float32):FVector2D;
+
+  @:op(A-V)
+  @:expr(return createWithValues(X - v, Y - v))
+  public function _subValue(v:Float32):FVector2D;
+
+  @:op(A/V)
+  @:expr(return createWithValues(X / v, Y / v))
+  public function _divValue(v:Float32):FVector2D;
 
   @:op(A==B)
   @:expr(return X == b.X && Y == b.Y)
@@ -71,6 +94,6 @@ extern class FVector2D_Extra {
 
   @:thisConst
   public function IsNearlyZero():Bool;
-	
+
 
 }

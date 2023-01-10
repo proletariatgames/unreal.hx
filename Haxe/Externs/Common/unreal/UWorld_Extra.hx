@@ -1,5 +1,8 @@
 package unreal;
 
+@:uname("UWorld.FOnGameStateSetEvent")
+typedef FOnGameStateSetEvent = unreal.Event<FOnGameStateSetEvent, AGameStateBase->Void>;
+
 extern class UWorld_Extra {
   /** Time in seconds since level began play, but is NOT paused when the game is paused, and is NOT dilated/clamped. */
   public var RealTimeSeconds : Float32;
@@ -7,6 +10,10 @@ extern class UWorld_Extra {
   public var Scene : PPtr<FSceneInterface>;
 
   public var URL : FURL;
+
+  public var OriginLocation : FIntVector;
+
+  public var GameStateSetEvent : FOnGameStateSetEvent;
 
   @:thisConst
   public function GetNetMode() : ENetMode;
@@ -17,11 +24,17 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetGameInstance() : UGameInstance;
 
+  @:typeName @:uname("GetGameInstance")
+  public function GetTypedGameInstance<T : UGameInstance>() : PPtr<T>;
+
   @:thisConst
   public function GetGameViewport() : UGameViewportClient;
 
   @:thisConst
   public function IsPlayInEditor() : Bool;
+
+  @:thisConst
+  public function IsGameWorld() : Bool;
 
   /** @return true if this level is a client */
   @:thisConst
@@ -317,6 +330,9 @@ extern class UWorld_Extra {
   *  You need Physics Scene if you'd like to trace. This flag changed ticking */
   public var bShouldSimulatePhysics:Bool;
 
+	/** The type of world this is. Describes the context in which it is being used (Editor, Game, Preview etc.) */
+	public var WorldType:EWorldType;
+
   	/**
 	 * Flushes level streaming in blocking fashion and returns when all levels are loaded/ visible/ hidden
 	 * so further calls to UpdateLevelStreaming won't do any work unless state changes. Basically blocks
@@ -325,4 +341,13 @@ extern class UWorld_Extra {
 	 * @param FlushType					Whether to only flush level visibility operations (optional)
 	 */
   public function FlushLevelStreaming(FlushType:EFlushLevelStreamingType = Full) : Void;
+
+	/** Given a package, locate the UWorld contained within if one exists */
+	public static function FindWorldInPackage(Package:UPackage) : UWorld;
+
+  /** A static map that is populated before loading a world from a package. This is so UWorld can look up its WorldType in ::PostLoad */
+  public static var WorldTypePreLoadMap:TMap<FName, EWorldType>;
+
+	/** Is the world being torn down */
+  public var bIsTearingDown:Bool;
 }

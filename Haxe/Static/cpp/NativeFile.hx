@@ -190,6 +190,10 @@ class NativeFile
   }
 
   public static function file_stderr() : Dynamic {
+    #if UE_PROGRAM
+    return ( { native:null, outputDevice:FOutputDevice.GLog, name:'stderr' } : NativeFileHandle );
+    #else
     return ( { native:null, outputDevice:FOutputDevice.GWarn, name:'stderr' } : NativeFileHandle );
+    #end
   }
 }

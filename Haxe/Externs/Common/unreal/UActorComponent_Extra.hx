@@ -72,6 +72,16 @@ extern class UActorComponent_Extra {
   /** Called when a component is created (not loaded) */
   function OnComponentCreated() : Void;
 
+	/**
+	 * Called when a component is registered, after Scene is set, but before CreateRenderState_Concurrent or OnCreatePhysicsState are called.
+	 */
+	private function OnRegister() : Void;
+
+	/**
+	 * Called when a component is unregistered. Called after DestroyRenderState_Concurrent and OnDestroyPhysicsState are called.
+	 */
+	private function OnUnregister() : Void;
+
   /**
    * Called when a component is destroyed
    *

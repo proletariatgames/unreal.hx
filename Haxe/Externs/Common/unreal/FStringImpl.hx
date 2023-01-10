@@ -28,6 +28,9 @@ package unreal;
 
   function Split(InS:Const<PRef<FString>>, LeftS:PPtr<FString>, RightS:PPtr<FString>, SearchCase:ESearchCase = ESearchCase.IgnoreCase, SearchDir:ESearchDir = ESearchDir.FromStart) : Bool;
 
+  function RightChop(Count:Int32) : FString;
+  function LeftChop(Count:Int32) : FString;
+
   function ToLowerInline():Void;
   function ToUpperInline():Void;
   @:expr(return op_Dereference()) public function toString():String;

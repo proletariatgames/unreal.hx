@@ -245,6 +245,10 @@ extern class FRotator_Extra {
   @:expr(return createWithValues(Pitch + b.Pitch, Yaw + b.Yaw, Roll + b.Roll))
   public function _add(b:FRotator):FRotator;
 
+  @:op(A-B)
+  @:expr(return createWithValues(Pitch - b.Pitch, Yaw - b.Yaw, Roll - b.Roll))
+  public function _sub(b:FRotator):FRotator;
+
   @:op(A*B)
   @:expr(return createWithValues(Pitch*b, Yaw*b, Roll*b))
   public function _mul(b:Float32):FRotator;

@@ -47,6 +47,10 @@ extern class FLinearColor_Extra {
 
   public static function FromSRGBColor(Color:Const<PRef<FColor>>) : FLinearColor;
 
+  public function HSVToLinearRGB() : FLinearColor;
+
+  public function LinearRGBToHSV() : FLinearColor;
+
 	/** Quantizes the linear color and returns the result as a FColor with optional sRGB conversion and quality as goal. */
   @:thisConst
 	public function ToFColor(bSRGB:Bool) : FColor;

@@ -4,6 +4,8 @@ extern class FGenericTeamId_Extra {
 
 	@:expr(255) static var NoTeamId:UInt8;
 
+	public static var NoTeam(get,never):FGenericTeamId;
+
   public function new(@:opt(NoTeamId) InTeamID:UInt8);
 
 	@:uname('.ctor') public static function createWithValue(InTeamID:UInt8):FGenericTeamId;
